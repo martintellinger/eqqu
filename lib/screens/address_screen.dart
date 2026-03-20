@@ -9,11 +9,13 @@ class AddressScreen extends StatefulWidget {
 }
 
 class _AddressScreenState extends State<AddressScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController(text: 'Anna Novak');
   final _streetController = TextEditingController(text: 'Soukenická 4');
   final _cityController = TextEditingController(text: 'Praha');
   final _zipController = TextEditingController(text: '110 00');
   final _countryController = TextEditingController(text: 'Česká republika');
+  bool _hasSubmitted = false;
 
   @override
   void dispose() {
@@ -23,6 +25,25 @@ class _AddressScreenState extends State<AddressScreen> {
     _zipController.dispose();
     _countryController.dispose();
     super.dispose();
+  }
+
+  void _save() {
+    setState(() => _hasSubmitted = true);
+
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Adresa byla uložena',
+            style: TextStyle(fontFamily: 'Poppins'),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      );
+      Navigator.pop(context);
+    }
   }
 
   InputDecoration _fieldDecoration(String label, {bool hasTrailing = false}) {
@@ -80,39 +101,61 @@ class _AddressScreenState extends State<AddressScreen> {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _nameController,
-                    style: _fieldTextStyle,
-                    decoration: _fieldDecoration('Jméno a příjmení*'),
-                  ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: _streetController,
-                    style: _fieldTextStyle,
-                    decoration: _fieldDecoration('Ulice a čp'),
-                  ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: _cityController,
-                    style: _fieldTextStyle,
-                    decoration: _fieldDecoration('Město'),
-                  ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: _zipController,
-                    style: _fieldTextStyle,
-                    decoration: _fieldDecoration('PSČ'),
-                  ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: _countryController,
-                    readOnly: true,
-                    style: _fieldTextStyle,
-                    decoration: _fieldDecoration('Stát*', hasTrailing: true),
-                  ),
-                ],
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _hasSubmitted
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _nameController,
+                      style: _fieldTextStyle,
+                      decoration: _fieldDecoration('Jméno a příjmení*'),
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) return 'Zadejte jméno a příjmení';
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      controller: _streetController,
+                      style: _fieldTextStyle,
+                      decoration: _fieldDecoration('Ulice a čp'),
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) return 'Zadejte ulici a číslo popisné';
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      controller: _cityController,
+                      style: _fieldTextStyle,
+                      decoration: _fieldDecoration('Město'),
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) return 'Zadejte město';
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      controller: _zipController,
+                      style: _fieldTextStyle,
+                      decoration: _fieldDecoration('PSČ'),
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) return 'Zadejte PSČ';
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    TextField(
+                      controller: _countryController,
+                      readOnly: true,
+                      style: _fieldTextStyle,
+                      decoration: _fieldDecoration('Stát*', hasTrailing: true),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -122,7 +165,7 @@ class _AddressScreenState extends State<AddressScreen> {
               width: double.infinity,
               height: 56,
               child: FilledButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: _save,
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
                   foregroundColor: Colors.white,

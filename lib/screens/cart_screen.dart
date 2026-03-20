@@ -12,6 +12,10 @@ class _CartScreenState extends State<CartScreen> {
   String _paymentMethod = 'card';
   String _deliveryMethod = 'address';
   bool _saveCard = false;
+  bool _hasSubmitted = false;
+  String? _cardNumberError;
+  String? _expiryError;
+  String? _cvcError;
 
   final _cardNumberController = TextEditingController();
   final _expiryController = TextEditingController();
@@ -41,6 +45,47 @@ class _CartScreenState extends State<CartScreen> {
     _expiryController.dispose();
     _cvcController.dispose();
     super.dispose();
+  }
+
+  bool _validateCardFields() {
+    if (_paymentMethod != 'card') return true;
+
+    bool valid = true;
+    setState(() {
+      _cardNumberError = null;
+      _expiryError = null;
+      _cvcError = null;
+
+      final cardNum = _cardNumberController.text.replaceAll(' ', '');
+      if (cardNum.isEmpty) {
+        _cardNumberError = 'Zadejte číslo karty';
+        valid = false;
+      } else if (cardNum.length < 13) {
+        _cardNumberError = 'Neplatné číslo karty';
+        valid = false;
+      }
+
+      if (_expiryController.text.trim().isEmpty) {
+        _expiryError = 'Zadejte expiraci';
+        valid = false;
+      }
+
+      if (_cvcController.text.trim().isEmpty) {
+        _cvcError = 'Zadejte CVC';
+        valid = false;
+      } else if (_cvcController.text.trim().length < 3) {
+        _cvcError = 'Neplatný CVC';
+        valid = false;
+      }
+    });
+    return valid;
+  }
+
+  void _submitOrder() {
+    setState(() => _hasSubmitted = true);
+
+    if (!_validateCardFields()) return;
+    _showOrderConfirmation();
   }
 
   void _showOrderConfirmation() {
@@ -180,7 +225,7 @@ class _CartScreenState extends State<CartScreen> {
                       width: double.infinity,
                       height: 56,
                       child: FilledButton(
-                        onPressed: _showOrderConfirmation,
+                        onPressed: _submitOrder,
                         child: const Text(
                           'Objednávka zavazující k platbě',
                           style: TextStyle(
@@ -461,9 +506,10 @@ class _CartScreenState extends State<CartScreen> {
             fontWeight: FontWeight.w400,
             color: cs.onSurface,
           ),
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             labelText: 'Číslo karty',
             floatingLabelBehavior: FloatingLabelBehavior.always,
+            errorText: _hasSubmitted ? _cardNumberError : null,
           ),
         ),
         const SizedBox(height: 16),
@@ -479,9 +525,10 @@ class _CartScreenState extends State<CartScreen> {
                   fontWeight: FontWeight.w400,
                   color: cs.onSurface,
                 ),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Expirace',
                   floatingLabelBehavior: FloatingLabelBehavior.always,
+                  errorText: _hasSubmitted ? _expiryError : null,
                 ),
               ),
             ),
@@ -497,9 +544,10 @@ class _CartScreenState extends State<CartScreen> {
                   fontWeight: FontWeight.w400,
                   color: cs.onSurface,
                 ),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'CVC/CVV',
                   floatingLabelBehavior: FloatingLabelBehavior.always,
+                  errorText: _hasSubmitted ? _cvcError : null,
                 ),
               ),
             ),

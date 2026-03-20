@@ -10,11 +10,35 @@ class FeedbackScreen extends StatefulWidget {
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
   final _messageController = TextEditingController();
+  String? _errorText;
 
   @override
   void dispose() {
     _messageController.dispose();
     super.dispose();
+  }
+
+  void _submit() {
+    final message = _messageController.text.trim();
+    if (message.isEmpty) {
+      setState(() => _errorText = 'Zadejte zprávu');
+      return;
+    }
+
+    setState(() => _errorText = null);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(
+          'Zpětná vazba byla odeslána',
+          style: TextStyle(fontFamily: 'Poppins'),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    );
+    Navigator.pop(context);
   }
 
   @override
@@ -53,6 +77,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       maxLines: null,
                       expands: true,
                       textAlignVertical: TextAlignVertical.top,
+                      onChanged: (_) {
+                        if (_errorText != null) setState(() => _errorText = null);
+                      },
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 16,
@@ -63,6 +90,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       ),
                       decoration: InputDecoration(
                         labelText: 'Zpráva',
+                        errorText: _errorText,
                         labelStyle: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 12,
@@ -83,6 +111,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           borderRadius: BorderRadius.circular(4),
                           borderSide: BorderSide(color: cs.primary, width: 2),
                         ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(color: cs.error, width: 2),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(color: cs.error, width: 2),
+                        ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
                     ),
@@ -100,7 +136,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 width: double.infinity,
                 height: 56,
                 child: FilledButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: _submit,
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.primary,
                     foregroundColor: Colors.white,

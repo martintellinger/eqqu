@@ -8,6 +8,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -15,6 +16,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   bool _agreeTerms = false;
   bool _agreeOffers = false;
+  bool _hasSubmitted = false;
 
   @override
   void dispose() {
@@ -23,6 +25,80 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _register() {
+    setState(() => _hasSubmitted = true);
+
+    if (!_agreeTerms) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Musíte souhlasit s podmínkami',
+            style: TextStyle(fontFamily: 'Poppins'),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      );
+      return;
+    }
+
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Účet byl úspěšně vytvořen',
+            style: TextStyle(fontFamily: 'Poppins'),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      );
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    }
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Zadejte e-mail';
+    }
+    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value.trim())) {
+      return 'Neplatný formát e-mailu';
+    }
+    return null;
+  }
+
+  String? _validateUsername(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Zadejte uživatelské jméno';
+    }
+    if (value.trim().length < 3) {
+      return 'Minimálně 3 znaky';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Zadejte heslo';
+    }
+    if (value.length < 6) {
+      return 'Heslo musí mít alespoň 6 znaků';
+    }
+    return null;
+  }
+
+  String? _validateConfirmPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Potvrďte heslo';
+    }
+    if (value != _passwordController.text) {
+      return 'Hesla se neshodují';
+    }
+    return null;
   }
 
   @override
@@ -47,104 +123,113 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Text fields
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 32, 16, 0),
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: _emailController,
-                            decoration: const InputDecoration(
-                              labelText: 'E-mail',
-                              hintText: 'example@gmail.com',
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: _hasSubmitted
+                      ? AutovalidateMode.onUserInteraction
+                      : AutovalidateMode.disabled,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Text fields
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 32, 16, 0),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: _emailController,
+                              decoration: const InputDecoration(
+                                labelText: 'E-mail',
+                                hintText: 'example@gmail.com',
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              validator: _validateEmail,
                             ),
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          const SizedBox(height: 20),
-                          TextField(
-                            controller: _usernameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Uživatelské jméno',
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              controller: _usernameController,
+                              decoration: const InputDecoration(
+                                labelText: 'Uživatelské jméno',
+                              ),
+                              validator: _validateUsername,
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          TextField(
-                            controller: _passwordController,
-                            decoration: const InputDecoration(
-                              labelText: 'Heslo',
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              controller: _passwordController,
+                              decoration: const InputDecoration(
+                                labelText: 'Heslo',
+                              ),
+                              obscureText: true,
+                              validator: _validatePassword,
                             ),
-                            obscureText: true,
-                          ),
-                          const SizedBox(height: 20),
-                          TextField(
-                            controller: _confirmPasswordController,
-                            decoration: const InputDecoration(
-                              labelText: 'Potvrzení hesla',
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              controller: _confirmPasswordController,
+                              decoration: const InputDecoration(
+                                labelText: 'Potvrzení hesla',
+                              ),
+                              obscureText: true,
+                              validator: _validateConfirmPassword,
                             ),
-                            obscureText: true,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
 
-                    // Checkboxes
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Column(
-                        children: [
-                          _buildCheckboxRow(
-                            value: _agreeTerms,
-                            onChanged: (v) =>
-                                setState(() => _agreeTerms = v ?? false),
-                            label: 'I agree to the Terms and Conditions',
-                          ),
-                          _buildCheckboxRow(
-                            value: _agreeOffers,
-                            onChanged: (v) =>
-                                setState(() => _agreeOffers = v ?? false),
-                            label:
-                                'I agree to receive personalized offers and updates',
-                          ),
-                        ],
+                      // Checkboxes
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Column(
+                          children: [
+                            _buildCheckboxRow(
+                              value: _agreeTerms,
+                              onChanged: (v) =>
+                                  setState(() => _agreeTerms = v ?? false),
+                              label: 'I agree to the Terms and Conditions',
+                              showError: _hasSubmitted && !_agreeTerms,
+                            ),
+                            _buildCheckboxRow(
+                              value: _agreeOffers,
+                              onChanged: (v) =>
+                                  setState(() => _agreeOffers = v ?? false),
+                              label:
+                                  'I agree to receive personalized offers and updates',
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
 
-                    // Buttons
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-                      child: Column(
-                        children: [
-                          FilledButton(
-                            onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-                            },
-                            child: const Text('Vytvořit účet'),
-                          ),
-                          const SizedBox(height: 16),
-                          SizedBox(
-                            width: double.infinity,
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-                              },
-                              child: const Text(
-                                'Pokračovat bez registrace',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.15,
+                      // Buttons
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                        child: Column(
+                          children: [
+                            FilledButton(
+                              onPressed: _register,
+                              child: const Text('Vytvořit účet'),
+                            ),
+                            const SizedBox(height: 16),
+                            SizedBox(
+                              width: double.infinity,
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                                },
+                                child: const Text(
+                                  'Pokračovat bez registrace',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.15,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -198,6 +283,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     required bool value,
     required ValueChanged<bool?> onChanged,
     required String label,
+    bool showError = false,
   }) {
     return InkWell(
       onTap: () => onChanged(!value),
@@ -215,7 +301,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: showError
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.secondary,
                   letterSpacing: 0.25,
                 ),
               ),

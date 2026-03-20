@@ -9,6 +9,7 @@ class AccountSettingsScreen extends StatefulWidget {
 }
 
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController(text: 'example@gmail.com');
   final _usernameController = TextEditingController(text: 'anna.novak');
   final _nameController = TextEditingController(text: 'Anna Novak');
@@ -20,6 +21,51 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   final _oldPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  bool _isDirty = false;
+  bool _hasSubmitted = false;
+
+  // Store initial values to detect changes
+  late final Map<String, String> _initialValues;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialValues = {
+      'username': _usernameController.text,
+      'name': _nameController.text,
+      'country': _countryController.text,
+      'birthdate': _birthdateController.text,
+      'description': _descriptionController.text,
+      'address': _addressController.text,
+      'phone': _phoneController.text,
+    };
+
+    for (final c in [
+      _usernameController, _nameController, _countryController,
+      _birthdateController, _descriptionController, _addressController,
+      _phoneController, _oldPasswordController, _newPasswordController,
+      _confirmPasswordController,
+    ]) {
+      c.addListener(_checkDirty);
+    }
+  }
+
+  void _checkDirty() {
+    final dirty = _usernameController.text != _initialValues['username'] ||
+        _nameController.text != _initialValues['name'] ||
+        _countryController.text != _initialValues['country'] ||
+        _birthdateController.text != _initialValues['birthdate'] ||
+        _descriptionController.text != _initialValues['description'] ||
+        _addressController.text != _initialValues['address'] ||
+        _phoneController.text != _initialValues['phone'] ||
+        _oldPasswordController.text.isNotEmpty ||
+        _newPasswordController.text.isNotEmpty ||
+        _confirmPasswordController.text.isNotEmpty;
+    if (dirty != _isDirty) {
+      setState(() => _isDirty = dirty);
+    }
+  }
 
   @override
   void dispose() {
@@ -37,6 +83,25 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     super.dispose();
   }
 
+  void _save() {
+    setState(() => _hasSubmitted = true);
+
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Změny byly uloženy',
+            style: TextStyle(fontFamily: 'Poppins'),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      );
+      Navigator.pop(context);
+    }
+  }
+
   InputDecoration _fieldDecoration(String label, {bool enabled = true, bool hasTrailing = false}) {
     final cs = Theme.of(context).colorScheme;
     return InputDecoration(
@@ -45,7 +110,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         fontFamily: 'Poppins',
         fontSize: 12,
         fontWeight: FontWeight.w400,
-        color: enabled ? cs.onSurfaceVariant : cs.onSurface.withOpacity(0.38),
+        color: enabled ? cs.onSurfaceVariant : cs.onSurface.withValues(alpha: 0.38),
         letterSpacing: 0.4,
       ),
       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -59,7 +124,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
       ),
       disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: cs.onSurface.withOpacity(0.1)),
+        borderSide: BorderSide(color: cs.onSurface.withValues(alpha: 0.1)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
@@ -95,203 +160,252 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Avatar section
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Stack(
+              child: Form(
+                key: _formKey,
+                autovalidateMode: _hasSubmitted
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Avatar section
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(7),
+                              child: Image.asset(
+                                'assets/images/avatar_1.png',
+                                width: 140,
+                                height: 140,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              right: -4,
+                              bottom: -4,
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: cs.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.edit, color: Colors.white, size: 20),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Form fields
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+                      child: Column(
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(7),
-                            child: Image.asset(
-                              'assets/images/avatar_1.png',
-                              width: 140,
-                              height: 140,
-                              fit: BoxFit.cover,
+                          TextField(
+                            controller: _emailController,
+                            enabled: false,
+                            style: _fieldTextStyle.copyWith(color: cs.onSurface.withValues(alpha: 0.38)),
+                            decoration: _fieldDecoration('E-mail*', enabled: false),
+                          ),
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: _usernameController,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Uživatelské jméno*'),
+                            validator: (v) {
+                              if (v == null || v.trim().isEmpty) return 'Zadejte uživatelské jméno';
+                              if (v.trim().length < 3) return 'Minimálně 3 znaky';
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: _nameController,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Jméno a příjmení*'),
+                            validator: (v) {
+                              if (v == null || v.trim().isEmpty) return 'Zadejte jméno a příjmení';
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 24),
+                          TextField(
+                            controller: _countryController,
+                            readOnly: true,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Stát*', hasTrailing: true),
+                          ),
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: _birthdateController,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Datum narození*'),
+                            validator: (v) {
+                              if (v == null || v.trim().isEmpty) return 'Zadejte datum narození';
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 24),
+                          SizedBox(
+                            height: 120,
+                            child: TextField(
+                              controller: _descriptionController,
+                              maxLines: null,
+                              expands: true,
+                              textAlignVertical: TextAlignVertical.top,
+                              style: _fieldTextStyle,
+                              decoration: _fieldDecoration('Popis'),
                             ),
                           ),
-                          Positioned(
-                            right: -4,
-                            bottom: -4,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: cs.primary,
-                                shape: BoxShape.circle,
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: _addressController,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Adresa*'),
+                            validator: (v) {
+                              if (v == null || v.trim().isEmpty) return 'Zadejte adresu';
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: _phoneController,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Telefonní číslo*'),
+                            validator: (v) {
+                              if (v == null || v.trim().isEmpty) return 'Zadejte telefonní číslo';
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Divider(height: 1, thickness: 1, color: cs.outline),
+
+                    // Password change section
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Změna hesla',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                              color: cs.secondary,
+                              height: 28 / 20,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _oldPasswordController,
+                            obscureText: true,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Staré heslo'),
+                            validator: (v) {
+                              // Only validate if user is trying to change password
+                              if (_newPasswordController.text.isNotEmpty &&
+                                  (v == null || v.isEmpty)) {
+                                return 'Zadejte staré heslo';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: _newPasswordController,
+                            obscureText: true,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Nové heslo'),
+                            validator: (v) {
+                              if (_oldPasswordController.text.isNotEmpty) {
+                                if (v == null || v.isEmpty) return 'Zadejte nové heslo';
+                                if (v.length < 6) return 'Heslo musí mít alespoň 6 znaků';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 24),
+                          TextFormField(
+                            controller: _confirmPasswordController,
+                            obscureText: true,
+                            style: _fieldTextStyle,
+                            decoration: _fieldDecoration('Potvrzení nového hesla'),
+                            validator: (v) {
+                              if (_newPasswordController.text.isNotEmpty) {
+                                if (v == null || v.isEmpty) return 'Potvrďte nové heslo';
+                                if (v != _newPasswordController.text) return 'Hesla se neshodují';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Divider(height: 1, thickness: 1, color: cs.outline),
+
+                    // Buttons
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: 56,
+                            child: FilledButton(
+                              onPressed: _isDirty ? _save : null,
+                              style: FilledButton.styleFrom(
+                                backgroundColor: cs.primary,
+                                disabledBackgroundColor: cs.onSurface.withValues(alpha: 0.1),
+                                disabledForegroundColor: cs.onSurface.withValues(alpha: 0.38),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
-                              child: const Icon(Icons.edit, color: Colors.white, size: 20),
+                              child: const Text(
+                                'Uložit',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.15,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 56,
+                            child: TextButton(
+                              onPressed: () => _showDeleteDialog(),
+                              child: Text(
+                                'Smazat účet',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFFCE0101),
+                                  letterSpacing: 0.1,
+                                  height: 20 / 14,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-
-                  // Form fields
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-                    child: Column(
-                      children: [
-                        TextField(
-                          controller: _emailController,
-                          enabled: false,
-                          style: _fieldTextStyle.copyWith(color: cs.onSurface.withOpacity(0.38)),
-                          decoration: _fieldDecoration('E-mail*', enabled: false),
-                        ),
-                        const SizedBox(height: 24),
-                        TextField(
-                          controller: _usernameController,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Uživatelské jméno*'),
-                        ),
-                        const SizedBox(height: 24),
-                        TextField(
-                          controller: _nameController,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Jméno a příjmení*'),
-                        ),
-                        const SizedBox(height: 24),
-                        TextField(
-                          controller: _countryController,
-                          readOnly: true,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Stát*', hasTrailing: true),
-                        ),
-                        const SizedBox(height: 24),
-                        TextField(
-                          controller: _birthdateController,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Datum narození*'),
-                        ),
-                        const SizedBox(height: 24),
-                        SizedBox(
-                          height: 120,
-                          child: TextField(
-                            controller: _descriptionController,
-                            maxLines: null,
-                            expands: true,
-                            textAlignVertical: TextAlignVertical.top,
-                            style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Popis'),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                        TextField(
-                          controller: _addressController,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Adresa*'),
-                        ),
-                        const SizedBox(height: 24),
-                        TextField(
-                          controller: _phoneController,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Telefonní číslo*'),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Divider(height: 1, thickness: 1, color: cs.outline),
-
-                  // Password change section
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Změna hesla',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            color: cs.secondary,
-                            height: 28 / 20,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        TextField(
-                          controller: _oldPasswordController,
-                          obscureText: true,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Staré heslo'),
-                        ),
-                        const SizedBox(height: 24),
-                        TextField(
-                          controller: _newPasswordController,
-                          obscureText: true,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Nové heslo'),
-                        ),
-                        const SizedBox(height: 24),
-                        TextField(
-                          controller: _confirmPasswordController,
-                          obscureText: true,
-                          style: _fieldTextStyle,
-                          decoration: _fieldDecoration('Potvrzení nového hesla'),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Divider(height: 1, thickness: 1, color: cs.outline),
-
-                  // Buttons
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          height: 56,
-                          child: FilledButton(
-                            onPressed: null, // Disabled by default
-                            style: FilledButton.styleFrom(
-                              backgroundColor: cs.primary,
-                              disabledBackgroundColor: cs.onSurface.withOpacity(0.1),
-                              disabledForegroundColor: cs.onSurface.withOpacity(0.38),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: const Text(
-                              'Uložit',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.15,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 56,
-                          child: TextButton(
-                            onPressed: () => _showDeleteDialog(),
-                            child: Text(
-                              'Smazat účet',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFFCE0101),
-                                letterSpacing: 0.1,
-                                height: 20 / 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -350,7 +464,18 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           FilledButton(
             onPressed: () {
               Navigator.pop(context);
-              Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+              ScaffoldMessenger.of(this.context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    'Účet byl smazán',
+                    style: TextStyle(fontFamily: 'Poppins'),
+                  ),
+                  backgroundColor: const Color(0xFFCE0101),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+              );
+              Navigator.pushNamedAndRemoveUntil(this.context, '/login', (_) => false);
             },
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFFCE0101),

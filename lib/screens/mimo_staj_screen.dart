@@ -64,7 +64,21 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                         ),
                         Switch(
                           value: _enabled,
-                          onChanged: (v) => setState(() => _enabled = v),
+                          onChanged: (v) {
+                            setState(() => _enabled = v);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  v ? 'Mimo stáj zapnuto' : 'Mimo stáj vypnuto',
+                                  style: const TextStyle(fontFamily: 'Poppins'),
+                                ),
+                                backgroundColor: cs.primary,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          },
                           activeColor: Colors.white,
                           activeTrackColor: cs.primary,
                         ),

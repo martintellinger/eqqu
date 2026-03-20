@@ -87,8 +87,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 onPressed: null, // Disabled by default
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
-                  disabledBackgroundColor: cs.onSurface.withOpacity(0.1),
-                  disabledForegroundColor: cs.onSurface.withOpacity(0.38),
+                  disabledBackgroundColor: cs.onSurface.withValues(alpha: 0.1),
+                  disabledForegroundColor: cs.onSurface.withValues(alpha: 0.38),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

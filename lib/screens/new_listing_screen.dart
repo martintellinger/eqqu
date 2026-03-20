@@ -209,7 +209,20 @@ class _NewListingScreenState extends State<NewListingScreen> {
                           width: double.infinity,
                           height: 56,
                           child: FilledButton(
-                            onPressed: _isFormValid ? () => Navigator.pop(context) : null,
+                            onPressed: _isFormValid ? () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Inzerát byl úspěšně vytvořen',
+                                    style: TextStyle(fontFamily: 'Poppins'),
+                                  ),
+                                  backgroundColor: Theme.of(context).colorScheme.primary,
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                ),
+                              );
+                              Navigator.pop(context);
+                            } : null,
                             style: FilledButton.styleFrom(
                               backgroundColor: cs.primary,
                               disabledBackgroundColor: cs.onSurface.withValues(alpha: 0.12),

@@ -45,20 +45,41 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     cs,
                     'Push-notifikace',
                     _pushEnabled,
-                    (v) => setState(() => _pushEnabled = v),
+                    (v) {
+                      setState(() => _pushEnabled = v);
+                      _onToggleChanged('Push-notifikace', v);
+                    },
                   ),
                   const SizedBox(height: 16),
                   _buildToggleItem(
                     cs,
                     'E-mailové notifikace',
                     _emailEnabled,
-                    (v) => setState(() => _emailEnabled = v),
+                    (v) {
+                      setState(() => _emailEnabled = v);
+                      _onToggleChanged('E-mailové notifikace', v);
+                    },
                   ),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _onToggleChanged(String label, bool value) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          value ? '$label zapnuto' : '$label vypnuto',
+          style: const TextStyle(fontFamily: 'Poppins'),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        duration: const Duration(seconds: 2),
       ),
     );
   }

@@ -126,7 +126,20 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       SizedBox(
                         height: 48,
                         child: FilledButton(
-                          onPressed: () => Navigator.pop(ctx),
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                  'Hodnocení bylo odesláno',
+                                  style: TextStyle(fontFamily: 'Poppins'),
+                                ),
+                                backgroundColor: Theme.of(context).colorScheme.primary,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
+                            );
+                          },
                           style: FilledButton.styleFrom(
                             backgroundColor: cs.secondaryContainer,
                             minimumSize: Size.zero,
