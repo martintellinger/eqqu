@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // ── Categories ──
 
-void showCategoriesSheet(BuildContext context) {
-  showModalBottomSheet(
+Future<String?> showCategoriesSheet(BuildContext context) {
+  return showModalBottomSheet<String>(
     context: context,
     isScrollControlled: true,
     backgroundColor: Theme.of(context).colorScheme.surface,
@@ -160,7 +160,7 @@ class _CategoriesSheetState extends State<_CategoriesSheet> {
               ),
             ),
             trailing: Icon(Icons.chevron_right, color: cs.onSurface, size: 20),
-            onTap: () => Navigator.pop(context),
+            onTap: () => Navigator.pop(context, '$_selectedCategory > $sub'),
           ),
         )),
       ],

@@ -23,11 +23,30 @@ class _NewListingScreenState extends State<NewListingScreen> {
   String? _selectedMaterial;
 
   @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_onFormChanged);
+    _descriptionController.addListener(_onFormChanged);
+    _priceController.addListener(_onFormChanged);
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _descriptionController.dispose();
     _priceController.dispose();
     super.dispose();
+  }
+
+  void _onFormChanged() => setState(() {});
+
+  bool get _isFormValid {
+    return _nameController.text.trim().isNotEmpty &&
+        _descriptionController.text.trim().isNotEmpty &&
+        _selectedCategory != null &&
+        _selectedBrand != null &&
+        _selectedCondition != null &&
+        _priceController.text.trim().isNotEmpty;
   }
 
   @override
@@ -96,13 +115,16 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         const SizedBox(height: 16),
 
                         // Kategorie*
-                        _buildSelectorField(cs, 'Kategorie*', _selectedCategory, () {
-                          showCategoriesSheet(context);
+                        _buildSelectorField(cs, 'Kategorie*', _selectedCategory, () async {
+                          final result = await showCategoriesSheet(context);
+                          if (result != null) {
+                            setState(() => _selectedCategory = result);
+                          }
                         }),
                         const SizedBox(height: 16),
 
-                        // Značka
-                        _buildSelectorField(cs, 'Značka', _selectedBrand, () {
+                        // Značka*
+                        _buildSelectorField(cs, 'Značka*', _selectedBrand, () {
                           _showSimpleSelector(
                             context, 'Značka',
                             ['No brand', 'Cavalleria Toscana', 'Animo', 'Kingsland', 'Shires', 'Busse', 'Eskadron', 'HKM'],
@@ -112,9 +134,9 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         const SizedBox(height: 16),
 
                         // Stav*
-                        _buildSelectorField(cs, 'Stav*', _selectedCondition, () {
+                        _buildSelectorField(cs, 'Stav zboží*', _selectedCondition, () {
                           _showSimpleSelector(
-                            context, 'Stav',
+                            context, 'Stav zboží',
                             ['Nový s visačkou', 'Nový bez visačky', 'Velmi dobrý', 'Dobrý', 'Uspokojivý'],
                             (v) => setState(() => _selectedCondition = v),
                           );
@@ -157,7 +179,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                           keyboardType: TextInputType.number,
                           style: _inputTextStyle(cs),
                           decoration: const InputDecoration(
-                            labelText: 'Cena*',
+                            labelText: 'Požadovaná cena*',
                             suffixText: '€',
                           ),
                         ),
@@ -187,14 +209,22 @@ class _NewListingScreenState extends State<NewListingScreen> {
                           width: double.infinity,
                           height: 56,
                           child: FilledButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text(
+                            onPressed: _isFormValid ? () => Navigator.pop(context) : null,
+                            style: FilledButton.styleFrom(
+                              backgroundColor: cs.primary,
+                              disabledBackgroundColor: cs.onSurface.withValues(alpha: 0.12),
+                              disabledForegroundColor: cs.onSurface.withValues(alpha: 0.38),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(
                               'Vytvořit inzerát',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                                color: _isFormValid ? Colors.white : cs.onSurface.withValues(alpha: 0.38),
                               ),
                             ),
                           ),
@@ -230,7 +260,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                 'assets/icons/Add.svg',
                 width: 40,
                 height: 40,
-                colorFilter: ColorFilter.mode(cs.onSurface, BlendMode.srcIn),
+                colorFilter: ColorFilter.mode(cs.surfaceTint, BlendMode.srcIn),
               ),
               const SizedBox(height: 12),
               Text(
@@ -267,20 +297,23 @@ class _NewListingScreenState extends State<NewListingScreen> {
     return GestureDetector(
       onTap: onTap,
       child: InputDecorator(
+        isEmpty: value == null,
         decoration: InputDecoration(
           labelText: label,
           suffixIcon: Icon(Icons.chevron_right, color: cs.onSurfaceVariant),
         ),
-        child: Text(
-          value ?? '',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: value != null ? cs.onSurface : Colors.transparent,
-            letterSpacing: 0.5,
-          ),
-        ),
+        child: value != null
+            ? Text(
+                value,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: cs.onSurface,
+                  letterSpacing: 0.5,
+                ),
+              )
+            : null,
       ),
     );
   }
