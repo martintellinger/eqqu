@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   FilledButton(
                     onPressed: () {
-                      // TODO: Handle login
+                      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                     },
                     child: const Text('Přihlásit se'),
                   ),
@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: TextButton(
                       onPressed: () {
-                        // TODO: Continue without login
+                        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                       },
                       child: const Text(
                         'Pokračovat bez přihlášení',

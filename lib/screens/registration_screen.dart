@@ -119,7 +119,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         children: [
                           FilledButton(
                             onPressed: () {
-                              // TODO: Handle registration
+                              Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                             },
                             child: const Text('Vytvořit účet'),
                           ),
@@ -128,7 +128,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             width: double.infinity,
                             child: TextButton(
                               onPressed: () {
-                                // TODO: Continue without registration
+                                Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                               },
                               child: const Text(
                                 'Pokračovat bez registrace',

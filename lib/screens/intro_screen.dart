@@ -69,7 +69,7 @@ class IntroScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/registration');
+                        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                       },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
