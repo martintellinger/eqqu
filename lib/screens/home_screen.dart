@@ -529,7 +529,7 @@ class _HomeBodyState extends State<_HomeBody> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 16,
                       crossAxisSpacing: 16,
-                      childAspectRatio: 0.75,
+                      childAspectRatio: 0.62,
                     ),
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
@@ -681,8 +681,8 @@ class _HomeBodyState extends State<_HomeBody> {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Image with heart
-          SizedBox(
-            height: 200,
+          AspectRatio(
+            aspectRatio: 177 / 200,
             child: Stack(
               children: [
                 ClipRRect(
@@ -690,7 +690,7 @@ class _HomeBodyState extends State<_HomeBody> {
                   child: Image.asset(
                     imagePath,
                     width: double.infinity,
-                    height: 200,
+                    height: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),

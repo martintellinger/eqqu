@@ -719,8 +719,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 200,
+                AspectRatio(
+                  aspectRatio: 177 / 200,
                   child: Stack(
                     children: [
                       ClipRRect(
@@ -728,7 +728,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: Image.asset(
                           p['image']!,
                           width: double.infinity,
-                          height: 200,
+                          height: double.infinity,
                           fit: BoxFit.cover,
                         ),
                       ),

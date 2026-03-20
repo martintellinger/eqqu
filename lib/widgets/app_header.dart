@@ -24,73 +24,76 @@ class AppHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
-    return Container(
-      height: 64,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: cs.outline, width: 1),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Leading icon
-          if (showBack)
-            Positioned(
-              left: 0,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, color: cs.onSurface),
-                onPressed: onBack ?? () => Navigator.pop(context),
-              ),
-            ),
-
-          // Centered title (+ optional subtitle)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 52),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: 64,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onSurface,
-                    height: 28 / 20,
-                  ),
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                if (subtitle != null)
-                  Text(
-                    subtitle!,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: cs.onSurfaceVariant,
-                      letterSpacing: 0.5,
-                      height: 16 / 12,
+                // Leading icon
+                if (showBack)
+                  Positioned(
+                    left: 0,
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back, color: cs.onSurface),
+                      onPressed: onBack ?? () => Navigator.pop(context),
                     ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  ),
+
+                // Centered title (+ optional subtitle)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 52),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          color: cs.onSurface,
+                          height: 28 / 20,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      if (subtitle != null)
+                        Text(
+                          subtitle!,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: cs.onSurfaceVariant,
+                            letterSpacing: 0.5,
+                            height: 16 / 12,
+                          ),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                    ],
+                  ),
+                ),
+
+                // Trailing widget
+                if (trailing != null)
+                  Positioned(
+                    right: 0,
+                    child: trailing!,
                   ),
               ],
             ),
           ),
-
-          // Trailing widget
-          if (trailing != null)
-            Positioned(
-              right: 0,
-              child: trailing!,
-            ),
-        ],
-      ),
+        ),
+        Divider(height: 1, thickness: 1, color: cs.outline),
+      ],
     );
   }
 }

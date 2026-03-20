@@ -230,8 +230,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            height: 200,
+          AspectRatio(
+            aspectRatio: 177 / 200,
             child: Stack(
               children: [
                 ClipRRect(
@@ -239,7 +239,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   child: Image.asset(
                     imagePath,
                     width: double.infinity,
-                    height: 200,
+                    height: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),

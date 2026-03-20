@@ -19,7 +19,7 @@ class AppTheme {
       tertiary: Color(0xFF8C8C8C),
       surface: Color(0xFF070707),
       onSurface: Colors.white,
-      surfaceContainerLow: Color(0xFF1C1B1B),
+      surfaceContainerLow: Color(0xFF252B25),
       surfaceContainerHigh: Color(0xFF2A2A2A),
       surfaceContainerHighest: Color(0xFF353434),
       surfaceTint: Color(0xFF85D89C),
