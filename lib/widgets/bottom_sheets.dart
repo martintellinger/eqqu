@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // ── Categories ──
 
@@ -18,14 +19,14 @@ class _CategoriesSheet extends StatelessWidget {
   const _CategoriesSheet();
 
   static const _categories = [
-    {'icon': Icons.pets, 'label': 'Koně'},
-    {'icon': Icons.person, 'label': 'Jezdci'},
-    {'icon': Icons.home_work, 'label': 'Stáj'},
-    {'icon': Icons.pets, 'label': 'Psi'},
-    {'icon': Icons.menu_book, 'label': 'Knihy, hračky, dárky'},
-    {'icon': Icons.medical_services, 'label': 'Veterinární produkty'},
-    {'icon': Icons.grass, 'label': 'Krmivo'},
-    {'icon': Icons.healing, 'label': 'Terapeutické přístroje'},
+    {'svg': 'assets/icons/Kone.svg', 'label': 'Koně'},
+    {'svg': 'assets/icons/Jezdci.svg', 'label': 'Jezdci'},
+    {'svg': 'assets/icons/Staj.svg', 'label': 'Stáj'},
+    {'svg': 'assets/icons/Psi.svg', 'label': 'Psi'},
+    {'svg': 'assets/icons/Kniha hracky darky.svg', 'label': 'Knihy, hračky, dárky'},
+    {'svg': 'assets/icons/Veterinarni produkty.svg', 'label': 'Veterinární produkty'},
+    {'svg': 'assets/icons/Krmivo.svg', 'label': 'Krmivo'},
+    {'svg': 'assets/icons/erapeuticke pristroje.svg', 'label': 'Terapeutické přístroje'},
   ];
 
   @override
@@ -62,7 +63,7 @@ class _CategoriesSheet extends StatelessWidget {
                 ..._categories.map((cat) => _categoryTile(
                   context,
                   cs,
-                  cat['icon'] as IconData,
+                  cat['svg'] as String,
                   cat['label'] as String,
                 )),
                 const SizedBox(height: 24),
@@ -103,7 +104,7 @@ class _CategoriesSheet extends StatelessWidget {
     );
   }
 
-  Widget _categoryTile(BuildContext context, ColorScheme cs, IconData icon, String label) {
+  Widget _categoryTile(BuildContext context, ColorScheme cs, String svgPath, String label) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -111,7 +112,7 @@ class _CategoriesSheet extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListTile(
-        leading: Icon(icon, color: cs.onSurface, size: 24),
+        leading: SvgPicture.asset(svgPath, width: 24, height: 24),
         title: Text(
           label,
           style: TextStyle(

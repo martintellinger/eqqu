@@ -120,43 +120,60 @@ class _HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<_HomeBody> {
   final Set<int> _favorites = {};
+  String? _activeChip;
+  String _searchQuery = '';
+  bool _isSearching = false;
+  final _searchController = TextEditingController();
+  final _searchFocus = FocusNode();
 
-  static const _products = [
+  static const _allProducts = [
     {
       'title': 'Black GP type saddle',
       'subtitle': 'No brand / Good / 17"',
       'oldPrice': '140 €',
       'newPrice': '159 €',
+      'brand': 'No brand',
+      'category': 'Sedla',
     },
     {
       'title': 'Blue Comfort type saddle',
       'subtitle': 'Comfy Brand / Fair / 18"',
       'oldPrice': '120 €',
       'newPrice': '135 €',
+      'brand': 'Comfy Brand',
+      'category': 'Sedla',
     },
     {
       'title': 'Red Racing type saddle',
       'subtitle': 'Speedy Brand / Excellent / 15"',
       'oldPrice': '200 €',
       'newPrice': '230 €',
+      'brand': 'Cavalleria Toscana',
+      'category': 'Sedla',
     },
     {
       'title': 'Green Mountain type saddle',
       'subtitle': 'Rugged Brand / Very Good / 16"',
       'oldPrice': '180 €',
       'newPrice': '199 €',
+      'brand': 'Animo',
+      'category': 'Sedla',
     },
     {
       'title': 'White Cruiser type saddle',
       'subtitle': 'Cruiser Co. / Fair / 19"',
       'oldPrice': '160 €',
       'newPrice': '175 €',
+      'brand': 'Kingsland',
+      'category': 'Sedla',
     },
     {
       'title': 'Shires Velociti bridle',
       'subtitle': 'Shires / New / Cob',
       'oldPrice': '42 €',
       'newPrice': '49 €',
+      'brand': 'Shires',
+      'category': 'Uzdečky',
     },
   ];
 
@@ -177,172 +194,368 @@ class _HomeBodyState extends State<_HomeBody> {
     },
   ];
 
-  static const _chips = ['Cavalleria Toscana', 'Animo', 'Kingsland', 'Kingsland'];
+  static const _chips = ['Cavalleria Toscana', 'Animo', 'Kingsland', 'Shires'];
+
+  static const _searchSuggestions = [
+    'Sedlo',
+    'Uzdečka',
+    'Deka',
+    'Kamaše',
+    'Třmeny',
+    'Cavalleria Toscana',
+    'Animo',
+    'Kingsland',
+    'Shires',
+    'Black GP type saddle',
+    'Blue Comfort type saddle',
+    'Red Racing type saddle',
+    'Shires Velociti bridle',
+  ];
+
+  List<Map<String, String>> get _filteredProducts {
+    var products = _allProducts;
+    if (_activeChip != null) {
+      products = products.where((p) => p['brand'] == _activeChip).toList();
+    }
+    if (_searchQuery.isNotEmpty) {
+      final q = _searchQuery.toLowerCase();
+      products = products.where((p) =>
+        p['title']!.toLowerCase().contains(q) ||
+        p['subtitle']!.toLowerCase().contains(q) ||
+        p['brand']!.toLowerCase().contains(q) ||
+        p['category']!.toLowerCase().contains(q)
+      ).toList();
+    }
+    return products;
+  }
+
+  List<String> get _currentSuggestions {
+    if (_searchQuery.isEmpty) return _searchSuggestions.take(5).toList();
+    final q = _searchQuery.toLowerCase();
+    return _searchSuggestions
+        .where((s) => s.toLowerCase().contains(q))
+        .take(5)
+        .toList();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocus.dispose();
+    super.dispose();
+  }
+
+  void _onSearchTap() {
+    setState(() => _isSearching = true);
+    _searchFocus.requestFocus();
+  }
+
+  void _closeSearch() {
+    setState(() {
+      _isSearching = false;
+      _searchQuery = '';
+      _searchController.clear();
+    });
+    _searchFocus.unfocus();
+  }
+
+  void _applySearch(String query) {
+    setState(() {
+      _searchQuery = query;
+      _isSearching = false;
+    });
+    _searchFocus.unfocus();
+  }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final products = _filteredProducts;
 
     return SafeArea(
-      child: CustomScrollView(
-        slivers: [
-          // Search bar + filter button
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF7F7F7),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 4),
-                          SizedBox(
-                            width: 48,
-                            height: 48,
-                            child: Icon(Icons.search, color: cs.onSurfaceVariant, size: 24),
-                          ),
-                          Text(
-                            'Hledat',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: cs.onSurfaceVariant,
-                              letterSpacing: 0.5,
-                              height: 24 / 16,
+      child: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              // Search bar + filter button
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: _onSearchTap,
+                          child: Container(
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF7F7F7),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                const SizedBox(width: 4),
+                                SizedBox(
+                                  width: 48,
+                                  height: 48,
+                                  child: Icon(Icons.search, color: cs.onSurfaceVariant, size: 24),
+                                ),
+                                Expanded(
+                                  child: _isSearching
+                                    ? TextField(
+                                        controller: _searchController,
+                                        focusNode: _searchFocus,
+                                        onChanged: (v) => setState(() => _searchQuery = v),
+                                        onSubmitted: _applySearch,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: cs.onSurface,
+                                        ),
+                                        decoration: InputDecoration(
+                                          hintText: 'Hledat',
+                                          hintStyle: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: cs.onSurfaceVariant,
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.zero,
+                                          isDense: true,
+                                        ),
+                                      )
+                                    : Text(
+                                        _searchQuery.isEmpty ? 'Hledat' : _searchQuery,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: _searchQuery.isEmpty ? cs.onSurfaceVariant : cs.onSurface,
+                                          letterSpacing: 0.5,
+                                          height: 24 / 16,
+                                        ),
+                                      ),
+                                ),
+                                if (_searchQuery.isNotEmpty || _isSearching)
+                                  GestureDetector(
+                                    onTap: () {
+                                      _searchController.clear();
+                                      setState(() {
+                                        _searchQuery = '';
+                                        if (!_isSearching) return;
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Icon(Icons.close, size: 20, color: cs.onSurfaceVariant),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Material(
+                        color: cs.secondaryContainer,
+                        borderRadius: BorderRadius.circular(8),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: () => showFilterSheet(context),
+                          child: SizedBox(
+                            width: 56,
+                            height: 56,
+                            child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Suggestion chips
+              SliverToBoxAdapter(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: Row(
+                    children: _chips.asMap().entries.map((entry) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: entry.key > 0 ? 4 : 0),
+                        child: _buildChip(cs, entry.value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+
+              // Product grid
+              if (products.isNotEmpty)
+                SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverGrid(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 0.62,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final imgIndex = index % _productImages.length;
+                        return _buildProductCard(
+                          cs, index, products[index], _productImages[imgIndex],
+                        );
+                      },
+                      childCount: products.length,
+                    ),
+                  ),
+                ),
+
+              // Empty state
+              if (products.isEmpty)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(48),
+                    child: Center(
+                      child: Text(
+                        'Žádné výsledky',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          color: cs.tertiary,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Material(
-                    color: cs.secondaryContainer,
-                    borderRadius: BorderRadius.circular(8),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8),
-                      onTap: () => showFilterSheet(context),
-                      child: SizedBox(
-                        width: 56,
-                        height: 56,
-                        child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
+                ),
+
+              // Featured heading
+              if (_searchQuery.isEmpty && _activeChip == null) ...[
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                    child: Text(
+                      'Featured',
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: cs.onSurface,
+                        height: 32 / 24,
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-
-          // Suggestion chips
-          SliverToBoxAdapter(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-              child: Row(
-                children: _chips.asMap().entries.map((entry) {
-                  return Padding(
-                    padding: EdgeInsets.only(left: entry.key > 0 ? 4 : 0),
-                    child: _buildChip(cs, entry.value),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-
-          // Product grid
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 0.58,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => _buildProductCard(
-                  cs, index, _products[index], _productImages[index],
                 ),
-                childCount: _products.length,
-              ),
-            ),
+
+                // Featured cards + products
+                SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverGrid(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 0.75,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        if (index < 2) {
+                          return _buildFeaturedCard(_productImages[index]);
+                        }
+                        final pIndex = index - 2;
+                        final fp = _featuredProducts[pIndex];
+                        return _buildProductCard(
+                          cs, 100 + pIndex, fp, fp['image']!,
+                        );
+                      },
+                      childCount: 4,
+                    ),
+                  ),
+                ),
+              ],
+
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+            ],
           ),
 
-          // Featured heading
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-              child: Text(
-                'Featured',
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: cs.onSurface,
-                  height: 32 / 24,
+          // Search suggestions overlay
+          if (_isSearching)
+            Positioned(
+              top: 80,
+              left: 16,
+              right: 72,
+              child: Material(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(8),
+                color: cs.surface,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: _currentSuggestions.map((suggestion) {
+                    return InkWell(
+                      onTap: () {
+                        _searchController.text = suggestion;
+                        _applySearch(suggestion);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: Row(
+                          children: [
+                            Icon(Icons.search, size: 20, color: cs.tertiary),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                suggestion,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14,
+                                  color: cs.onSurface,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
             ),
-          ),
-
-          // Featured cards + products
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 0.75,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  if (index < 2) {
-                    return _buildFeaturedCard(_productImages[index]);
-                  }
-                  final pIndex = index - 2;
-                  final fp = _featuredProducts[pIndex];
-                  return _buildProductCard(
-                    cs, 100 + pIndex, fp, fp['image']!,
-                  );
-                },
-                childCount: 4,
-              ),
-            ),
-          ),
-
-          const SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
       ),
     );
   }
 
   Widget _buildChip(ColorScheme cs, String label) {
-    return Container(
-      height: 32,
-      decoration: BoxDecoration(
-        border: Border.all(color: cs.outlineVariant),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: cs.onSurfaceVariant,
-            letterSpacing: 0.1,
-            height: 20 / 14,
+    final isActive = _activeChip == label;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _activeChip = isActive ? null : label;
+        });
+      },
+      child: Container(
+        height: 32,
+        decoration: BoxDecoration(
+          color: isActive ? cs.primary : Colors.transparent,
+          border: Border.all(color: isActive ? cs.primary : cs.outlineVariant),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: isActive ? Colors.white : cs.onSurfaceVariant,
+              letterSpacing: 0.1,
+              height: 20 / 14,
+            ),
           ),
         ),
       ),
@@ -510,6 +723,25 @@ class _HomeBodyState extends State<_HomeBody> {
           Image.asset(
             imagePath,
             fit: BoxFit.cover,
+          ),
+          // Black gradient for text readability
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 100,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.65),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
           ),
           Positioned(
             left: 16,
