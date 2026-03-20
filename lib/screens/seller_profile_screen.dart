@@ -317,26 +317,31 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
         ),
         const SizedBox(height: 12),
         // Location
-        _buildInfoRow(cs, Icons.location_on_outlined, 'Česká republika'),
+        _buildInfoRow(cs, 'assets/icons/MapPinArea.svg', 'Česká republika'),
         const SizedBox(height: 12),
         // Last login
         _buildInfoRow(
           cs,
-          Icons.access_time,
+          'assets/icons/ClockUser.svg',
           'Poslední přihlášení: ',
           trailingBold: '23.06.2024',
         ),
         const SizedBox(height: 12),
         // Verified
-        _buildInfoRow(cs, Icons.verified_user_outlined, 'Ověřeno e-mailem'),
+        _buildInfoRow(cs, 'assets/icons/shield-check.svg', 'Ověřeno e-mailem'),
       ],
     );
   }
 
-  Widget _buildInfoRow(ColorScheme cs, IconData icon, String text, {String? trailingBold}) {
+  Widget _buildInfoRow(ColorScheme cs, String svgPath, String text, {String? trailingBold}) {
     return Row(
       children: [
-        Icon(icon, size: 24, color: cs.secondary),
+        SvgPicture.asset(
+          svgPath,
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(cs.secondary, BlendMode.srcIn),
+        ),
         const SizedBox(width: 12),
         if (trailingBold != null)
           Text.rich(

@@ -31,22 +31,19 @@ class AppHeader extends StatelessWidget {
           height: 64,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-            child: Stack(
-              alignment: Alignment.center,
+            child: Row(
               children: [
-                // Leading icon
+                // Leading icon (fixed 48px slot)
                 if (showBack)
-                  Positioned(
-                    left: 0,
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back, color: cs.onSurface),
-                      onPressed: onBack ?? () => Navigator.pop(context),
-                    ),
-                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_back, color: cs.onSurface),
+                    onPressed: onBack ?? () => Navigator.pop(context),
+                  )
+                else
+                  const SizedBox(width: 48),
 
-                // Centered title (+ optional subtitle)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 52),
+                // Centered title fills remaining space
+                Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -82,12 +79,11 @@ class AppHeader extends StatelessWidget {
                   ),
                 ),
 
-                // Trailing widget
+                // Trailing widget (fixed 48px slot)
                 if (trailing != null)
-                  Positioned(
-                    right: 0,
-                    child: trailing!,
-                  ),
+                  trailing!
+                else
+                  const SizedBox(width: 48),
               ],
             ),
           ),
