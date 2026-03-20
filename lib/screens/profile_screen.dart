@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/screens/seller_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -23,7 +24,17 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     // Profile card
-                    _buildProfileCard(cs),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SellerProfileScreen(),
+                          ),
+                        );
+                      },
+                      child: _buildProfileCard(cs),
+                    ),
                     const SizedBox(height: 24),
 
                     // Menu group 1
