@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -472,7 +473,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildSellerCard(ColorScheme cs) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const BuyerViewSellerScreen()),
+        );
+      },
+      child: Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: cs.surfaceContainerHigh,
@@ -555,6 +563,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }
