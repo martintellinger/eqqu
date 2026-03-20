@@ -407,10 +407,14 @@ class _HomeBodyState extends State<_HomeBody> {
                             color: cs.secondaryContainer,
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(
-                            isFav ? Icons.favorite : Icons.favorite_border,
-                            size: 20,
-                            color: isFav ? Colors.red : cs.onSecondaryContainer,
+                          child: SvgPicture.asset(
+                            isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
+                            width: 20,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(
+                              isFav ? Colors.red : cs.onSecondaryContainer,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ),

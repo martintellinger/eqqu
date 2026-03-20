@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -319,10 +320,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: SizedBox(
                   width: 40,
                   height: 40,
-                  child: Icon(
-                    _isFavorite ? Icons.favorite : Icons.favorite_border,
-                    size: 24,
-                    color: _isFavorite ? Colors.red : cs.onSurface,
+                  child: Center(
+                    child: SvgPicture.asset(
+                      _isFavorite ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
+                      width: 24,
+                      height: 24,
+                      colorFilter: ColorFilter.mode(
+                        _isFavorite ? Colors.red : cs.onSurface,
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -408,17 +415,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         children: [
           Row(
             children: [
-              Expanded(child: _specItem(cs, Icons.thumb_up_outlined, 'Condition', widget.condition)),
+              Expanded(child: _specItem(cs, 'assets/icons/Tag.svg', 'Condition', widget.condition)),
               const SizedBox(width: 12),
-              Expanded(child: _specItem(cs, Icons.straighten, 'Size', 'One size')),
+              Expanded(child: _specItem(cs, 'assets/icons/Measuring tape.svg', 'Size', 'One size')),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _specItem(cs, Icons.palette_outlined, 'Color', 'Gray')),
+              Expanded(child: _specItem(cs, 'assets/icons/Color.svg', 'Color', 'Gray')),
               const SizedBox(width: 12),
-              Expanded(child: _specItem(cs, Icons.texture, 'Material', 'Cotton')),
+              Expanded(child: _specItem(cs, 'assets/icons/Fabric.svg', 'Material', 'Cotton')),
             ],
           ),
         ],
@@ -426,10 +433,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _specItem(ColorScheme cs, IconData icon, String label, String value) {
+  Widget _specItem(ColorScheme cs, String svgPath, String label, String value) {
     return Row(
       children: [
-        Icon(icon, size: 24, color: cs.onSurface),
+        SvgPicture.asset(svgPath, width: 24, height: 24),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -750,10 +757,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   color: cs.secondaryContainer,
                                   shape: BoxShape.circle,
                                 ),
-                                child: Icon(
-                                  isFav ? Icons.favorite : Icons.favorite_border,
-                                  size: 20,
-                                  color: isFav ? Colors.red : cs.onSecondaryContainer,
+                                child: SvgPicture.asset(
+                                  isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
+                                  width: 20,
+                                  height: 20,
+                                  colorFilter: ColorFilter.mode(
+                                    isFav ? Colors.red : cs.onSecondaryContainer,
+                                    BlendMode.srcIn,
+                                  ),
                                 ),
                               ),
                             ),
