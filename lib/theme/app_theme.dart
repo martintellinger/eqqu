@@ -12,24 +12,24 @@ class AppTheme {
   static const Color _onError = Color(0xFFFFB4A8);
 
   static ThemeData get darkTheme {
-    final colorScheme = ColorScheme.dark(
+    const colorScheme = ColorScheme.dark(
       primary: _primaryGreen,
       onPrimary: Colors.white,
       primaryContainer: _primaryContainer,
       onPrimaryContainer: _onPrimaryContainer,
       secondary: Colors.white,
       onSecondary: Colors.black,
-      secondaryContainer: const Color(0xFF070707),
+      secondaryContainer: Color(0xFF070707),
       onSecondaryContainer: Colors.white,
-      surface: const Color(0xFF070707),
+      surface: Color(0xFF070707),
       onSurface: Colors.white,
-      surfaceContainerLow: const Color(0xFF1C1B1B),
-      surfaceContainerHighest: const Color(0xFF353434),
+      surfaceContainerLow: Color(0xFF1C1B1B),
+      surfaceContainerHighest: Color(0xFF353434),
       error: _onError,
       onError: _error,
-      outline: const Color(0xFF545454),
-      outlineVariant: const Color(0xFF3F4940),
-      onSurfaceVariant: const Color(0xFFBFC9BE),
+      outline: Color(0xFF545454),
+      outlineVariant: Color(0xFF3F4940),
+      onSurfaceVariant: Color(0xFFBFC9BE),
     );
 
     return ThemeData(
