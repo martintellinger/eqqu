@@ -100,18 +100,25 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return SafeArea(
       child: CustomScrollView(
         slivers: [
-          // Header
+          // App bar with centered title
           SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: Text(
-                'Oblíbené',
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 28,
-                  fontWeight: FontWeight.w600,
-                  color: cs.onSurface,
-                  height: 36 / 28,
+            child: Container(
+              height: 64,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: cs.outline, width: 1),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  'Oblíbené',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: cs.onSurface,
+                    height: 28 / 20,
+                  ),
                 ),
               ),
             ),
@@ -127,7 +134,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     final i = rowIndex * 2;
                     return Padding(
                       padding: EdgeInsets.only(
-                        bottom: rowIndex < (favProducts.length / 2).ceil() - 1 ? 12 : 0,
+                        bottom: rowIndex < (favProducts.length / 2).ceil() - 1 ? 16 : 0,
                       ),
                       child: IntrinsicHeight(
                         child: Row(
@@ -141,7 +148,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                 _productImages[favProducts[i].key % _productImages.length],
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 16),
                             if (i + 1 < favProducts.length)
                               Expanded(
                                 child: _buildProductCard(

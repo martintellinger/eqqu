@@ -181,6 +181,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         child: Container(
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.82,
+            minHeight: 44,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
@@ -218,50 +219,51 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         16, 16, 16, MediaQuery.of(context).padding.bottom + 16,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Outlined text field
           Expanded(
-            child: SizedBox(
-              height: 56,
-              child: TextField(
-                controller: _controller,
-                onSubmitted: (_) => _sendMessage(),
-                style: TextStyle(
+            child: TextField(
+              controller: _controller,
+              onSubmitted: (_) => _sendMessage(),
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16,
+                color: cs.onSurface,
+                letterSpacing: 0.5,
+                height: 24 / 16,
+              ),
+              decoration: InputDecoration(
+                hintText: 'Napište zprávu',
+                hintStyle: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 16,
-                  color: cs.onSurface,
+                  fontWeight: FontWeight.w400,
+                  color: cs.onSurfaceVariant,
+                  letterSpacing: 0.5,
                 ),
-                decoration: InputDecoration(
-                  hintText: 'Napište zprávu',
-                  hintStyle: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onSurfaceVariant,
-                    letterSpacing: 0.5,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: cs.outline),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: cs.outline),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: cs.onSurface, width: 2),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 16,
-                  ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: cs.outline),
                 ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: cs.outline),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: cs.onSurface, width: 2),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                isCollapsed: true,
               ),
             ),
           ),
           const SizedBox(width: 16),
-          // Send button - rounded rectangle
+          // Send button - rounded rectangle 56x56
           GestureDetector(
             onTap: _sendMessage,
             child: Container(
