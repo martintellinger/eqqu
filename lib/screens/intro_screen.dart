@@ -69,7 +69,7 @@ class IntroScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/registration');
+                        Navigator.pushNamed(context, '/registration');
                       },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
@@ -136,7 +136,7 @@ class IntroScreen extends StatelessWidget {
                   height: 56,
                   child: FilledButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/registration');
+                      Navigator.pushNamed(context, '/registration');
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: const Color(0xFF006535),
@@ -160,7 +160,7 @@ class IntroScreen extends StatelessWidget {
                 // Přihlášení button
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/login');
+                    Navigator.pushNamed(context, '/login');
                   },
                   child: const Text(
                     'Přihlášení',
