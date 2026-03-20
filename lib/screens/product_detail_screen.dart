@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
-const _sellerAvatar = 'https://www.figma.com/api/mcp/asset/ffbb7df3-bda6-4988-9b13-df40d049357f';
-const _featuredBanner = 'https://www.figma.com/api/mcp/asset/0bad7b0b-7113-40f2-a5b5-39583c4eac48';
-const _moreProduct1 = 'https://www.figma.com/api/mcp/asset/1bc361d1-ce10-4628-8f1d-4086bfa52cc1';
-const _moreProduct2 = 'https://www.figma.com/api/mcp/asset/7962ccde-c185-4d11-889a-2f81dd56b7ce';
-
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
   final String name;
   final String condition;
   final String price;
   final String oldPrice;
-  final String imageUrl;
+  final String imageAsset;
 
   const ProductDetailScreen({
     super.key,
@@ -20,7 +15,7 @@ class ProductDetailScreen extends StatefulWidget {
     required this.condition,
     required this.price,
     required this.oldPrice,
-    this.imageUrl = '',
+    this.imageAsset = '',
   });
 
   @override
@@ -126,15 +121,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             itemCount: _totalImages,
             onPageChanged: (i) => setState(() => _currentImageIndex = i),
             itemBuilder: (_, index) {
-              if (widget.imageUrl.isNotEmpty) {
-                return Image.network(
-                  widget.imageUrl,
+              if (widget.imageAsset.isNotEmpty) {
+                return Image.asset(
+                  widget.imageAsset,
                   fit: BoxFit.cover,
                   width: double.infinity,
-                  errorBuilder: (_, __, ___) => Container(
-                    color: cs.surfaceContainerLow,
-                    child: Icon(Icons.image_outlined, size: 64, color: cs.tertiary.withValues(alpha: 0.3)),
-                  ),
                 );
               }
               return Container(
@@ -484,23 +475,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Avatar
-          ClipOval(
-            child: Image.network(
-              _sellerAvatar,
-              width: 64,
-              height: 64,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: cs.primary,
-                  shape: BoxShape.circle,
-                ),
-                child: const Center(
-                  child: Text('EN', style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
-                ),
-              ),
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              color: cs.primary,
+              shape: BoxShape.circle,
+            ),
+            child: const Center(
+              child: Text('EN', style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
             ),
           ),
           const SizedBox(width: 12),
@@ -580,10 +563,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.network(
-              _featuredBanner,
+            Image.asset(
+              'assets/product_03.png',
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(color: cs.surfaceContainerLow),
             ),
             // Gradient overlay
             Container(
@@ -710,14 +692,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         'subtitle': 'No brand / Good / 17"',
         'oldPrice': '140 €',
         'newPrice': '159 €',
-        'image': _moreProduct1,
+        'image': 'assets/product_01.png',
       },
       {
         'title': 'Blue Comfort type saddle',
         'subtitle': 'Shires / New / Cob',
         'oldPrice': '42 €',
         'newPrice': '49 €',
-        'image': _moreProduct2,
+        'image': 'assets/product_02.png',
       },
     ];
 
@@ -739,19 +721,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: Image.network(
+                        child: Image.asset(
                           p['image']!,
                           width: double.infinity,
                           height: 200,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: cs.surfaceContainerLow,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Icon(Icons.image_outlined, size: 48, color: cs.tertiary.withValues(alpha: 0.3)),
-                          ),
                         ),
                       ),
                       Positioned(

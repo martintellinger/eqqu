@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 
-// Figma asset URLs (valid for 7 days from export)
 const _productImages = [
-  'https://www.figma.com/api/mcp/asset/7f36f390-311b-48ef-8b85-385080d7b047',
-  'https://www.figma.com/api/mcp/asset/57b7072a-caa9-4f5a-b20f-8f6481ab9c1e',
-  'https://www.figma.com/api/mcp/asset/722e5f69-4e57-4a0d-80e5-adbd9704ce09',
-  'https://www.figma.com/api/mcp/asset/ff5f8c04-3e0d-4356-ac18-ec773436a0c8',
-  'https://www.figma.com/api/mcp/asset/db14c726-b9a2-4f36-875b-4ede45c0b8ce',
-  'https://www.figma.com/api/mcp/asset/32b0435d-93b3-402a-9fb0-ab41fc36a7a7',
-];
-
-const _featuredImages = [
-  'https://www.figma.com/api/mcp/asset/9aac7644-f8b5-4742-8add-17645af1a355',
-  'https://www.figma.com/api/mcp/asset/a27d0d7f-2da7-47dc-88f6-2aea851a8ac2',
-];
-
-const _featuredProductImages = [
-  'https://www.figma.com/api/mcp/asset/0e106366-459b-497a-85b8-9fe1c4c48112',
-  'https://www.figma.com/api/mcp/asset/ea9c0688-f2c7-4d09-a063-99521c69fff6',
+  'assets/product_01.png',
+  'assets/product_02.png',
+  'assets/product_03.png',
+  'assets/product_04.png',
+  'assets/product_05.png',
+  'assets/product_06.png',
 ];
 
 class HomeScreen extends StatefulWidget {
@@ -31,6 +21,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+
+  static const _navItems = [
+    {'svg': 'assets/menu/Property 1=Home.svg', 'label': 'Domů'},
+    {'svg': 'assets/menu/Property 1=Chat.svg', 'label': 'Chat'},
+    {'svg': 'assets/menu/Property 1=Plus symbol button.svg', 'label': 'Prodat'},
+    {'svg': 'assets/menu/Property 1=Heart.svg', 'label': 'Oblíbené'},
+    {'svg': 'assets/menu/Property 1=User.svg', 'label': 'Profil'},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -69,45 +67,43 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
-            children: [
-              _navItem(cs, 0, Icons.home_outlined, Icons.home, 'Domů'),
-              _navItem(cs, 1, Icons.chat_bubble_outline, Icons.chat_bubble, 'Chat'),
-              _navItem(cs, 2, Icons.add_circle_outline, Icons.add_circle, 'Prodat'),
-              _navItem(cs, 3, Icons.favorite_border, Icons.favorite, 'Oblíbené'),
-              _navItem(cs, 4, Icons.person_outline, Icons.person, 'Profil'),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _navItem(ColorScheme cs, int index, IconData icon, IconData activeIcon, String label) {
-    final isActive = _currentIndex == index;
-    final color = isActive ? cs.surfaceTint : cs.tertiary;
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => setState(() => _currentIndex = index),
-        child: SizedBox(
-          height: 64,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(isActive ? activeIcon : icon, size: 24, color: color),
-              const SizedBox(height: 12),
-              Text(
-                label,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: color,
-                  letterSpacing: 0.5,
-                  height: 16 / 12,
+            children: List.generate(_navItems.length, (i) {
+              final item = _navItems[i];
+              final isActive = _currentIndex == i;
+              final color = isActive ? cs.surfaceTint : cs.tertiary;
+              return Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => setState(() => _currentIndex = i),
+                  child: SizedBox(
+                    height: 64,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          item['svg']!,
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          item['label']!,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: color,
+                            letterSpacing: 0.5,
+                            height: 16 / 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              );
+            }),
           ),
         ),
       ),
@@ -170,12 +166,14 @@ class _HomeBodyState extends State<_HomeBody> {
       'subtitle': 'No brand / Good / 17"',
       'oldPrice': '140 €',
       'newPrice': '159 €',
+      'image': 'assets/product_01.png',
     },
     {
       'title': 'Blue Comfort type saddle',
       'subtitle': 'Shires / New / Cob',
       'oldPrice': '42 €',
       'newPrice': '49 €',
+      'image': 'assets/product_02.png',
     },
   ];
 
@@ -270,7 +268,9 @@ class _HomeBodyState extends State<_HomeBody> {
                 childAspectRatio: 0.58,
               ),
               delegate: SliverChildBuilderDelegate(
-                (context, index) => _buildProductCard(cs, index, _products[index], _productImages[index]),
+                (context, index) => _buildProductCard(
+                  cs, index, _products[index], _productImages[index],
+                ),
                 childCount: _products.length,
               ),
             ),
@@ -306,14 +306,12 @@ class _HomeBodyState extends State<_HomeBody> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   if (index < 2) {
-                    return _buildFeaturedCard(_featuredImages[index]);
+                    return _buildFeaturedCard(_productImages[index]);
                   }
                   final pIndex = index - 2;
+                  final fp = _featuredProducts[pIndex];
                   return _buildProductCard(
-                    cs,
-                    100 + pIndex,
-                    _featuredProducts[pIndex],
-                    _featuredProductImages[pIndex],
+                    cs, 100 + pIndex, fp, fp['image']!,
                   );
                 },
                 childCount: 4,
@@ -351,7 +349,7 @@ class _HomeBodyState extends State<_HomeBody> {
     );
   }
 
-  Widget _buildProductCard(ColorScheme cs, int index, Map<String, String> product, String imageUrl) {
+  Widget _buildProductCard(ColorScheme cs, int index, Map<String, String> product, String imagePath) {
     final isFav = _favorites.contains(index);
     return GestureDetector(
       onTap: () {
@@ -364,7 +362,7 @@ class _HomeBodyState extends State<_HomeBody> {
               condition: 'Used',
               price: product['newPrice']!,
               oldPrice: product['oldPrice']!,
-              imageUrl: imageUrl,
+              imageAsset: imagePath,
             ),
           ),
         );
@@ -380,19 +378,11 @@ class _HomeBodyState extends State<_HomeBody> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Image.network(
-                    imageUrl,
+                  child: Image.asset(
+                    imagePath,
                     width: double.infinity,
                     height: 200,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: cs.surfaceContainerLow,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Icon(Icons.image_outlined, size: 48, color: cs.tertiary.withValues(alpha: 0.3)),
-                    ),
                   ),
                 ),
                 Positioned(
@@ -506,18 +496,15 @@ class _HomeBodyState extends State<_HomeBody> {
     );
   }
 
-  Widget _buildFeaturedCard(String imageUrl) {
+  Widget _buildFeaturedCard(String imagePath) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.network(
-            imageUrl,
+          Image.asset(
+            imagePath,
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Container(
-              color: const Color(0xFF006535),
-            ),
           ),
           Positioned(
             left: 16,
