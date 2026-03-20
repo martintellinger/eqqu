@@ -712,8 +712,8 @@ class _HomeBodyState extends State<_HomeBody> {
             ],
           ),
 
-          // Search suggestions overlay
-          if (_isSearching)
+          // Search suggestions overlay (only when query is empty)
+          if (_isSearching && _searchQuery.isEmpty)
             Positioned(
               top: 80,
               left: 16,
