@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
+import 'package:eqqu/widgets/app_header.dart';
 
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({super.key});
@@ -114,27 +115,8 @@ class _ChatListScreenState extends State<ChatListScreen>
     return SafeArea(
       child: Column(
         children: [
-          // App bar with centered title
-          Container(
-            height: 64,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: cs.outline, width: 1),
-              ),
-            ),
-            child: Center(
-              child: Text(
-                'Zprávy',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurface,
-                  height: 28 / 20,
-                ),
-              ),
-            ),
-          ),
+          // App bar
+          const AppHeader(title: 'Zprávy'),
 
           // Tab bar
           TabBar(

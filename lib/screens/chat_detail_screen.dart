@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/widgets/app_header.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final String name;
@@ -110,52 +111,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Widget _buildAppBar(ColorScheme cs) {
     return SafeArea(
       bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-        child: Row(
-          children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back, color: cs.onSurface),
-              onPressed: () => Navigator.pop(context),
-            ),
-            // Title: product name + person name subtitle (centered)
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    widget.productName.isNotEmpty
-                        ? widget.productName
-                        : widget.name,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: cs.onSurface,
-                      height: 28 / 20,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    widget.name,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: cs.onSurfaceVariant,
-                      letterSpacing: 0.5,
-                      height: 16 / 12,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-            // Product image thumbnail (trailing)
-            if (widget.productImage.isNotEmpty)
-              ClipRRect(
+      child: AppHeader(
+        title: widget.productName.isNotEmpty ? widget.productName : widget.name,
+        subtitle: widget.name,
+        showBack: true,
+        trailing: widget.productImage.isNotEmpty
+            ? ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.asset(
                   widget.productImage,
@@ -164,10 +125,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   fit: BoxFit.cover,
                 ),
               )
-            else
-              const SizedBox(width: 48),
-          ],
-        ),
+            : null,
       ),
     );
   }

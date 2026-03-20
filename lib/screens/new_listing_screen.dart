@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
+import 'package:eqqu/widgets/app_header.dart';
 
 class NewListingScreen extends StatefulWidget {
   const NewListingScreen({super.key});
@@ -36,38 +37,10 @@ class _NewListingScreenState extends State<NewListingScreen> {
     return Scaffold(
       body: Column(
         children: [
-          // M3 Small App bar with back button + centered title
-          SafeArea(
+          // M3 Small App bar with back button
+          const SafeArea(
             bottom: false,
-            child: Container(
-              height: 64,
-              decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: cs.outline, width: 1)),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back, color: cs.onSurface),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Nový inzerát',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        color: cs.onSurface,
-                        height: 28 / 20,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(width: 48),
-                ],
-              ),
-            ),
+            child: AppHeader(title: 'Nový inzerát', showBack: true),
           ),
 
           // Scrollable content

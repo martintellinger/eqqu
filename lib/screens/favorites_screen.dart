@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
+import 'package:eqqu/widgets/app_header.dart';
 
 const _productImages = [
   'assets/images/product_01.png',
@@ -100,28 +101,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return SafeArea(
       child: CustomScrollView(
         slivers: [
-          // App bar with centered title
-          SliverToBoxAdapter(
-            child: Container(
-              height: 64,
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: cs.outline, width: 1),
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  'Oblíbené',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onSurface,
-                    height: 28 / 20,
-                  ),
-                ),
-              ),
-            ),
+          // App bar
+          const SliverToBoxAdapter(
+            child: AppHeader(title: 'Oblíbené'),
           ),
 
           // Product grid

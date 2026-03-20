@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/widgets/app_header.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -12,25 +13,7 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         children: [
           // M3 App bar
-          Container(
-            height: 64,
-            decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: cs.outline, width: 1)),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-            child: Center(
-              child: Text(
-                'Profil',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurface,
-                  height: 28 / 20,
-                ),
-              ),
-            ),
-          ),
+          const AppHeader(title: 'Profil'),
 
           // Scrollable content
           Expanded(
