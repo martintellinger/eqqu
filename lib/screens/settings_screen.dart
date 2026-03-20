@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/main.dart';
 import 'package:eqqu/screens/appearance_screen.dart';
+import 'package:eqqu/screens/account_settings_screen.dart';
+import 'package:eqqu/screens/shipping_screen.dart';
+import 'package:eqqu/screens/secure_account_screen.dart';
+import 'package:eqqu/screens/notifications_screen.dart';
+import 'package:eqqu/screens/language_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -46,6 +51,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       cs,
                       Icons.person_outline,
                       'Nastavení účtu',
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountSettingsScreen()));
+                      },
                     ),
                     const SizedBox(height: 12),
                     _buildMenuItem(
@@ -58,24 +66,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       cs,
                       Icons.local_shipping_outlined,
                       'Přeprava',
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const ShippingScreen()));
+                      },
                     ),
                     const SizedBox(height: 12),
                     _buildMenuItem(
                       cs,
                       Icons.shield_outlined,
                       'Bezpečný účet',
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const SecureAccountScreen()));
+                      },
                     ),
                     const SizedBox(height: 12),
                     _buildMenuItem(
                       cs,
                       Icons.notifications_outlined,
                       'Oznámení',
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen()));
+                      },
                     ),
                     const SizedBox(height: 12),
                     _buildMenuItem(
                       cs,
                       Icons.language,
                       'Jazyk',
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const LanguageScreen()));
+                      },
                     ),
                     const SizedBox(height: 12),
                     _buildMenuItem(

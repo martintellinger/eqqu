@@ -5,6 +5,13 @@ import 'package:eqqu/screens/seller_profile_screen.dart';
 import 'package:eqqu/screens/my_listings_screen.dart';
 import 'package:eqqu/screens/my_sales_screen.dart';
 import 'package:eqqu/screens/settings_screen.dart';
+import 'package:eqqu/screens/mimo_staj_screen.dart';
+import 'package:eqqu/screens/invite_friends_screen.dart';
+import 'package:eqqu/screens/how_it_works_screen.dart';
+import 'package:eqqu/screens/help_screen.dart';
+import 'package:eqqu/screens/feedback_screen.dart';
+import 'package:eqqu/screens/about_screen.dart';
+import 'package:eqqu/screens/eqqu_platform_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -55,17 +62,27 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // Menu group 2
-                    _buildMenuItem(cs, 'assets/icons/mimo staj.svg', 'Mimo stáj'),
+                    _buildMenuItem(cs, 'assets/icons/mimo staj.svg', 'Mimo stáj', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MimoStajScreen()));
+                    }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/pozvat.svg', 'Pozvat přátele'),
+                    _buildMenuItem(cs, 'assets/icons/pozvat.svg', 'Pozvat přátele', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const InviteFriendsScreen()));
+                    }),
                     const SizedBox(height: 24),
 
                     // Menu group 3
-                    _buildMenuItem(cs, 'assets/icons/jak funguje.svg', 'Jak to funguje'),
+                    _buildMenuItem(cs, 'assets/icons/jak funguje.svg', 'Jak to funguje', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const HowItWorksScreen()));
+                    }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/napoveda.svg', 'Nápověda'),
+                    _buildMenuItem(cs, 'assets/icons/napoveda.svg', 'Nápověda', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const HelpScreen()));
+                    }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/zpetna vazba.svg', 'Zpětná vazba'),
+                    _buildMenuItem(cs, 'assets/icons/zpetna vazba.svg', 'Zpětná vazba', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const FeedbackScreen()));
+                    }),
                     const SizedBox(height: 24),
 
                     // Menu group 4
@@ -73,9 +90,13 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/o nas.svg', 'O nás'),
+                    _buildMenuItem(cs, 'assets/icons/o nas.svg', 'O nás', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
+                    }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/eqqu platforma.svg', 'EQQU Platforma'),
+                    _buildMenuItem(cs, 'assets/icons/eqqu platforma.svg', 'EQQU Platforma', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const EqquPlatformScreen()));
+                    }),
                     const SizedBox(height: 24),
 
                     // Logout button
