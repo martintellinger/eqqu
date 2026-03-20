@@ -15,8 +15,15 @@ void showCategoriesSheet(BuildContext context) {
   );
 }
 
-class _CategoriesSheet extends StatelessWidget {
+class _CategoriesSheet extends StatefulWidget {
   const _CategoriesSheet();
+
+  @override
+  State<_CategoriesSheet> createState() => _CategoriesSheetState();
+}
+
+class _CategoriesSheetState extends State<_CategoriesSheet> {
+  String? _selectedCategory;
 
   static const _categories = [
     {'svg': 'assets/icons/Kone.svg', 'label': 'Koně'},
@@ -28,128 +35,6 @@ class _CategoriesSheet extends StatelessWidget {
     {'svg': 'assets/icons/Krmivo.svg', 'label': 'Krmivo'},
     {'svg': 'assets/icons/erapeuticke pristroje.svg', 'label': 'Terapeutické přístroje'},
   ];
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return DraggableScrollableSheet(
-      initialChildSize: 0.85,
-      maxChildSize: 0.95,
-      minChildSize: 0.5,
-      expand: false,
-      builder: (_, controller) => Column(
-        children: [
-          _dragHandle(cs),
-          _sheetHeader(context, cs, 'Kategorie'),
-          Divider(color: cs.outline, height: 1),
-          Expanded(
-            child: ListView(
-              controller: controller,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
-                  child: Text(
-                    'Kategorie',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: cs.onSurface,
-                      letterSpacing: 0.15,
-                    ),
-                  ),
-                ),
-                ..._categories.map((cat) => _categoryTile(
-                  context,
-                  cs,
-                  cat['svg'] as String,
-                  cat['label'] as String,
-                )),
-                const SizedBox(height: 24),
-                Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Nenašel jsi správnou kategorii?',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          color: cs.tertiary,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Text(
-                          'Napiš nám',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: cs.secondary,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _categoryTile(BuildContext context, ColorScheme cs, String svgPath, String label) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        border: Border.all(color: cs.outlineVariant),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: ListTile(
-        leading: SvgPicture.asset(svgPath, width: 24, height: 24),
-        title: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: cs.onSurface,
-            letterSpacing: 0.5,
-          ),
-        ),
-        trailing: Icon(Icons.chevron_right, color: cs.onSurface, size: 20),
-        onTap: () {
-          Navigator.pop(context);
-          showSubcategoriesSheet(context, label);
-        },
-      ),
-    );
-  }
-}
-
-// ── Subcategories ──
-
-void showSubcategoriesSheet(BuildContext context, String category) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Theme.of(context).colorScheme.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
-    builder: (_) => _SubcategoriesSheet(category: category),
-  );
-}
-
-class _SubcategoriesSheet extends StatelessWidget {
-  final String category;
-  const _SubcategoriesSheet({required this.category});
 
   static const _subcategories = [
     'Sedla',
@@ -175,39 +60,134 @@ class _SubcategoriesSheet extends StatelessWidget {
       builder: (_, controller) => Column(
         children: [
           _dragHandle(cs),
-          _sheetHeader(context, cs, category),
+          _sheetHeader(
+            context,
+            cs,
+            _selectedCategory ?? 'Kategorie',
+            onBack: _selectedCategory != null
+              ? () => setState(() => _selectedCategory = null)
+              : null,
+          ),
           Divider(color: cs.outline, height: 1),
           Expanded(
-            child: ListView(
-              controller: controller,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                const SizedBox(height: 12),
-                ..._subcategories.map((sub) => Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: cs.outlineVariant),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      sub,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: cs.onSurface,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    trailing: Icon(Icons.chevron_right, color: cs.onSurface, size: 20),
-                    onTap: () => Navigator.pop(context),
-                  ),
-                )),
-              ],
-            ),
+            child: _selectedCategory == null
+              ? _buildCategoriesList(cs, controller)
+              : _buildSubcategoriesList(cs, controller),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCategoriesList(ColorScheme cs, ScrollController controller) {
+    return ListView(
+      controller: controller,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+          child: Text(
+            'Kategorie',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: cs.onSurface,
+              letterSpacing: 0.15,
+            ),
+          ),
+        ),
+        ..._categories.map((cat) => _categoryTile(
+          cs,
+          cat['svg'] as String,
+          cat['label'] as String,
+        )),
+        const SizedBox(height: 24),
+        Center(
+          child: Column(
+            children: [
+              Text(
+                'Nenašel jsi správnou kategorii?',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  color: cs.tertiary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              GestureDetector(
+                onTap: () {},
+                child: Text(
+                  'Napiš nám',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: cs.secondary,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _buildSubcategoriesList(ColorScheme cs, ScrollController controller) {
+    return ListView(
+      controller: controller,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      children: [
+        const SizedBox(height: 12),
+        ..._subcategories.map((sub) => Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            border: Border.all(color: cs.outlineVariant),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: ListTile(
+            title: Text(
+              sub,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: cs.onSurface,
+                letterSpacing: 0.5,
+              ),
+            ),
+            trailing: Icon(Icons.chevron_right, color: cs.onSurface, size: 20),
+            onTap: () => Navigator.pop(context),
+          ),
+        )),
+      ],
+    );
+  }
+
+  Widget _categoryTile(ColorScheme cs, String svgPath, String label) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: cs.outlineVariant),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ListTile(
+        leading: SvgPicture.asset(svgPath, width: 24, height: 24),
+        title: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: cs.onSurface,
+            letterSpacing: 0.5,
+          ),
+        ),
+        trailing: Icon(Icons.chevron_right, color: cs.onSurface, size: 20),
+        onTap: () => setState(() => _selectedCategory = label),
       ),
     );
   }
@@ -587,14 +567,14 @@ Widget _dragHandle(ColorScheme cs) {
   );
 }
 
-Widget _sheetHeader(BuildContext context, ColorScheme cs, String title) {
+Widget _sheetHeader(BuildContext context, ColorScheme cs, String title, {VoidCallback? onBack}) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(4, 8, 16, 0),
     child: Row(
       children: [
         IconButton(
           icon: Icon(Icons.arrow_back, color: cs.onSurface),
-          onPressed: () => Navigator.pop(context),
+          onPressed: onBack ?? () => Navigator.pop(context),
         ),
         Expanded(
           child: Text(

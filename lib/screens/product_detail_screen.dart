@@ -750,22 +750,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             width: 48,
                             height: 48,
                             child: Center(
-                              child: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: cs.secondaryContainer,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: SvgPicture.asset(
-                                  isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
-                                  width: 20,
-                                  height: 20,
-                                  colorFilter: ColorFilter.mode(
-                                    isFav ? Colors.red : cs.onSecondaryContainer,
-                                    BlendMode.srcIn,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      color: cs.secondaryContainer,
+                                      shape: BoxShape.circle,
+                                    ),
                                   ),
-                                ),
+                                  SvgPicture.asset(
+                                    isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
+                                    width: 16,
+                                    height: 16,
+                                    colorFilter: ColorFilter.mode(
+                                      isFav ? Colors.red : cs.onSecondaryContainer,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

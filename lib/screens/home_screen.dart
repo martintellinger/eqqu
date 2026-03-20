@@ -273,9 +273,14 @@ class _HomeBodyState extends State<_HomeBody> {
     final products = _filteredProducts;
 
     return SafeArea(
-      child: Stack(
-        children: [
-          CustomScrollView(
+      child: GestureDetector(
+        onTap: () {
+          if (_isSearching) _closeSearch();
+        },
+        behavior: HitTestBehavior.translucent,
+        child: Stack(
+          children: [
+            CustomScrollView(
             slivers: [
               // Search bar + filter button
               SliverToBoxAdapter(
@@ -392,25 +397,40 @@ class _HomeBodyState extends State<_HomeBody> {
                 ),
               ),
 
-              // Product grid
+              // Product grid (pairs in rows for intrinsic height)
               if (products.isNotEmpty)
                 SliverPadding(
-                  padding: const EdgeInsets.all(16),
-                  sliver: SliverGrid(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 12,
-                      childAspectRatio: 0.62,
-                    ),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final imgIndex = index % _productImages.length;
-                        return _buildProductCard(
-                          cs, index, products[index], _productImages[imgIndex],
+                      (context, rowIndex) {
+                        final i = rowIndex * 2;
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: rowIndex < (products.length / 2).ceil() - 1 ? 12 : 0),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: _buildProductCard(
+                                    cs, i, products[i], _productImages[i % _productImages.length],
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                if (i + 1 < products.length)
+                                  Expanded(
+                                    child: _buildProductCard(
+                                      cs, i + 1, products[i + 1], _productImages[(i + 1) % _productImages.length],
+                                    ),
+                                  )
+                                else
+                                  const Expanded(child: SizedBox()),
+                              ],
+                            ),
+                          ),
                         );
                       },
-                      childCount: products.length,
+                      childCount: (products.length / 2).ceil(),
                     ),
                   ),
                 ),
@@ -526,6 +546,32 @@ class _HomeBodyState extends State<_HomeBody> {
             ),
         ],
       ),
+      ),
+    );
+  }
+
+  Widget _heartCircle(ColorScheme cs, bool isFav) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: cs.secondaryContainer,
+            shape: BoxShape.circle,
+          ),
+        ),
+        SvgPicture.asset(
+          isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
+          width: 16,
+          height: 16,
+          colorFilter: ColorFilter.mode(
+            isFav ? Colors.red : cs.onSecondaryContainer,
+            BlendMode.srcIn,
+          ),
+        ),
+      ],
     );
   }
 
@@ -613,24 +659,7 @@ class _HomeBodyState extends State<_HomeBody> {
                       width: 48,
                       height: 48,
                       child: Center(
-                        child: Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: cs.secondaryContainer,
-                            shape: BoxShape.circle,
-                          ),
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset(
-                            isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
-                            width: 16,
-                            height: 16,
-                            colorFilter: ColorFilter.mode(
-                              isFav ? Colors.red : cs.onSecondaryContainer,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
+                        child: _heartCircle(cs, isFav),
                       ),
                     ),
                   ),
