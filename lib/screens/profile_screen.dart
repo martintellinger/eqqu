@@ -61,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // Menu group 3
-                    _buildMenuItem(cs, 'assets/icons/jak funguje.svg', 'Mimo stáj'),
+                    _buildMenuItem(cs, 'assets/icons/jak funguje.svg', 'Jak to funguje'),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/napoveda.svg', 'Nápověda'),
                     const SizedBox(height: 12),
