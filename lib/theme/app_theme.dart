@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   AppTheme._();
@@ -143,7 +142,8 @@ class AppTheme {
     double? letterSpacing,
     double? height,
   }) {
-    return GoogleFonts.poppins(
+    return TextStyle(
+      fontFamily: 'Poppins',
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color,
@@ -154,41 +154,35 @@ class AppTheme {
 
   static TextTheme _buildTextTheme() {
     return TextTheme(
-      // Title Large - App bar titles
       titleLarge: _poppins(
         fontSize: 20,
         fontWeight: FontWeight.w400,
         height: 28 / 20,
       ),
-      // Title Medium - Button text
       titleMedium: _poppins(
         fontSize: 16,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.15,
         height: 24 / 16,
       ),
-      // Body Large - Input text
       bodyLarge: _poppins(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
         height: 24 / 16,
       ),
-      // Body Medium - Checkbox labels, secondary text
       bodyMedium: _poppins(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25,
         height: 20 / 14,
       ),
-      // Body Small - Supporting text, floating labels
       bodySmall: _poppins(
         fontSize: 12,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.4,
         height: 16 / 12,
       ),
-      // Label Large - Small button text
       labelLarge: _poppins(
         fontSize: 14,
         fontWeight: FontWeight.w600,

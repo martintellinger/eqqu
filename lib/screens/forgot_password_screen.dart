@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// Handles all forgot password states from Figma:
 /// - Empty (Zapomenuté heslo)
@@ -89,7 +88,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                  style: GoogleFonts.poppins(
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
                     fontSize: 16,
                     color: Colors.white,
                     letterSpacing: 0.5,
@@ -130,9 +130,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               foregroundColor:
                   _isEmailEmpty ? Colors.white.withValues(alpha: 0.38) : Colors.white,
             ),
-            child: Text(
+            child: const Text(
               'Odeslat',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
+                fontFamily: 'Poppins',
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.15,
@@ -151,7 +152,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   opacity: 0.8,
                   child: Text(
                     'Pamatujete si heslo?',
-                    style: GoogleFonts.poppins(
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 14,
                       color: Colors.white,
                       letterSpacing: 0.25,
@@ -166,9 +168,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       vertical: 6,
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Zpět na přihlášení',
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
@@ -196,7 +199,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 Text(
                   'Odeslali jsme odkaz pro resetování hesla na zadanou e-mailovou adresu.',
-                  style: GoogleFonts.poppins(
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
                     fontSize: 16,
                     color: Colors.white,
                     letterSpacing: 0.5,
@@ -228,7 +232,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   opacity: 0.8,
                   child: Text(
                     'Nedorazil mail?',
-                    style: GoogleFonts.poppins(
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 14,
                       color: Colors.white,
                       letterSpacing: 0.25,
@@ -243,9 +248,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       vertical: 6,
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Poslat znova',
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,

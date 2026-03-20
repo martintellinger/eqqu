@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -32,7 +31,8 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Text(
               'EQQU',
-              style: GoogleFonts.poppins(
+              style: const TextStyle(
+                fontFamily: 'Poppins',
                 fontSize: 48,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
@@ -44,7 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
               opacity: 0.8,
               child: Text(
                 'Equine community market',
-                style: GoogleFonts.poppins(
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                   color: Colors.white,

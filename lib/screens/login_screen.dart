@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -75,9 +74,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             vertical: 6,
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Zapomenuté heslo',
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -109,9 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         // TODO: Continue without login
                       },
-                      child: Text(
+                      child: const Text(
                         'Pokračovat bez přihlášení',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.15,
@@ -133,7 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       opacity: 0.8,
                       child: Text(
                         'Ještě nemáte účet?',
-                        style: GoogleFonts.poppins(
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
                           fontSize: 14,
                           color: Colors.white,
                           letterSpacing: 0.25,
@@ -151,9 +153,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           vertical: 6,
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Vytvořte si ho',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
