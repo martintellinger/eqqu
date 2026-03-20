@@ -25,6 +25,7 @@ class _ChatListScreenState extends State<ChatListScreen>
   }
 
   static const _conversations = [
+    // Unread conversations first (bold font + green dot)
     {
       'name': 'Emma Novak',
       'initials': 'EN',
@@ -36,16 +37,6 @@ class _ChatListScreenState extends State<ChatListScreen>
       'productName': 'Black GP type saddle',
     },
     {
-      'name': 'Jan Dvořák',
-      'initials': 'JD',
-      'avatar': 'assets/images/avatar_2.png',
-      'message': 'Děkuji za rychlou odpověď!',
-      'time': '9:15',
-      'unread': '',
-      'image': 'assets/images/product_02.png',
-      'productName': 'Blue Comfort type saddle',
-    },
-    {
       'name': 'Petra Svobodová',
       'initials': 'PS',
       'avatar': 'assets/images/avatar_3.png',
@@ -54,6 +45,27 @@ class _ChatListScreenState extends State<ChatListScreen>
       'unread': '1',
       'image': 'assets/images/product_03.png',
       'productName': 'Red Racing type saddle',
+    },
+    {
+      'name': 'Tomáš Němec',
+      'initials': 'TN',
+      'avatar': '',
+      'message': 'Je možná sleva?',
+      'time': 'Po',
+      'unread': '3',
+      'image': 'assets/images/product_9.png',
+      'productName': 'Třmeny Flex-On',
+    },
+    // Read conversations
+    {
+      'name': 'Jan Dvořák',
+      'initials': 'JD',
+      'avatar': 'assets/images/avatar_2.png',
+      'message': 'Děkuji za rychlou odpověď!',
+      'time': '9:15',
+      'unread': '',
+      'image': 'assets/images/product_02.png',
+      'productName': 'Blue Comfort type saddle',
     },
     {
       'name': 'Martin Horák',
@@ -74,16 +86,6 @@ class _ChatListScreenState extends State<ChatListScreen>
       'unread': '',
       'image': 'assets/images/product_8.png',
       'productName': 'Deka Eskadron Classic',
-    },
-    {
-      'name': 'Tomáš Němec',
-      'initials': 'TN',
-      'avatar': '',
-      'message': 'Je možná sleva?',
-      'time': 'Po',
-      'unread': '3',
-      'image': 'assets/images/product_9.png',
-      'productName': 'Třmeny Flex-On',
     },
   ];
 
@@ -112,48 +114,49 @@ class _ChatListScreenState extends State<ChatListScreen>
     return SafeArea(
       child: Column(
         children: [
-          // Header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: Align(
-              alignment: Alignment.centerLeft,
+          // App bar with centered title
+          Container(
+            height: 64,
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: cs.outline, width: 1),
+              ),
+            ),
+            child: Center(
               child: Text(
                 'Zprávy',
                 style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 28,
-                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Poppins',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
                   color: cs.onSurface,
-                  height: 36 / 28,
+                  height: 28 / 20,
                 ),
               ),
             ),
           ),
 
           // Tab bar
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TabBar(
-              controller: _tabController,
-              labelColor: cs.onSurface,
-              unselectedLabelColor: cs.tertiary,
-              indicatorColor: cs.primary,
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelStyle: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-              unselectedLabelStyle: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              tabs: const [
-                Tab(text: 'Zprávy'),
-                Tab(text: 'Oznámení'),
-              ],
+          TabBar(
+            controller: _tabController,
+            labelColor: cs.surfaceTint,
+            unselectedLabelColor: cs.onSurfaceVariant,
+            indicatorColor: cs.surfaceTint,
+            indicatorSize: TabBarIndicatorSize.tab,
+            labelStyle: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
             ),
+            unselectedLabelStyle: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            tabs: const [
+              Tab(text: 'Zprávy 1'),
+              Tab(text: 'Oznámení 48'),
+            ],
           ),
 
           // Tab content
@@ -219,7 +222,7 @@ class _ChatListScreenState extends State<ChatListScreen>
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: hasUnread ? FontWeight.w600 : FontWeight.w500,
                                 color: cs.onSurface,
                                 letterSpacing: 0.15,
                                 height: 24 / 16,

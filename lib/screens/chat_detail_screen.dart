@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final String name;
@@ -177,89 +176,32 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final isMe = msg.isMe;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          if (!isMe) ...[
-            _buildAvatar(cs, 28),
-            const SizedBox(width: 8),
-          ],
-          Flexible(
-            child: Container(
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.7,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: isMe ? cs.primary : cs.surfaceContainerHigh,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(20),
-                  topRight: const Radius.circular(20),
-                  bottomLeft: Radius.circular(isMe ? 20 : 8),
-                  bottomRight: Radius.circular(isMe ? 8 : 20),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    msg.text,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: isMe ? Colors.white : cs.onSurface,
-                      letterSpacing: 0.25,
-                      height: 20 / 14,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    msg.time,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 11,
-                      color: isMe
-                          ? Colors.white.withValues(alpha: 0.7)
-                          : cs.tertiary,
-                    ),
-                  ),
-                ],
-              ),
+      child: Align(
+        alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.82,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: isMe ? cs.secondary : cs.surfaceContainerHigh,
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+              bottomLeft: Radius.circular(isMe ? 20 : 8),
+              bottomRight: Radius.circular(isMe ? 8 : 20),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAvatar(ColorScheme cs, double size) {
-    if (widget.avatarImage.isNotEmpty) {
-      return ClipOval(
-        child: Image.asset(
-          widget.avatarImage,
-          width: size,
-          height: size,
-          fit: BoxFit.cover,
-        ),
-      );
-    }
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: cs.primary,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          widget.initials,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: size * 0.3,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
+          child: Text(
+            msg.text,
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: isMe ? cs.onSecondary : cs.onSurfaceVariant,
+              letterSpacing: 0.5,
+              height: 24 / 16,
+            ),
           ),
         ),
       ),
@@ -273,64 +215,63 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         border: Border(top: BorderSide(color: cs.outline, width: 1)),
       ),
       padding: EdgeInsets.fromLTRB(
-        8, 8, 8, MediaQuery.of(context).padding.bottom + 8,
+        16, 16, 16, MediaQuery.of(context).padding.bottom + 16,
       ),
       child: Row(
         children: [
-          // Attachment button
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/icons/Add.svg',
-              width: 24,
-              height: 24,
-              colorFilter: ColorFilter.mode(cs.tertiary, BlendMode.srcIn),
-            ),
-            onPressed: () {},
-          ),
-          // Text field
+          // Outlined text field
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: cs.surfaceContainerHigh,
-                borderRadius: BorderRadius.circular(24),
-              ),
+            child: SizedBox(
+              height: 56,
               child: TextField(
                 controller: _controller,
                 onSubmitted: (_) => _sendMessage(),
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 14,
+                  fontSize: 16,
                   color: cs.onSurface,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Napište zprávu...',
+                  hintText: 'Napište zprávu',
                   hintStyle: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 14,
-                    color: cs.tertiary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: cs.onSurfaceVariant,
+                    letterSpacing: 0.5,
                   ),
-                  border: InputBorder.none,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(color: cs.outline),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(color: cs.outline),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(color: cs.onSurface, width: 2),
+                  ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
-                    vertical: 10,
+                    vertical: 16,
                   ),
-                  isDense: true,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 4),
-          // Send button
+          const SizedBox(width: 16),
+          // Send button - rounded rectangle
           GestureDetector(
             onTap: _sendMessage,
             child: Container(
-              width: 40,
-              height: 40,
+              width: 56,
+              height: 56,
               decoration: BoxDecoration(
                 color: cs.primary,
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(Icons.send, size: 20, color: Colors.white),
+              child: const Icon(Icons.send, size: 24, color: Colors.white),
             ),
           ),
         ],
