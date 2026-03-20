@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
+const _sellerAvatar = 'https://www.figma.com/api/mcp/asset/ffbb7df3-bda6-4988-9b13-df40d049357f';
+const _featuredBanner = 'https://www.figma.com/api/mcp/asset/0bad7b0b-7113-40f2-a5b5-39583c4eac48';
+const _moreProduct1 = 'https://www.figma.com/api/mcp/asset/1bc361d1-ce10-4628-8f1d-4086bfa52cc1';
+const _moreProduct2 = 'https://www.figma.com/api/mcp/asset/7962ccde-c185-4d11-889a-2f81dd56b7ce';
+
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
   final String name;
   final String condition;
   final String price;
   final String oldPrice;
+  final String imageUrl;
 
   const ProductDetailScreen({
     super.key,
@@ -14,6 +20,7 @@ class ProductDetailScreen extends StatefulWidget {
     required this.condition,
     required this.price,
     required this.oldPrice,
+    this.imageUrl = '',
   });
 
   @override
@@ -22,7 +29,9 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int _currentImageIndex = 0;
-  final int _totalImages = 4;
+  bool _isFavorite = false;
+  final Set<int> _moreFavorites = {};
+  final int _totalImages = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -35,76 +44,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             child: CustomScrollView(
               slivers: [
                 // Image header
-                SliverToBoxAdapter(
-                  child: Stack(
-                    children: [
-                      SizedBox(
-                        height: 391,
-                        child: PageView.builder(
-                          itemCount: _totalImages,
-                          onPageChanged: (i) => setState(() => _currentImageIndex = i),
-                          itemBuilder: (context, index) => Container(
-                            color: cs.surfaceContainerLow,
-                            child: Center(
-                              child: Icon(
-                                Icons.image_outlined,
-                                size: 64,
-                                color: cs.tertiary.withValues(alpha: 0.3),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Color(0x66000000), Colors.transparent],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: SafeArea(
-                          bottom: false,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _circleButton(Icons.arrow_back, () => Navigator.pop(context)),
-                                _circleButton(Icons.share_outlined, () {}),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 12,
-                        left: 0,
-                        right: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(_totalImages, (i) {
-                            return Container(
-                              width: i == _currentImageIndex ? 24 : 6,
-                              height: 6,
-                              margin: const EdgeInsets.symmetric(horizontal: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: i == _currentImageIndex ? 1.0 : 0.4),
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                SliverToBoxAdapter(child: _buildImageHeader(cs)),
 
                 // Product info
                 SliverToBoxAdapter(
@@ -113,195 +53,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.brand,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: cs.tertiary,
-                            letterSpacing: 0.15,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          widget.name,
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                            color: cs.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        if (widget.oldPrice.isNotEmpty)
-                          Text(
-                            widget.oldPrice,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: cs.tertiary,
-                              letterSpacing: 0.15,
-                            ),
-                          ),
-                        const SizedBox(height: 4),
-                        // Price + protection
-                        Row(
-                          children: [
-                            Text(
-                              widget.price,
-                              style: TextStyle(
-                                fontFamily: 'Outfit',
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                                color: cs.surfaceTint,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: cs.surfaceContainerHigh,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.verified_user, size: 18, color: cs.surfaceTint),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Včetně ochrany kupujícího',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: cs.onSurface,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
+                        _buildProductInfo(cs),
                         const SizedBox(height: 16),
-
-                        // Description
-                        Text(
-                          'Krásné bandáže v perfektním stavu, téměř nepoužité. Vhodné pro práci i soutěže. Barva šedá, univerzální velikost.',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: cs.secondary.withValues(alpha: 0.8),
-                            height: 1.5,
-                            letterSpacing: 0.25,
-                          ),
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Specs grid
+                        _buildPriceRow(cs),
+                        const SizedBox(height: 16),
+                        _buildDescription(cs),
+                        const SizedBox(height: 16),
                         _buildSpecsGrid(cs),
-
-                        const SizedBox(height: 20),
-
-                        // Seller card
+                        const SizedBox(height: 16),
                         _buildSellerCard(cs),
-
+                        const SizedBox(height: 16),
+                        _buildFeaturedBanner(cs),
                         const SizedBox(height: 24),
-
-                        // Featured banner
-                        Container(
-                          width: double.infinity,
-                          height: 240,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              Container(color: cs.surfaceContainerLow),
-                              Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment(0.5, -0.3),
-                                    end: Alignment(-0.5, 1.0),
-                                    colors: [Colors.transparent, Color(0x80000000)],
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: const [
-                                    Text(
-                                      'Lorem ipsum dolor sit amet, elit adipiscin',
-                                      style: TextStyle(
-                                        fontFamily: 'Outfit',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                        height: 28 / 20,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                        letterSpacing: 0.25,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        // More from seller
-                        Text(
-                          'More from this seller',
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        SizedBox(
-                          height: 180,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 4,
-                            separatorBuilder: (_, __) => const SizedBox(width: 12),
-                            itemBuilder: (_, i) => Container(
-                              width: 140,
-                              decoration: BoxDecoration(
-                                color: cs.surfaceContainerLow,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.image_outlined,
-                                  size: 32,
-                                  color: cs.tertiary.withValues(alpha: 0.3),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        _buildMoreFromSeller(cs),
+                        const SizedBox(height: 16),
+                        _buildMoreProducts(cs),
                         const SizedBox(height: 16),
                       ],
                     ),
@@ -311,65 +77,38 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
 
-          // Bottom bar with buttons
+          // Bottom Buy button
           Container(
             decoration: BoxDecoration(
               color: cs.surface,
               border: Border(
-                top: BorderSide(color: cs.outline, width: 0.5),
+                top: BorderSide(color: cs.outline, width: 1),
               ),
             ),
-            padding: EdgeInsets.fromLTRB(16, 12, 16, MediaQuery.of(context).padding.bottom + 12),
-            child: Row(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    height: 52,
-                    child: FilledButton(
-                      onPressed: () {},
-                      style: FilledButton.styleFrom(
-                        backgroundColor: cs.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text(
-                        'Buy',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+            padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.of(context).padding.bottom + 16),
+            child: SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: FilledButton(
+                onPressed: () {},
+                style: FilledButton.styleFrom(
+                  backgroundColor: cs.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: SizedBox(
-                    height: 52,
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: cs.secondary,
-                        side: BorderSide(color: cs.secondary),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text(
-                        'Offer',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                child: const Text(
+                  'Buy',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    letterSpacing: 0.15,
+                    height: 24 / 16,
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],
@@ -377,72 +116,357 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _circleButton(IconData icon, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.9),
-          shape: BoxShape.circle,
+  Widget _buildImageHeader(ColorScheme cs) {
+    return SizedBox(
+      height: 391,
+      child: Stack(
+        children: [
+          // Image carousel
+          PageView.builder(
+            itemCount: _totalImages,
+            onPageChanged: (i) => setState(() => _currentImageIndex = i),
+            itemBuilder: (_, index) {
+              if (widget.imageUrl.isNotEmpty) {
+                return Image.network(
+                  widget.imageUrl,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  errorBuilder: (_, __, ___) => Container(
+                    color: cs.surfaceContainerLow,
+                    child: Icon(Icons.image_outlined, size: 64, color: cs.tertiary.withValues(alpha: 0.3)),
+                  ),
+                );
+              }
+              return Container(
+                color: cs.surfaceContainerLow,
+                child: Icon(Icons.image_outlined, size: 64, color: cs.tertiary.withValues(alpha: 0.3)),
+              );
+            },
+          ),
+
+          // Top gradient
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 116,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.0, 0.35, 1.0],
+                  colors: [
+                    Color(0x80000000),
+                    Color(0x404E4E4E),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // Bottom gradient
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 80,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: [0.12, 0.28, 1.0],
+                  colors: [
+                    Color(0x80000000),
+                    Color(0x40000000),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // Back button + more button
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Back button - 32px circle
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: Center(
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: cs.secondaryContainer,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(Icons.arrow_back, size: 24, color: cs.onSecondaryContainer),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // More button - 40px circle
+                    GestureDetector(
+                      onTap: () {},
+                      child: SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: Center(
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: cs.secondaryContainer,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(Icons.more_vert, size: 24, color: cs.onSecondaryContainer),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // Page indicators
+          Positioned(
+            bottom: 16,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(_totalImages, (i) {
+                final isActive = i == _currentImageIndex;
+                return Container(
+                  width: isActive ? 32 : 8,
+                  height: 8,
+                  margin: EdgeInsets.only(left: i > 0 ? 8 : 0),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: isActive ? 1.0 : 0.5),
+                    borderRadius: BorderRadius.circular(1000),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductInfo(ColorScheme cs) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Brand
+                    Text(
+                      widget.brand,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: cs.tertiary,
+                        letterSpacing: 0.15,
+                        height: 24 / 16,
+                      ),
+                    ),
+                    // Name
+                    Text(
+                      widget.name,
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 28,
+                        fontWeight: FontWeight.w600,
+                        color: cs.onSurface,
+                        height: 36 / 28,
+                      ),
+                    ),
+                    // Old price
+                    if (widget.oldPrice.isNotEmpty)
+                      Text(
+                        '${widget.oldPrice}  ',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: cs.tertiary,
+                          letterSpacing: 0.15,
+                          height: 24 / 16,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              // Heart button
+              GestureDetector(
+                onTap: () => setState(() => _isFavorite = !_isFavorite),
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: Icon(
+                    _isFavorite ? Icons.favorite : Icons.favorite_border,
+                    size: 24,
+                    color: _isFavorite ? Colors.red : cs.onSurface,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPriceRow(ColorScheme cs) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Text(
+            '${widget.price}  ',
+            style: TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              color: cs.surfaceTint,
+              height: 32 / 24,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Container(
+            decoration: BoxDecoration(
+              color: cs.surfaceContainerHigh,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 6, 16, 6),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.verified_user, size: 18, color: cs.surfaceTint),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Včetně ochrany kupujícího',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: cs.onSurface,
+                      letterSpacing: 0.1,
+                      height: 20 / 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDescription(ColorScheme cs) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Opacity(
+        opacity: 0.8,
+        child: Text(
+          'Kentucky bandages for sale never used, 4 pieces. Unisex size. The 280 g/m2 Polar Fleece Bandages feature a strong Velcro fastening and are designed with a high quality fleece to avoid pilling. These bandages measure 325 x 12 cm.',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: cs.secondary,
+            letterSpacing: 0.25,
+            height: 20 / 14,
+          ),
         ),
-        child: Icon(icon, size: 20, color: Colors.black),
       ),
     );
   }
 
   Widget _buildSpecsGrid(ColorScheme cs) {
-    final specs = [
-      {'label': 'Condition', 'value': widget.condition},
-      {'label': 'Size', 'value': 'One size'},
-      {'label': 'Color', 'value': 'Gray'},
-      {'label': 'Material', 'value': 'Cotton'},
-    ];
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(child: _specItem(cs, specs[0])),
-            const SizedBox(width: 12),
-            Expanded(child: _specItem(cs, specs[1])),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            Expanded(child: _specItem(cs, specs[2])),
-            const SizedBox(width: 12),
-            Expanded(child: _specItem(cs, specs[3])),
-          ],
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(child: _specItem(cs, Icons.thumb_up_outlined, 'Condition', widget.condition)),
+              const SizedBox(width: 12),
+              Expanded(child: _specItem(cs, Icons.straighten, 'Size', 'One size')),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(child: _specItem(cs, Icons.palette_outlined, 'Color', 'Gray')),
+              const SizedBox(width: 12),
+              Expanded(child: _specItem(cs, Icons.texture, 'Material', 'Cotton')),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _specItem(ColorScheme cs, Map<String, String> spec) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _specItem(ColorScheme cs, IconData icon, String label, String value) {
+    return Row(
       children: [
-        Text(
-          spec['label']!,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: cs.tertiary,
-            letterSpacing: 0.25,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          spec['value']!,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: cs.secondary,
-            letterSpacing: 0.5,
+        Icon(icon, size: 24, color: cs.onSurface),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: cs.tertiary,
+                  letterSpacing: 0.25,
+                  height: 20 / 14,
+                ),
+              ),
+              Text(
+                value,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: cs.secondary,
+                  letterSpacing: 0.5,
+                  height: 24 / 16,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -456,92 +480,388 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         color: cs.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
+          // Avatar
+          ClipOval(
+            child: Image.network(
+              _sellerAvatar,
+              width: 64,
+              height: 64,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Container(
                 width: 64,
                 height: 64,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF006535),
+                decoration: BoxDecoration(
+                  color: cs.primary,
                   shape: BoxShape.circle,
                 ),
                 child: const Center(
-                  child: Text(
-                    'EN',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: Text('EN', style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Name + stars
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Emma Novak',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: cs.secondary,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
-                            Icon(Icons.star_border, size: 20, color: cs.tertiary),
-                            const SizedBox(width: 8),
-                            Text(
-                              '4.2',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: cs.tertiary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    Text(
+                      'Emma Novak',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: cs.secondary,
+                        letterSpacing: 0.15,
+                        height: 24 / 16,
+                      ),
                     ),
-                    const SizedBox(height: 4),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Message seller',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: cs.surfaceTint,
-                            ),
-                          ),
-                        ],
+                    const SizedBox(width: 12),
+                    ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
+                    Icon(Icons.star_border, size: 20, color: cs.tertiary),
+                    const SizedBox(width: 8),
+                    Text(
+                      '4.2',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: cs.tertiary,
+                        letterSpacing: 0.15,
+                        height: 24 / 16,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                // Message seller
+                GestureDetector(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Message seller',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: cs.surfaceTint,
+                            letterSpacing: 0.1,
+                            height: 20 / 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFeaturedBanner(ColorScheme cs) {
+    return AspectRatio(
+      aspectRatio: 370 / 240,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.network(
+              _featuredBanner,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Container(color: cs.surfaceContainerLow),
+            ),
+            // Gradient overlay
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(0.5, -0.3),
+                  end: Alignment(-0.5, 1.0),
+                  colors: [Colors.transparent, Color(0x80000000)],
+                ),
+              ),
+            ),
+            // EQQU logo top-left
+            const Positioned(
+              left: 16,
+              top: 16,
+              child: Text(
+                'EQQU',
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            // Content bottom-left
+            Positioned(
+              left: 16,
+              right: 64,
+              bottom: 16,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Text(
+                    'Lorem ipsum dolor sit amet, elit adipiscin',
+                    style: TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      height: 28 / 20,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                      letterSpacing: 0.25,
+                      height: 20 / 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Arrow button bottom-right
+            Positioned(
+              right: 16,
+              bottom: 16,
+              child: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: cs.secondaryContainer,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.arrow_forward, size: 24, color: cs.onSecondaryContainer),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMoreFromSeller(ColorScheme cs) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            'More from this seller',
+            style: TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: cs.onSurface,
+              height: 28 / 20,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {},
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.chevron_right, size: 20, color: cs.surfaceTint),
+              const SizedBox(width: 4),
+              Text(
+                'Show all',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: cs.surfaceTint,
+                  letterSpacing: 0.1,
+                  height: 20 / 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMoreProducts(ColorScheme cs) {
+    final products = [
+      {
+        'title': 'Black GP type saddle',
+        'subtitle': 'No brand / Good / 17"',
+        'oldPrice': '140 €',
+        'newPrice': '159 €',
+        'image': _moreProduct1,
+      },
+      {
+        'title': 'Blue Comfort type saddle',
+        'subtitle': 'Shires / New / Cob',
+        'oldPrice': '42 €',
+        'newPrice': '49 €',
+        'image': _moreProduct2,
+      },
+    ];
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: products.asMap().entries.map((entry) {
+        final i = entry.key;
+        final p = entry.value;
+        final isFav = _moreFavorites.contains(i);
+        return Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(left: i > 0 ? 16 : 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 200,
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.network(
+                          p['image']!,
+                          width: double.infinity,
+                          height: 200,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Container(
+                            height: 200,
+                            decoration: BoxDecoration(
+                              color: cs.surfaceContainerLow,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Icon(Icons.image_outlined, size: 48, color: cs.tertiary.withValues(alpha: 0.3)),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: () => setState(() {
+                            if (isFav) {
+                              _moreFavorites.remove(i);
+                            } else {
+                              _moreFavorites.add(i);
+                            }
+                          }),
+                          child: SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: Center(
+                              child: Container(
+                                width: 32,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                  color: cs.secondaryContainer,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  isFav ? Icons.favorite : Icons.favorite_border,
+                                  size: 20,
+                                  color: isFav ? Colors.red : cs.onSecondaryContainer,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  p['title']!,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: cs.secondary,
+                    letterSpacing: 0.15,
+                    height: 24 / 16,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  p['subtitle']!,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: cs.tertiary,
+                    letterSpacing: 0.25,
+                    height: 20 / 14,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 1),
+                Row(
+                  children: [
+                    Text(
+                      '${p['oldPrice']}  ',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: cs.tertiary,
+                        letterSpacing: 0.4,
+                        height: 16 / 12,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${p['newPrice']}  ',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: cs.surfaceTint,
+                        letterSpacing: 0.5,
+                        height: 24 / 16,
+                      ),
+                    ),
+                    Text(
+                      'vč.',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: cs.surfaceTint,
+                        letterSpacing: 0.25,
+                        height: 20 / 14,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }

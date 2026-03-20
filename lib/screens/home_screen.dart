@@ -2,6 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 
+// Figma asset URLs (valid for 7 days from export)
+const _productImages = [
+  'https://www.figma.com/api/mcp/asset/7f36f390-311b-48ef-8b85-385080d7b047',
+  'https://www.figma.com/api/mcp/asset/57b7072a-caa9-4f5a-b20f-8f6481ab9c1e',
+  'https://www.figma.com/api/mcp/asset/722e5f69-4e57-4a0d-80e5-adbd9704ce09',
+  'https://www.figma.com/api/mcp/asset/ff5f8c04-3e0d-4356-ac18-ec773436a0c8',
+  'https://www.figma.com/api/mcp/asset/db14c726-b9a2-4f36-875b-4ede45c0b8ce',
+  'https://www.figma.com/api/mcp/asset/32b0435d-93b3-402a-9fb0-ab41fc36a7a7',
+];
+
+const _featuredImages = [
+  'https://www.figma.com/api/mcp/asset/9aac7644-f8b5-4742-8add-17645af1a355',
+  'https://www.figma.com/api/mcp/asset/a27d0d7f-2da7-47dc-88f6-2aea851a8ac2',
+];
+
+const _featuredProductImages = [
+  'https://www.figma.com/api/mcp/asset/0e106366-459b-497a-85b8-9fe1c4c48112',
+  'https://www.figma.com/api/mcp/asset/ea9c0688-f2c7-4d09-a063-99521c69fff6',
+];
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -39,63 +59,127 @@ class _HomeScreenState extends State<HomeScreen> {
     final cs = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
+        color: cs.surface,
         border: Border(
-          top: BorderSide(color: cs.outline, width: 0.5),
+          top: BorderSide(color: cs.outline, width: 1),
         ),
       ),
-      child: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: cs.surface,
-        selectedItemColor: cs.primary,
-        unselectedItemColor: cs.tertiary,
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        selectedLabelStyle: const TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: [
+              _navItem(cs, 0, Icons.home_outlined, Icons.home, 'Domů'),
+              _navItem(cs, 1, Icons.chat_bubble_outline, Icons.chat_bubble, 'Chat'),
+              _navItem(cs, 2, Icons.add_circle_outline, Icons.add_circle, 'Prodat'),
+              _navItem(cs, 3, Icons.favorite_border, Icons.favorite, 'Oblíbené'),
+              _navItem(cs, 4, Icons.person_outline, Icons.person, 'Profil'),
+            ],
+          ),
         ),
-        unselectedLabelStyle: const TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+
+  Widget _navItem(ColorScheme cs, int index, IconData icon, IconData activeIcon, String label) {
+    final isActive = _currentIndex == index;
+    final color = isActive ? cs.surfaceTint : cs.tertiary;
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => setState(() => _currentIndex = index),
+        child: SizedBox(
+          height: 64,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(isActive ? activeIcon : icon, size: 24, color: color),
+              const SizedBox(height: 12),
+              Text(
+                label,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: color,
+                  letterSpacing: 0.5,
+                  height: 16 / 12,
+                ),
+              ),
+            ],
+          ),
         ),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: 'Domů',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            activeIcon: Icon(Icons.chat_bubble),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline),
-            activeIcon: Icon(Icons.add_circle),
-            label: 'Prodat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            activeIcon: Icon(Icons.favorite),
-            label: 'Oblíbené',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
       ),
     );
   }
 }
 
-class _HomeBody extends StatelessWidget {
+class _HomeBody extends StatefulWidget {
   const _HomeBody();
+
+  @override
+  State<_HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<_HomeBody> {
+  final Set<int> _favorites = {};
+
+  static const _products = [
+    {
+      'title': 'Black GP type saddle',
+      'subtitle': 'No brand / Good / 17"',
+      'oldPrice': '140 €',
+      'newPrice': '159 €',
+    },
+    {
+      'title': 'Blue Comfort type saddle',
+      'subtitle': 'Comfy Brand / Fair / 18"',
+      'oldPrice': '120 €',
+      'newPrice': '135 €',
+    },
+    {
+      'title': 'Red Racing type saddle',
+      'subtitle': 'Speedy Brand / Excellent / 15"',
+      'oldPrice': '200 €',
+      'newPrice': '230 €',
+    },
+    {
+      'title': 'Green Mountain type saddle',
+      'subtitle': 'Rugged Brand / Very Good / 16"',
+      'oldPrice': '180 €',
+      'newPrice': '199 €',
+    },
+    {
+      'title': 'White Cruiser type saddle',
+      'subtitle': 'Cruiser Co. / Fair / 19"',
+      'oldPrice': '160 €',
+      'newPrice': '175 €',
+    },
+    {
+      'title': 'Shires Velociti bridle',
+      'subtitle': 'Shires / New / Cob',
+      'oldPrice': '42 €',
+      'newPrice': '49 €',
+    },
+  ];
+
+  static const _featuredProducts = [
+    {
+      'title': 'Black GP type saddle',
+      'subtitle': 'No brand / Good / 17"',
+      'oldPrice': '140 €',
+      'newPrice': '159 €',
+    },
+    {
+      'title': 'Blue Comfort type saddle',
+      'subtitle': 'Shires / New / Cob',
+      'oldPrice': '42 €',
+      'newPrice': '49 €',
+    },
+  ];
+
+  static const _chips = ['Cavalleria Toscana', 'Animo', 'Kingsland', 'Kingsland'];
 
   @override
   Widget build(BuildContext context) {
@@ -104,48 +188,53 @@ class _HomeBody extends StatelessWidget {
     return SafeArea(
       child: CustomScrollView(
         slivers: [
-          // Search bar
+          // Search bar + filter button
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
               child: Row(
                 children: [
                   Expanded(
                     child: Container(
                       height: 56,
                       decoration: BoxDecoration(
-                        color: cs.surfaceContainerLow,
-                        borderRadius: BorderRadius.circular(28),
+                        color: const Color(0xFFF7F7F7),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
                         children: [
-                          const SizedBox(width: 16),
-                          Icon(Icons.search, color: cs.tertiary, size: 24),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 4),
+                          SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: Icon(Icons.search, color: cs.onSurfaceVariant, size: 24),
+                          ),
                           Text(
-                            'Hledat...',
+                            'Hledat',
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 16,
-                              color: cs.tertiary,
+                              fontWeight: FontWeight.w400,
+                              color: cs.onSurfaceVariant,
+                              letterSpacing: 0.5,
+                              height: 24 / 16,
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 16),
                   Material(
-                    color: cs.surfaceContainerLow,
-                    borderRadius: BorderRadius.circular(16),
+                    color: cs.secondaryContainer,
+                    borderRadius: BorderRadius.circular(8),
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(8),
                       onTap: () => showFilterSheet(context),
-                      child: Container(
+                      child: SizedBox(
                         width: 56,
                         height: 56,
-                        alignment: Alignment.center,
-                        child: Icon(Icons.tune, color: cs.onSurface, size: 24),
+                        child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
                       ),
                     ),
                   ),
@@ -156,47 +245,41 @@ class _HomeBody extends StatelessWidget {
 
           // Suggestion chips
           SliverToBoxAdapter(
-            child: SizedBox(
-              height: 56,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                children: [
-                  _buildChip(context, 'Cavalleria Toscana'),
-                  const SizedBox(width: 8),
-                  _buildChip(context, 'Animo'),
-                  const SizedBox(width: 8),
-                  _buildChip(context, 'Kingsland'),
-                  const SizedBox(width: 8),
-                  _buildChip(context, 'Kentucky'),
-                  const SizedBox(width: 8),
-                  _buildChip(context, 'Samshield'),
-                ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: Row(
+                children: _chips.asMap().entries.map((entry) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: entry.key > 0 ? 4 : 0),
+                    child: _buildChip(cs, entry.value),
+                  );
+                }).toList(),
               ),
             ),
           ),
 
           // Product grid
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(16),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 16,
-                crossAxisSpacing: 12,
-                childAspectRatio: 0.55,
+                crossAxisSpacing: 16,
+                childAspectRatio: 0.58,
               ),
               delegate: SliverChildBuilderDelegate(
-                (context, index) => _ProductCard(index: index),
-                childCount: 6,
+                (context, index) => _buildProductCard(cs, index, _products[index], _productImages[index]),
+                childCount: _products.length,
               ),
             ),
           ),
 
-          // Featured section
+          // Featured heading
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+              padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
               child: Text(
                 'Featured',
                 style: TextStyle(
@@ -204,22 +287,36 @@ class _HomeBody extends StatelessWidget {
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                   color: cs.onSurface,
+                  height: 32 / 24,
                 ),
               ),
             ),
           ),
 
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 240,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                children: [
-                  _buildFeaturedCard('Nová kolekce\nCavalleria Toscana'),
-                  const SizedBox(width: 12),
-                  _buildFeaturedCard('Zimní výprodej\nKentucky'),
-                ],
+          // Featured cards + products
+          SliverPadding(
+            padding: const EdgeInsets.all(16),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 0.75,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (index < 2) {
+                    return _buildFeaturedCard(_featuredImages[index]);
+                  }
+                  final pIndex = index - 2;
+                  return _buildProductCard(
+                    cs,
+                    100 + pIndex,
+                    _featuredProducts[pIndex],
+                    _featuredProductImages[pIndex],
+                  );
+                },
+                childCount: 4,
               ),
             ),
           ),
@@ -230,235 +327,229 @@ class _HomeBody extends StatelessWidget {
     );
   }
 
-  static Widget _buildChip(BuildContext context, String label) {
-    final cs = Theme.of(context).colorScheme;
-    return Chip(
-      label: Text(label),
-      labelStyle: TextStyle(
-        fontFamily: 'Poppins',
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        color: cs.onSurface,
-      ),
-      backgroundColor: cs.surfaceContainerLow,
-      side: BorderSide.none,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-    );
-  }
-
-  static Widget _buildFeaturedCard(String title) {
+  Widget _buildChip(ColorScheme cs, String label) {
     return Container(
-      width: 300,
-      height: 240,
+      height: 32,
       decoration: BoxDecoration(
-        color: const Color(0xFF006535),
-        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: cs.outlineVariant),
+        borderRadius: BorderRadius.circular(8),
       ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: 16,
-            bottom: 16,
-            child: Opacity(
-              opacity: 0.15,
-              child: Text(
-                'EQQU',
-                style: const TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 64,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: cs.onSurfaceVariant,
+            letterSpacing: 0.1,
+            height: 20 / 14,
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontFamily: 'Outfit',
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                    height: 1.3,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'Prohlédnout',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF006535),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
-}
 
-class _ProductCard extends StatelessWidget {
-  final int index;
-  const _ProductCard({required this.index});
-
-  static const _products = [
-    {'brand': 'Kentucky', 'name': 'Gray bandages', 'condition': 'Nové', 'price': '10 €', 'oldPrice': '8.50 €'},
-    {'brand': 'Cavalleria Toscana', 'name': 'Competition Polo', 'condition': 'Použité', 'price': '45 €', 'oldPrice': ''},
-    {'brand': 'Animo', 'name': 'Riding Breeches', 'condition': 'Nové', 'price': '89 €', 'oldPrice': '120 €'},
-    {'brand': 'Kingsland', 'name': 'Classic Helmet', 'condition': 'Použité', 'price': '150 €', 'oldPrice': ''},
-    {'brand': 'Samshield', 'name': 'Shadowmatt', 'condition': 'Nové', 'price': '450 €', 'oldPrice': '500 €'},
-    {'brand': 'Kentucky', 'name': 'Saddle Pad', 'condition': 'Nové', 'price': '65 €', 'oldPrice': ''},
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final product = _products[index % _products.length];
-
+  Widget _buildProductCard(ColorScheme cs, int index, Map<String, String> product, String imageUrl) {
+    final isFav = _favorites.contains(index);
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => ProductDetailScreen(
-              brand: product['brand']!,
-              name: product['name']!,
-              condition: product['condition']!,
-              price: product['price']!,
+              brand: product['subtitle']!.split(' / ').first,
+              name: product['title']!,
+              condition: 'Used',
+              price: product['newPrice']!,
               oldPrice: product['oldPrice']!,
+              imageUrl: imageUrl,
             ),
           ),
         );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Product image placeholder
-          Stack(
-            children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  color: cs.surfaceContainerLow,
+          // Image with heart
+          SizedBox(
+            height: 200,
+            child: Stack(
+              children: [
+                ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.image_outlined,
-                    size: 48,
-                    color: cs.tertiary.withValues(alpha: 0.3),
+                  child: Image.network(
+                    imageUrl,
+                    width: double.infinity,
+                    height: 200,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: cs.surfaceContainerLow,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Icon(Icons.image_outlined, size: 48, color: cs.tertiary.withValues(alpha: 0.3)),
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: cs.secondaryContainer,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.favorite_border,
-                    size: 18,
-                    color: cs.onSecondaryContainer,
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      if (isFav) {
+                        _favorites.remove(index);
+                      } else {
+                        _favorites.add(index);
+                      }
+                    }),
+                    child: SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: Center(
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: cs.secondaryContainer,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            isFav ? Icons.favorite : Icons.favorite_border,
+                            size: 20,
+                            color: isFav ? Colors.red : cs.onSecondaryContainer,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: 8),
-          // Brand
+          const SizedBox(height: 4),
+          // Title
           Text(
-            product['brand']!,
+            product['title']!,
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: cs.tertiary,
-              letterSpacing: 0.4,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: cs.secondary,
+              letterSpacing: 0.15,
+              height: 24 / 16,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 2),
-          // Name
+          // Subtitle
           Text(
-            product['name']!,
+            product['subtitle']!,
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: cs.secondary,
+              fontWeight: FontWeight.w400,
+              color: cs.tertiary,
+              letterSpacing: 0.25,
+              height: 20 / 14,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 4),
-          // Condition
+          const SizedBox(height: 1),
+          // Price row
           Row(
             children: [
-              Icon(Icons.verified_user_outlined, size: 14, color: cs.surfaceTint),
-              const SizedBox(width: 4),
               Text(
-                product['condition']!,
+                '${product['oldPrice']}  ',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                  color: cs.surfaceTint,
+                  color: cs.tertiary,
                   letterSpacing: 0.4,
+                  height: 16 / 12,
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          // Price
-          Row(
-            children: [
-              if (product['oldPrice']!.isNotEmpty) ...[
-                Text(
-                  product['oldPrice']!,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: cs.tertiary,
-                    letterSpacing: 0.4,
-                  ),
-                ),
-                const SizedBox(width: 6),
-              ],
+              const SizedBox(width: 8),
               Text(
-                product['price']!,
+                '${product['newPrice']}  ',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: cs.surfaceTint,
+                  letterSpacing: 0.5,
+                  height: 24 / 16,
                 ),
               ),
+              Text(
+                'vč.',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: cs.surfaceTint,
+                  letterSpacing: 0.25,
+                  height: 20 / 14,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFeaturedCard(String imageUrl) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => Container(
+              color: const Color(0xFF006535),
+            ),
+          ),
+          Positioned(
+            left: 16,
+            bottom: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Text(
+                  'EQQU',
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    height: 1,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Lorem ipsum',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    letterSpacing: 0.25,
+                    height: 20 / 14,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
