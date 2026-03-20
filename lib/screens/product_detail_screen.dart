@@ -26,6 +26,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: Column(
         children: [
@@ -36,25 +38,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 SliverToBoxAdapter(
                   child: Stack(
                     children: [
-                      // Image carousel
                       SizedBox(
                         height: 391,
                         child: PageView.builder(
                           itemCount: _totalImages,
                           onPageChanged: (i) => setState(() => _currentImageIndex = i),
                           itemBuilder: (context, index) => Container(
-                            color: const Color(0xFF1C1B1B),
+                            color: cs.surfaceContainerLow,
                             child: Center(
                               child: Icon(
                                 Icons.image_outlined,
                                 size: 64,
-                                color: Colors.white.withValues(alpha: 0.2),
+                                color: cs.tertiary.withValues(alpha: 0.3),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      // Top gradient
                       Container(
                         height: 100,
                         decoration: const BoxDecoration(
@@ -65,7 +65,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         ),
                       ),
-                      // Back and share buttons
                       Positioned(
                         top: 0,
                         left: 0,
@@ -84,7 +83,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         ),
                       ),
-                      // Dots indicator
                       Positioned(
                         bottom: 12,
                         left: 0,
@@ -115,106 +113,88 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Brand
                         Text(
                           widget.brand,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white.withValues(alpha: 0.6),
-                            letterSpacing: 0.25,
+                            fontWeight: FontWeight.w500,
+                            color: cs.tertiary,
+                            letterSpacing: 0.15,
                           ),
                         ),
                         const SizedBox(height: 4),
-                        // Name
                         Text(
                           widget.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'Outfit',
                             fontSize: 28,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: cs.onSurface,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        // Price
+                        const SizedBox(height: 4),
+                        if (widget.oldPrice.isNotEmpty)
+                          Text(
+                            widget.oldPrice,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: cs.tertiary,
+                              letterSpacing: 0.15,
+                            ),
+                          ),
+                        const SizedBox(height: 4),
+                        // Price + protection
                         Row(
                           children: [
                             Text(
                               widget.price,
-                              style: const TextStyle(
-                                fontFamily: 'Poppins',
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
                                 fontSize: 24,
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFF85D89C),
+                                color: cs.surfaceTint,
                               ),
                             ),
-                            if (widget.oldPrice.isNotEmpty) ...[
-                              const SizedBox(width: 8),
-                              Text(
-                                widget.oldPrice,
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white.withValues(alpha: 0.4),
-                                  decoration: TextDecoration.lineThrough,
-                                ),
+                            const SizedBox(width: 12),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: cs.surfaceContainerHigh,
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                            ],
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.verified_user, size: 18, color: cs.surfaceTint),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Včetně ochrany kupujícího',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: cs.onSurface,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                        const SizedBox(height: 12),
 
-                        // Buyer protection
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF252B25),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.verified_user, size: 20, color: Color(0xFF85D89C)),
-                              const SizedBox(width: 8),
-                              const Expanded(
-                                child: Text(
-                                  'Buyer Protection included',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF85D89C),
-                                  ),
-                                ),
-                              ),
-                              Icon(Icons.chevron_right, size: 20, color: Colors.white.withValues(alpha: 0.6)),
-                            ],
-                          ),
-                        ),
-
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 16),
 
                         // Description
-                        const Text(
-                          'Popis',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
                         Text(
                           'Krásné bandáže v perfektním stavu, téměř nepoužité. Vhodné pro práci i soutěže. Barva šedá, univerzální velikost.',
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
-                            color: Colors.white.withValues(alpha: 0.8),
+                            color: cs.secondary.withValues(alpha: 0.8),
                             height: 1.5,
                             letterSpacing: 0.25,
                           ),
@@ -223,55 +203,64 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(height: 20),
 
                         // Specs grid
-                        _buildSpecsGrid(),
+                        _buildSpecsGrid(cs),
 
-                        const SizedBox(height: 20),
-                        const Divider(color: Color(0xFF545454)),
                         const SizedBox(height: 20),
 
                         // Seller card
-                        _buildSellerCard(),
+                        _buildSellerCard(cs),
 
                         const SizedBox(height: 24),
 
                         // Featured banner
                         Container(
                           width: double.infinity,
-                          height: 160,
+                          height: 240,
                           decoration: BoxDecoration(
-                            color: const Color(0xFF006535),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(4),
                           ),
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end,
+                          clipBehavior: Clip.antiAlias,
+                          child: Stack(
+                            fit: StackFit.expand,
                             children: [
-                              const Text(
-                                'Nová kolekce\nCavalleria Toscana',
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                  height: 1.3,
+                              Container(color: cs.surfaceContainerLow),
+                              Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment(0.5, -0.3),
+                                    end: Alignment(-0.5, 1.0),
+                                    colors: [Colors.transparent, Color(0x80000000)],
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: const Text(
-                                  'Prohlédnout',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF006535),
-                                  ),
+                              Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: const [
+                                    Text(
+                                      'Lorem ipsum dolor sit amet, elit adipiscin',
+                                      style: TextStyle(
+                                        fontFamily: 'Outfit',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        height: 28 / 20,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                        letterSpacing: 0.25,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -281,13 +270,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(height: 24),
 
                         // More from seller
-                        const Text(
+                        Text(
                           'More from this seller',
                           style: TextStyle(
                             fontFamily: 'Outfit',
                             fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            color: cs.onSurface,
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -300,14 +289,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             itemBuilder: (_, i) => Container(
                               width: 140,
                               decoration: BoxDecoration(
-                                color: const Color(0xFF1C1B1B),
+                                color: cs.surfaceContainerLow,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Center(
                                 child: Icon(
                                   Icons.image_outlined,
                                   size: 32,
-                                  color: Colors.white.withValues(alpha: 0.2),
+                                  color: cs.tertiary.withValues(alpha: 0.3),
                                 ),
                               ),
                             ),
@@ -324,10 +313,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
           // Bottom bar with buttons
           Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFF070707),
+            decoration: BoxDecoration(
+              color: cs.surface,
               border: Border(
-                top: BorderSide(color: Color(0xFF545454), width: 0.5),
+                top: BorderSide(color: cs.outline, width: 0.5),
               ),
             ),
             padding: EdgeInsets.fromLTRB(16, 12, 16, MediaQuery.of(context).padding.bottom + 12),
@@ -339,7 +328,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: FilledButton(
                       onPressed: () {},
                       style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF006535),
+                        backgroundColor: cs.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -363,8 +352,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: OutlinedButton(
                       onPressed: () {},
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        side: const BorderSide(color: Colors.white),
+                        foregroundColor: cs.secondary,
+                        side: BorderSide(color: cs.secondary),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -403,71 +392,84 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget _buildSpecsGrid() {
+  Widget _buildSpecsGrid(ColorScheme cs) {
     final specs = [
-      {'label': 'Stav', 'value': widget.condition},
-      {'label': 'Velikost', 'value': 'Univerzální'},
-      {'label': 'Barva', 'value': 'Šedá'},
-      {'label': 'Materiál', 'value': 'Fleece'},
+      {'label': 'Condition', 'value': widget.condition},
+      {'label': 'Size', 'value': 'One size'},
+      {'label': 'Color', 'value': 'Gray'},
+      {'label': 'Material', 'value': 'Cotton'},
     ];
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      children: specs.map((spec) {
-        return SizedBox(
-          width: (MediaQuery.of(context).size.width - 44) / 2,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                spec['label']!,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white.withValues(alpha: 0.6),
-                  letterSpacing: 0.4,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                spec['value']!,
-                style: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(child: _specItem(cs, specs[0])),
+            const SizedBox(width: 12),
+            Expanded(child: _specItem(cs, specs[1])),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(child: _specItem(cs, specs[2])),
+            const SizedBox(width: 12),
+            Expanded(child: _specItem(cs, specs[3])),
+          ],
+        ),
+      ],
     );
   }
 
-  Widget _buildSellerCard() {
+  Widget _specItem(ColorScheme cs, Map<String, String> spec) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          spec['label']!,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: cs.tertiary,
+            letterSpacing: 0.25,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          spec['value']!,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: cs.secondary,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSellerCard(ColorScheme cs) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF252B25),
-        borderRadius: BorderRadius.circular(12),
+        color: cs.surfaceContainerHigh,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              // Avatar
               Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF006535),
+                width: 64,
+                height: 64,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF006535),
                   shape: BoxShape.circle,
                 ),
                 child: const Center(
                   child: Text(
-                    'JN',
+                    'EN',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 16,
@@ -482,53 +484,61 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Jana Nováková',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
                     Row(
                       children: [
-                        const Icon(Icons.star, size: 16, color: Color(0xFFFFD700)),
-                        const SizedBox(width: 4),
                         Text(
-                          '4.2',
+                          'Emma Novak',
                           style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white.withValues(alpha: 0.8),
+                            color: cs.secondary,
                           ),
                         ),
+                        const SizedBox(width: 12),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
+                            Icon(Icons.star_border, size: 20, color: cs.tertiary),
+                            const SizedBox(width: 8),
+                            Text(
+                              '4.2',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: cs.tertiary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
+                    ),
+                    const SizedBox(height: 4),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Message seller',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: cs.surfaceTint,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ],
-          ),
-          const SizedBox(height: 12),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: GestureDetector(
-              onTap: () {},
-              child: const Text(
-                'Message seller',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF85D89C),
-                  decoration: TextDecoration.underline,
-                  decorationColor: Color(0xFF85D89C),
-                ),
-              ),
-            ),
           ),
         ],
       ),

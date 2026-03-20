@@ -25,30 +25,31 @@ class _HomeScreenState extends State<HomeScreen> {
     return Center(
       child: Text(
         labels[_currentIndex],
-        style: const TextStyle(
+        style: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );
   }
 
   Widget _buildBottomNav() {
+    final cs = Theme.of(context).colorScheme;
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Color(0xFF545454), width: 0.5),
+          top: BorderSide(color: cs.outline, width: 0.5),
         ),
       ),
       child: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF070707),
-        selectedItemColor: const Color(0xFF006535),
-        unselectedItemColor: const Color(0xFF8C8C8C),
+        backgroundColor: cs.surface,
+        selectedItemColor: cs.primary,
+        unselectedItemColor: cs.tertiary,
         selectedFontSize: 12,
         unselectedFontSize: 12,
         selectedLabelStyle: const TextStyle(
@@ -98,6 +99,8 @@ class _HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return SafeArea(
       child: CustomScrollView(
         slivers: [
@@ -111,20 +114,20 @@ class _HomeBody extends StatelessWidget {
                     child: Container(
                       height: 56,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1C1B1B),
+                        color: cs.surfaceContainerLow,
                         borderRadius: BorderRadius.circular(28),
                       ),
                       child: Row(
                         children: [
                           const SizedBox(width: 16),
-                          Icon(Icons.search, color: Colors.white.withValues(alpha: 0.6), size: 24),
+                          Icon(Icons.search, color: cs.tertiary, size: 24),
                           const SizedBox(width: 12),
                           Text(
                             'Hledat...',
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 16,
-                              color: Colors.white.withValues(alpha: 0.6),
+                              color: cs.tertiary,
                             ),
                           ),
                         ],
@@ -133,7 +136,7 @@ class _HomeBody extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Material(
-                    color: const Color(0xFF1C1B1B),
+                    color: cs.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(16),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(16),
@@ -142,7 +145,7 @@ class _HomeBody extends StatelessWidget {
                         width: 56,
                         height: 56,
                         alignment: Alignment.center,
-                        child: const Icon(Icons.tune, color: Colors.white, size: 24),
+                        child: Icon(Icons.tune, color: cs.onSurface, size: 24),
                       ),
                     ),
                   ),
@@ -159,15 +162,15 @@ class _HomeBody extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 children: [
-                  _buildChip('Cavalleria Toscana'),
+                  _buildChip(context, 'Cavalleria Toscana'),
                   const SizedBox(width: 8),
-                  _buildChip('Animo'),
+                  _buildChip(context, 'Animo'),
                   const SizedBox(width: 8),
-                  _buildChip('Kingsland'),
+                  _buildChip(context, 'Kingsland'),
                   const SizedBox(width: 8),
-                  _buildChip('Kentucky'),
+                  _buildChip(context, 'Kentucky'),
                   const SizedBox(width: 8),
-                  _buildChip('Samshield'),
+                  _buildChip(context, 'Samshield'),
                 ],
               ),
             ),
@@ -194,13 +197,13 @@ class _HomeBody extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
-              child: const Text(
+              child: Text(
                 'Featured',
                 style: TextStyle(
                   fontFamily: 'Outfit',
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: cs.onSurface,
                 ),
               ),
             ),
@@ -227,16 +230,17 @@ class _HomeBody extends StatelessWidget {
     );
   }
 
-  static Widget _buildChip(String label) {
+  static Widget _buildChip(BuildContext context, String label) {
+    final cs = Theme.of(context).colorScheme;
     return Chip(
       label: Text(label),
-      labelStyle: const TextStyle(
+      labelStyle: TextStyle(
         fontFamily: 'Poppins',
         fontSize: 14,
         fontWeight: FontWeight.w500,
-        color: Colors.white,
+        color: cs.onSurface,
       ),
-      backgroundColor: const Color(0xFF1C1B1B),
+      backgroundColor: cs.surfaceContainerLow,
       side: BorderSide.none,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -326,7 +330,9 @@ class _ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final product = _products[index % _products.length];
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -351,14 +357,14 @@ class _ProductCard extends StatelessWidget {
               Container(
                 height: 200,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1C1B1B),
+                  color: cs.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Center(
                   child: Icon(
                     Icons.image_outlined,
                     size: 48,
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: cs.tertiary.withValues(alpha: 0.3),
                   ),
                 ),
               ),
@@ -369,13 +375,13 @@ class _ProductCard extends StatelessWidget {
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.4),
+                    color: cs.secondaryContainer,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.favorite_border,
                     size: 18,
-                    color: Colors.white,
+                    color: cs.onSecondaryContainer,
                   ),
                 ),
               ),
@@ -389,7 +395,7 @@ class _ProductCard extends StatelessWidget {
               fontFamily: 'Poppins',
               fontSize: 12,
               fontWeight: FontWeight.w400,
-              color: Colors.white.withValues(alpha: 0.6),
+              color: cs.tertiary,
               letterSpacing: 0.4,
             ),
             maxLines: 1,
@@ -399,11 +405,11 @@ class _ProductCard extends StatelessWidget {
           // Name
           Text(
             product['name']!,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              color: cs.secondary,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -412,15 +418,15 @@ class _ProductCard extends StatelessWidget {
           // Condition
           Row(
             children: [
-              const Icon(Icons.verified_user_outlined, size: 14, color: Color(0xFF85D89C)),
+              Icon(Icons.verified_user_outlined, size: 14, color: cs.surfaceTint),
               const SizedBox(width: 4),
               Text(
                 product['condition']!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xFF85D89C),
+                  color: cs.surfaceTint,
                   letterSpacing: 0.4,
                 ),
               ),
@@ -430,28 +436,28 @@ class _ProductCard extends StatelessWidget {
           // Price
           Row(
             children: [
-              Text(
-                product['price']!,
-                style: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
               if (product['oldPrice']!.isNotEmpty) ...[
-                const SizedBox(width: 6),
                 Text(
                   product['oldPrice']!,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white.withValues(alpha: 0.4),
-                    decoration: TextDecoration.lineThrough,
+                    color: cs.tertiary,
+                    letterSpacing: 0.4,
                   ),
                 ),
+                const SizedBox(width: 6),
               ],
+              Text(
+                product['price']!,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: cs.surfaceTint,
+                ),
+              ),
             ],
           ),
         ],

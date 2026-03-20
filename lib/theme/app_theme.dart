@@ -3,39 +3,73 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  // Brand colors from Figma M3 Design Kit
   static const Color _primaryGreen = Color(0xFF006535);
-  static const Color _primaryContainer = Color(0xFF006434);
-  static const Color _onPrimaryContainer = Color(0xFF8ADEA2);
-  static const Color _error = Color(0xFFA10000);
-  static const Color _onError = Color(0xFFFFB4A8);
 
+  // ── Dark Theme ──
   static ThemeData get darkTheme {
     const colorScheme = ColorScheme.dark(
       primary: _primaryGreen,
       onPrimary: Colors.white,
-      primaryContainer: _primaryContainer,
-      onPrimaryContainer: _onPrimaryContainer,
+      primaryContainer: Color(0xFF006434),
+      onPrimaryContainer: Color(0xFF8ADEA2),
       secondary: Colors.white,
       onSecondary: Colors.black,
       secondaryContainer: Color(0xFF070707),
       onSecondaryContainer: Colors.white,
+      tertiary: Color(0xFF8C8C8C),
       surface: Color(0xFF070707),
       onSurface: Colors.white,
       surfaceContainerLow: Color(0xFF1C1B1B),
+      surfaceContainerHigh: Color(0xFF252B25),
       surfaceContainerHighest: Color(0xFF353434),
-      error: _onError,
-      onError: _error,
+      surfaceTint: Color(0xFF85D89C),
+      error: Color(0xFFFFB4A8),
+      onError: Color(0xFFA10000),
       outline: Color(0xFF545454),
       outlineVariant: Color(0xFF3F4940),
       onSurfaceVariant: Color(0xFFBFC9BE),
+      inverseSurface: Color(0xFFF5F9F7),
     );
+    return _buildThemeData(colorScheme);
+  }
+
+  // ── Light Theme ──
+  static ThemeData get lightTheme {
+    const colorScheme = ColorScheme.light(
+      primary: _primaryGreen,
+      onPrimary: Colors.white,
+      primaryContainer: Color(0xFF006434),
+      onPrimaryContainer: Color(0xFF8ADEA2),
+      secondary: Colors.black,
+      onSecondary: Colors.white,
+      secondaryContainer: Color(0xFF070707),
+      onSecondaryContainer: Colors.white,
+      tertiary: Color(0xFF8C8C8C),
+      surface: Colors.white,
+      onSurface: Color(0xFF1C1B1B),
+      surfaceContainerLow: Color(0xFFF5F9F7),
+      surfaceContainerHigh: Color(0xFFF5F9F7),
+      surfaceContainerHighest: Color(0xFFEDEDED),
+      surfaceTint: _primaryGreen,
+      error: Color(0xFFA10000),
+      onError: Colors.white,
+      outline: Color(0xFFEDEDED),
+      outlineVariant: Color(0xFFD6E6DF),
+      onSurfaceVariant: Color(0xFF3F4940),
+      inverseSurface: Color(0xFF1C1B1B),
+    );
+    return _buildThemeData(colorScheme);
+  }
+
+  static ThemeData _buildThemeData(ColorScheme colorScheme) {
+    final bool isDark = colorScheme.brightness == Brightness.dark;
 
     return ThemeData(
       useMaterial3: true,
+      brightness: colorScheme.brightness,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: const Color(0xFF070707),
-      textTheme: _buildTextTheme(),
+      scaffoldBackgroundColor: colorScheme.surface,
+      textTheme: _buildTextTheme(colorScheme.onSurface),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -43,51 +77,48 @@ class AppTheme {
         titleTextStyle: _poppins(
           fontSize: 20,
           fontWeight: FontWeight.w400,
-          color: Colors.white,
+          color: colorScheme.onSurface,
           height: 28 / 20,
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: colorScheme.onSurface),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: Color(0xFF545454)),
+          borderSide: BorderSide(color: colorScheme.outline),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: Color(0xFF545454)),
+          borderSide: BorderSide(color: colorScheme.outline),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: Colors.white, width: 2),
+          borderSide: BorderSide(color: colorScheme.onSurface, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: Color(0xFFFFB4A8), width: 2),
+          borderSide: BorderSide(color: colorScheme.error, width: 2),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: Color(0xFFFFB4A8), width: 3),
+          borderSide: BorderSide(color: colorScheme.error, width: 3),
         ),
         labelStyle: _poppins(
           fontSize: 16,
-          color: const Color(0xFFBFC9BE),
+          color: colorScheme.onSurfaceVariant,
           letterSpacing: 0.5,
         ),
         floatingLabelStyle: _poppins(
           fontSize: 12,
-          color: const Color(0xFFBFC9BE),
+          color: colorScheme.onSurfaceVariant,
           letterSpacing: 0.4,
         ),
         errorStyle: _poppins(
           fontSize: 12,
-          color: const Color(0xFFFFB4A8),
+          color: colorScheme.error,
           letterSpacing: 0.4,
         ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -107,7 +138,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: Colors.white,
+          foregroundColor: colorScheme.secondary,
           textStyle: _poppins(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -118,19 +149,30 @@ class AppTheme {
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return Colors.white;
+            return colorScheme.secondary;
           }
           return Colors.transparent;
         }),
-        checkColor: WidgetStateProperty.all(Colors.black),
-        side: const BorderSide(color: Colors.white, width: 2),
+        checkColor: WidgetStateProperty.all(colorScheme.onSecondary),
+        side: BorderSide(color: colorScheme.secondary, width: 2),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(2),
         ),
       ),
-      dividerTheme: const DividerThemeData(
-        color: Color(0xFF545454),
+      dividerTheme: DividerThemeData(
+        color: colorScheme.outline,
         thickness: 1,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: colorScheme.surface,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: colorScheme.surface,
+        selectedItemColor: _primaryGreen,
+        unselectedItemColor: const Color(0xFF8C8C8C),
       ),
     );
   }
@@ -152,40 +194,46 @@ class AppTheme {
     );
   }
 
-  static TextTheme _buildTextTheme() {
+  static TextTheme _buildTextTheme(Color textColor) {
     return TextTheme(
       titleLarge: _poppins(
         fontSize: 20,
         fontWeight: FontWeight.w400,
+        color: textColor,
         height: 28 / 20,
       ),
       titleMedium: _poppins(
         fontSize: 16,
         fontWeight: FontWeight.w600,
+        color: textColor,
         letterSpacing: 0.15,
         height: 24 / 16,
       ),
       bodyLarge: _poppins(
         fontSize: 16,
         fontWeight: FontWeight.w400,
+        color: textColor,
         letterSpacing: 0.5,
         height: 24 / 16,
       ),
       bodyMedium: _poppins(
         fontSize: 14,
         fontWeight: FontWeight.w400,
+        color: textColor,
         letterSpacing: 0.25,
         height: 20 / 14,
       ),
       bodySmall: _poppins(
         fontSize: 12,
         fontWeight: FontWeight.w400,
+        color: textColor,
         letterSpacing: 0.4,
         height: 16 / 12,
       ),
       labelLarge: _poppins(
         fontSize: 14,
         fontWeight: FontWeight.w600,
+        color: textColor,
         letterSpacing: 0.1,
         height: 20 / 14,
       ),

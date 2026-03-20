@@ -74,13 +74,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             vertical: 6,
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Zapomenuté heslo',
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.secondary,
                             letterSpacing: 0.1,
                           ),
                         ),
@@ -134,10 +134,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       opacity: 0.8,
                       child: Text(
                         'Ještě nemáte účet?',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.secondary,
                           letterSpacing: 0.25,
                         ),
                       ),
@@ -153,13 +153,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           vertical: 6,
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Vytvořte si ho',
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.secondary,
                           letterSpacing: 0.1,
                         ),
                       ),

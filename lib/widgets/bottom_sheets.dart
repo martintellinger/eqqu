@@ -6,7 +6,7 @@ void showCategoriesSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: const Color(0xFF070707),
+    backgroundColor: Theme.of(context).colorScheme.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -22,7 +22,7 @@ class _CategoriesSheet extends StatelessWidget {
     {'icon': Icons.person, 'label': 'Jezdci'},
     {'icon': Icons.home_work, 'label': 'Stáj'},
     {'icon': Icons.pets, 'label': 'Psi'},
-    {'icon': Icons.menu_book, 'label': 'Knihy, hračky a dárky'},
+    {'icon': Icons.menu_book, 'label': 'Knihy, hračky, dárky'},
     {'icon': Icons.medical_services, 'label': 'Veterinární produkty'},
     {'icon': Icons.grass, 'label': 'Krmivo'},
     {'icon': Icons.healing, 'label': 'Terapeutické přístroje'},
@@ -30,6 +30,7 @@ class _CategoriesSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return DraggableScrollableSheet(
       initialChildSize: 0.85,
       maxChildSize: 0.95,
@@ -37,49 +38,30 @@ class _CategoriesSheet extends StatelessWidget {
       expand: false,
       builder: (_, controller) => Column(
         children: [
-          // Drag handle
-          Container(
-            margin: const EdgeInsets.only(top: 8),
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          // Header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4, 8, 16, 0),
-            child: Row(
+          _dragHandle(cs),
+          _sheetHeader(context, cs, 'Kategorie'),
+          Divider(color: cs.outline, height: 1),
+          Expanded(
+            child: ListView(
+              controller: controller,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                const Expanded(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
                   child: Text(
                     'Kategorie',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: cs.onSurface,
+                      letterSpacing: 0.15,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
-                const SizedBox(width: 48),
-              ],
-            ),
-          ),
-          const Divider(color: Color(0xFF545454)),
-          Expanded(
-            child: ListView(
-              controller: controller,
-              padding: EdgeInsets.zero,
-              children: [
                 ..._categories.map((cat) => _categoryTile(
                   context,
+                  cs,
                   cat['icon'] as IconData,
                   cat['label'] as String,
                 )),
@@ -92,19 +74,19 @@ class _CategoriesSheet extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.6),
+                          color: cs.tertiary,
                         ),
                       ),
                       const SizedBox(height: 4),
                       GestureDetector(
                         onTap: () {},
-                        child: const Text(
+                        child: Text(
                           'Napiš nám',
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: cs.secondary,
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -121,23 +103,31 @@ class _CategoriesSheet extends StatelessWidget {
     );
   }
 
-  Widget _categoryTile(BuildContext context, IconData icon, String label) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.white, size: 24),
-      title: Text(
-        label,
-        style: const TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
-        ),
+  Widget _categoryTile(BuildContext context, ColorScheme cs, IconData icon, String label) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: cs.outlineVariant),
+        borderRadius: BorderRadius.circular(8),
       ),
-      trailing: const Icon(Icons.chevron_right, color: Colors.white, size: 24),
-      onTap: () {
-        Navigator.pop(context);
-        showSubcategoriesSheet(context, label);
-      },
+      child: ListTile(
+        leading: Icon(icon, color: cs.onSurface, size: 24),
+        title: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: cs.onSurface,
+            letterSpacing: 0.5,
+          ),
+        ),
+        trailing: Icon(Icons.chevron_right, color: cs.onSurface, size: 20),
+        onTap: () {
+          Navigator.pop(context);
+          showSubcategoriesSheet(context, label);
+        },
+      ),
     );
   }
 }
@@ -148,7 +138,7 @@ void showSubcategoriesSheet(BuildContext context, String category) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: const Color(0xFF070707),
+    backgroundColor: Theme.of(context).colorScheme.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -175,6 +165,7 @@ class _SubcategoriesSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return DraggableScrollableSheet(
       initialChildSize: 0.85,
       maxChildSize: 0.95,
@@ -182,57 +173,37 @@ class _SubcategoriesSheet extends StatelessWidget {
       expand: false,
       builder: (_, controller) => Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 8),
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4, 8, 16, 0),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                Expanded(
-                  child: Text(
-                    category,
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(width: 48),
-              ],
-            ),
-          ),
-          const Divider(color: Color(0xFF545454)),
+          _dragHandle(cs),
+          _sheetHeader(context, cs, category),
+          Divider(color: cs.outline, height: 1),
           Expanded(
             child: ListView(
               controller: controller,
-              padding: EdgeInsets.zero,
-              children: _subcategories.map((sub) => ListTile(
-                title: Text(
-                  sub,
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              children: [
+                const SizedBox(height: 12),
+                ..._subcategories.map((sub) => Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: cs.outlineVariant),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-                trailing: const Icon(Icons.chevron_right, color: Colors.white, size: 24),
-                onTap: () => Navigator.pop(context),
-              )).toList(),
+                  child: ListTile(
+                    title: Text(
+                      sub,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: cs.onSurface,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    trailing: Icon(Icons.chevron_right, color: cs.onSurface, size: 20),
+                    onTap: () => Navigator.pop(context),
+                  ),
+                )),
+              ],
             ),
           ),
         ],
@@ -247,7 +218,7 @@ void showFilterSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: const Color(0xFF070707),
+    backgroundColor: Theme.of(context).colorScheme.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -260,6 +231,7 @@ class _FilterSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return DraggableScrollableSheet(
       initialChildSize: 0.85,
       maxChildSize: 0.95,
@@ -267,71 +239,62 @@ class _FilterSheet extends StatelessWidget {
       expand: false,
       builder: (_, controller) => Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 8),
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
+          _dragHandle(cs),
           Padding(
             padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
             child: Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  icon: Icon(Icons.arrow_back, color: cs.onSurface),
                   onPressed: () => Navigator.pop(context),
                 ),
-                const Expanded(
+                Expanded(
                   child: Text(
                     'Filtr',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
-                      color: Colors.white,
+                      color: cs.onSurface,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.delete_outline, color: Colors.white),
+                  icon: Icon(Icons.delete_outline, color: cs.onSurface),
                   onPressed: () {},
                 ),
               ],
             ),
           ),
-          const Divider(color: Color(0xFF545454)),
+          Divider(color: cs.outline, height: 1),
           Expanded(
             child: ListView(
               controller: controller,
               padding: EdgeInsets.zero,
               children: [
-                _filterTile(context, 'Řadit podle', 'Relevance', onTap: () {
+                _filterTile(context, cs, 'Řadit podle', 'Relevance', onTap: () {
                   Navigator.pop(context);
                   showSortingSheet(context);
                 }),
-                _filterTile(context, 'Kategorie', 'Koně', valuePrimary: true, onTap: () {
+                _filterTile(context, cs, 'Kategorie', 'Koně', valuePrimary: true, onTap: () {
                   Navigator.pop(context);
                   showCategoriesSheet(context);
                 }),
-                _filterTile(context, 'Cena', 'Všechny', onTap: () {
+                _filterTile(context, cs, 'Cena', 'Všechny', onTap: () {
                   Navigator.pop(context);
                   showPriceRangeSheet(context);
                 }),
-                _filterTile(context, 'Stav zboží', null, onTap: () {}),
-                _filterTile(context, 'Velikost', null, onTap: () {}),
-                _filterTile(context, 'Značka', null, onTap: () {}),
-                _filterTile(context, 'Pohlaví', null, onTap: () {}),
-                _filterTile(context, 'Barva', null, onTap: () {}),
-                _filterTile(context, 'Materiál', null, onTap: () {}),
-                _filterTile(context, 'Oblíbené', null, onTap: () {}),
+                _filterTile(context, cs, 'Stav zboží', null, onTap: () {}),
+                _filterTile(context, cs, 'Velikost', null, onTap: () {}),
+                _filterTile(context, cs, 'Značka', null, onTap: () {}),
+                _filterTile(context, cs, 'Pohlaví', null, onTap: () {}),
+                _filterTile(context, cs, 'Barva', null, onTap: () {}),
+                _filterTile(context, cs, 'Materiál', null, onTap: () {}),
+                _filterTile(context, cs, 'Oblíbené', null, onTap: () {}),
               ],
             ),
           ),
-          // Save button
           Padding(
             padding: EdgeInsets.fromLTRB(16, 12, 16, MediaQuery.of(context).padding.bottom + 12),
             child: SizedBox(
@@ -340,7 +303,7 @@ class _FilterSheet extends StatelessWidget {
               child: FilledButton(
                 onPressed: () => Navigator.pop(context),
                 style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF006535),
+                  backgroundColor: cs.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -362,15 +325,15 @@ class _FilterSheet extends StatelessWidget {
     );
   }
 
-  Widget _filterTile(BuildContext context, String label, String? value, {bool valuePrimary = false, required VoidCallback onTap}) {
+  Widget _filterTile(BuildContext context, ColorScheme cs, String label, String? value, {bool valuePrimary = false, required VoidCallback onTap}) {
     return ListTile(
       title: Text(
         label,
-        style: const TextStyle(
+        style: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 16,
           fontWeight: FontWeight.w400,
-          color: Colors.white,
+          color: cs.onSurface,
         ),
       ),
       trailing: Row(
@@ -383,11 +346,11 @@ class _FilterSheet extends StatelessWidget {
                 fontFamily: 'Poppins',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: valuePrimary ? const Color(0xFF85D89C) : Colors.white.withValues(alpha: 0.6),
+                color: valuePrimary ? cs.surfaceTint : cs.tertiary,
               ),
             ),
           const SizedBox(width: 4),
-          const Icon(Icons.chevron_right, color: Colors.white, size: 24),
+          Icon(Icons.chevron_right, color: cs.onSurface, size: 24),
         ],
       ),
       onTap: onTap,
@@ -400,7 +363,7 @@ class _FilterSheet extends StatelessWidget {
 void showSortingSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
-    backgroundColor: const Color(0xFF070707),
+    backgroundColor: Theme.of(context).colorScheme.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -428,32 +391,25 @@ class _SortingSheetState extends State<_SortingSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 8),
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+          _dragHandle(cs),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
               'Řadit podle',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
-                color: Colors.white,
+                color: cs.onSurface,
               ),
             ),
           ),
-          const Divider(color: Color(0xFF545454), height: 1),
+          Divider(color: cs.outline, height: 1),
           ..._options.map((option) => RadioListTile<String>(
             value: option,
             groupValue: _selected,
@@ -463,14 +419,14 @@ class _SortingSheetState extends State<_SortingSheet> {
             },
             title: Text(
               option,
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: Colors.white,
+                color: cs.onSurface,
               ),
             ),
-            activeColor: const Color(0xFF006535),
+            activeColor: cs.primary,
           )),
           const SizedBox(height: 16),
         ],
@@ -484,7 +440,7 @@ class _SortingSheetState extends State<_SortingSheet> {
 void showPriceRangeSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
-    backgroundColor: const Color(0xFF070707),
+    backgroundColor: Theme.of(context).colorScheme.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -513,43 +469,35 @@ class _PriceRangeSheetState extends State<_PriceRangeSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 8),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+            _dragHandle(cs),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Text(
                 'Cenové rozpětí',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
-                  color: Colors.white,
+                  color: cs.onSurface,
                 ),
               ),
             ),
-            const Divider(color: Color(0xFF545454), height: 1),
+            Divider(color: cs.outline, height: 1),
             const SizedBox(height: 24),
-            // Range slider
             RangeSlider(
               values: _range,
               min: 0,
               max: 5000,
               divisions: 100,
-              activeColor: const Color(0xFF006535),
-              inactiveColor: const Color(0xFF545454),
+              activeColor: cs.primary,
+              inactiveColor: cs.outline,
               onChanged: (v) {
                 setState(() {
                   _range = v;
@@ -559,7 +507,6 @@ class _PriceRangeSheetState extends State<_PriceRangeSheet> {
               },
             ),
             const SizedBox(height: 16),
-            // Min/Max fields
             Row(
               children: [
                 Expanded(
@@ -602,7 +549,7 @@ class _PriceRangeSheetState extends State<_PriceRangeSheet> {
               child: FilledButton(
                 onPressed: () => Navigator.pop(context),
                 style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF006535),
+                  backgroundColor: cs.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -623,4 +570,45 @@ class _PriceRangeSheetState extends State<_PriceRangeSheet> {
       ),
     );
   }
+}
+
+// ── Shared Widgets ──
+
+Widget _dragHandle(ColorScheme cs) {
+  return Container(
+    margin: const EdgeInsets.only(top: 8),
+    width: 40,
+    height: 4,
+    decoration: BoxDecoration(
+      color: cs.onSurface.withValues(alpha: 0.3),
+      borderRadius: BorderRadius.circular(2),
+    ),
+  );
+}
+
+Widget _sheetHeader(BuildContext context, ColorScheme cs, String title) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(4, 8, 16, 0),
+    child: Row(
+      children: [
+        IconButton(
+          icon: Icon(Icons.arrow_back, color: cs.onSurface),
+          onPressed: () => Navigator.pop(context),
+        ),
+        Expanded(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              color: cs.onSurface,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const SizedBox(width: 48),
+      ],
+    ),
+  );
 }

@@ -91,7 +91,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
-                    color: Colors.white,
                     letterSpacing: 0.5,
                     height: 24 / 16,
                   ),
@@ -106,7 +105,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       labelText: 'E-mail',
                       errorText: showError ? 'Neplatný e-mail' : null,
                       suffixIcon: showError
-                          ? const Icon(Icons.error, color: Color(0xFFFFB4A8))
+                          ? Icon(Icons.error, color: Theme.of(context).colorScheme.error)
                           : null,
                     ),
                     keyboardType: TextInputType.emailAddress,
@@ -125,10 +124,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             onPressed: _isEmailEmpty ? null : _submit,
             style: FilledButton.styleFrom(
               backgroundColor: _isEmailEmpty
-                  ? Colors.white.withValues(alpha: 0.1)
-                  : const Color(0xFF006535),
+                  ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1)
+                  : Theme.of(context).colorScheme.primary,
               foregroundColor:
-                  _isEmailEmpty ? Colors.white.withValues(alpha: 0.38) : Colors.white,
+                  _isEmailEmpty ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.38) : Colors.white,
             ),
             child: const Text(
               'Odeslat',
@@ -152,10 +151,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   opacity: 0.8,
                   child: Text(
                     'Pamatujete si heslo?',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 14,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.secondary,
                       letterSpacing: 0.25,
                     ),
                   ),
@@ -168,13 +167,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       vertical: 6,
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Zpět na přihlášení',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.secondary,
                       letterSpacing: 0.1,
                     ),
                   ),
@@ -202,7 +201,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
-                    color: Colors.white,
                     letterSpacing: 0.5,
                     height: 24 / 16,
                   ),
@@ -232,10 +230,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   opacity: 0.8,
                   child: Text(
                     'Nedorazil mail?',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 14,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.secondary,
                       letterSpacing: 0.25,
                     ),
                   ),
@@ -248,13 +246,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       vertical: 6,
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Poslat znova',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.secondary,
                       letterSpacing: 0.1,
                     ),
                   ),

@@ -19,7 +19,9 @@ class EqquApp extends StatelessWidget {
     return MaterialApp(
       title: 'EQQU',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),

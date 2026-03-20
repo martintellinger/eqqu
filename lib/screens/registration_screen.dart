@@ -159,10 +159,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     opacity: 0.8,
                     child: Text(
                       'Již máte účet?',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.secondary,
                         letterSpacing: 0.25,
                       ),
                     ),
@@ -174,13 +174,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Přihlaste se',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.secondary,
                         letterSpacing: 0.1,
                       ),
                     ),
@@ -212,10 +212,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Expanded(
               child: Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.secondary,
                   letterSpacing: 0.25,
                 ),
               ),
