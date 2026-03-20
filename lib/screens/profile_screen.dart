@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/seller_profile_screen.dart';
+import 'package:eqqu/screens/my_listings_screen.dart';
+import 'package:eqqu/screens/my_sales_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -38,11 +40,15 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // Menu group 1
-                    _buildMenuItem(cs, 'assets/icons/moje inzeraty.svg', 'Moje inzeráty'),
+                    _buildMenuItem(cs, 'assets/icons/moje inzeraty.svg', 'Moje inzeráty', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MyListingsScreen()));
+                    }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/moje nakupy.svg', 'Moje nákupy'),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/moje prodeje.svg', 'Moje prodeje'),
+                    _buildMenuItem(cs, 'assets/icons/moje prodeje.svg', 'Moje prodeje', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MySalesScreen()));
+                    }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/oblibene predmety.svg', 'Oblíbené předměty'),
                     const SizedBox(height: 24),
@@ -200,7 +206,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(ColorScheme cs, String svgPath, String label) {
+  Widget _buildMenuItem(ColorScheme cs, String svgPath, String label, {VoidCallback? onTap}) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: cs.outlineVariant),
@@ -210,7 +216,7 @@ class ProfileScreen extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
-          onTap: () {},
+          onTap: onTap ?? () {},
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(
