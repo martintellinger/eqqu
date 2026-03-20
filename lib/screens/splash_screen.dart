@@ -29,15 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'EQQU',
-              style: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 48,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-                letterSpacing: 4,
-              ),
+            Image.asset(
+              'assets/logo_eqqu.png',
+              width: 120,
+              fit: BoxFit.contain,
             ),
             const SizedBox(height: 16),
             Opacity(
