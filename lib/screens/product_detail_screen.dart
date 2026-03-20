@@ -571,7 +571,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           fit: StackFit.expand,
           children: [
             Image.asset(
-              'assets/product_03.png',
+              'assets/images/product_03.png',
               fit: BoxFit.cover,
             ),
             // Gradient overlay
@@ -699,14 +699,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         'subtitle': 'No brand / Good / 17"',
         'oldPrice': '140 €',
         'newPrice': '159 €',
-        'image': 'assets/product_01.png',
+        'image': 'assets/images/product_01.png',
       },
       {
         'title': 'Blue Comfort type saddle',
         'subtitle': 'Shires / New / Cob',
         'oldPrice': '42 €',
         'newPrice': '49 €',
-        'image': 'assets/product_02.png',
+        'image': 'assets/images/product_02.png',
       },
     ];
 

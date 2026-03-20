@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
+import 'package:eqqu/screens/chat_list_screen.dart';
+import 'package:eqqu/screens/new_listing_screen.dart';
+import 'package:eqqu/screens/favorites_screen.dart';
+import 'package:eqqu/screens/profile_screen.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 
 const _productImages = [
-  'assets/product_01.png',
-  'assets/product_02.png',
-  'assets/product_03.png',
-  'assets/product_04.png',
-  'assets/product_05.png',
-  'assets/product_06.png',
+  'assets/images/product_01.png',
+  'assets/images/product_02.png',
+  'assets/images/product_03.png',
+  'assets/images/product_04.png',
+  'assets/images/product_05.png',
+  'assets/images/product_06.png',
 ];
 
 class HomeScreen extends StatefulWidget {
@@ -33,24 +37,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _currentIndex == 0 ? const _HomeBody() : _buildPlaceholder(),
+      body: _buildBody(),
       bottomNavigationBar: _buildBottomNav(),
     );
   }
 
-  Widget _buildPlaceholder() {
-    final labels = ['Domů', 'Chat', 'Prodat', 'Oblíbené', 'Profil'];
-    return Center(
-      child: Text(
-        labels[_currentIndex],
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-      ),
-    );
+  Widget _buildBody() {
+    switch (_currentIndex) {
+      case 0:
+        return const _HomeBody();
+      case 1:
+        return const ChatListScreen();
+      case 2:
+        return const NewListingScreen();
+      case 3:
+        return const FavoritesScreen();
+      case 4:
+        return const ProfileScreen();
+      default:
+        return const _HomeBody();
+    }
   }
 
   Widget _buildBottomNav() {
@@ -183,14 +189,14 @@ class _HomeBodyState extends State<_HomeBody> {
       'subtitle': 'No brand / Good / 17"',
       'oldPrice': '140 €',
       'newPrice': '159 €',
-      'image': 'assets/product_01.png',
+      'image': 'assets/images/product_01.png',
     },
     {
       'title': 'Blue Comfort type saddle',
       'subtitle': 'Shires / New / Cob',
       'oldPrice': '42 €',
       'newPrice': '49 €',
-      'image': 'assets/product_02.png',
+      'image': 'assets/images/product_02.png',
     },
   ];
 
