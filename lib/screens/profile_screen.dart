@@ -4,6 +4,7 @@ import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/seller_profile_screen.dart';
 import 'package:eqqu/screens/my_listings_screen.dart';
 import 'package:eqqu/screens/my_sales_screen.dart';
+import 'package:eqqu/screens/settings_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -68,7 +69,9 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // Menu group 4
-                    _buildMenuItem(cs, 'assets/icons/nastaveni.svg', 'Nastavení'),
+                    _buildMenuItem(cs, 'assets/icons/nastaveni.svg', 'Nastavení', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+                    }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/o nas.svg', 'O nás'),
                     const SizedBox(height: 12),
