@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,10 +12,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToRegistration();
+    _navigateToIntro();
   }
 
-  Future<void> _navigateToRegistration() async {
+  Future<void> _navigateToIntro() async {
     await Future.delayed(const Duration(seconds: 3));
     if (mounted) {
       Navigator.pushReplacementNamed(context, '/intro');
@@ -29,10 +30,9 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/logo_eqqu.png',
+            SvgPicture.asset(
+              'assets/logo_eqqu.svg',
               width: 120,
-              fit: BoxFit.contain,
             ),
             const SizedBox(height: 16),
             Opacity(

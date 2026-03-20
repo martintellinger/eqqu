@@ -11,7 +11,7 @@ class IntroScreen extends StatelessWidget {
         children: [
           // Background image with gradient overlay
           Image.asset(
-            'assets/intro_bg.jpg',
+            'assets/background.jpg',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
