@@ -4,6 +4,7 @@ import 'package:eqqu/screens/splash_screen.dart';
 import 'package:eqqu/screens/registration_screen.dart';
 import 'package:eqqu/screens/login_screen.dart';
 import 'package:eqqu/screens/forgot_password_screen.dart';
+import 'package:eqqu/screens/intro_screen.dart';
 
 void main() {
   runApp(const EqquApp());
@@ -21,6 +22,7 @@ class EqquApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
+        '/intro': (context) => const IntroScreen(),
         '/registration': (context) => const RegistrationScreen(),
         '/login': (context) => const LoginScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),

@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigateToRegistration() async {
     await Future.delayed(const Duration(seconds: 3));
     if (mounted) {
-      Navigator.pushReplacementNamed(context, '/registration');
+      Navigator.pushReplacementNamed(context, '/intro');
     }
   }
 
