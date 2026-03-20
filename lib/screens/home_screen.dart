@@ -5,6 +5,7 @@ import 'package:eqqu/screens/chat_list_screen.dart';
 import 'package:eqqu/screens/new_listing_screen.dart';
 import 'package:eqqu/screens/favorites_screen.dart';
 import 'package:eqqu/screens/profile_screen.dart';
+import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 
 const _productImages = [
@@ -246,6 +247,39 @@ class _HomeBodyState extends State<_HomeBody> {
 
   static const _chips = ['Cavalleria Toscana', 'Animo', 'Kingsland', 'Shires'];
 
+  static const _users = [
+    {
+      'name': 'Emma Novak',
+      'username': 'emma.novak',
+      'avatar': 'assets/images/avatar_1.png',
+      'rating': '4.2',
+    },
+    {
+      'name': 'Anna K.',
+      'username': 'anna.k',
+      'avatar': 'assets/images/avatar_2.png',
+      'rating': '4.8',
+    },
+    {
+      'name': 'Markéta P.',
+      'username': 'marketa.p',
+      'avatar': 'assets/images/avatar_3.png',
+      'rating': '3.9',
+    },
+    {
+      'name': 'Jan Novotný',
+      'username': 'jan.novotny',
+      'avatar': 'assets/images/avatar_4.png',
+      'rating': '4.5',
+    },
+    {
+      'name': 'Petra S.',
+      'username': 'petra.s',
+      'avatar': 'assets/images/avatar_5.png',
+      'rating': '4.1',
+    },
+  ];
+
   static const _searchSuggestions = [
     'Sedlo',
     'Uzdečka',
@@ -260,6 +294,9 @@ class _HomeBodyState extends State<_HomeBody> {
     'Blue Comfort type saddle',
     'Red Racing type saddle',
     'Shires Velociti bridle',
+    'Emma Novak',
+    'Anna K.',
+    'Jan Novotný',
   ];
 
   List<Map<String, String>> get _filteredProducts {
@@ -277,6 +314,15 @@ class _HomeBodyState extends State<_HomeBody> {
       ).toList();
     }
     return products;
+  }
+
+  List<Map<String, String>> get _filteredUsers {
+    if (_searchQuery.isEmpty) return [];
+    final q = _searchQuery.toLowerCase();
+    return _users.where((u) =>
+      u['name']!.toLowerCase().contains(q) ||
+      u['username']!.toLowerCase().contains(q)
+    ).toList();
   }
 
   List<String> get _currentSuggestions {
@@ -447,6 +493,120 @@ class _HomeBodyState extends State<_HomeBody> {
                 ),
               ),
 
+              // User results
+              if (_filteredUsers.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Uživatelé',
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: cs.onSurface,
+                            height: 28 / 20,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        ..._filteredUsers.map((user) => Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const BuyerViewSellerScreen()),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: cs.surfaceContainerLow,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  ClipOval(
+                                    child: Image.asset(
+                                      user['avatar']!,
+                                      width: 40,
+                                      height: 40,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          user['name']!,
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: cs.secondary,
+                                            letterSpacing: 0.1,
+                                            height: 20 / 14,
+                                          ),
+                                        ),
+                                        Text(
+                                          '@${user['username']}',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: cs.tertiary,
+                                            letterSpacing: 0.4,
+                                            height: 16 / 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.star, size: 16, color: Color(0xFFFFD700)),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        user['rating']!,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: cs.tertiary,
+                                          letterSpacing: 0.1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )),
+                        if (products.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            'Produkty',
+                            style: TextStyle(
+                              fontFamily: 'Outfit',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: cs.onSurface,
+                              height: 28 / 20,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+
               // Product grid (pairs in rows for intrinsic height)
               if (products.isNotEmpty)
                 SliverPadding(
@@ -486,7 +646,7 @@ class _HomeBodyState extends State<_HomeBody> {
                 ),
 
               // Empty state
-              if (products.isEmpty)
+              if (products.isEmpty && _filteredUsers.isEmpty)
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(48),
@@ -565,6 +725,8 @@ class _HomeBodyState extends State<_HomeBody> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: _currentSuggestions.map((suggestion) {
+                    final isUser = _users.any((u) =>
+                      u['name'] == suggestion || u['username'] == suggestion);
                     return InkWell(
                       onTap: () {
                         _searchController.text = suggestion;
@@ -574,7 +736,11 @@ class _HomeBodyState extends State<_HomeBody> {
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         child: Row(
                           children: [
-                            Icon(Icons.search, size: 20, color: cs.tertiary),
+                            Icon(
+                              isUser ? Icons.person_outline : Icons.search,
+                              size: 20,
+                              color: cs.tertiary,
+                            ),
                             const SizedBox(width: 12),
                             Expanded(
                               child: Text(

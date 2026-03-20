@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
+import 'package:eqqu/screens/chat_detail_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -38,7 +39,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       body: Column(
         children: [
           Expanded(
-            child: CustomScrollView(
+            child: Stack(
+              children: [
+                CustomScrollView(
               slivers: [
                 // Image header
                 SliverToBoxAdapter(child: _buildImageHeader(cs)),
@@ -67,6 +70,62 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         _buildMoreProducts(cs),
                         const SizedBox(height: 16),
                       ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+                // Floating top buttons
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: SizedBox(
+                              width: 48,
+                              height: 48,
+                              child: Center(
+                                child: Container(
+                                  width: 32,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                    color: cs.secondaryContainer,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(Icons.arrow_back, size: 24, color: cs.onSecondaryContainer),
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: SizedBox(
+                              width: 48,
+                              height: 48,
+                              child: Center(
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: cs.secondaryContainer,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(Icons.more_vert, size: 24, color: cs.onSecondaryContainer),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -175,62 +234,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Color(0x80000000),
                     Color(0x40000000),
                     Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // Back button + more button
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Back button - 32px circle
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: Center(
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              color: cs.secondaryContainer,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(Icons.arrow_back, size: 24, color: cs.onSecondaryContainer),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // More button - 40px circle
-                    GestureDetector(
-                      onTap: () {},
-                      child: SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: Center(
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: cs.secondaryContainer,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(Icons.more_vert, size: 24, color: cs.onSecondaryContainer),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -536,7 +539,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 // Message seller
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ChatDetailScreen(
+                          name: 'Emma Novak',
+                          initials: 'EN',
+                          avatarImage: 'assets/images/avatar_1.png',
+                          productImage: 'assets/images/product_01.png',
+                          productName: 'Black GP type saddle',
+                        ),
+                      ),
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Row(

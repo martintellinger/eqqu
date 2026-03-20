@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
-class OrderDetailScreen extends StatelessWidget {
+class OrderDetailScreen extends StatefulWidget {
   const OrderDetailScreen({super.key});
+
+  @override
+  State<OrderDetailScreen> createState() => _OrderDetailScreenState();
+}
+
+class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   static const _products = [
     {
@@ -22,7 +28,7 @@ class OrderDetailScreen extends StatelessWidget {
     },
   ];
 
-  void _showRatingDialog(BuildContext context) {
+  void _showRatingDialog() {
     final cs = Theme.of(context).colorScheme;
     int selectedStars = 4;
     final textController = TextEditingController();
@@ -33,80 +39,67 @@ class OrderDetailScreen extends StatelessWidget {
         builder: (ctx, setDialogState) => Dialog(
           backgroundColor: cs.surfaceContainerHigh,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          child: Padding(
-            padding: const EdgeInsets.all(0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Ohodnoťte nákup',
-                        style: TextStyle(
-                          fontFamily: 'Outfit',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurface,
-                          height: 32 / 24,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Lorem ipsum dolor sit amet',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurfaceVariant,
-                          letterSpacing: 0.25,
-                          height: 20 / 14,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      // Star rating
-                      Row(
-                        children: List.generate(5, (i) {
-                          return GestureDetector(
-                            onTap: () => setDialogState(() => selectedStars = i + 1),
-                            child: Icon(
-                              i < selectedStars ? Icons.star : Icons.star_border,
-                              size: 40,
-                              color: i < selectedStars
-                                  ? const Color(0xFFFFD700)
-                                  : cs.tertiary,
-                            ),
-                          );
-                        }),
-                      ),
-                      const SizedBox(height: 16),
-                      // Text field
-                      SizedBox(
-                        height: 140,
-                        child: TextField(
-                          controller: textController,
-                          maxLines: null,
-                          expands: true,
-                          textAlignVertical: TextAlignVertical.top,
-                          decoration: InputDecoration(
-                            labelText: 'Slovní hodnocení',
-                            alignLabelWithHint: true,
-                          ),
-                        ),
-                      ),
-                    ],
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ohodnoťte nákup',
+                    style: TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 24,
+                      fontWeight: FontWeight.w400,
+                      color: cs.onSurface,
+                      height: 32 / 24,
+                    ),
                   ),
-                ),
-                // Actions
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
-                  child: Row(
+                  const SizedBox(height: 16),
+                  Text(
+                    'Lorem ipsum dolor sit amet',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: cs.onSurfaceVariant,
+                      letterSpacing: 0.25,
+                      height: 20 / 14,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Star rating
+                  Row(
+                    children: List.generate(5, (i) {
+                      return GestureDetector(
+                        onTap: () => setDialogState(() => selectedStars = i + 1),
+                        child: Icon(
+                          i < selectedStars ? Icons.star : Icons.star_border,
+                          size: 40,
+                          color: i < selectedStars
+                              ? const Color(0xFFFFD700)
+                              : cs.tertiary,
+                        ),
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 16),
+                  // Text field
+                  TextField(
+                    controller: textController,
+                    maxLines: 5,
+                    textAlignVertical: TextAlignVertical.top,
+                    decoration: InputDecoration(
+                      labelText: 'Slovní hodnocení',
+                      alignLabelWithHint: true,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Actions
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Cancel button (outlined)
                       SizedBox(
                         height: 48,
                         child: OutlinedButton(
@@ -130,7 +123,6 @@ class OrderDetailScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Submit button (tonal)
                       SizedBox(
                         height: 48,
                         child: FilledButton(
@@ -156,8 +148,8 @@ class OrderDetailScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -211,7 +203,7 @@ class OrderDetailScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 56,
                       child: FilledButton(
-                        onPressed: () => _showRatingDialog(context),
+                        onPressed: _showRatingDialog,
                         child: Text(
                           'Ohodnotit',
                           style: TextStyle(
