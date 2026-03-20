@@ -9,146 +9,184 @@ class ProfileScreen extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
 
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            // Avatar + stats
-            _buildProfileHeader(cs),
-            const SizedBox(height: 24),
-
-            // Menu groups
-            _buildMenuGroup(cs, [
-              _MenuItem('assets/icons/moje inzeraty.svg', 'Moje inzeráty'),
-              _MenuItem('assets/icons/moje nakupy.svg', 'Moje nákupy'),
-              _MenuItem('assets/icons/moje prodeje.svg', 'Moje prodeje'),
-              _MenuItem('assets/icons/oblibene predmety.svg', 'Oblíbené předměty'),
-              _MenuItem('assets/icons/mimo staj.svg', 'Mimo stáj'),
-            ]),
-            const SizedBox(height: 16),
-
-            _buildMenuGroup(cs, [
-              _MenuItem('assets/icons/pozvat.svg', 'Pozvat přátele'),
-              _MenuItem('assets/icons/jak funguje.svg', 'Jak funguje'),
-              _MenuItem('assets/icons/napoveda.svg', 'Nápověda'),
-              _MenuItem('assets/icons/zpetna vazba.svg', 'Zpětná vazba'),
-            ]),
-            const SizedBox(height: 16),
-
-            _buildMenuGroup(cs, [
-              _MenuItem('assets/icons/nastaveni.svg', 'Nastavení'),
-              _MenuItem('assets/icons/o nas.svg', 'O nás'),
-              _MenuItem('assets/icons/eqqu platforma.svg', 'EQQU Platforma'),
-            ]),
-            const SizedBox(height: 24),
-
-            // Logout button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: cs.error),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'Odhlásit se',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: cs.error,
-                    ),
-                  ),
+      child: Column(
+        children: [
+          // M3 App bar
+          Container(
+            height: 64,
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: cs.outline, width: 1)),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            child: Center(
+              child: Text(
+                'Profil',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: cs.onSurface,
+                  height: 28 / 20,
                 ),
               ),
             ),
-            const SizedBox(height: 32),
-          ],
-        ),
+          ),
+
+          // Scrollable content
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    // Profile card
+                    _buildProfileCard(cs),
+                    const SizedBox(height: 24),
+
+                    // Menu group 1
+                    _buildMenuItem(cs, 'assets/icons/moje inzeraty.svg', 'Moje inzeráty'),
+                    const SizedBox(height: 12),
+                    _buildMenuItem(cs, 'assets/icons/moje nakupy.svg', 'Moje nákupy'),
+                    const SizedBox(height: 12),
+                    _buildMenuItem(cs, 'assets/icons/moje prodeje.svg', 'Moje prodeje'),
+                    const SizedBox(height: 12),
+                    _buildMenuItem(cs, 'assets/icons/oblibene predmety.svg', 'Oblíbené předměty'),
+                    const SizedBox(height: 24),
+
+                    // Menu group 2
+                    _buildMenuItem(cs, 'assets/icons/mimo staj.svg', 'Mimo stáj'),
+                    const SizedBox(height: 12),
+                    _buildMenuItem(cs, 'assets/icons/pozvat.svg', 'Pozvat přátele'),
+                    const SizedBox(height: 24),
+
+                    // Menu group 3
+                    _buildMenuItem(cs, 'assets/icons/jak funguje.svg', 'Mimo stáj'),
+                    const SizedBox(height: 12),
+                    _buildMenuItem(cs, 'assets/icons/napoveda.svg', 'Nápověda'),
+                    const SizedBox(height: 12),
+                    _buildMenuItem(cs, 'assets/icons/zpetna vazba.svg', 'Zpětná vazba'),
+                    const SizedBox(height: 24),
+
+                    // Menu group 4
+                    _buildMenuItem(cs, 'assets/icons/nastaveni.svg', 'Nastavení'),
+                    const SizedBox(height: 12),
+                    _buildMenuItem(cs, 'assets/icons/o nas.svg', 'O nás'),
+                    const SizedBox(height: 12),
+                    _buildMenuItem(cs, 'assets/icons/eqqu platforma.svg', 'EQQU Platforma'),
+                    const SizedBox(height: 24),
+
+                    // Logout button
+                    _buildLogoutButton(context, cs),
+                    const SizedBox(height: 32),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildProfileHeader(ColorScheme cs) {
-    return Column(
-      children: [
-        // Avatar
-        ClipOval(
-          child: Image.asset(
-            'assets/images/avatar_1.png',
-            width: 80,
-            height: 80,
-            fit: BoxFit.cover,
-          ),
-        ),
-        const SizedBox(height: 12),
-        // Name
-        Text(
-          'Emma Novak',
-          style: TextStyle(
-            fontFamily: 'Outfit',
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: cs.onSurface,
-            height: 32 / 24,
-          ),
-        ),
-        const SizedBox(height: 4),
-        // Stars
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
-            Icon(Icons.star_border, size: 20, color: cs.tertiary),
-            const SizedBox(width: 8),
-            Text(
-              '4.2',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: cs.tertiary,
-              ),
+  Widget _buildProfileCard(ColorScheme cs) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Left: avatar + name + stars
+          Expanded(
+            child: Column(
+              children: [
+                ClipOval(
+                  child: Image.asset(
+                    'assets/images/avatar_1.png',
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Emma Novak',
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: cs.secondary,
+                    height: 28 / 20,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
+                    Icon(Icons.star_border, size: 20, color: cs.tertiary),
+                    const SizedBox(width: 8),
+                    Text(
+                      '4.2',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: cs.tertiary,
+                        letterSpacing: 0.15,
+                        height: 24 / 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        // Stats row
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Row(
-            children: [
-              _buildStat(cs, '12', 'Aktivní'),
-              _buildStatDivider(cs),
-              _buildStat(cs, '8', 'Prodané'),
-              _buildStatDivider(cs),
-              _buildStat(cs, '24', 'Hodnocení'),
-            ],
           ),
-        ),
-      ],
+          const SizedBox(width: 16),
+          // Right: stats stacked vertically
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildStatItem(cs, '3', 'Aktivních inzerátů', showBottomBorder: true),
+                _buildStatItem(cs, '15', 'Prodaných inzerátů', showBottomBorder: true),
+                _buildStatItem(cs, '12', 'hodnocení', showBottomBorder: false),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildStat(ColorScheme cs, String value, String label) {
-    return Expanded(
+  Widget _buildStatItem(ColorScheme cs, String value, String label, {required bool showBottomBorder}) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        bottom: showBottomBorder ? 8 : 0,
+        top: showBottomBorder ? 0 : 8,
+      ),
+      decoration: showBottomBorder
+          ? BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: cs.outlineVariant, width: 1),
+              ),
+            )
+          : null,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             value,
             style: TextStyle(
               fontFamily: 'Outfit',
               fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: cs.onSurface,
+              fontWeight: FontWeight.w500,
+              color: cs.secondary,
               height: 28 / 20,
             ),
           ),
@@ -168,61 +206,82 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatDivider(ColorScheme cs) {
+  Widget _buildMenuItem(ColorScheme cs, String svgPath, String label) {
     return Container(
-      width: 1,
-      height: 32,
-      color: cs.outline,
-    );
-  }
-
-  Widget _buildMenuGroup(ColorScheme cs, List<_MenuItem> items) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: cs.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          children: items.asMap().entries.map((entry) {
-            final i = entry.key;
-            final item = entry.value;
-            return Column(
+      decoration: BoxDecoration(
+        border: Border.all(color: cs.outlineVariant),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {},
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Row(
               children: [
-                if (i > 0) Divider(color: cs.outline, height: 1, indent: 52),
-                ListTile(
-                  leading: SvgPicture.asset(
-                    item.svgPath,
-                    width: 24,
-                    height: 24,
-                    colorFilter: ColorFilter.mode(cs.onSurface, BlendMode.srcIn),
-                  ),
-                  title: Text(
-                    item.label,
+                SvgPicture.asset(
+                  svgPath,
+                  width: 24,
+                  height: 24,
+                  colorFilter: ColorFilter.mode(cs.onSurface, BlendMode.srcIn),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    label,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: cs.onSurface,
-                      letterSpacing: 0.15,
+                      letterSpacing: 0.5,
                       height: 24 / 16,
                     ),
                   ),
-                  trailing: Icon(Icons.chevron_right, color: cs.tertiary, size: 20),
-                  onTap: () {},
                 ),
+                Icon(Icons.chevron_right, size: 20, color: cs.onSurfaceVariant),
               ],
-            );
-          }).toList(),
+            ),
+          ),
         ),
       ),
     );
   }
-}
 
-class _MenuItem {
-  final String svgPath;
-  final String label;
-  const _MenuItem(this.svgPath, this.label);
+  Widget _buildLogoutButton(BuildContext context, ColorScheme cs) {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: TextButton(
+        onPressed: () {
+          Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+        },
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.logout, size: 24, color: cs.secondary),
+            const SizedBox(width: 8),
+            Text(
+              'Odhlásit se',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: cs.secondary,
+                letterSpacing: 0.15,
+                height: 24 / 16,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

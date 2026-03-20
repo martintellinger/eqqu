@@ -6,6 +6,7 @@ class ChatDetailScreen extends StatefulWidget {
   final String initials;
   final String avatarImage;
   final String productImage;
+  final String productName;
 
   const ChatDetailScreen({
     super.key,
@@ -13,6 +14,7 @@ class ChatDetailScreen extends StatefulWidget {
     required this.initials,
     this.avatarImage = '',
     this.productImage = '',
+    this.productName = '',
   });
 
   @override
@@ -39,6 +41,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       '10:36',
     ),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -107,35 +119,54 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               icon: Icon(Icons.arrow_back, color: cs.onSurface),
               onPressed: () => Navigator.pop(context),
             ),
-            // Avatar
-            _buildAvatar(cs, 36),
-            const SizedBox(width: 8),
-            // Name
+            // Title: product name + person name subtitle (centered)
             Expanded(
-              child: Text(
-                widget.name,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: cs.onSurface,
-                  letterSpacing: 0.15,
-                  height: 24 / 16,
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.productName.isNotEmpty
+                        ? widget.productName
+                        : widget.name,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: cs.onSurface,
+                      height: 28 / 20,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    widget.name,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: cs.onSurfaceVariant,
+                      letterSpacing: 0.5,
+                      height: 16 / 12,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
-            // Product image thumbnail
+            // Product image thumbnail (trailing)
             if (widget.productImage.isNotEmpty)
               ClipRRect(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(8),
                 child: Image.asset(
                   widget.productImage,
-                  width: 36,
-                  height: 36,
+                  width: 48,
+                  height: 48,
                   fit: BoxFit.cover,
                 ),
-              ),
-            const SizedBox(width: 8),
+              )
+            else
+              const SizedBox(width: 48),
           ],
         ),
       ),
@@ -163,10 +194,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               decoration: BoxDecoration(
                 color: isMe ? cs.primary : cs.surfaceContainerHigh,
                 borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(16),
-                  topRight: const Radius.circular(16),
-                  bottomLeft: Radius.circular(isMe ? 16 : 4),
-                  bottomRight: Radius.circular(isMe ? 4 : 16),
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
+                  bottomLeft: Radius.circular(isMe ? 20 : 8),
+                  bottomRight: Radius.circular(isMe ? 8 : 20),
                 ),
               ),
               child: Column(

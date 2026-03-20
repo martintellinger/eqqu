@@ -52,8 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
         return const _HomeBody();
       case 1:
         return const ChatListScreen();
-      case 2:
-        return const NewListingScreen();
       case 3:
         return const FavoritesScreen();
       case 4:
@@ -84,7 +82,17 @@ class _HomeScreenState extends State<HomeScreen> {
               return Expanded(
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onTap: () => setState(() => _currentIndex = i),
+                  onTap: () {
+                    if (i == 2) {
+                      // Push NewListingScreen as a route so back button works
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const NewListingScreen()),
+                      );
+                    } else {
+                      setState(() => _currentIndex = i);
+                    }
+                  },
                   child: SizedBox(
                     height: 64,
                     child: Column(
@@ -814,13 +822,13 @@ class _HomeBodyState extends State<_HomeBody> {
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             left: 16,
             bottom: 16,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: const [
+              children: [
                 Text(
                   'EQQU',
                   style: TextStyle(
