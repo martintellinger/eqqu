@@ -195,20 +195,75 @@ class _CategoriesSheetState extends State<_CategoriesSheet> {
 
 // ── Filter Sheet ──
 
-void showFilterSheet(BuildContext context) {
-  showModalBottomSheet(
+Future<Map<String, String>?> showFilterSheet(BuildContext context, {Map<String, String>? currentFilters}) {
+  return showModalBottomSheet<Map<String, String>>(
     context: context,
     isScrollControlled: true,
     backgroundColor: Theme.of(context).colorScheme.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
-    builder: (_) => const _FilterSheet(),
+    builder: (_) => _FilterSheet(initialFilters: currentFilters ?? {}),
   );
 }
 
-class _FilterSheet extends StatelessWidget {
-  const _FilterSheet();
+class _FilterSheet extends StatefulWidget {
+  final Map<String, String> initialFilters;
+  const _FilterSheet({required this.initialFilters});
+
+  @override
+  State<_FilterSheet> createState() => _FilterSheetState();
+}
+
+class _FilterSheetState extends State<_FilterSheet> {
+  late Map<String, String> _filters;
+
+  static const _allFilters = [
+    {'key': 'Řadit podle', 'default': 'Relevance'},
+    {'key': 'Kategorie', 'default': null},
+    {'key': 'Cena', 'default': null},
+    {'key': 'Stav zboží', 'default': null},
+    {'key': 'Velikost', 'default': null},
+    {'key': 'Značka', 'default': null},
+    {'key': 'Pohlaví', 'default': null},
+    {'key': 'Barva', 'default': null},
+    {'key': 'Materiál', 'default': null},
+    {'key': 'Oblíbené', 'default': null},
+  ];
+
+  // Demo values shown when user taps a filter with no value
+  static const _demoValues = {
+    'Řadit podle': 'Nejnovější',
+    'Kategorie': 'Koně',
+    'Cena': '0 – 500 €',
+    'Stav zboží': 'Nové',
+    'Velikost': 'M',
+    'Značka': 'Kentucky',
+    'Pohlaví': 'Unisex',
+    'Barva': 'Černá',
+    'Materiál': 'Kůže',
+    'Oblíbené': 'Ano',
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _filters = Map<String, String>.from(widget.initialFilters);
+  }
+
+  void _clearFilters() {
+    setState(() => _filters.clear());
+  }
+
+  void _toggleFilter(String key) {
+    setState(() {
+      if (_filters.containsKey(key)) {
+        _filters.remove(key);
+      } else {
+        _filters[key] = _demoValues[key] ?? '';
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +298,7 @@ class _FilterSheet extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.delete_outline, color: cs.onSurface),
-                  onPressed: () {},
+                  onPressed: _clearFilters,
                 ),
               ],
             ),
@@ -253,27 +308,14 @@ class _FilterSheet extends StatelessWidget {
             child: ListView(
               controller: controller,
               padding: EdgeInsets.zero,
-              children: [
-                _filterTile(context, cs, 'Řadit podle', 'Relevance', onTap: () {
-                  Navigator.pop(context);
-                  showSortingSheet(context);
-                }),
-                _filterTile(context, cs, 'Kategorie', 'Koně', valuePrimary: true, onTap: () {
-                  Navigator.pop(context);
-                  showCategoriesSheet(context);
-                }),
-                _filterTile(context, cs, 'Cena', 'Všechny', onTap: () {
-                  Navigator.pop(context);
-                  showPriceRangeSheet(context);
-                }),
-                _filterTile(context, cs, 'Stav zboží', null, onTap: () {}),
-                _filterTile(context, cs, 'Velikost', null, onTap: () {}),
-                _filterTile(context, cs, 'Značka', null, onTap: () {}),
-                _filterTile(context, cs, 'Pohlaví', null, onTap: () {}),
-                _filterTile(context, cs, 'Barva', null, onTap: () {}),
-                _filterTile(context, cs, 'Materiál', null, onTap: () {}),
-                _filterTile(context, cs, 'Oblíbené', null, onTap: () {}),
-              ],
+              children: _allFilters.map((f) {
+                final key = f['key'] as String;
+                final value = _filters[key];
+                return _filterTile(cs, key, value,
+                  valuePrimary: value != null,
+                  onTap: () => _toggleFilter(key),
+                );
+              }).toList(),
             ),
           ),
           Padding(
@@ -282,16 +324,16 @@ class _FilterSheet extends StatelessWidget {
               width: double.infinity,
               height: 56,
               child: FilledButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pop(context, _filters),
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text(
-                  'Uložit filtry',
-                  style: TextStyle(
+                child: Text(
+                  _filters.isEmpty ? 'Uložit filtry' : 'Uložit filtry (${_filters.length})',
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -306,7 +348,7 @@ class _FilterSheet extends StatelessWidget {
     );
   }
 
-  Widget _filterTile(BuildContext context, ColorScheme cs, String label, String? value, {bool valuePrimary = false, required VoidCallback onTap}) {
+  Widget _filterTile(ColorScheme cs, String label, String? value, {bool valuePrimary = false, required VoidCallback onTap}) {
     return ListTile(
       title: Text(
         label,

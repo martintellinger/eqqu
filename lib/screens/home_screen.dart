@@ -144,6 +144,7 @@ class _HomeBodyState extends State<_HomeBody> {
   bool _isSearching = false;
   final _searchController = TextEditingController();
   final _searchFocus = FocusNode();
+  Map<String, String> _activeFilters = {};
 
   static const _allProducts = [
     {
@@ -459,36 +460,83 @@ class _HomeBodyState extends State<_HomeBody> {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      Material(
-                        color: cs.secondaryContainer,
-                        borderRadius: BorderRadius.circular(8),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(8),
-                          onTap: () => showFilterSheet(context),
-                          child: SizedBox(
-                            width: 56,
-                            height: 56,
-                            child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Material(
+                            color: cs.secondaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () async {
+                                final result = await showFilterSheet(context, currentFilters: _activeFilters);
+                                if (result != null) {
+                                  setState(() {
+                                    _activeFilters = result;
+                                    _activeChip = null;
+                                  });
+                                }
+                              },
+                              child: SizedBox(
+                                width: 56,
+                                height: 56,
+                                child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
+                              ),
+                            ),
                           ),
-                        ),
+                          if (_activeFilters.isNotEmpty)
+                            Positioned(
+                              top: -4,
+                              right: -4,
+                              child: Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: cs.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${_activeFilters.length}',
+                                    style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      height: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ],
                   ),
                 ),
               ),
 
-              // Suggestion chips
+              // Chips: active filters or brand quick-filters
               SliverToBoxAdapter(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: Row(
-                    children: _chips.asMap().entries.map((entry) {
-                      return Padding(
-                        padding: EdgeInsets.only(left: entry.key > 0 ? 4 : 0),
-                        child: _buildChip(cs, entry.value),
-                      );
-                    }).toList(),
+                    children: _activeFilters.isNotEmpty
+                      ? _activeFilters.entries.toList().asMap().entries.map((entry) {
+                          final i = entry.key;
+                          final filter = entry.value;
+                          return Padding(
+                            padding: EdgeInsets.only(left: i > 0 ? 4 : 0),
+                            child: _buildActiveFilterChip(cs, filter.key, filter.value),
+                          );
+                        }).toList()
+                      : _chips.asMap().entries.map((entry) {
+                          return Padding(
+                            padding: EdgeInsets.only(left: entry.key > 0 ? 4 : 0),
+                            child: _buildChip(cs, entry.value),
+                          );
+                        }).toList(),
                   ),
                 ),
               ),
@@ -788,6 +836,44 @@ class _HomeBodyState extends State<_HomeBody> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildActiveFilterChip(ColorScheme cs, String label, String value) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _activeFilters.remove(label);
+        });
+      },
+      child: Container(
+        height: 32,
+        decoration: BoxDecoration(
+          color: cs.primary,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '$label: $value',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  letterSpacing: 0.1,
+                  height: 20 / 12,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Icon(Icons.close, size: 14, color: Colors.white.withValues(alpha: 0.8)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
