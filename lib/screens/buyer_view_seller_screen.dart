@@ -216,6 +216,8 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       onPressed: () => Navigator.pop(ctx),
                       style: FilledButton.styleFrom(
                         backgroundColor: const Color(0xFFCE0101),
+                        minimumSize: Size.zero,
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -510,6 +512,8 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       onPressed: () => Navigator.pop(ctx),
                       style: FilledButton.styleFrom(
                         backgroundColor: cs.secondaryContainer,
+                        minimumSize: Size.zero,
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                         ),

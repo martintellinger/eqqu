@@ -129,6 +129,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           onPressed: () => Navigator.pop(ctx),
                           style: FilledButton.styleFrom(
                             backgroundColor: cs.secondaryContainer,
+                            minimumSize: Size.zero,
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100),
                             ),
