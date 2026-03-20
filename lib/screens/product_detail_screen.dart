@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
+import 'package:eqqu/screens/cart_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -146,7 +147,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               width: double.infinity,
               height: 56,
               child: FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen()));
+                },
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
                   shape: RoundedRectangleBorder(

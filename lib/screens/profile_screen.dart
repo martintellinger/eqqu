@@ -12,6 +12,7 @@ import 'package:eqqu/screens/help_screen.dart';
 import 'package:eqqu/screens/feedback_screen.dart';
 import 'package:eqqu/screens/about_screen.dart';
 import 'package:eqqu/screens/eqqu_platform_screen.dart';
+import 'package:eqqu/screens/my_purchases_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -52,7 +53,9 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MyListingsScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/moje nakupy.svg', 'Moje nákupy'),
+                    _buildMenuItem(cs, 'assets/icons/moje nakupy.svg', 'Moje nákupy', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MyPurchasesScreen()));
+                    }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/moje prodeje.svg', 'Moje prodeje', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MySalesScreen()));
