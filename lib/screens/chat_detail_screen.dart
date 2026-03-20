@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final String name;
   final String initials;
+  final String avatarImage;
   final String productImage;
 
   const ChatDetailScreen({
     super.key,
     required this.name,
     required this.initials,
+    this.avatarImage = '',
     this.productImage = '',
   });
 
@@ -105,25 +108,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               onPressed: () => Navigator.pop(context),
             ),
             // Avatar
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: cs.primary,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  widget.initials,
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            _buildAvatar(cs, 36),
             const SizedBox(width: 8),
             // Name
             Expanded(
@@ -166,25 +151,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isMe) ...[
-            Container(
-              width: 28,
-              height: 28,
-              decoration: BoxDecoration(
-                color: cs.primary,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  widget.initials,
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            _buildAvatar(cs, 28),
             const SizedBox(width: 8),
           ],
           Flexible(
@@ -236,6 +203,38 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     );
   }
 
+  Widget _buildAvatar(ColorScheme cs, double size) {
+    if (widget.avatarImage.isNotEmpty) {
+      return ClipOval(
+        child: Image.asset(
+          widget.avatarImage,
+          width: size,
+          height: size,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: cs.primary,
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          widget.initials,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: size * 0.3,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildInputBar(ColorScheme cs) {
     return Container(
       decoration: BoxDecoration(
@@ -249,7 +248,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         children: [
           // Attachment button
           IconButton(
-            icon: Icon(Icons.add, color: cs.tertiary),
+            icon: SvgPicture.asset(
+              'assets/icons/Add.svg',
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(cs.tertiary, BlendMode.srcIn),
+            ),
             onPressed: () {},
           ),
           // Text field

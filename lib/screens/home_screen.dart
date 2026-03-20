@@ -14,6 +14,10 @@ const _productImages = [
   'assets/images/product_04.png',
   'assets/images/product_05.png',
   'assets/images/product_06.png',
+  'assets/images/product_07.png',
+  'assets/images/product_8.png',
+  'assets/images/product_9.png',
+  'assets/images/product_10.png',
 ];
 
 class HomeScreen extends StatefulWidget {
@@ -180,6 +184,38 @@ class _HomeBodyState extends State<_HomeBody> {
       'newPrice': '49 €',
       'brand': 'Shires',
       'category': 'Uzdečky',
+    },
+    {
+      'title': 'Fleece bandáže Kentucky',
+      'subtitle': 'Kentucky / New / One size',
+      'oldPrice': '35 €',
+      'newPrice': '42 €',
+      'brand': 'Kingsland',
+      'category': 'Kamaše',
+    },
+    {
+      'title': 'Deka Eskadron Classic',
+      'subtitle': 'Eskadron / Very Good / 145cm',
+      'oldPrice': '95 €',
+      'newPrice': '110 €',
+      'brand': 'Animo',
+      'category': 'Deky',
+    },
+    {
+      'title': 'Třmeny Flex-On',
+      'subtitle': 'Flex-On / Excellent / Standard',
+      'oldPrice': '280 €',
+      'newPrice': '320 €',
+      'brand': 'Cavalleria Toscana',
+      'category': 'Třmeny',
+    },
+    {
+      'title': 'Podsedlová dečka Animo',
+      'subtitle': 'Animo / New / Drezúra',
+      'oldPrice': '55 €',
+      'newPrice': '65 €',
+      'brand': 'Animo',
+      'category': 'Sedla',
     },
   ];
 

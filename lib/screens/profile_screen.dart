@@ -81,23 +81,12 @@ class ProfileScreen extends StatelessWidget {
     return Column(
       children: [
         // Avatar
-        Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            color: cs.primary,
-            shape: BoxShape.circle,
-          ),
-          child: const Center(
-            child: Text(
-              'EN',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
+        ClipOval(
+          child: Image.asset(
+            'assets/images/avatar_1.png',
+            width: 80,
+            height: 80,
+            fit: BoxFit.cover,
           ),
         ),
         const SizedBox(height: 12),

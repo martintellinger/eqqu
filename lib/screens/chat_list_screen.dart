@@ -28,6 +28,7 @@ class _ChatListScreenState extends State<ChatListScreen>
     {
       'name': 'Emma Novak',
       'initials': 'EN',
+      'avatar': 'assets/images/avatar_1.png',
       'message': 'Ahoj, je sedlo ještě dostupné?',
       'time': '10:30',
       'unread': '2',
@@ -36,6 +37,7 @@ class _ChatListScreenState extends State<ChatListScreen>
     {
       'name': 'Jan Dvořák',
       'initials': 'JD',
+      'avatar': 'assets/images/avatar_2.png',
       'message': 'Děkuji za rychlou odpověď!',
       'time': '9:15',
       'unread': '',
@@ -44,6 +46,7 @@ class _ChatListScreenState extends State<ChatListScreen>
     {
       'name': 'Petra Svobodová',
       'initials': 'PS',
+      'avatar': 'assets/images/avatar_3.png',
       'message': 'Můžete poslat více fotek?',
       'time': 'Včera',
       'unread': '1',
@@ -52,26 +55,29 @@ class _ChatListScreenState extends State<ChatListScreen>
     {
       'name': 'Martin Horák',
       'initials': 'MH',
+      'avatar': 'assets/images/avatar_4.png',
       'message': 'Dobrý den, mám zájem o uzdečku.',
       'time': 'Včera',
       'unread': '',
-      'image': 'assets/images/product_04.png',
+      'image': 'assets/images/product_07.png',
     },
     {
       'name': 'Lucie Králová',
       'initials': 'LK',
+      'avatar': 'assets/images/avatar_5.png',
       'message': 'Posílám platbu dnes.',
       'time': 'Po',
       'unread': '',
-      'image': 'assets/images/product_05.png',
+      'image': 'assets/images/product_8.png',
     },
     {
       'name': 'Tomáš Němec',
       'initials': 'TN',
+      'avatar': '',
       'message': 'Je možná sleva?',
       'time': 'Po',
       'unread': '3',
-      'image': 'assets/images/product_06.png',
+      'image': 'assets/images/product_9.png',
     },
   ];
 
@@ -179,6 +185,7 @@ class _ChatListScreenState extends State<ChatListScreen>
                 builder: (_) => ChatDetailScreen(
                   name: conv['name']!,
                   initials: conv['initials']!,
+                  avatarImage: conv['avatar']!,
                   productImage: conv['image']!,
                 ),
               ),
@@ -189,25 +196,7 @@ class _ChatListScreenState extends State<ChatListScreen>
             child: Row(
               children: [
                 // Avatar
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: cs.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      conv['initials']!,
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                _buildAvatar(cs, conv['avatar']!, conv['initials']!, 48),
                 const SizedBox(width: 12),
                 // Name + message
                 Expanded(
@@ -285,6 +274,38 @@ class _ChatListScreenState extends State<ChatListScreen>
           ),
         );
       },
+    );
+  }
+
+  Widget _buildAvatar(ColorScheme cs, String avatarPath, String initials, double size) {
+    if (avatarPath.isNotEmpty) {
+      return ClipOval(
+        child: Image.asset(
+          avatarPath,
+          width: size,
+          height: size,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: cs.primary,
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          initials,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: size * 0.3,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 

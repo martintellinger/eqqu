@@ -9,6 +9,10 @@ const _productImages = [
   'assets/images/product_04.png',
   'assets/images/product_05.png',
   'assets/images/product_06.png',
+  'assets/images/product_07.png',
+  'assets/images/product_8.png',
+  'assets/images/product_9.png',
+  'assets/images/product_10.png',
 ];
 
 class FavoritesScreen extends StatefulWidget {
@@ -19,7 +23,7 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  final Set<int> _favorites = {0, 1, 2, 3, 4, 5};
+  final Set<int> _favorites = {0, 1, 2, 3, 4, 5, 6, 7};
 
   static const _products = [
     {
@@ -57,6 +61,30 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       'subtitle': 'Shires / New / Cob',
       'oldPrice': '42 €',
       'newPrice': '49 €',
+    },
+    {
+      'title': 'Fleece bandáže Kentucky',
+      'subtitle': 'Kentucky / New / One size',
+      'oldPrice': '35 €',
+      'newPrice': '42 €',
+    },
+    {
+      'title': 'Deka Eskadron Classic',
+      'subtitle': 'Eskadron / Very Good / 145cm',
+      'oldPrice': '95 €',
+      'newPrice': '110 €',
+    },
+    {
+      'title': 'Třmeny Flex-On',
+      'subtitle': 'Flex-On / Excellent / Standard',
+      'oldPrice': '280 €',
+      'newPrice': '320 €',
+    },
+    {
+      'title': 'Podsedlová dečka Animo',
+      'subtitle': 'Animo / New / Drezúra',
+      'oldPrice': '55 €',
+      'newPrice': '65 €',
     },
   ];
 

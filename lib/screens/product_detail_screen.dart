@@ -482,15 +482,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Avatar
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              color: cs.primary,
-              shape: BoxShape.circle,
-            ),
-            child: const Center(
-              child: Text('EN', style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
+          ClipOval(
+            child: Image.asset(
+              'assets/images/avatar_1.png',
+              width: 64,
+              height: 64,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(width: 12),
@@ -695,18 +692,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget _buildMoreProducts(ColorScheme cs) {
     final products = [
       {
-        'title': 'Black GP type saddle',
-        'subtitle': 'No brand / Good / 17"',
-        'oldPrice': '140 €',
-        'newPrice': '159 €',
-        'image': 'assets/images/product_01.png',
+        'title': 'Fleece bandáže Kentucky',
+        'subtitle': 'Kentucky / New / One size',
+        'oldPrice': '35 €',
+        'newPrice': '42 €',
+        'image': 'assets/images/product_07.png',
       },
       {
-        'title': 'Blue Comfort type saddle',
-        'subtitle': 'Shires / New / Cob',
-        'oldPrice': '42 €',
-        'newPrice': '49 €',
-        'image': 'assets/images/product_02.png',
+        'title': 'Deka Eskadron Classic',
+        'subtitle': 'Eskadron / Very Good / 145cm',
+        'oldPrice': '95 €',
+        'newPrice': '110 €',
+        'image': 'assets/images/product_8.png',
       },
     ];
 
