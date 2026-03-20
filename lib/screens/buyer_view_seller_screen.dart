@@ -154,7 +154,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
       context: context,
       builder: (ctx) => Dialog(
         backgroundColor: cs.surfaceContainerHigh,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -173,7 +173,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Zablokovaný uživatel vás nebude moci kontaktovat ani vidět váš profil. Tuto akci můžete kdykoliv zrušit v nastavení.',
+                'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14,
@@ -185,54 +185,50 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               ),
               const SizedBox(height: 24),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 48,
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: cs.outlineVariant),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                  SizedBox(
+                    height: 48,
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: cs.outlineVariant),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        child: Text(
-                          'Zrušit',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurfaceVariant,
-                            letterSpacing: 0.15,
-                            height: 24 / 16,
-                          ),
+                      ),
+                      child: Text(
+                        'Zrušit',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: cs.onSurfaceVariant,
+                          letterSpacing: 0.1,
+                          height: 20 / 14,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: SizedBox(
-                      height: 48,
-                      child: FilledButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: const Color(0xFFCE0101),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                  SizedBox(
+                    height: 48,
+                    child: FilledButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: const Color(0xFFCE0101),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        child: const Text(
-                          'Zablokovat',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            letterSpacing: 0.15,
-                            height: 24 / 16,
-                          ),
+                      ),
+                      child: const Text(
+                        'Zablokovat',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          letterSpacing: 0.1,
+                          height: 20 / 14,
                         ),
                       ),
                     ),
@@ -278,7 +274,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   ),
                 ),
                 Text(
-                  'Nahlášení',
+                  'Důvod nahlášení',
                   style: TextStyle(
                     fontFamily: 'Outfit',
                     fontSize: 24,
@@ -287,9 +283,9 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     height: 32 / 24,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
                 Text(
-                  'Vyberte důvod nahlášení',
+                  'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit.',
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 14,
@@ -307,7 +303,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   'Myslím si, že jde o podvod nebo spam',
                   (val) => setSheetState(() => selectedReason = val),
                 ),
-                const SizedBox(height: 12),
                 _buildRadioOption(
                   cs,
                   1,
@@ -315,7 +310,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   'Text je urážlivý',
                   (val) => setSheetState(() => selectedReason = val),
                 ),
-                const SizedBox(height: 12),
                 _buildRadioOption(
                   cs,
                   2,
@@ -323,7 +317,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   'Něco jiného',
                   (val) => setSheetState(() => selectedReason = val),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 SizedBox(
                   width: double.infinity,
                   height: 56,
@@ -375,34 +369,37 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
     final selected = value == groupValue;
     return GestureDetector(
       onTap: () => onChanged(value),
-      child: Row(
-        children: [
-          Container(
-            width: 20,
-            height: 20,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: selected ? cs.surfaceTint : cs.outlineVariant,
-                width: selected ? 6 : 2,
+      child: SizedBox(
+        height: 56,
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                  color: selected ? cs.surfaceTint : cs.onSurface,
+                  letterSpacing: 0.25,
+                  height: 20 / 14,
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                color: selected ? cs.surfaceTint : cs.onSurface,
-                letterSpacing: 0.25,
-                height: 20 / 14,
+            const SizedBox(width: 12),
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: selected ? cs.surfaceTint : cs.outlineVariant,
+                  width: selected ? 6 : 2,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -415,7 +412,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
       context: context,
       builder: (ctx) => Dialog(
         backgroundColor: cs.surfaceContainerHigh,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -434,7 +431,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Popište prosím podrobněji důvod nahlášení tohoto profilu.',
+                'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14,
@@ -482,54 +479,50 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               ),
               const SizedBox(height: 24),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 48,
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: cs.outlineVariant),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                  SizedBox(
+                    height: 48,
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: cs.outlineVariant),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        child: Text(
-                          'Zrušit',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurfaceVariant,
-                            letterSpacing: 0.15,
-                            height: 24 / 16,
-                          ),
+                      ),
+                      child: Text(
+                        'Zrušit',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: cs.onSurfaceVariant,
+                          letterSpacing: 0.1,
+                          height: 20 / 14,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: SizedBox(
-                      height: 48,
-                      child: FilledButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: cs.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                  SizedBox(
+                    height: 48,
+                    child: FilledButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: cs.secondaryContainer,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        child: const Text(
-                          'Odeslat',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            letterSpacing: 0.15,
-                            height: 24 / 16,
-                          ),
+                      ),
+                      child: Text(
+                        'Odeslat',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: cs.onSecondaryContainer,
+                          letterSpacing: 0.1,
+                          height: 20 / 14,
                         ),
                       ),
                     ),
