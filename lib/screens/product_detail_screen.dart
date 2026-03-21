@@ -425,7 +425,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             children: [
               Expanded(child: _specItem(cs, 'assets/icons/Tag.svg', 'Condition', widget.condition)),
               const SizedBox(width: 12),
-              Expanded(child: _specItem(cs, 'assets/icons/Measuring tape.svg', 'Size', 'One size')),
+              Expanded(child: _specItem(cs, 'assets/icons/Measuring_tape.svg', 'Size', 'One size')),
             ],
           ),
           const SizedBox(height: 12),

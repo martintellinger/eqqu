@@ -49,23 +49,23 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // Menu group 1
-                    _buildMenuItem(cs, 'assets/icons/moje inzeraty.svg', 'Moje inzeráty', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/moje_inzeraty.svg', 'Moje inzeráty', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MyListingsScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/moje nakupy.svg', 'Moje nákupy', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/moje_nakupy.svg', 'Moje nákupy', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MyPurchasesScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/moje prodeje.svg', 'Moje prodeje', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/moje_prodeje.svg', 'Moje prodeje', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MySalesScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/oblibene predmety.svg', 'Oblíbené předměty'),
+                    _buildMenuItem(cs, 'assets/icons/oblibene_predmety.svg', 'Oblíbené předměty'),
                     const SizedBox(height: 24),
 
                     // Menu group 2
-                    _buildMenuItem(cs, 'assets/icons/mimo staj.svg', 'Mimo stáj', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/mimo_staj.svg', 'Mimo stáj', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MimoStajScreen()));
                     }),
                     const SizedBox(height: 12),
@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // Menu group 3
-                    _buildMenuItem(cs, 'assets/icons/jak funguje.svg', 'Jak to funguje', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/jak_funguje.svg', 'Jak to funguje', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const HowItWorksScreen()));
                     }),
                     const SizedBox(height: 12),
@@ -83,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const HelpScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/zpetna vazba.svg', 'Zpětná vazba', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/zpetna_vazba.svg', 'Zpětná vazba', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const FeedbackScreen()));
                     }),
                     const SizedBox(height: 24),
@@ -93,11 +93,11 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/o nas.svg', 'O nás', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/o_nas.svg', 'O nás', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/eqqu platforma.svg', 'EQQU Platforma', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/eqqu_platforma.svg', 'EQQU Platforma', onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const EqquPlatformScreen()));
                     }),
                     const SizedBox(height: 24),

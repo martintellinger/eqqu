@@ -32,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   static const _navItems = [
-    {'svg': 'assets/menu/Property 1=Home.svg', 'label': 'Domů'},
-    {'svg': 'assets/menu/Property 1=Chat.svg', 'label': 'Chat'},
-    {'svg': 'assets/menu/Property 1=Plus symbol button.svg', 'label': 'Prodat'},
-    {'svg': 'assets/menu/Property 1=Heart.svg', 'label': 'Oblíbené'},
-    {'svg': 'assets/menu/Property 1=User.svg', 'label': 'Profil'},
+    {'svg': 'assets/menu/Home.svg', 'label': 'Domů'},
+    {'svg': 'assets/menu/Chat.svg', 'label': 'Chat'},
+    {'svg': 'assets/menu/Plus_symbol_button.svg', 'label': 'Prodat'},
+    {'svg': 'assets/menu/Heart.svg', 'label': 'Oblíbené'},
+    {'svg': 'assets/menu/User.svg', 'label': 'Profil'},
   ];
 
   @override

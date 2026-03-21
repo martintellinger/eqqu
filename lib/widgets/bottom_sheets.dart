@@ -23,11 +23,11 @@ const _categorySvgs = [
   'assets/icons/Jezdci.svg',
   'assets/icons/Staj.svg',
   'assets/icons/Psi.svg',
-  'assets/icons/Kniha hracky darky.svg',
+  'assets/icons/Kniha_hracky_darky.svg',
   'assets/icons/Kone.svg',
-  'assets/icons/Veterinarni produkty.svg',
+  'assets/icons/Veterinarni_produkty.svg',
   'assets/icons/Krmivo.svg',
-  'assets/icons/erapeuticke pristroje.svg',
+  'assets/icons/erapeuticke_pristroje.svg',
 ];
 
 const _subcategoriesMap = <String, List<String>>{
