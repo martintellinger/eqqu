@@ -369,7 +369,11 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             SizedBox(
               height: 40,
               child: FilledButton(
-                onPressed: () => Navigator.pop(ctx),
+                onPressed: () async {
+                  Navigator.pop(ctx);
+                  await Future.delayed(const Duration(milliseconds: 300));
+                  if (mounted) _showReservationErrorSheet();
+                },
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.secondary,
                   shape: RoundedRectangleBorder(
@@ -389,6 +393,93 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void _showReservationErrorSheet() {
+    final cs = Theme.of(context).colorScheme;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: cs.errorContainer,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (ctx) {
+        return Padding(
+          padding: EdgeInsets.fromLTRB(
+            24, 8, 24, MediaQuery.of(ctx).padding.bottom + 24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag handle
+              Container(
+                width: 32,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 24),
+                decoration: BoxDecoration(
+                  color: cs.onErrorContainer.withValues(alpha: 0.4),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Icon(
+                Icons.error_outline,
+                size: 48,
+                color: cs.onErrorContainer,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Rezervace se nezdařila',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: cs.onErrorContainer,
+                  height: 28 / 20,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Nepodařilo se rezervovat inzerát. Zkuste to prosím znovu později.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: cs.onErrorContainer,
+                  letterSpacing: 0.25,
+                  height: 20 / 14,
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: FilledButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: cs.error,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  child: Text(
+                    'Zavřít',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: cs.onError,
+                      letterSpacing: 0.15,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
