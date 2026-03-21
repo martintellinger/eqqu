@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/main.dart';
+import 'package:eqqu/utils/language_notifier.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -9,7 +11,13 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class _LanguageScreenState extends State<LanguageScreen> {
-  String _selectedLanguage = 'Čeština';
+  late String _selectedCode;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedCode = languageNotifier.selectedCode;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,52 +47,29 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Container(
-                    height: 56,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: cs.outline),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(4),
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  _selectedLanguage,
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: cs.onSurfaceVariant,
-                                    letterSpacing: 0.5,
-                                    height: 24 / 16,
-                                  ),
-                                ),
-                              ),
-                              Icon(Icons.chevron_right, color: cs.onSurfaceVariant),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  ...LanguageNotifier.languages.map((lang) {
+                    final isSelected = lang.code == _selectedCode;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: _buildLanguageOption(cs, lang, isSelected),
+                    );
+                  }),
                 ],
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+            padding: EdgeInsets.fromLTRB(16, 0, 16, MediaQuery.of(context).padding.bottom + 24),
             child: SizedBox(
               width: double.infinity,
               height: 56,
               child: FilledButton(
-                onPressed: null, // Disabled by default
+                onPressed: _selectedCode != languageNotifier.selectedCode
+                    ? () {
+                        languageNotifier.setLanguage(_selectedCode);
+                        Navigator.pop(context);
+                      }
+                    : null,
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
                   disabledBackgroundColor: cs.onSurface.withValues(alpha: 0.1),
@@ -106,6 +91,55 @@ class _LanguageScreenState extends State<LanguageScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLanguageOption(ColorScheme cs, Language lang, bool isSelected) {
+    return GestureDetector(
+      onTap: () => setState(() => _selectedCode = lang.code),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: isSelected ? cs.surfaceTint : cs.outlineVariant,
+            width: isSelected ? 2 : 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isSelected ? cs.surfaceTint : cs.outlineVariant,
+                  width: isSelected ? 6 : 2,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              lang.flag,
+              style: const TextStyle(fontSize: 22),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              lang.name,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                color: isSelected ? cs.surfaceTint : cs.onSurface,
+                letterSpacing: 0.5,
+                height: 24 / 16,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

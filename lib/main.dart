@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_theme.dart';
 import 'package:eqqu/theme/theme_notifier.dart';
+import 'package:eqqu/utils/language_notifier.dart';
 import 'package:eqqu/screens/splash_screen.dart';
 import 'package:eqqu/screens/registration_screen.dart';
 import 'package:eqqu/screens/login_screen.dart';
@@ -9,6 +10,7 @@ import 'package:eqqu/screens/intro_screen.dart';
 import 'package:eqqu/screens/home_screen.dart';
 
 final themeNotifier = ThemeNotifier();
+final languageNotifier = LanguageNotifier();
 
 void main() {
   runApp(const EqquApp());
