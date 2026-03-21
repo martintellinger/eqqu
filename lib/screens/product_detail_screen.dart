@@ -180,7 +180,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildImageHeader(ColorScheme cs) {
-    return SizedBox(
+    Widget imageArea = SizedBox(
       height: 391,
       child: Stack(
         children: [
@@ -189,27 +189,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             itemCount: _totalImages,
             onPageChanged: (i) => setState(() => _currentImageIndex = i),
             itemBuilder: (_, index) {
-              Widget image;
               if (widget.imageAsset.isNotEmpty) {
-                image = Image.asset(
+                return Image.asset(
                   widget.imageAsset,
                   fit: BoxFit.cover,
                   width: double.infinity,
                 );
-              } else {
-                image = Container(
-                  color: cs.surfaceContainerLow,
-                  child: Icon(Icons.image_outlined, size: 64, color: cs.tertiary.withValues(alpha: 0.3)),
-                );
               }
-              // Wrap first image in Hero for smooth transition from grid
-              if (index == 0 && widget.heroTag.isNotEmpty) {
-                return Hero(
-                  tag: widget.heroTag,
-                  child: ClipRect(child: image),
-                );
-              }
-              return image;
+              return Container(
+                color: cs.surfaceContainerLow,
+                child: Icon(Icons.image_outlined, size: 64, color: cs.tertiary.withValues(alpha: 0.3)),
+              );
             },
           ),
 
@@ -283,6 +273,42 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ],
       ),
     );
+
+    // Wrap entire image area with Hero for smooth grid→detail transition
+    if (widget.heroTag.isNotEmpty) {
+      imageArea = Hero(
+        tag: widget.heroTag,
+        flightShuttleBuilder: (_, animation, direction, fromContext, toContext) {
+          return AnimatedBuilder(
+            animation: animation,
+            builder: (context, child) {
+              final borderRadius = BorderRadius.lerp(
+                BorderRadius.circular(4),
+                BorderRadius.zero,
+                animation.value,
+              )!;
+              return ClipRRect(
+                borderRadius: borderRadius,
+                child: widget.imageAsset.isNotEmpty
+                    ? Image.asset(
+                        widget.imageAsset,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      )
+                    : Container(color: cs.surfaceContainerLow),
+              );
+            },
+          );
+        },
+        child: Material(
+          type: MaterialType.transparency,
+          child: imageArea,
+        ),
+      );
+    }
+
+    return imageArea;
   }
 
   Widget _buildProductInfo(ColorScheme cs) {
