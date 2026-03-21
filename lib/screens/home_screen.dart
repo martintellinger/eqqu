@@ -343,11 +343,6 @@ class _HomeBodyState extends State<_HomeBody> {
     super.dispose();
   }
 
-  void _onSearchTap() {
-    setState(() => _isSearching = true);
-    _searchFocus.requestFocus();
-  }
-
   void _closeSearch() {
     setState(() {
       _isSearching = false;
@@ -378,9 +373,7 @@ class _HomeBodyState extends State<_HomeBody> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: GestureDetector(
-                          onTap: _onSearchTap,
-                          child: Container(
+                        child: Container(
                             height: 56,
                             decoration: BoxDecoration(
                               color: cs.surfaceContainerHigh,
@@ -395,42 +388,44 @@ class _HomeBodyState extends State<_HomeBody> {
                                   child: Icon(Icons.search, color: cs.onSurfaceVariant, size: 24),
                                 ),
                                 Expanded(
-                                  child: _isSearching
-                                    ? TextField(
-                                        controller: _searchController,
-                                        focusNode: _searchFocus,
-                                        onChanged: (v) => setState(() => _searchQuery = v),
-                                        onSubmitted: _applySearch,
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: cs.onSurface,
-                                        ),
-                                        decoration: InputDecoration(
-                                          hintText: 'Hledat',
-                                          hintStyle: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: cs.onSurfaceVariant,
-                                          ),
-                                          border: InputBorder.none,
-                                          contentPadding: EdgeInsets.zero,
-                                          isDense: true,
-                                        ),
-                                      )
-                                    : Text(
-                                        _searchQuery.isEmpty ? 'Hledat' : _searchQuery,
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: _searchQuery.isEmpty ? cs.onSurfaceVariant : cs.onSurface,
-                                          letterSpacing: 0.5,
-                                          height: 24 / 16,
-                                        ),
+                                  child: TextField(
+                                    controller: _searchController,
+                                    focusNode: _searchFocus,
+                                    onChanged: (v) => setState(() {
+                                      _searchQuery = v;
+                                      if (!_isSearching) _isSearching = true;
+                                    }),
+                                    onSubmitted: _applySearch,
+                                    onTap: () {
+                                      if (!_isSearching) {
+                                        setState(() => _isSearching = true);
+                                      }
+                                    },
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: cs.onSurface,
+                                      letterSpacing: 0.5,
+                                      height: 24 / 16,
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: 'Hledat',
+                                      hintStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: cs.onSurfaceVariant,
+                                        letterSpacing: 0.5,
+                                        height: 24 / 16,
                                       ),
+                                      border: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      contentPadding: EdgeInsets.zero,
+                                      isDense: true,
+                                    ),
+                                  ),
                                 ),
                                 if (_searchQuery.isNotEmpty || _isSearching)
                                   GestureDetector(
@@ -443,7 +438,6 @@ class _HomeBodyState extends State<_HomeBody> {
                               ],
                             ),
                           ),
-                        ),
                       ),
                       const SizedBox(width: 16),
                       Stack(
