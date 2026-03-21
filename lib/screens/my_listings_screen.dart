@@ -128,26 +128,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${deleted['title']} smazán'),
-          action: SnackBarAction(
-            label: 'Zpět',
-            onPressed: () {
-              setState(() {
-                _listings.insert(index, deleted);
-                final restored = <int>{};
-                for (final h in _hiddenIndices) {
-                  if (h >= index) {
-                    restored.add(h + 1);
-                  } else {
-                    restored.add(h);
-                  }
-                }
-                _hiddenIndices
-                  ..clear()
-                  ..addAll(restored);
-              });
-            },
-          ),
+          content: Text('${deleted['title']} byl smazán'),
         ),
       );
     });
