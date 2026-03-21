@@ -424,7 +424,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     final cs = Theme.of(context).colorScheme;
     showBlurDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogCtx) => AlertDialog(
         backgroundColor: cs.surfaceContainerHigh,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         title: Text(
@@ -454,7 +454,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               OutlinedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pop(dialogCtx),
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: cs.outlineVariant),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
@@ -474,8 +474,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               const SizedBox(width: 8),
               FilledButton(
                 onPressed: () {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(this.context).showSnackBar(
+                  Navigator.pop(dialogCtx);
+                  ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text(
                         'Účet byl smazán',
@@ -486,7 +486,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                   );
-                  Navigator.pushNamedAndRemoveUntil(this.context, '/login', (_) => false);
+                  Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.error,

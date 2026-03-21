@@ -7,23 +7,14 @@ Future<T?> showBlurDialog<T>({
   required WidgetBuilder builder,
   bool barrierDismissible = true,
 }) {
-  return showGeneralDialog<T>(
+  return showDialog<T>(
     context: context,
     barrierDismissible: barrierDismissible,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    barrierColor: Colors.transparent,
-    transitionDuration: const Duration(milliseconds: 250),
-    pageBuilder: (ctx, animation, secondaryAnimation) {
-      return FadeTransition(
-        opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: Container(
-            color: Colors.black.withValues(alpha: 0.3),
-            alignment: Alignment.center,
-            child: builder(ctx),
-          ),
-        ),
+    barrierColor: Colors.black.withValues(alpha: 0.15),
+    builder: (ctx) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        child: builder(ctx),
       );
     },
   );
