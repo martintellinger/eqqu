@@ -387,47 +387,41 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildDescription(ColorScheme cs) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Opacity(
-        opacity: 0.8,
-        child: Text(
-          'Kentucky bandages for sale never used, 4 pieces. Unisex size. The 280 g/m2 Polar Fleece Bandages feature a strong Velcro fastening and are designed with a high quality fleece to avoid pilling. These bandages measure 325 x 12 cm.',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: cs.secondary,
-            letterSpacing: 0.25,
-            height: 20 / 14,
-          ),
+    return Opacity(
+      opacity: 0.8,
+      child: Text(
+        'Kentucky bandages for sale never used, 4 pieces. Unisex size. The 280 g/m2 Polar Fleece Bandages feature a strong Velcro fastening and are designed with a high quality fleece to avoid pilling. These bandages measure 325 x 12 cm.',
+        style: TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: cs.secondary,
+          letterSpacing: 0.25,
+          height: 20 / 14,
         ),
       ),
     );
   }
 
   Widget _buildSpecsGrid(ColorScheme cs) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(child: _specItem(cs, 'assets/icons/Tag.svg', 'Condition', widget.condition)),
-              const SizedBox(width: 12),
-              Expanded(child: _specItem(cs, 'assets/icons/Measuring_tape.svg', 'Size', 'One size')),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(child: _specItem(cs, 'assets/icons/Color.svg', 'Color', 'Gray')),
-              const SizedBox(width: 12),
-              Expanded(child: _specItem(cs, 'assets/icons/Fabric.svg', 'Material', 'Cotton')),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(child: _specItem(cs, 'assets/icons/Tag.svg', 'Condition', widget.condition)),
+            const SizedBox(width: 12),
+            Expanded(child: _specItem(cs, 'assets/icons/Measuring_tape.svg', 'Size', 'One size')),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(child: _specItem(cs, 'assets/icons/Color.svg', 'Color', 'Gray')),
+            const SizedBox(width: 12),
+            Expanded(child: _specItem(cs, 'assets/icons/Fabric.svg', 'Material', 'Cotton')),
+          ],
+        ),
+      ],
     );
   }
 
