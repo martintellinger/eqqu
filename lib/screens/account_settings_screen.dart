@@ -486,7 +486,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                   );
-                  Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+                  Navigator.pushNamedAndRemoveUntil(context, '/intro', (_) => false);
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.error,

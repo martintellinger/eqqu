@@ -41379,7 +41379,7 @@ s=this.a
 s.c.a6(t.O).f.f7(A.hV(r,r,r,this.c.fy,B.bm,B.x,r,B.a1J,r,B.bK,r,r,r,r,r,r,new A.aZ(A.a3(8),B.p),r,r))
 s=s.c
 s.toString
-A.qM(s,"/login",new A.ajJ(),t.X)},
+A.qM(s,"/intro",new A.ajJ(),t.X)},
 $S:0}
 A.ajJ.prototype={
 $1(a){return!1},
