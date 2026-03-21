@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -90,7 +91,7 @@ class _CartScreenState extends State<CartScreen> {
 
   void _showOrderConfirmation() {
     final cs = Theme.of(context).colorScheme;
-    showDialog(
+    showBlurDialog(
       context: context,
       barrierDismissible: false,
       builder: (ctx) => Dialog(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
@@ -421,7 +422,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
   void _showDeleteDialog() {
     final cs = Theme.of(context).colorScheme;
-    showDialog(
+    showBlurDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFFF7F7F7),

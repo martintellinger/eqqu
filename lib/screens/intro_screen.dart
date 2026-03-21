@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -21,6 +22,7 @@ class _IntroScreenState extends State<IntroScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
+      barrierColor: kBlurBarrierColor,
       builder: (_) => Container(
         decoration: const BoxDecoration(
           color: Color(0xFF1A1A1A),

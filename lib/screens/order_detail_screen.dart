@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   const OrderDetailScreen({super.key});
@@ -33,7 +34,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     int selectedStars = 4;
     final textController = TextEditingController();
 
-    showDialog(
+    showBlurDialog(
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) => Dialog(

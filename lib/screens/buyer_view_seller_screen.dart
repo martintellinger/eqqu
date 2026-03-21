@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/screens/reviews_screen.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 class BuyerViewSellerScreen extends StatefulWidget {
   const BuyerViewSellerScreen({super.key});
@@ -51,6 +52,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: cs.surface,
+      barrierColor: kBlurBarrierColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -150,7 +152,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
 
   void _showBlockDialog() {
     final cs = Theme.of(context).colorScheme;
-    showDialog(
+    showBlurDialog(
       context: context,
       builder: (ctx) => Dialog(
         backgroundColor: cs.surfaceContainerHigh,
@@ -252,6 +254,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: cs.surface,
+      barrierColor: kBlurBarrierColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -410,7 +413,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
     final cs = Theme.of(context).colorScheme;
     final controller = TextEditingController();
 
-    showDialog(
+    showBlurDialog(
       context: context,
       builder: (ctx) => Dialog(
         backgroundColor: cs.surfaceContainerHigh,

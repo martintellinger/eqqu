@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 // ══════════════════════════════════════════════════════════════════════════════
 // Filter Data
@@ -123,6 +124,7 @@ Future<Map<String, String>?> showFilterSheet(BuildContext context, {Map<String, 
     context: context,
     isScrollControlled: true,
     backgroundColor: Theme.of(context).colorScheme.surface,
+    barrierColor: kBlurBarrierColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -257,6 +259,7 @@ Future<String?> _showSelectSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Theme.of(context).colorScheme.surface,
+    barrierColor: kBlurBarrierColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -361,6 +364,7 @@ Future<String?> _showCategorySelectSheet(BuildContext context, String? currentVa
     context: context,
     isScrollControlled: true,
     backgroundColor: Theme.of(context).colorScheme.surface,
+    barrierColor: kBlurBarrierColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -538,6 +542,7 @@ Future<String?> _showPriceSheet(BuildContext context, String? currentValue) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Theme.of(context).colorScheme.surface,
+    barrierColor: kBlurBarrierColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -685,6 +690,7 @@ Future<String?> showCategoriesSheet(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Theme.of(context).colorScheme.surface,
+    barrierColor: kBlurBarrierColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -855,6 +861,7 @@ void showSortingSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Theme.of(context).colorScheme.surface,
+    barrierColor: kBlurBarrierColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -926,6 +933,7 @@ void showPriceRangeSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Theme.of(context).colorScheme.surface,
+    barrierColor: kBlurBarrierColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),

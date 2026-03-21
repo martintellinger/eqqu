@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 class SellerProfileScreen extends StatefulWidget {
   const SellerProfileScreen({super.key});
@@ -49,6 +50,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: cs.surface,
+      barrierColor: kBlurBarrierColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),

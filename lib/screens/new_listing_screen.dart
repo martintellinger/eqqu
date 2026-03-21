@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 class NewListingScreen extends StatefulWidget {
   const NewListingScreen({super.key});
@@ -350,6 +351,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: cs.surface,
+      barrierColor: kBlurBarrierColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
