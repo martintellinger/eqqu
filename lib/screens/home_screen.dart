@@ -86,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     if (i == 2) {
-                      // Push NewListingScreen as a route so back button works
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => const NewListingScreen()),
@@ -100,22 +99,39 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(
-                          item['svg']!,
-                          width: 24,
-                          height: 24,
-                          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+                        AnimatedScale(
+                          scale: isActive ? 1.15 : 1.0,
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeOutBack,
+                          child: SvgPicture.asset(
+                            item['svg']!,
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+                          ),
                         ),
-                        const SizedBox(height: 12),
-                        Text(
-                          item['label']!,
+                        const SizedBox(height: 8),
+                        AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 200),
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                             color: color,
                             letterSpacing: 0.5,
                             height: 16 / 12,
+                          ),
+                          child: Text(item['label']!),
+                        ),
+                        const SizedBox(height: 4),
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
+                          width: isActive ? 24 : 0,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: isActive ? cs.surfaceTint : Colors.transparent,
+                            borderRadius: BorderRadius.circular(1.5),
                           ),
                         ),
                       ],
@@ -138,7 +154,7 @@ class _HomeBody extends StatefulWidget {
   State<_HomeBody> createState() => _HomeBodyState();
 }
 
-class _HomeBodyState extends State<_HomeBody> {
+class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
   final Set<int> _favorites = {};
   String? _activeChip;
   String _searchQuery = '';
@@ -146,6 +162,24 @@ class _HomeBodyState extends State<_HomeBody> {
   final _searchController = TextEditingController();
   final _searchFocus = FocusNode();
   Map<String, String> _activeFilters = {};
+  late AnimationController _staggerController;
+  final Map<int, Animation<double>> _staggerAnimations = {};
+
+  void _initStaggerAnimations(int count) {
+    _staggerController = AnimationController(
+      duration: Duration(milliseconds: 300 + count * 80),
+      vsync: this,
+    );
+    for (int i = 0; i < count; i++) {
+      final start = (i * 0.1).clamp(0.0, 0.7);
+      final end = (start + 0.4).clamp(0.0, 1.0);
+      _staggerAnimations[i] = CurvedAnimation(
+        parent: _staggerController,
+        curve: Interval(start, end, curve: Curves.easeOut),
+      );
+    }
+    _staggerController.forward();
+  }
 
   static const _allProducts = [
     {
@@ -355,9 +389,16 @@ class _HomeBodyState extends State<_HomeBody> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _initStaggerAnimations(10);
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     _searchFocus.dispose();
+    _staggerController.dispose();
     super.dispose();
   }
 
@@ -918,19 +959,28 @@ class _HomeBodyState extends State<_HomeBody> {
 
   Widget _buildProductCard(ColorScheme cs, int index, Map<String, String> product, String imagePath) {
     final isFav = _favorites.contains(index);
-    return GestureDetector(
+    final heroTag = 'product_image_${imagePath}_$index';
+
+    // Stagger animation wrapper
+    Widget card = _TapScaleWidget(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (_) => ProductDetailScreen(
+          PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 350),
+            reverseTransitionDuration: const Duration(milliseconds: 300),
+            pageBuilder: (_, __, ___) => ProductDetailScreen(
               brand: product['subtitle']!.split(' / ').first,
               name: product['title']!,
               condition: 'Used',
               price: product['newPrice']!,
               oldPrice: product['oldPrice']!,
               imageAsset: imagePath,
+              heroTag: heroTag,
             ),
+            transitionsBuilder: (_, animation, __, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
           ),
         );
       },
@@ -943,13 +993,16 @@ class _HomeBodyState extends State<_HomeBody> {
             aspectRatio: 177 / 200,
             child: Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Image.asset(
-                    imagePath,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
+                Hero(
+                  tag: heroTag,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.asset(
+                      imagePath,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -971,7 +1024,6 @@ class _HomeBodyState extends State<_HomeBody> {
             ),
           ),
           const SizedBox(height: 4),
-          // Title (with search highlight)
           _highlightedText(
             product['title']!,
             _searchQuery,
@@ -985,7 +1037,6 @@ class _HomeBodyState extends State<_HomeBody> {
             ),
             cs.surfaceTint,
           ),
-          // Subtitle (with search highlight)
           _highlightedText(
             product['subtitle']!,
             _searchQuery,
@@ -1000,7 +1051,6 @@ class _HomeBodyState extends State<_HomeBody> {
             cs.surfaceTint,
           ),
           const SizedBox(height: 1),
-          // Price row
           Row(
             children: [
               Text(
@@ -1044,10 +1094,30 @@ class _HomeBodyState extends State<_HomeBody> {
         ],
       ),
     );
+
+    // Apply stagger animation if available
+    final anim = _staggerAnimations[index.clamp(0, 9)];
+    if (anim != null) {
+      card = AnimatedBuilder(
+        animation: anim,
+        builder: (context, child) => Opacity(
+          opacity: anim.value,
+          child: Transform.translate(
+            offset: Offset(0, 20 * (1 - anim.value)),
+            child: child,
+          ),
+        ),
+        child: card,
+      );
+    }
+
+    return card;
   }
 
   Widget _buildFeaturedCard(String imagePath) {
-    return ClipRRect(
+    return _TapScaleWidget(
+      onTap: () {},
+      child: ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Stack(
         fit: StackFit.expand,
@@ -1108,6 +1178,65 @@ class _HomeBodyState extends State<_HomeBody> {
             ),
           ),
         ],
+      ),
+    ),
+    );
+  }
+}
+
+/// A widget that scales down slightly on tap for a tactile press effect.
+class _TapScaleWidget extends StatefulWidget {
+  final Widget child;
+  final VoidCallback onTap;
+
+  const _TapScaleWidget({required this.child, required this.onTap});
+
+  @override
+  State<_TapScaleWidget> createState() => _TapScaleWidgetState();
+}
+
+class _TapScaleWidgetState extends State<_TapScaleWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 120),
+      reverseDuration: const Duration(milliseconds: 200),
+      vsync: this,
+      lowerBound: 0.0,
+      upperBound: 1.0,
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.97).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => _controller.forward(),
+      onTapUp: (_) {
+        _controller.reverse();
+        widget.onTap();
+      },
+      onTapCancel: () => _controller.reverse(),
+      child: AnimatedBuilder(
+        animation: _scaleAnimation,
+        builder: (context, child) => Transform.scale(
+          scale: _scaleAnimation.value,
+          child: child,
+        ),
+        child: widget.child,
       ),
     );
   }

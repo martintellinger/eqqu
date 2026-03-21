@@ -13,6 +13,7 @@ class ProductDetailScreen extends StatefulWidget {
   final String price;
   final String oldPrice;
   final String imageAsset;
+  final String heroTag;
 
   const ProductDetailScreen({
     super.key,
@@ -22,6 +23,7 @@ class ProductDetailScreen extends StatefulWidget {
     required this.price,
     required this.oldPrice,
     this.imageAsset = '',
+    this.heroTag = '',
   });
 
   @override
@@ -187,17 +189,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             itemCount: _totalImages,
             onPageChanged: (i) => setState(() => _currentImageIndex = i),
             itemBuilder: (_, index) {
+              Widget image;
               if (widget.imageAsset.isNotEmpty) {
-                return Image.asset(
+                image = Image.asset(
                   widget.imageAsset,
                   fit: BoxFit.cover,
                   width: double.infinity,
                 );
+              } else {
+                image = Container(
+                  color: cs.surfaceContainerLow,
+                  child: Icon(Icons.image_outlined, size: 64, color: cs.tertiary.withValues(alpha: 0.3)),
+                );
               }
-              return Container(
-                color: cs.surfaceContainerLow,
-                child: Icon(Icons.image_outlined, size: 64, color: cs.tertiary.withValues(alpha: 0.3)),
-              );
+              // Wrap first image in Hero for smooth transition from grid
+              if (index == 0 && widget.heroTag.isNotEmpty) {
+                return Hero(
+                  tag: widget.heroTag,
+                  child: ClipRect(child: image),
+                );
+              }
+              return image;
             },
           ),
 
@@ -245,7 +257,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
 
-          // Page indicators
+          // Animated page indicators
           Positioned(
             bottom: 16,
             left: 0,
@@ -254,7 +266,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(_totalImages, (i) {
                 final isActive = i == _currentImageIndex;
-                return Container(
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
                   width: isActive ? 32 : 8,
                   height: 8,
                   margin: EdgeInsets.only(left: i > 0 ? 8 : 0),
