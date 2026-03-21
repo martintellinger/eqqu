@@ -10,7 +10,10 @@ class MyListingsScreen extends StatefulWidget {
 }
 
 class _MyListingsScreenState extends State<MyListingsScreen> {
-  bool _allHidden = false;
+  final Set<int> _hiddenIndices = {};
+
+  bool get _allHidden =>
+      _hiddenIndices.length == _listings.length && _listings.isNotEmpty;
 
   static const _listings = [
     {
@@ -75,9 +78,271 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     },
   ];
 
+  void _toggleHideAll() {
+    setState(() {
+      if (_allHidden) {
+        _hiddenIndices.clear();
+      } else {
+        _hiddenIndices.addAll(
+          List.generate(_listings.length, (i) => i),
+        );
+      }
+    });
+  }
+
+  void _toggleHideItem(int index) {
+    setState(() {
+      if (_hiddenIndices.contains(index)) {
+        _hiddenIndices.remove(index);
+      } else {
+        _hiddenIndices.add(index);
+      }
+    });
+  }
+
+  void _showProductActions(int index, Map<String, String> product) {
+    final cs = Theme.of(context).colorScheme;
+    final isHidden = _hiddenIndices.contains(index);
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: cs.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (ctx) {
+        return Padding(
+          padding: EdgeInsets.fromLTRB(
+            16, 8, 16, MediaQuery.of(ctx).padding.bottom + 16,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag handle
+              Container(
+                width: 32,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 24),
+                decoration: BoxDecoration(
+                  color: cs.outlineVariant,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              // Rezervovat
+              _buildSheetButton(
+                cs: cs,
+                icon: Icons.check_circle,
+                label: 'Rezervovat',
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _showReservationDialog();
+                },
+              ),
+              const SizedBox(height: 12),
+              // Upravit
+              _buildSheetButton(
+                cs: cs,
+                icon: Icons.edit,
+                label: 'Upravit',
+                onTap: () => Navigator.pop(ctx),
+              ),
+              const SizedBox(height: 12),
+              // Skrýt / Odkrýt
+              _buildSheetButton(
+                cs: cs,
+                icon: isHidden ? Icons.visibility : Icons.visibility_off,
+                label: isHidden ? 'Odkrýt' : 'Skrýt',
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _toggleHideItem(index);
+                },
+              ),
+              const SizedBox(height: 12),
+              // Smazat
+              _buildSheetButton(
+                cs: cs,
+                icon: Icons.delete,
+                label: 'Smazat',
+                isDestructive: true,
+                onTap: () => Navigator.pop(ctx),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSheetButton({
+    required ColorScheme cs,
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool isDestructive = false,
+  }) {
+    final bgColor = isDestructive ? cs.error : cs.secondary;
+    final fgColor = isDestructive ? cs.onError : cs.onSecondary;
+
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: FilledButton.icon(
+        onPressed: onTap,
+        icon: Icon(icon, color: fgColor),
+        label: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: fgColor,
+            letterSpacing: 0.15,
+            height: 24 / 16,
+          ),
+        ),
+        style: FilledButton.styleFrom(
+          backgroundColor: bgColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showReservationDialog() {
+    final cs = Theme.of(context).colorScheme;
+
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+          backgroundColor: cs.surface,
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Rezervovat',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                    color: cs.onSurface,
+                    height: 32 / 24,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: cs.onSurfaceVariant,
+                    letterSpacing: 0.25,
+                    height: 20 / 14,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Uživatelské jméno*',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: cs.onSurfaceVariant,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: cs.outline),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: cs.outline),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: cs.primary, width: 2),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 16,
+                    ),
+                  ),
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    color: cs.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: cs.outline),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Text(
+                          'Zrušit',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: cs.onSurface,
+                            letterSpacing: 0.1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      child: FilledButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: cs.secondary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Text(
+                          'Rezervovat',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: cs.onSecondary,
+                            letterSpacing: 0.1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final anyHidden = _hiddenIndices.isNotEmpty;
 
     return Scaffold(
       body: Column(
@@ -115,20 +380,22 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 color: cs.primary,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8),
-                  onTap: () => setState(() => _allHidden = !_allHidden),
+                  onTap: _toggleHideAll,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24, vertical: 16,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          _allHidden ? Icons.visibility : Icons.visibility_off,
+                          anyHidden ? Icons.visibility : Icons.visibility_off,
                           size: 24,
                           color: Colors.white,
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          _allHidden
+                          anyHidden
                               ? 'Odkrýt všechny inzeráty'
                               : 'Skrýt všechny inzeráty',
                           style: const TextStyle(
@@ -158,23 +425,10 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     Map<String, String> product,
   ) {
     final status = product['status']!;
+    final isHidden = _hiddenIndices.contains(index);
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ProductDetailScreen(
-              brand: product['brand']!,
-              name: product['title']!,
-              condition: product['condition']!,
-              price: product['newPrice']!,
-              oldPrice: product['oldPrice']!,
-              imageAsset: product['image']!,
-            ),
-          ),
-        );
-      },
+      onTap: () => _showProductActions(index, product),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -198,7 +452,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                   child: _buildStatusChip(cs, status),
                 ),
                 // Hidden eye-off chip (bottom-left)
-                if (_allHidden)
+                if (isHidden)
                   Positioned(
                     bottom: 8,
                     left: 8,
@@ -282,7 +536,6 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     );
   }
 
-  /// Elevated assistive chip for status badge (Aktivní / Prodáno / Odesláno)
   Widget _buildStatusChip(ColorScheme cs, String status) {
     String label;
     Color textColor;
@@ -351,7 +604,6 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     );
   }
 
-  /// Icon-only chip for hidden state (eye-off icon at bottom-left)
   Widget _buildHiddenChip(ColorScheme cs) {
     return Container(
       height: 32,
