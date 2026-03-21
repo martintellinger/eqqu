@@ -831,7 +831,7 @@ class _HomeBodyState extends State<_HomeBody> {
           width: 16,
           height: 16,
           colorFilter: ColorFilter.mode(
-            isFav ? Colors.red : cs.onSecondaryContainer,
+            isFav ? cs.error : cs.onSecondaryContainer,
             BlendMode.srcIn,
           ),
         ),

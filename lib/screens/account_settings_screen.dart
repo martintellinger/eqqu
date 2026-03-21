@@ -400,7 +400,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                   fontFamily: 'Poppins',
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: const Color(0xFFCE0101),
+                                  color: cs.error,
                                   letterSpacing: 0.1,
                                   height: 20 / 14,
                                 ),
@@ -425,7 +425,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     showBlurDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFFF7F7F7),
+        backgroundColor: cs.surfaceContainerHigh,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         title: Text(
           'Smazat profil?',
@@ -481,7 +481,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         'Účet byl smazán',
                         style: TextStyle(fontFamily: 'Poppins'),
                       ),
-                      backgroundColor: const Color(0xFFCE0101),
+                      backgroundColor: cs.error,
                       behavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
@@ -489,7 +489,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   Navigator.pushNamedAndRemoveUntil(this.context, '/login', (_) => false);
                 },
                 style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFFCE0101),
+                  backgroundColor: cs.error,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 ),

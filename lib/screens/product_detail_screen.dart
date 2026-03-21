@@ -333,7 +333,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       width: 24,
                       height: 24,
                       colorFilter: ColorFilter.mode(
-                        _isFavorite ? Colors.red : cs.onSurface,
+                        _isFavorite ? cs.error : cs.onSurface,
                         BlendMode.srcIn,
                       ),
                     ),
@@ -791,7 +791,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     width: 16,
                                     height: 16,
                                     colorFilter: ColorFilter.mode(
-                                      isFav ? Colors.red : cs.onSecondaryContainer,
+                                      isFav ? cs.error : cs.onSecondaryContainer,
                                       BlendMode.srcIn,
                                     ),
                                   ),

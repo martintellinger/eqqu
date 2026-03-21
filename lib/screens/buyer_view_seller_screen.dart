@@ -100,7 +100,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 cs,
                 Icons.flag_outlined,
                 'Nahlásit profil',
-                const Color(0xFFCE0101),
+                cs.error,
                 Colors.white,
                 () {
                   Navigator.pop(context);
@@ -217,7 +217,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     child: FilledButton(
                       onPressed: () => Navigator.pop(ctx),
                       style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFFCE0101),
+                        backgroundColor: cs.error,
                         minimumSize: Size.zero,
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         shape: RoundedRectangleBorder(
@@ -957,7 +957,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                               width: 16,
                               height: 16,
                               colorFilter: ColorFilter.mode(
-                                isFav ? Colors.red : cs.onSecondaryContainer,
+                                isFav ? cs.error : cs.onSecondaryContainer,
                                 BlendMode.srcIn,
                               ),
                             ),
