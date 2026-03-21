@@ -12,9 +12,11 @@ Future<T?> showBlurDialog<T>({
     barrierDismissible: barrierDismissible,
     barrierColor: Colors.black.withValues(alpha: 0.15),
     builder: (ctx) {
-      return BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-        child: builder(ctx),
+      return SizedBox.expand(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+          child: builder(ctx),
+        ),
       );
     },
   );
