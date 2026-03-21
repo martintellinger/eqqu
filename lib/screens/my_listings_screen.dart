@@ -17,6 +17,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
 
   final List<Map<String, String>> _listings = [
     {
+      'id': '1',
       'title': 'Black GP type saddle',
       'subtitle': 'No brand / Good / 17"',
       'oldPrice': '140 €',
@@ -27,6 +28,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       'condition': 'Good',
     },
     {
+      'id': '2',
       'title': 'Green Mountain type saddle',
       'subtitle': 'Rugged Brand / Very Good / 16"',
       'oldPrice': '180 €',
@@ -37,6 +39,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       'condition': 'Very Good',
     },
     {
+      'id': '3',
       'title': 'Red Racing type saddle',
       'subtitle': 'Speedy Brand / Excellent / 15"',
       'oldPrice': '200 €',
@@ -47,6 +50,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       'condition': 'Excellent',
     },
     {
+      'id': '4',
       'title': 'Black GP type saddle',
       'subtitle': 'No brand / Good / 17"',
       'oldPrice': '140 €',
@@ -57,6 +61,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       'condition': 'Good',
     },
     {
+      'id': '5',
       'title': 'Red Racing type saddle',
       'subtitle': 'Speedy Brand / Excellent / 15"',
       'oldPrice': '200 €',
@@ -67,6 +72,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       'condition': 'Excellent',
     },
     {
+      'id': '6',
       'title': 'Green Mountain type saddle',
       'subtitle': 'Rugged Brand / Very Good / 16"',
       'oldPrice': '180 €',
@@ -101,47 +107,50 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   }
 
   void _deleteItem(int index) {
+    if (index >= _listings.length) return;
     final deleted = _listings[index];
-    setState(() {
-      _listings.removeAt(index);
-      // Rebuild hidden indices: remove this one and shift higher ones down
-      final newHidden = <int>{};
-      for (final h in _hiddenIndices) {
-        if (h < index) {
-          newHidden.add(h);
-        } else if (h > index) {
-          newHidden.add(h - 1);
+    // Schedule deletion after the current frame to avoid mouse_tracker issues
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() {
+        _listings.removeAt(index);
+        final newHidden = <int>{};
+        for (final h in _hiddenIndices) {
+          if (h < index) {
+            newHidden.add(h);
+          } else if (h > index) {
+            newHidden.add(h - 1);
+          }
         }
-      }
-      _hiddenIndices
-        ..clear()
-        ..addAll(newHidden);
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${deleted['title']} smazán'),
-        action: SnackBarAction(
-          label: 'Zpět',
-          onPressed: () {
-            setState(() {
-              _listings.insert(index, deleted);
-              // Shift hidden indices back up
-              final restored = <int>{};
-              for (final h in _hiddenIndices) {
-                if (h >= index) {
-                  restored.add(h + 1);
-                } else {
-                  restored.add(h);
+        _hiddenIndices
+          ..clear()
+          ..addAll(newHidden);
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${deleted['title']} smazán'),
+          action: SnackBarAction(
+            label: 'Zpět',
+            onPressed: () {
+              setState(() {
+                _listings.insert(index, deleted);
+                final restored = <int>{};
+                for (final h in _hiddenIndices) {
+                  if (h >= index) {
+                    restored.add(h + 1);
+                  } else {
+                    restored.add(h);
+                  }
                 }
-              }
-              _hiddenIndices
-                ..clear()
-                ..addAll(restored);
-            });
-          },
+                _hiddenIndices
+                  ..clear()
+                  ..addAll(restored);
+              });
+            },
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   void _showProductActions(int index, Map<String, String> product) {
@@ -209,9 +218,10 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 icon: Icons.delete,
                 label: 'Smazat',
                 isDestructive: true,
-                onTap: () {
+                onTap: () async {
                   Navigator.pop(ctx);
-                  _deleteItem(index);
+                  await Future.delayed(const Duration(milliseconds: 300));
+                  if (mounted) _deleteItem(index);
                 },
               ),
             ],
@@ -416,7 +426,11 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               ),
               itemCount: _listings.length,
               itemBuilder: (context, index) {
-                return _buildProductCard(cs, index, _listings[index]);
+                final item = _listings[index];
+                return KeyedSubtree(
+                  key: ValueKey(item['id']),
+                  child: _buildProductCard(cs, index, item),
+                );
               },
             ),
           ),
