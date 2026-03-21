@@ -448,15 +448,16 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             height: 20 / 14,
           ),
         ),
-        actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+        actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
         actions: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               OutlinedButton(
                 onPressed: () => Navigator.pop(dialogCtx),
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: cs.outlineVariant),
+                  minimumSize: const Size(0, 48),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 ),
@@ -471,7 +472,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
               FilledButton(
                 onPressed: () {
                   Navigator.pop(dialogCtx);
@@ -490,7 +490,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.error,
-                  minimumSize: Size.zero,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(0, 48),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 ),
@@ -500,7 +501,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     fontFamily: 'Poppins',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white,
                     letterSpacing: 0.1,
                   ),
                 ),
