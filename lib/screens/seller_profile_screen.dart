@@ -75,7 +75,12 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 width: double.infinity,
                 height: 56,
                 child: FilledButton.icon(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Odkaz byl zkopírován do schránky')),
+                    );
+                  },
                   icon: Icon(Icons.share, color: cs.onSecondaryContainer),
                   label: Text(
                     'Sdílet profil',

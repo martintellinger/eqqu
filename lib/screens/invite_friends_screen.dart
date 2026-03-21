@@ -65,7 +65,11 @@ class InviteFriendsScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 56,
                 child: FilledButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Odkaz byl zkopírován do schránky')),
+                    );
+                  },
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.primary,
                     foregroundColor: Colors.white,

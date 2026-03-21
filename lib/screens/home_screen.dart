@@ -318,7 +318,8 @@ class _HomeBodyState extends State<_HomeBody> {
   }
 
   List<Map<String, String>> get _filteredUsers {
-    if (_searchQuery.isEmpty) return [];
+    if (!_isSearching && _searchQuery.isEmpty) return [];
+    if (_searchQuery.isEmpty) return _users;
     final q = _searchQuery.toLowerCase();
     return _users.where((u) =>
       u['name']!.toLowerCase().contains(q) ||
@@ -359,9 +360,7 @@ class _HomeBodyState extends State<_HomeBody> {
   void _applySearch(String query) {
     setState(() {
       _searchQuery = query;
-      _isSearching = false;
     });
-    _searchFocus.unfocus();
   }
 
   @override
@@ -370,14 +369,7 @@ class _HomeBodyState extends State<_HomeBody> {
     final products = _filteredProducts;
 
     return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          if (_isSearching) _closeSearch();
-        },
-        behavior: HitTestBehavior.translucent,
-        child: Stack(
-          children: [
-            CustomScrollView(
+      child: CustomScrollView(
             slivers: [
               // Search bar + filter button
               SliverToBoxAdapter(
@@ -391,7 +383,7 @@ class _HomeBodyState extends State<_HomeBody> {
                           child: Container(
                             height: 56,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF7F7F7),
+                              color: cs.surfaceContainerHigh,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
@@ -442,13 +434,7 @@ class _HomeBodyState extends State<_HomeBody> {
                                 ),
                                 if (_searchQuery.isNotEmpty || _isSearching)
                                   GestureDetector(
-                                    onTap: () {
-                                      _searchController.clear();
-                                      setState(() {
-                                        _searchQuery = '';
-                                        if (!_isSearching) return;
-                                      });
-                                    },
+                                    onTap: _closeSearch,
                                     child: Padding(
                                       padding: const EdgeInsets.all(12),
                                       child: Icon(Icons.close, size: 20, color: cs.onSurfaceVariant),
@@ -541,8 +527,8 @@ class _HomeBodyState extends State<_HomeBody> {
                 ),
               ),
 
-              // User results
-              if (_filteredUsers.isNotEmpty)
+              // User results (show when typing in search, not when showing recent searches)
+              if (_filteredUsers.isNotEmpty && _searchQuery.isNotEmpty)
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -590,9 +576,10 @@ class _HomeBodyState extends State<_HomeBody> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        _highlightedText(
                                           user['name']!,
-                                          style: TextStyle(
+                                          _searchQuery,
+                                          TextStyle(
                                             fontFamily: 'Poppins',
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -600,6 +587,7 @@ class _HomeBodyState extends State<_HomeBody> {
                                             letterSpacing: 0.1,
                                             height: 20 / 14,
                                           ),
+                                          cs.surfaceTint,
                                         ),
                                         Text(
                                           '@${user['username']}',
@@ -656,7 +644,8 @@ class _HomeBodyState extends State<_HomeBody> {
                 ),
 
               // Product grid (pairs in rows for intrinsic height)
-              if (products.isNotEmpty)
+              // Hide when showing recent searches (search mode with empty query)
+              if (products.isNotEmpty && !(_isSearching && _searchQuery.isEmpty))
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   sliver: SliverList(
@@ -693,8 +682,8 @@ class _HomeBodyState extends State<_HomeBody> {
                   ),
                 ),
 
-              // Empty state
-              if (products.isEmpty && _filteredUsers.isEmpty)
+              // Empty state (only show when actively searching with text)
+              if (products.isEmpty && _filteredUsers.isEmpty && _searchQuery.isNotEmpty)
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(48),
@@ -711,8 +700,8 @@ class _HomeBodyState extends State<_HomeBody> {
                   ),
                 ),
 
-              // Featured heading
-              if (_searchQuery.isEmpty && _activeChip == null) ...[
+              // Featured heading (hide when in search mode)
+              if (_searchQuery.isEmpty && _activeChip == null && !_isSearching) ...[
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
@@ -756,60 +745,89 @@ class _HomeBodyState extends State<_HomeBody> {
                 ),
               ],
 
+              // Search mode: recent searches section
+              if (_isSearching && _searchQuery.isEmpty)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Poslední hledání',
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: cs.onSurface,
+                            height: 28 / 20,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        ..._currentSuggestions.map((suggestion) {
+                          final isUser = _users.any((u) =>
+                            u['name'] == suggestion || u['username'] == suggestion);
+                          return InkWell(
+                            onTap: () {
+                              _searchController.text = suggestion;
+                              _applySearch(suggestion);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    isUser ? Icons.person_outline : Icons.history,
+                                    size: 20,
+                                    color: cs.tertiary,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      suggestion,
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 14,
+                                        color: cs.onSurface,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
             ],
           ),
+    );
+  }
 
-          // Search suggestions overlay (only when query is empty)
-          if (_isSearching && _searchQuery.isEmpty)
-            Positioned(
-              top: 80,
-              left: 16,
-              right: 72,
-              child: Material(
-                elevation: 4,
-                borderRadius: BorderRadius.circular(8),
-                color: cs.surface,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: _currentSuggestions.map((suggestion) {
-                    final isUser = _users.any((u) =>
-                      u['name'] == suggestion || u['username'] == suggestion);
-                    return InkWell(
-                      onTap: () {
-                        _searchController.text = suggestion;
-                        _applySearch(suggestion);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        child: Row(
-                          children: [
-                            Icon(
-                              isUser ? Icons.person_outline : Icons.search,
-                              size: 20,
-                              color: cs.tertiary,
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Text(
-                                suggestion,
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14,
-                                  color: cs.onSurface,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
+  Widget _highlightedText(String text, String query, TextStyle baseStyle, Color highlightColor) {
+    if (query.isEmpty) return Text(text, style: baseStyle, maxLines: 1, overflow: TextOverflow.ellipsis);
+    final lowerText = text.toLowerCase();
+    final lowerQuery = query.toLowerCase();
+    final index = lowerText.indexOf(lowerQuery);
+    if (index < 0) return Text(text, style: baseStyle, maxLines: 1, overflow: TextOverflow.ellipsis);
+    return RichText(
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      text: TextSpan(
+        style: baseStyle,
+        children: [
+          if (index > 0) TextSpan(text: text.substring(0, index)),
+          TextSpan(
+            text: text.substring(index, index + query.length),
+            style: baseStyle.copyWith(color: highlightColor),
+          ),
+          if (index + query.length < text.length)
+            TextSpan(text: text.substring(index + query.length)),
         ],
-      ),
       ),
     );
   }
@@ -970,10 +988,11 @@ class _HomeBodyState extends State<_HomeBody> {
             ),
           ),
           const SizedBox(height: 4),
-          // Title
-          Text(
+          // Title (with search highlight)
+          _highlightedText(
             product['title']!,
-            style: TextStyle(
+            _searchQuery,
+            TextStyle(
               fontFamily: 'Poppins',
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -981,8 +1000,7 @@ class _HomeBodyState extends State<_HomeBody> {
               letterSpacing: 0.15,
               height: 24 / 16,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            cs.surfaceTint,
           ),
           // Subtitle
           Text(

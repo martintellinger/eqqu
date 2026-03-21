@@ -11,10 +11,33 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  int _currentImageIndex = 0;
+  late final List<String> _bgImages;
+
+  static const _allProductImages = [
+    'assets/images/product_01.png',
+    'assets/images/product_02.png',
+    'assets/images/product_03.png',
+    'assets/images/product_04.png',
+    'assets/images/product_05.png',
+  ];
+
   @override
   void initState() {
     super.initState();
+    _bgImages = List.from(_allProductImages)..shuffle();
     languageNotifier.addListener(_onLanguageChanged);
+    _startImageCycling();
+  }
+
+  void _startImageCycling() {
+    Future.delayed(const Duration(seconds: 4), () {
+      if (!mounted) return;
+      setState(() {
+        _currentImageIndex = (_currentImageIndex + 1) % _bgImages.length;
+      });
+      _startImageCycling();
+    });
   }
 
   @override
@@ -135,12 +158,16 @@ class _IntroScreenState extends State<IntroScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background image with gradient overlay
-          Image.asset(
-            'assets/images/background.jpg',
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+          // Background image with animated cross-fade
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 800),
+            child: Image.asset(
+              _bgImages[_currentImageIndex],
+              key: ValueKey(_currentImageIndex),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
           ),
           // Gradient overlay: transparent top → black bottom
           Container(
@@ -168,26 +195,25 @@ class _IntroScreenState extends State<IntroScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton.icon(
-                      onPressed: _showLanguageSheet,
-                      icon: Text(
-                        languageNotifier.selected.flag,
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                      label: Text(
-                        languageNotifier.selected.name,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          letterSpacing: 0.1,
-                        ),
-                      ),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    GestureDetector(
+                      onTap: _showLanguageSheet,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.expand_more, color: Colors.white, size: 20),
+                          const SizedBox(width: 4),
+                          Text(
+                            languageNotifier.selectedCode.toUpperCase(),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              letterSpacing: 0.1,
+                              height: 20 / 14,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     TextButton(
@@ -297,18 +323,21 @@ class _IntroScreenState extends State<IntroScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                // Page indicator dots
+                // Page indicator dots (reflect current background image)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildDot(isActive: true),
-                    const SizedBox(width: 4),
-                    _buildDot(isActive: false),
-                    const SizedBox(width: 4),
-                    _buildDot(isActive: false),
-                    const SizedBox(width: 4),
-                    _buildDot(isActive: false),
-                  ],
+                  children: List.generate(_bgImages.length, (i) => Padding(
+                    padding: EdgeInsets.only(left: i > 0 ? 4 : 0),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      width: i == _currentImageIndex ? 32 : 4,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: i == _currentImageIndex ? 1.0 : 0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  )),
                 ),
               ],
             ),
@@ -318,14 +347,4 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  Widget _buildDot({required bool isActive}) {
-    return Container(
-      width: isActive ? 32 : 4,
-      height: 4,
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: isActive ? 1.0 : 0.3),
-        borderRadius: BorderRadius.circular(10),
-      ),
-    );
-  }
 }

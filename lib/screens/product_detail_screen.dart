@@ -750,7 +750,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 'Sdílet produkt',
                 cs.secondaryContainer,
                 cs.onSecondaryContainer,
-                () => Navigator.pop(context),
+                () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Odkaz byl zkopírován do schránky')),
+                  );
+                },
               ),
               const SizedBox(height: 16),
               // Report button
