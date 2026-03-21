@@ -50,6 +50,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
 
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SafeArea(
             bottom: false,

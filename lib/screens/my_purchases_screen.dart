@@ -50,6 +50,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
 
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SafeArea(
             bottom: false,
