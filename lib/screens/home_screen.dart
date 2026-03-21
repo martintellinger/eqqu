@@ -7,6 +7,7 @@ import 'package:eqqu/screens/favorites_screen.dart';
 import 'package:eqqu/screens/profile_screen.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
+import 'package:eqqu/widgets/animated_heart.dart';
 
 const _productImages = [
   'assets/images/product_01.png',
@@ -843,30 +844,6 @@ class _HomeBodyState extends State<_HomeBody> {
     );
   }
 
-  Widget _heartCircle(ColorScheme cs, bool isFav) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: cs.secondaryContainer,
-            shape: BoxShape.circle,
-          ),
-        ),
-        SvgPicture.asset(
-          isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
-          width: 16,
-          height: 16,
-          colorFilter: ColorFilter.mode(
-            isFav ? cs.error : cs.onSecondaryContainer,
-            BlendMode.srcIn,
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget _buildActiveFilterChip(ColorScheme cs, String label, String value) {
     return GestureDetector(
@@ -978,21 +955,16 @@ class _HomeBodyState extends State<_HomeBody> {
                 Positioned(
                   top: 0,
                   right: 0,
-                  child: GestureDetector(
-                    onTap: () => setState(() {
+                  child: AnimatedHeartButton(
+                    isFavorite: isFav,
+                    cs: cs,
+                    onToggle: () => setState(() {
                       if (isFav) {
                         _favorites.remove(index);
                       } else {
                         _favorites.add(index);
                       }
                     }),
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: Center(
-                        child: _heartCircle(cs, isFav),
-                      ),
-                    ),
                   ),
                 ),
               ],

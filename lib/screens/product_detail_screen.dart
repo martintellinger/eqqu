@@ -4,6 +4,7 @@ import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/widgets/animated_heart.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -323,23 +324,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
               ),
               // Heart button
-              GestureDetector(
-                onTap: () => setState(() => _isFavorite = !_isFavorite),
-                child: SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: Center(
-                    child: SvgPicture.asset(
-                      _isFavorite ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: ColorFilter.mode(
-                        _isFavorite ? cs.error : cs.onSurface,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                ),
+              AnimatedHeartButton(
+                isFavorite: _isFavorite,
+                cs: cs,
+                iconSize: 24,
+                circleSize: 0,
+                onToggle: () => setState(() => _isFavorite = !_isFavorite),
               ),
             ],
           ),
@@ -856,42 +846,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Positioned(
                         top: 0,
                         right: 0,
-                        child: GestureDetector(
-                          onTap: () => setState(() {
+                        child: AnimatedHeartButton(
+                          isFavorite: isFav,
+                          cs: cs,
+                          onToggle: () => setState(() {
                             if (isFav) {
                               _moreFavorites.remove(i);
                             } else {
                               _moreFavorites.add(i);
                             }
                           }),
-                          child: SizedBox(
-                            width: 48,
-                            height: 48,
-                            child: Center(
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Container(
-                                    width: 32,
-                                    height: 32,
-                                    decoration: BoxDecoration(
-                                      color: cs.secondaryContainer,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                  SvgPicture.asset(
-                                    isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
-                                    width: 16,
-                                    height: 16,
-                                    colorFilter: ColorFilter.mode(
-                                      isFav ? cs.error : cs.onSecondaryContainer,
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                         ),
                       ),
                     ],
