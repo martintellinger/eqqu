@@ -57,7 +57,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildProductInfo(cs),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         _buildPriceRow(cs),
                         const SizedBox(height: 16),
                         _buildDescription(cs),
@@ -418,7 +418,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               Expanded(child: _specItem(cs, 'assets/icons/Measuring_tape.svg', 'Size', 'One size')),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(child: _specItem(cs, 'assets/icons/Color.svg', 'Color', 'Gray')),
