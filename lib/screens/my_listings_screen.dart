@@ -13,9 +13,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   final Set<int> _hiddenIndices = {};
 
   bool get _allHidden =>
-      _hiddenIndices.length == _listings.length && _listings.isNotEmpty;
+      _listings.isNotEmpty && _hiddenIndices.length == _listings.length;
 
-  static const _listings = [
+  final List<Map<String, String>> _listings = [
     {
       'title': 'Black GP type saddle',
       'subtitle': 'No brand / Good / 17"',
@@ -100,6 +100,50 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     });
   }
 
+  void _deleteItem(int index) {
+    final deleted = _listings[index];
+    setState(() {
+      _listings.removeAt(index);
+      // Rebuild hidden indices: remove this one and shift higher ones down
+      final newHidden = <int>{};
+      for (final h in _hiddenIndices) {
+        if (h < index) {
+          newHidden.add(h);
+        } else if (h > index) {
+          newHidden.add(h - 1);
+        }
+      }
+      _hiddenIndices
+        ..clear()
+        ..addAll(newHidden);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${deleted['title']} smazán'),
+        action: SnackBarAction(
+          label: 'Zpět',
+          onPressed: () {
+            setState(() {
+              _listings.insert(index, deleted);
+              // Shift hidden indices back up
+              final restored = <int>{};
+              for (final h in _hiddenIndices) {
+                if (h >= index) {
+                  restored.add(h + 1);
+                } else {
+                  restored.add(h);
+                }
+              }
+              _hiddenIndices
+                ..clear()
+                ..addAll(restored);
+            });
+          },
+        ),
+      ),
+    );
+  }
+
   void _showProductActions(int index, Map<String, String> product) {
     final cs = Theme.of(context).colorScheme;
     final isHidden = _hiddenIndices.contains(index);
@@ -133,9 +177,10 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 cs: cs,
                 icon: Icons.check_circle,
                 label: 'Rezervovat',
-                onTap: () {
+                onTap: () async {
                   Navigator.pop(ctx);
-                  _showReservationDialog();
+                  await Future.delayed(const Duration(milliseconds: 300));
+                  if (mounted) _showReservationDialog();
                 },
               ),
               const SizedBox(height: 12),
@@ -164,7 +209,10 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 icon: Icons.delete,
                 label: 'Smazat',
                 isDestructive: true,
-                onTap: () => Navigator.pop(ctx),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _deleteItem(index);
+                },
               ),
             ],
           ),
@@ -211,12 +259,15 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   }
 
   void _showReservationDialog() {
+    if (!mounted) return;
     final cs = Theme.of(context).colorScheme;
 
     showDialog(
       context: context,
+      barrierDismissible: true,
       builder: (ctx) {
         return Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
@@ -250,35 +301,38 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Uživatelské jméno*',
-                    labelStyle: TextStyle(
+                Material(
+                  color: Colors.transparent,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Uživatelské jméno*',
+                      labelStyle: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: cs.onSurfaceVariant,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: BorderSide(color: cs.outline),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: BorderSide(color: cs.outline),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: BorderSide(color: cs.primary, width: 2),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16,
+                      ),
+                    ),
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: cs.onSurfaceVariant,
+                      color: cs.onSurface,
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: BorderSide(color: cs.outline),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: BorderSide(color: cs.outline),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: BorderSide(color: cs.primary, width: 2),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 16,
-                    ),
-                  ),
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    color: cs.onSurface,
                   ),
                 ),
                 const SizedBox(height: 24),
