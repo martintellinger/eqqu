@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -108,7 +109,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () => _showMoreSheet(),
                             child: SizedBox(
                               width: 48,
                               height: 48,
@@ -714,6 +715,93 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showMoreSheet() {
+    final cs = Theme.of(context).colorScheme;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: cs.surface,
+      barrierColor: kBlurBarrierColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (_) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag handle
+              Container(
+                margin: const EdgeInsets.only(top: 16, bottom: 16),
+                width: 32,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: cs.outline,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+              // Share button
+              _buildSheetButton(
+                cs,
+                Icons.share,
+                'Sdílet produkt',
+                cs.secondaryContainer,
+                cs.onSecondaryContainer,
+                () => Navigator.pop(context),
+              ),
+              const SizedBox(height: 16),
+              // Report button
+              _buildSheetButton(
+                cs,
+                Icons.flag_outlined,
+                'Nahlásit produkt',
+                cs.error,
+                Colors.white,
+                () => Navigator.pop(context),
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSheetButton(
+    ColorScheme cs,
+    IconData icon,
+    String label,
+    Color bgColor,
+    Color fgColor,
+    VoidCallback onPressed,
+  ) {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: FilledButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon, color: fgColor),
+        label: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: fgColor,
+            letterSpacing: 0.15,
+            height: 24 / 16,
+          ),
+        ),
+        style: FilledButton.styleFrom(
+          backgroundColor: bgColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
     );
   }
 
