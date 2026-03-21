@@ -264,7 +264,8 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           backgroundColor: cs.surfaceContainerHigh,
           titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
           contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-          actionsPadding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actionsPadding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
           title: Text(
             'Rezervovat',
             style: TextStyle(
@@ -326,11 +327,11 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           ),
           actions: [
             SizedBox(
-              height: 40,
+              height: 48,
               child: OutlinedButton(
                 onPressed: () => Navigator.pop(ctx),
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: cs.outline),
+                  side: BorderSide(color: cs.outlineVariant),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
@@ -341,14 +342,14 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                     fontFamily: 'Poppins',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: cs.onSurface,
+                    color: cs.onSurfaceVariant,
                     letterSpacing: 0.1,
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 48,
               child: FilledButton(
                 onPressed: () async {
                   Navigator.pop(ctx);
@@ -356,7 +357,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                   if (mounted) _showReservationErrorSheet();
                 },
                 style: FilledButton.styleFrom(
-                  backgroundColor: cs.secondary,
+                  backgroundColor: cs.secondaryContainer,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
@@ -367,7 +368,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                     fontFamily: 'Poppins',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: cs.onSecondary,
+                    color: cs.onSecondaryContainer,
                     letterSpacing: 0.1,
                   ),
                 ),
