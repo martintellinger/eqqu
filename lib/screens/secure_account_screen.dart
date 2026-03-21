@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/screens/change_password_screen.dart';
+import 'package:eqqu/screens/login_overview_screen.dart';
 
 class SecureAccountScreen extends StatelessWidget {
   const SecureAccountScreen({super.key});
@@ -67,7 +69,9 @@ class SecureAccountScreen extends StatelessWidget {
                           'Heslo',
                           'Chraň svůj účet silnějším heslem',
                           Icons.lock_outlined,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangePasswordScreen()));
+                          },
                         ),
                         const SizedBox(height: 12),
                         _buildSecurityItem(
@@ -75,7 +79,9 @@ class SecureAccountScreen extends StatelessWidget {
                           'Přehled přihlášení',
                           'Spravuj přihlašená zařízení',
                           Icons.devices_outlined,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginOverviewScreen()));
+                          },
                         ),
                       ],
                     ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/main.dart';
-import 'package:eqqu/screens/appearance_screen.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/account_settings_screen.dart';
 import 'package:eqqu/screens/shipping_screen.dart';
 import 'package:eqqu/screens/secure_account_screen.dart';
@@ -29,6 +29,110 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _onThemeChanged() => setState(() {});
+
+  void _showAppearanceSheet(ColorScheme cs) {
+    ThemeMode selected = themeNotifier.themeMode;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: cs.surface,
+      barrierColor: kBlurBarrierColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) => StatefulBuilder(
+        builder: (ctx, setSheetState) => SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 16, bottom: 16),
+                  width: 32,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: cs.outline,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                ),
+                Text(
+                  'Vzhled',
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSurface,
+                    height: 28 / 20,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                _buildThemeOption(cs, ThemeMode.light, 'Light mode', selected, (mode) {
+                  setSheetState(() => selected = mode);
+                  themeNotifier.setThemeMode(mode);
+                }),
+                const SizedBox(height: 12),
+                _buildThemeOption(cs, ThemeMode.dark, 'Dark mode', selected, (mode) {
+                  setSheetState(() => selected = mode);
+                  themeNotifier.setThemeMode(mode);
+                }),
+                const SizedBox(height: 12),
+                _buildThemeOption(cs, ThemeMode.system, 'Podle systému', selected, (mode) {
+                  setSheetState(() => selected = mode);
+                  themeNotifier.setThemeMode(mode);
+                }),
+                const SizedBox(height: 8),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildThemeOption(ColorScheme cs, ThemeMode mode, String label, ThemeMode selected, ValueChanged<ThemeMode> onChanged) {
+    final isSelected = selected == mode;
+    return GestureDetector(
+      onTap: () => onChanged(mode),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: isSelected ? cs.surfaceTint : cs.outlineVariant,
+            width: isSelected ? 2 : 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isSelected ? cs.surfaceTint : cs.outlineVariant,
+                  width: isSelected ? 6 : 2,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                color: isSelected ? cs.surfaceTint : cs.onSurface,
+                letterSpacing: 0.5,
+                height: 24 / 16,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,14 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icons.palette_outlined,
                       'Vzhled',
                       trailingText: themeNotifier.label,
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const AppearanceScreen(),
-                          ),
-                        );
-                      },
+                      onTap: () => _showAppearanceSheet(cs),
                     ),
                     const SizedBox(height: 24),
                     _buildLogoutButton(cs),

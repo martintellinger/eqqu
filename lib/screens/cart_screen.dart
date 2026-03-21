@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/screens/order_detail_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -22,23 +23,32 @@ class _CartScreenState extends State<CartScreen> {
   final _expiryController = TextEditingController();
   final _cvcController = TextEditingController();
 
-  static const _cartItems = [
-    {
-      'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
-      'price': '159 €',
-      'image': 'assets/images/product_01.png',
-    },
-    {
-      'title': 'Blue Comfort type saddle',
-      'price': '159 €',
-      'image': 'assets/images/product_02.png',
-    },
-    {
-      'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
-      'price': '159 €',
-      'image': 'assets/images/product_03.png',
-    },
-  ];
+  late List<Map<String, String>> _cartItems;
+
+  @override
+  void initState() {
+    super.initState();
+    _cartItems = [
+      {
+        'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
+        'price': '159 €',
+        'priceNum': '159',
+        'image': 'assets/images/product_01.png',
+      },
+      {
+        'title': 'Blue Comfort type saddle',
+        'price': '159 €',
+        'priceNum': '159',
+        'image': 'assets/images/product_02.png',
+      },
+      {
+        'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
+        'price': '159 €',
+        'priceNum': '159',
+        'image': 'assets/images/product_03.png',
+      },
+    ];
+  }
 
   @override
   void dispose() {
@@ -46,6 +56,38 @@ class _CartScreenState extends State<CartScreen> {
     _expiryController.dispose();
     _cvcController.dispose();
     super.dispose();
+  }
+
+  int get _totalProductPrice {
+    int total = 0;
+    for (final item in _cartItems) {
+      total += int.tryParse(item['priceNum'] ?? '0') ?? 0;
+    }
+    return total;
+  }
+
+  int get _deliveryPrice => _deliveryMethod == 'pickup' ? 0 : 2;
+
+  int get _buyerProtectionFee => _cartItems.isNotEmpty ? 2 : 0;
+
+  int get _totalPrice => _totalProductPrice + _deliveryPrice + _buyerProtectionFee;
+
+  void _removeItem(int index) {
+    setState(() {
+      _cartItems.removeAt(index);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(
+          'Produkt byl odebrán z košíku',
+          style: TextStyle(fontFamily: 'Poppins'),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   bool _validateCardFields() {
@@ -85,6 +127,7 @@ class _CartScreenState extends State<CartScreen> {
   void _submitOrder() {
     setState(() => _hasSubmitted = true);
 
+    if (_cartItems.isEmpty) return;
     if (!_validateCardFields()) return;
     _showOrderConfirmation();
   }
@@ -94,7 +137,7 @@ class _CartScreenState extends State<CartScreen> {
     showBlurDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => Dialog(
+      builder: (dialogCtx) => Dialog(
         backgroundColor: cs.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
@@ -141,8 +184,11 @@ class _CartScreenState extends State<CartScreen> {
                 height: 56,
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.pop(ctx);
-                    Navigator.pop(context);
+                    Navigator.pop(dialogCtx); // close dialog
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => const OrderDetailScreen()),
+                    );
                   },
                   child: const Text(
                     'Zobrazit objednávku',
@@ -174,73 +220,109 @@ class _CartScreenState extends State<CartScreen> {
             child: const AppHeader(title: 'Košík', showBack: true),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Cart items
-                  _buildCartItems(cs),
-                  Divider(height: 1, thickness: 1, color: cs.outline),
+            child: _cartItems.isEmpty
+                ? _buildEmptyCart(cs)
+                : SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Cart items
+                        _buildCartItems(cs),
+                        Divider(height: 1, thickness: 1, color: cs.outline),
 
-                  // Delivery address
-                  _buildSection(cs, 'Doručovací adresa', [
-                    _buildAddressInfo(cs),
-                  ]),
-                  Divider(height: 1, thickness: 1, color: cs.outline),
+                        // Delivery address
+                        _buildSection(cs, 'Doručovací adresa', [
+                          _buildAddressInfo(cs),
+                        ]),
+                        Divider(height: 1, thickness: 1, color: cs.outline),
 
-                  // Personal info
-                  _buildSection(cs, 'Osobní údaje', [
-                    _buildPersonalInfo(cs),
-                  ]),
-                  Divider(height: 1, thickness: 1, color: cs.outline),
+                        // Personal info
+                        _buildSection(cs, 'Osobní údaje', [
+                          _buildPersonalInfo(cs),
+                        ]),
+                        Divider(height: 1, thickness: 1, color: cs.outline),
 
-                  // Payment method
-                  _buildSection(cs, 'Způsob platby', [
-                    _buildPaymentOption(cs, 'apple_pay', 'Apple Pay', Icons.apple),
-                    const SizedBox(height: 12),
-                    _buildPaymentOption(cs, 'google_pay', 'Google Pay', Icons.g_mobiledata),
-                    const SizedBox(height: 12),
-                    _buildPaymentOption(cs, 'card', 'Platba kartou', Icons.credit_card),
-                    if (_paymentMethod == 'card') ...[
-                      const SizedBox(height: 16),
-                      _buildCardFields(cs),
-                    ],
-                  ]),
-                  Divider(height: 1, thickness: 1, color: cs.outline),
+                        // Payment method
+                        _buildSection(cs, 'Způsob platby', [
+                          _buildPaymentOption(cs, 'apple_pay', 'Apple Pay', Icons.apple),
+                          const SizedBox(height: 12),
+                          _buildPaymentOption(cs, 'google_pay', 'Google Pay', Icons.g_mobiledata),
+                          const SizedBox(height: 12),
+                          _buildPaymentOption(cs, 'card', 'Platba kartou', Icons.credit_card),
+                          if (_paymentMethod == 'card') ...[
+                            const SizedBox(height: 16),
+                            _buildCardFields(cs),
+                          ],
+                        ]),
+                        Divider(height: 1, thickness: 1, color: cs.outline),
 
-                  // Delivery method
-                  _buildSection(cs, 'Způsob doručení', [
-                    _buildDeliveryOption(cs, 'address', 'Doručení na adresu', '2 €'),
-                    const SizedBox(height: 12),
-                    _buildDeliveryOption(cs, 'pickup', 'Osobní odběr', 'Zdarma'),
-                  ]),
-                  Divider(height: 1, thickness: 1, color: cs.outline),
+                        // Delivery method
+                        _buildSection(cs, 'Způsob doručení', [
+                          _buildDeliveryOption(cs, 'address', 'Doručení na adresu', '2 €'),
+                          const SizedBox(height: 12),
+                          _buildDeliveryOption(cs, 'pickup', 'Osobní odběr', 'Zdarma'),
+                        ]),
+                        Divider(height: 1, thickness: 1, color: cs.outline),
 
-                  // Price summary
-                  _buildPriceSummary(cs),
+                        // Price summary
+                        _buildPriceSummary(cs),
 
-                  // Order button
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: FilledButton(
-                        onPressed: _submitOrder,
-                        child: const Text(
-                          'Objednávka zavazující k platbě',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.15,
+                        // Order button
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 56,
+                            child: FilledButton(
+                              onPressed: _submitOrder,
+                              child: const Text(
+                                'Objednávka zavazující k platbě',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.15,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyCart(ColorScheme cs) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.shopping_cart_outlined, size: 64, color: cs.onSurfaceVariant),
+          const SizedBox(height: 16),
+          Text(
+            'Košík je prázdný',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: cs.secondary,
+              height: 28 / 20,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Přidejte produkty do košíku a začněte nakupovat.',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: cs.onSurfaceVariant,
+              letterSpacing: 0.25,
+              height: 20 / 14,
             ),
           ),
         ],
@@ -255,7 +337,7 @@ class _CartScreenState extends State<CartScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Produkty',
+            'Produkty (${_cartItems.length})',
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 20,
@@ -265,59 +347,62 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          ..._cartItems.map((item) => Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Image.asset(
-                    item['image']!,
-                    width: 80,
-                    height: 87,
-                    fit: BoxFit.cover,
+          ...List.generate(_cartItems.length, (index) {
+            final item = _cartItems[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.asset(
+                      item['image']!,
+                      width: 80,
+                      height: 87,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item['title']!,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: cs.secondary,
-                          letterSpacing: 0.1,
-                          height: 20 / 14,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['title']!,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: cs.secondary,
+                            letterSpacing: 0.1,
+                            height: 20 / 14,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        item['price']!,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: cs.surfaceTint,
-                          letterSpacing: 0.5,
-                          height: 24 / 16,
+                        const SizedBox(height: 4),
+                        Text(
+                          item['price']!,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: cs.surfaceTint,
+                            letterSpacing: 0.5,
+                            height: 24 / 16,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.delete_outline, color: cs.onSurfaceVariant),
-                ),
-              ],
-            ),
-          )),
+                  IconButton(
+                    onPressed: () => _removeItem(index),
+                    icon: Icon(Icons.delete_outline, color: cs.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );
@@ -657,13 +742,13 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          _buildPriceRow(cs, 'Cena zboží', '416 €', false),
+          _buildPriceRow(cs, 'Cena zboží', '$_totalProductPrice €', false),
           const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Cena dopravy', '2 €', false),
+          _buildPriceRow(cs, 'Cena dopravy', '$_deliveryPrice €', false),
           const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Poplatek za ochranu kupujícího', '2 €', false),
+          _buildPriceRow(cs, 'Poplatek za ochranu kupujícího', '$_buyerProtectionFee €', false),
           const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Celkem k úhradě', '418 €', true),
+          _buildPriceRow(cs, 'Celkem k úhradě', '$_totalPrice €', true),
         ],
       ),
     );
