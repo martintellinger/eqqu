@@ -8,6 +8,12 @@ class AnimatedHeartButton extends StatefulWidget {
   final ColorScheme cs;
   final double iconSize;
   final double circleSize;
+  /// Radius particles travel outward from center.
+  final double particleRadius;
+  /// Scale factor for particle sizes.
+  final double particleScale;
+  /// If true, all particles are red (error color). If false, mix of red hearts + white dots.
+  final bool redOnlyParticles;
 
   const AnimatedHeartButton({
     super.key,
@@ -16,6 +22,9 @@ class AnimatedHeartButton extends StatefulWidget {
     required this.cs,
     this.iconSize = 16,
     this.circleSize = 32,
+    this.particleRadius = 36,
+    this.particleScale = 1.8,
+    this.redOnlyParticles = false,
   });
 
   @override
@@ -29,8 +38,6 @@ class _AnimatedHeartButtonState extends State<AnimatedHeartButton>
   late Animation<double> _scaleAnimation;
   bool _showParticles = false;
 
-  static final _random = Random();
-
   @override
   void initState() {
     super.initState();
@@ -39,7 +46,7 @@ class _AnimatedHeartButtonState extends State<AnimatedHeartButton>
       vsync: this,
     );
     _particleController = AnimationController(
-      duration: const Duration(milliseconds: 700),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
     _scaleAnimation = TweenSequence<double>([
@@ -73,15 +80,18 @@ class _AnimatedHeartButtonState extends State<AnimatedHeartButton>
 
   @override
   Widget build(BuildContext context) {
+    final particleArea = widget.particleRadius * 2 + 16;
+    final outerSize = particleArea.clamp(48.0, double.infinity);
+
     return GestureDetector(
       onTap: _handleTap,
       child: SizedBox(
-        width: 48,
-        height: 48,
+        width: outerSize,
+        height: outerSize,
         child: Center(
           child: SizedBox(
-            width: widget.circleSize + 16,
-            height: widget.circleSize + 16,
+            width: outerSize,
+            height: outerSize,
             child: Stack(
               alignment: Alignment.center,
               clipBehavior: Clip.none,
@@ -90,11 +100,15 @@ class _AnimatedHeartButtonState extends State<AnimatedHeartButton>
                   AnimatedBuilder(
                     animation: _particleController,
                     builder: (context, _) => CustomPaint(
-                      size: Size(widget.circleSize + 16, widget.circleSize + 16),
+                      size: Size(outerSize, outerSize),
                       painter: _ParticlePainter(
                         progress: _particleController.value,
                         color: widget.cs.error,
-                        accentColor: widget.cs.surfaceTint,
+                        accentColor: widget.redOnlyParticles
+                            ? widget.cs.error
+                            : Colors.white,
+                        radius: widget.particleRadius,
+                        scale: widget.particleScale,
                       ),
                     ),
                   ),
@@ -147,13 +161,15 @@ class _ParticlePainter extends CustomPainter {
   final double progress;
   final Color color;
   final Color accentColor;
+  final double radius;
+  final double scale;
 
   static final _random = Random(42);
-  static final List<_Particle> _particles = List.generate(12, (i) {
-    final angle = (i / 12) * 2 * pi + _random.nextDouble() * 0.5;
-    final speed = 0.6 + _random.nextDouble() * 0.6;
-    final size = 1.5 + _random.nextDouble() * 2.0;
-    final isHeart = i % 3 == 0;
+  static final List<_Particle> _particles = List.generate(14, (i) {
+    final angle = (i / 14) * 2 * pi + _random.nextDouble() * 0.4;
+    final speed = 0.6 + _random.nextDouble() * 0.5;
+    final size = 2.0 + _random.nextDouble() * 2.5;
+    final isHeart = i % 2 == 0;
     return _Particle(angle: angle, speed: speed, size: size, isHeart: isHeart);
   });
 
@@ -161,18 +177,20 @@ class _ParticlePainter extends CustomPainter {
     required this.progress,
     required this.color,
     required this.accentColor,
+    required this.radius,
+    required this.scale,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final opacity = (1.0 - progress).clamp(0.0, 1.0);
+    final opacity = (1.0 - progress * 0.8).clamp(0.0, 1.0);
 
     for (final p in _particles) {
-      final distance = p.speed * progress * 24;
+      final distance = p.speed * progress * radius;
       final x = center.dx + cos(p.angle) * distance;
-      final y = center.dy + sin(p.angle) * distance - progress * 8;
-      final currentSize = p.size * (1.0 - progress * 0.5);
+      final y = center.dy + sin(p.angle) * distance - progress * 10;
+      final currentSize = p.size * scale * (1.0 - progress * 0.4);
       final particleColor = p.isHeart ? color : accentColor;
 
       final paint = Paint()
