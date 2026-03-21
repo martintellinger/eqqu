@@ -13,6 +13,7 @@ import 'package:eqqu/screens/feedback_screen.dart';
 import 'package:eqqu/screens/about_screen.dart';
 import 'package:eqqu/screens/eqqu_platform_screen.dart';
 import 'package:eqqu/screens/my_purchases_screen.dart';
+import 'package:eqqu/screens/favorites_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -61,7 +62,9 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MySalesScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/oblibene_predmety.svg', 'Oblíbené předměty'),
+                    _buildMenuItem(cs, 'assets/icons/oblibene_predmety.svg', 'Oblíbené předměty', onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const FavoritesScreen()));
+                    }),
                     const SizedBox(height: 24),
 
                     // Menu group 2
