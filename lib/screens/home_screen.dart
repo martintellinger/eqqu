@@ -1013,10 +1013,11 @@ class _HomeBodyState extends State<_HomeBody> {
             ),
             cs.surfaceTint,
           ),
-          // Subtitle
-          Text(
+          // Subtitle (with search highlight)
+          _highlightedText(
             product['subtitle']!,
-            style: TextStyle(
+            _searchQuery,
+            TextStyle(
               fontFamily: 'Poppins',
               fontSize: 14,
               fontWeight: FontWeight.w400,
@@ -1024,8 +1025,7 @@ class _HomeBodyState extends State<_HomeBody> {
               letterSpacing: 0.25,
               height: 20 / 14,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            cs.surfaceTint,
           ),
           const SizedBox(height: 1),
           // Price row
