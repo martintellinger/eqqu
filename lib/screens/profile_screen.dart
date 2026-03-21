@@ -243,6 +243,9 @@ class ProfileScreen extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
+          hoverColor: const Color(0x14006535),
+          splashColor: const Color(0x14006535),
+          highlightColor: const Color(0x14006535),
           onTap: onTap ?? () {},
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
