@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/screens/reviews_screen.dart';
+import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 
 class BuyerViewSellerScreen extends StatefulWidget {
@@ -612,6 +613,49 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                                 : Colors.white,
                             letterSpacing: 0.15,
                             height: 24 / 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Message seller button
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ChatDetailScreen(
+                                name: 'Emma Novak',
+                                initials: 'EN',
+                                avatarImage: 'assets/images/avatar_1.png',
+                                productImage: 'assets/images/product_01.png',
+                                productName: 'Black GP type saddle',
+                              ),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.chat_bubble_outline, size: 20, color: cs.primary),
+                        label: Text(
+                          'Napsat zprávu',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: cs.primary,
+                            letterSpacing: 0.15,
+                            height: 24 / 16,
+                          ),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: cs.primary),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                       ),

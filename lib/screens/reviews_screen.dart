@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 
 class ReviewsScreen extends StatelessWidget {
   const ReviewsScreen({super.key});
@@ -113,7 +114,7 @@ class ReviewsScreen extends StatelessWidget {
                     height: 1, thickness: 1, color: cs.outlineVariant),
               ),
               itemBuilder: (context, index) {
-                return _buildReviewCard(cs, _reviews[index]);
+                return _buildReviewCard(context, cs, _reviews[index]);
               },
             ),
           ),
@@ -122,54 +123,62 @@ class ReviewsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReviewCard(ColorScheme cs, Map<String, dynamic> review) {
+  Widget _buildReviewCard(BuildContext context, ColorScheme cs, Map<String, dynamic> review) {
     final rating = review['rating'] as int;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Avatar + name + country row
-        Row(
-          children: [
-            ClipOval(
-              child: Image.asset(
-                review['avatar'] as String,
-                width: 40,
-                height: 40,
-                fit: BoxFit.cover,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const BuyerViewSellerScreen()),
+            );
+          },
+          child: Row(
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  review['avatar'] as String,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    review['name'] as String,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: cs.secondary,
-                      letterSpacing: 0.1,
-                      height: 20 / 14,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      review['name'] as String,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: cs.secondary,
+                        letterSpacing: 0.1,
+                        height: 20 / 14,
+                      ),
                     ),
-                  ),
-                  Text(
-                    review['country'] as String,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: cs.tertiary,
-                      letterSpacing: 0.4,
-                      height: 16 / 12,
+                    Text(
+                      review['country'] as String,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: cs.tertiary,
+                        letterSpacing: 0.4,
+                        height: 16 / 12,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const SizedBox(height: 8),
         // Stars + time

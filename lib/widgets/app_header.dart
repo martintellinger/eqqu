@@ -9,6 +9,7 @@ class AppHeader extends StatelessWidget {
   final String? subtitle;
   final bool showBack;
   final VoidCallback? onBack;
+  final VoidCallback? onSubtitleTap;
   final Widget? trailing;
 
   const AppHeader({
@@ -17,6 +18,7 @@ class AppHeader extends StatelessWidget {
     this.subtitle,
     this.showBack = false,
     this.onBack,
+    this.onSubtitleTap,
     this.trailing,
   });
 
@@ -61,19 +63,22 @@ class AppHeader extends StatelessWidget {
                         maxLines: 1,
                       ),
                       if (subtitle != null)
-                        Text(
-                          subtitle!,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurfaceVariant,
-                            letterSpacing: 0.5,
-                            height: 16 / 12,
+                        GestureDetector(
+                          onTap: onSubtitleTap,
+                          child: Text(
+                            subtitle!,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: onSubtitleTap != null ? cs.surfaceTint : cs.onSurfaceVariant,
+                              letterSpacing: 0.5,
+                              height: 16 / 12,
+                            ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
                         ),
                     ],
                   ),

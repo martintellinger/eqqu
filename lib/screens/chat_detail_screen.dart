@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final String name;
@@ -115,6 +116,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         title: widget.productName.isNotEmpty ? widget.productName : widget.name,
         subtitle: widget.name,
         showBack: true,
+        onSubtitleTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const BuyerViewSellerScreen()),
+          );
+        },
         trailing: widget.productImage.isNotEmpty
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(8),
