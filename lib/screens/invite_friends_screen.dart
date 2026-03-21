@@ -47,7 +47,7 @@ class InviteFriendsScreen extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
-                      'assets/images/horse_rider.png',
+                      'assets/images/product_04.png',
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),

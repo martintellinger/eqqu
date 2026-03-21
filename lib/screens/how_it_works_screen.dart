@@ -13,7 +13,7 @@ class HowItWorksScreen extends StatelessWidget {
         'EQQU je platforma podobná Vinted, ale specializovaná na jezdecké potřeby. Umožňuje uživatelům pohodlně prodávat a kupovat vybavení pro koně a jezdce.',
         'EQQU funguje stejně jako Vinted, ale místo oblečení nabízí široký výběr jezdeckých potřeb a vybavení pro koně, které můžete snadno prodat nebo koupit.',
       ],
-      imagePath: 'assets/images/horse_rider.png',
+      imagePath: 'assets/images/product_01.png',
     );
   }
 }

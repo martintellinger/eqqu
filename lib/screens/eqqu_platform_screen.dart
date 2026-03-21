@@ -13,7 +13,7 @@ class EqquPlatformScreen extends StatelessWidget {
         'EQQU je online tržiště zaměřené na jezdecké potřeby, kde můžete nakupovat a prodávat vybavení pro koně snadno a rychle, stejně jako na Vinted.',
         'Na EQQU najdete široký výběr koňských potřeb, od sedel po ohlávky, vše na jednom místě, podobně jako Vinted pro oblečení.',
       ],
-      imagePath: 'assets/images/horse_rider.png',
+      imagePath: 'assets/images/product_02.png',
     );
   }
 }
