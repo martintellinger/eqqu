@@ -483,7 +483,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       child: Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: cs.surfaceContainerHigh,
+        color: cs.surfaceContainerLow,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -713,10 +713,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void _showMoreSheet() {
     final cs = Theme.of(context).colorScheme;
-    showModalBottomSheet(
+    showBlurBottomSheet(
       context: context,
       backgroundColor: cs.surface,
-      barrierColor: kBlurBarrierColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
