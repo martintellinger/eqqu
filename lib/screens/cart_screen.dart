@@ -19,6 +19,12 @@ class _CartScreenState extends State<CartScreen> {
   String? _expiryError;
   String? _cvcError;
 
+  int _selectedAddressIndex = 0;
+  static const _addresses = [
+    {'name': 'Anna Novak', 'street': 'Soukenická 4, Praha 110 00', 'country': 'Česká republika', 'icon': 'home'},
+    {'name': 'Anna Novak', 'street': 'Náměstí Míru 31, Praha 110 00', 'country': 'Česká republika', 'icon': 'location'},
+  ];
+
   final _cardNumberController = TextEditingController();
   final _expiryController = TextEditingController();
   final _cvcController = TextEditingController();
@@ -432,47 +438,26 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildAddressInfo(ColorScheme cs) {
+    final addr = _addresses[_selectedAddressIndex];
+    final textStyle = TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: cs.secondary,
+      letterSpacing: 0.25,
+      height: 20 / 14,
+    );
     return Opacity(
       opacity: 0.8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Anna Novak',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
-          ),
-          Text(
-            'Soukenická 4, Praha 110 00',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
-          ),
-          Text(
-            'Česká republika',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
-          ),
+          Text(addr['name']!, style: textStyle),
+          Text(addr['street']!, style: textStyle),
+          Text(addr['country']!, style: textStyle),
           const SizedBox(height: 8),
           GestureDetector(
-            onTap: () {},
+            onTap: () => _showAddressSheet(),
             child: Text(
               'Změnit adresu',
               style: TextStyle(
@@ -486,6 +471,106 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showAddressSheet() {
+    final cs = Theme.of(context).colorScheme;
+    showBlurBottomSheet(
+      context: context,
+      backgroundColor: cs.surface,
+      builder: (_) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 16, bottom: 16),
+                width: 32,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: cs.outline,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+              Text(
+                'Doručovací adresa',
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: cs.onSurface,
+                  height: 28 / 20,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ...List.generate(_addresses.length, (i) {
+                final addr = _addresses[i];
+                final isSelected = i == _selectedAddressIndex;
+                final icon = addr['icon'] == 'home' ? Icons.home_outlined : Icons.location_on_outlined;
+                return Padding(
+                  padding: EdgeInsets.only(bottom: i < _addresses.length - 1 ? 12 : 0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() => _selectedAddressIndex = i);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: isSelected ? cs.primary : cs.outlineVariant,
+                          width: isSelected ? 2 : 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      child: Row(
+                        children: [
+                          Icon(icon, size: 24, color: cs.onSurface),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  addr['name']!,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: cs.onSurface,
+                                    letterSpacing: 0.15,
+                                    height: 24 / 16,
+                                  ),
+                                ),
+                                Text(
+                                  addr['street']!,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: cs.secondary,
+                                    letterSpacing: 0.25,
+                                    height: 20 / 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (isSelected)
+                            Icon(Icons.check_circle, size: 24, color: cs.primary),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+              const SizedBox(height: 24),
+            ],
+          ),
+        ),
       ),
     );
   }
