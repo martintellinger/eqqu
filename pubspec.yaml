@@ -38,7 +38,13 @@ flutter:
           weight: 700
     - family: Outfit
       fonts:
+        - asset: assets/fonts/Outfit-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Outfit-Light.ttf
+          weight: 300
         - asset: assets/fonts/Outfit-Regular.ttf
           weight: 400
         - asset: assets/fonts/Outfit-SemiBold.ttf
           weight: 600
+        - asset: assets/fonts/Outfit-Bold.ttf
+          weight: 700
