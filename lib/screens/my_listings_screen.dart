@@ -270,134 +270,125 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
 
   void _showReservationDialog() {
     if (!mounted) return;
-    final cs = Theme.of(context).colorScheme;
 
-    showDialog(
+    showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (ctx) {
-        return Dialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        final cs = Theme.of(ctx).colorScheme;
+        return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
-          backgroundColor: cs.surface,
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Rezervovat',
-                  style: TextStyle(
+          backgroundColor: cs.surfaceContainerHigh,
+          titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+          contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+          actionsPadding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+          title: Text(
+            'Rezervovat',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 24,
+              fontWeight: FontWeight.w400,
+              color: cs.onSurface,
+              height: 32 / 24,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: cs.onSurfaceVariant,
+                  letterSpacing: 0.25,
+                  height: 20 / 14,
+                ),
+              ),
+              const SizedBox(height: 24),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Uživatelské jméno*',
+                  labelStyle: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 24,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: cs.onSurface,
-                    height: 32 / 24,
+                    color: cs.onSurfaceVariant,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(color: cs.outline),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(color: cs.outline),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(color: cs.primary, width: 2),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 16,
                   ),
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                  color: cs.onSurface,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            SizedBox(
+              height: 40,
+              child: OutlinedButton(
+                onPressed: () => Navigator.pop(ctx),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: cs.outline),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                ),
+                child: Text(
+                  'Zrušit',
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onSurfaceVariant,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSurface,
+                    letterSpacing: 0.1,
                   ),
                 ),
-                const SizedBox(height: 24),
-                Material(
-                  color: Colors.transparent,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Uživatelské jméno*',
-                      labelStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: cs.onSurfaceVariant,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: BorderSide(color: cs.outline),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: BorderSide(color: cs.outline),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: BorderSide(color: cs.primary, width: 2),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16,
-                      ),
-                    ),
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      color: cs.onSurface,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: 40,
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: cs.outline),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                        child: Text(
-                          'Zrušit',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurface,
-                            letterSpacing: 0.1,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                      child: FilledButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: cs.secondary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                        child: Text(
-                          'Rezervovat',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSecondary,
-                            letterSpacing: 0.1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
+            SizedBox(
+              height: 40,
+              child: FilledButton(
+                onPressed: () => Navigator.pop(ctx),
+                style: FilledButton.styleFrom(
+                  backgroundColor: cs.secondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                ),
+                child: Text(
+                  'Rezervovat',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSecondary,
+                    letterSpacing: 0.1,
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
