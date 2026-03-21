@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 
@@ -26,7 +25,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     },
     {
       'title': 'Green Mountain type saddle',
-      'subtitle': 'Rugged Brand / Very G...',
+      'subtitle': 'Rugged Brand / Very Good / 16"',
       'oldPrice': '180 €',
       'newPrice': '199 €',
       'image': 'assets/images/product_02.png',
@@ -36,7 +35,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     },
     {
       'title': 'Red Racing type saddle',
-      'subtitle': 'Speedy Brand / Excelle...',
+      'subtitle': 'Speedy Brand / Excellent / 15"',
       'oldPrice': '200 €',
       'newPrice': '230 €',
       'image': 'assets/images/product_03.png',
@@ -55,24 +54,24 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       'condition': 'Good',
     },
     {
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-      'image': 'assets/images/product_04.png',
+      'title': 'Red Racing type saddle',
+      'subtitle': 'Speedy Brand / Excellent / 15"',
+      'oldPrice': '200 €',
+      'newPrice': '230 €',
+      'image': 'assets/images/product_03.png',
       'status': 'shipped',
-      'brand': 'No brand',
-      'condition': 'Good',
+      'brand': 'Speedy Brand',
+      'condition': 'Excellent',
     },
     {
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-      'image': 'assets/images/product_05.png',
+      'title': 'Green Mountain type saddle',
+      'subtitle': 'Rugged Brand / Very Good / 16"',
+      'oldPrice': '180 €',
+      'newPrice': '199 €',
+      'image': 'assets/images/product_02.png',
       'status': 'shipped',
-      'brand': 'No brand',
-      'condition': 'Good',
+      'brand': 'Rugged Brand',
+      'condition': 'Very Good',
     },
   ];
 
@@ -88,62 +87,61 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             child: const AppHeader(title: 'Moje inzeráty', showBack: true),
           ),
           Expanded(
-            child: Stack(
-              children: [
-                GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 177 / 290,
-                  ),
-                  itemCount: _listings.length,
-                  itemBuilder: (context, index) {
-                    return _buildProductCard(cs, index, _listings[index]);
-                  },
-                ),
-                // Dark overlay when hidden
-                if (_allHidden)
-                  Positioned.fill(
-                    child: IgnorePointer(
-                      child: Container(
-                        color: Colors.black.withValues(alpha: 0.5),
-                      ),
-                    ),
-                  ),
-              ],
+            child: GridView.builder(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 177 / 290,
+              ),
+              itemCount: _listings.length,
+              itemBuilder: (context, index) {
+                return _buildProductCard(cs, index, _listings[index]);
+              },
             ),
           ),
-          // Bottom button
+          // Bottom floating button
           Container(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.of(context).padding.bottom + 16),
+            padding: EdgeInsets.fromLTRB(
+              16, 16, 16, MediaQuery.of(context).padding.bottom + 16,
+            ),
             child: SizedBox(
               width: double.infinity,
               height: 56,
-              child: FilledButton.icon(
-                onPressed: () {
-                  setState(() => _allHidden = !_allHidden);
-                },
-                icon: Icon(
-                  _allHidden ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  _allHidden ? 'Odkrýt všechny inzeráty' : 'Skrýt všechny inzeráty',
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                    letterSpacing: 0.15,
-                    height: 24 / 16,
-                  ),
-                ),
-                style: FilledButton.styleFrom(
-                  backgroundColor: cs.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              child: Material(
+                elevation: 3,
+                borderRadius: BorderRadius.circular(8),
+                color: cs.primary,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () => setState(() => _allHidden = !_allHidden),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          _allHidden ? Icons.visibility : Icons.visibility_off,
+                          size: 24,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          _allHidden
+                              ? 'Odkrýt všechny inzeráty'
+                              : 'Skrýt všechny inzeráty',
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            letterSpacing: 0.15,
+                            height: 24 / 16,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -154,7 +152,11 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     );
   }
 
-  Widget _buildProductCard(ColorScheme cs, int index, Map<String, String> product) {
+  Widget _buildProductCard(
+    ColorScheme cs,
+    int index,
+    Map<String, String> product,
+  ) {
     final status = product['status']!;
 
     return GestureDetector(
@@ -189,26 +191,18 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                // Status badge
+                // Status badge (top-left)
                 Positioned(
                   top: 8,
                   left: 8,
-                  child: _buildStatusBadge(cs, status),
+                  child: _buildStatusChip(cs, status),
                 ),
-                // Eye-slash icon when hidden
+                // Hidden eye-off chip (bottom-left)
                 if (_allHidden)
                   Positioned(
                     bottom: 8,
                     left: 8,
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: cs.secondaryContainer,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(Icons.visibility_off, size: 18, color: cs.onSecondaryContainer),
-                    ),
+                    child: _buildHiddenChip(cs),
                   ),
               ],
             ),
@@ -242,7 +236,6 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 1),
           // Price row
           Row(
             children: [
@@ -289,67 +282,98 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     );
   }
 
-  Widget _buildStatusBadge(ColorScheme cs, String status) {
+  /// Elevated assistive chip for status badge (Aktivní / Prodáno / Odesláno)
+  Widget _buildStatusChip(ColorScheme cs, String status) {
     String label;
-    Color dotColor;
-    IconData? icon;
+    Color textColor;
+    IconData icon;
 
     switch (status) {
       case 'active':
         label = 'Aktivní';
-        dotColor = const Color(0xFFA46700);
-        icon = null; // filled circle
+        textColor = const Color(0xFFA46700);
+        icon = Icons.circle;
         break;
       case 'sold':
         label = 'Prodáno';
-        dotColor = cs.primary;
-        icon = Icons.check;
+        textColor = cs.surfaceTint;
+        icon = Icons.check_circle;
         break;
       case 'shipped':
         label = 'Odesláno';
-        dotColor = const Color(0xFFA46700);
-        icon = null;
+        textColor = cs.onSurface;
+        icon = Icons.circle;
         break;
       default:
         label = status;
-        dotColor = cs.tertiary;
-        icon = null;
+        textColor = cs.tertiary;
+        icon = Icons.circle;
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      height: 32,
+      padding: const EdgeInsets.only(left: 8, right: 16, top: 6, bottom: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(100),
+        color: cs.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x4D000000),
+            offset: Offset(0, 1),
+            blurRadius: 2,
+          ),
+          BoxShadow(
+            color: Color(0x26000000),
+            offset: Offset(0, 1),
+            blurRadius: 3,
+            spreadRadius: 1,
+          ),
+        ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null)
-            Icon(icon, size: 16, color: dotColor)
-          else
-            Container(
-              width: 12,
-              height: 12,
-              decoration: BoxDecoration(
-                color: dotColor,
-                shape: BoxShape.circle,
-              ),
-            ),
-          const SizedBox(width: 6),
+          Icon(icon, size: 18, color: textColor),
+          const SizedBox(width: 8),
           Text(
             label,
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.black87,
-              letterSpacing: 0.4,
-              height: 16 / 12,
+              color: textColor,
+              letterSpacing: 0.1,
+              height: 20 / 14,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  /// Icon-only chip for hidden state (eye-off icon at bottom-left)
+  Widget _buildHiddenChip(ColorScheme cs) {
+    return Container(
+      height: 32,
+      width: 32,
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x4D000000),
+            offset: Offset(0, 1),
+            blurRadius: 2,
+          ),
+          BoxShadow(
+            color: Color(0x26000000),
+            offset: Offset(0, 1),
+            blurRadius: 3,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Icon(Icons.visibility_off, size: 18, color: cs.onSurface),
     );
   }
 }
