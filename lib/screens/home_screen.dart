@@ -300,6 +300,22 @@ class _HomeBodyState extends State<_HomeBody> {
     'Jan Novotný',
   ];
 
+  int _searchRelevance(Map<String, String> p, String q) {
+    final title = p['title']!.toLowerCase();
+    final brand = p['brand']!.toLowerCase();
+    // Word-start match in title or brand = highest relevance
+    if (title.startsWith(q) || brand.startsWith(q)) return 0;
+    final titleWords = title.split(RegExp(r'\s+'));
+    final brandWords = brand.split(RegExp(r'\s+'));
+    if (titleWords.any((w) => w.startsWith(q)) || brandWords.any((w) => w.startsWith(q))) return 1;
+    // Contains in title or brand
+    if (title.contains(q) || brand.contains(q)) return 2;
+    // Match in category
+    if (p['category']!.toLowerCase().contains(q)) return 3;
+    // Match in subtitle (least relevant)
+    return 4;
+  }
+
   List<Map<String, String>> get _filteredProducts {
     var products = _allProducts;
     if (_activeChip != null) {
@@ -313,6 +329,7 @@ class _HomeBodyState extends State<_HomeBody> {
         p['brand']!.toLowerCase().contains(q) ||
         p['category']!.toLowerCase().contains(q)
       ).toList();
+      products.sort((a, b) => _searchRelevance(a, q).compareTo(_searchRelevance(b, q)));
     }
     return products;
   }
