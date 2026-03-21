@@ -43651,7 +43651,7 @@ a3(){return new A.VF(A.az(t.S))}}
 A.VF.prototype={
 I(a2){var s,r,q,p,o,n,m,l,k,j,i,h,g,f=this,e=null,d=A.y(a2).ax,c=f.a6k(d),b=f.a6D(d),a=f.a.f,a0=d.F,a1=a0==null
 a=A.z(a+"  ",e,e,e,e,A.p(e,e,a1?d.b:a0,e,e,e,e,e,"Outfit",e,e,24,e,e,B.y,e,1.3333333333333333,!0,e,e,e,e,e,e,e,e),e,e)
-s=d.R8
+s=d.p3
 if(s==null)s=d.k2
 r=A.a3(8)
 q=d.k3

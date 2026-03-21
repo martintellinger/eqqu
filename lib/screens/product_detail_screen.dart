@@ -359,7 +359,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           const SizedBox(width: 16),
           Container(
             decoration: BoxDecoration(
-              color: cs.surfaceContainerHigh,
+              color: cs.surfaceContainerLow,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Padding(
