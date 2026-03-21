@@ -490,6 +490,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.error,
+                  minimumSize: Size.zero,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 ),
