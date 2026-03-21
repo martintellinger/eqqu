@@ -10,13 +10,23 @@ Future<T?> showBlurDialog<T>({
   return showDialog<T>(
     context: context,
     barrierDismissible: barrierDismissible,
-    barrierColor: Colors.black.withValues(alpha: 0.15),
+    barrierColor: Colors.transparent,
     builder: (ctx) {
-      return SizedBox.expand(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: builder(ctx),
-        ),
+      return Stack(
+        children: [
+          // Full-screen blur layer
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: barrierDismissible ? () => Navigator.pop(ctx) : null,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                child: Container(color: Colors.black.withValues(alpha: 0.15)),
+              ),
+            ),
+          ),
+          // Dialog on top
+          builder(ctx),
+        ],
       );
     },
   );
