@@ -99,13 +99,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         .where((e) => _favorites.contains(e.key))
         .toList();
 
-    return SafeArea(
-      child: CustomScrollView(
-        slivers: [
-          // App bar
-          const SliverToBoxAdapter(
-            child: AppHeader(title: 'Oblíbené'),
-          ),
+    return Scaffold(
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            // App bar
+            const SliverToBoxAdapter(
+              child: AppHeader(title: 'Oblíbené', showBack: true),
+            ),
 
           // Product grid
           if (favProducts.isNotEmpty)
@@ -178,6 +179,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
+        ),
       ),
     );
   }
