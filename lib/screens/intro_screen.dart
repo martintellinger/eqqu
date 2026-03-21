@@ -15,6 +15,7 @@ class _IntroScreenState extends State<IntroScreen> {
   late final List<String> _bgImages;
 
   static const _allProductImages = [
+    'assets/images/background.jpg',
     'assets/images/product_01.png',
     'assets/images/product_02.png',
     'assets/images/product_03.png',
@@ -25,13 +26,16 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   void initState() {
     super.initState();
-    _bgImages = List.from(_allProductImages)..shuffle();
+    _bgImages = [
+      _allProductImages[0],
+      ...(List.from(_allProductImages.sublist(1))..shuffle()),
+    ];
     languageNotifier.addListener(_onLanguageChanged);
     _startImageCycling();
   }
 
   void _startImageCycling() {
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 8), () {
       if (!mounted) return;
       setState(() {
         _currentImageIndex = (_currentImageIndex + 1) % _bgImages.length;
@@ -160,7 +164,7 @@ class _IntroScreenState extends State<IntroScreen> {
         children: [
           // Background image with animated cross-fade
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 800),
+            duration: const Duration(milliseconds: 1500),
             child: Image.asset(
               _bgImages[_currentImageIndex],
               key: ValueKey(_currentImageIndex),
