@@ -272,117 +272,102 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildProductInfo(ColorScheme cs) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Brand
-                    Text(
-                      widget.brand,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: cs.tertiary,
-                        letterSpacing: 0.15,
-                        height: 24 / 16,
-                      ),
-                    ),
-                    // Name
-                    Text(
-                      widget.name,
-                      style: TextStyle(
-                        fontFamily: 'Outfit',
-                        fontSize: 28,
-                        fontWeight: FontWeight.w600,
-                        color: cs.onSurface,
-                        height: 36 / 28,
-                      ),
-                    ),
-                    // Old price
-                    if (widget.oldPrice.isNotEmpty)
-                      Text(
-                        '${widget.oldPrice}  ',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: cs.tertiary,
-                          letterSpacing: 0.15,
-                          height: 24 / 16,
-                        ),
-                      ),
-                  ],
+              Text(
+                widget.brand,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: cs.tertiary,
+                  letterSpacing: 0.15,
+                  height: 24 / 16,
                 ),
               ),
-              // Heart button
-              AnimatedHeartButton(
-                isFavorite: _isFavorite,
-                cs: cs,
-                iconSize: 24,
-                circleSize: 0,
-                onToggle: () => setState(() => _isFavorite = !_isFavorite),
+              Text(
+                widget.name,
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600,
+                  color: cs.onSurface,
+                  height: 36 / 28,
+                ),
               ),
+              if (widget.oldPrice.isNotEmpty)
+                Text(
+                  '${widget.oldPrice}  ',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: cs.tertiary,
+                    letterSpacing: 0.15,
+                    height: 24 / 16,
+                  ),
+                ),
             ],
           ),
-        ],
-      ),
+        ),
+        AnimatedHeartButton(
+          isFavorite: _isFavorite,
+          cs: cs,
+          iconSize: 24,
+          circleSize: 0,
+          onToggle: () => setState(() => _isFavorite = !_isFavorite),
+        ),
+      ],
     );
   }
 
   Widget _buildPriceRow(ColorScheme cs) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Text(
-            '${widget.price}  ',
-            style: TextStyle(
-              fontFamily: 'Outfit',
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              color: cs.surfaceTint,
-              height: 32 / 24,
-            ),
+    return Row(
+      children: [
+        Text(
+          '${widget.price}  ',
+          style: TextStyle(
+            fontFamily: 'Outfit',
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: cs.surfaceTint,
+            height: 32 / 24,
           ),
-          const SizedBox(width: 16),
-          Container(
-            decoration: BoxDecoration(
-              color: cs.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 6, 16, 6),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.verified_user, size: 18, color: cs.surfaceTint),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Včetně ochrany kupujícího',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: cs.onSurface,
-                      letterSpacing: 0.1,
-                      height: 20 / 14,
-                    ),
+        ),
+        const SizedBox(width: 16),
+        Container(
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 6, 16, 6),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.verified_user, size: 18, color: cs.surfaceTint),
+                const SizedBox(width: 8),
+                Text(
+                  'Včetně ochrany kupujícího',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSurface,
+                    letterSpacing: 0.1,
+                    height: 20 / 14,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
