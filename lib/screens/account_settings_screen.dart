@@ -172,31 +172,36 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(7),
-                              child: Image.asset(
-                                'assets/images/avatar_1.png',
-                                width: 140,
-                                height: 140,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              right: -4,
-                              bottom: -4,
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: cs.primary,
-                                  shape: BoxShape.circle,
+                        child: SizedBox(
+                          width: 148,
+                          height: 148,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(7),
+                                child: Image.asset(
+                                  'assets/images/avatar_1.png',
+                                  width: 140,
+                                  height: 140,
+                                  fit: BoxFit.cover,
                                 ),
-                                child: const Icon(Icons.edit, color: Colors.white, size: 20),
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                right: 0,
+                                bottom: 0,
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: cs.primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(Icons.edit, color: Colors.white, size: 20),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -442,56 +447,63 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             height: 20 / 14,
           ),
         ),
+        actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
         actions: [
-          OutlinedButton(
-            onPressed: () => Navigator.pop(context),
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(color: cs.outlineVariant),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            ),
-            child: Text(
-              'Zrušit',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: cs.onSurfaceVariant,
-                letterSpacing: 0.1,
-              ),
-            ),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(this.context).showSnackBar(
-                SnackBar(
-                  content: const Text(
-                    'Účet byl smazán',
-                    style: TextStyle(fontFamily: 'Poppins'),
-                  ),
-                  backgroundColor: const Color(0xFFCE0101),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              OutlinedButton(
+                onPressed: () => Navigator.pop(context),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: cs.outlineVariant),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 ),
-              );
-              Navigator.pushNamedAndRemoveUntil(this.context, '/login', (_) => false);
-            },
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFFCE0101),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            ),
-            child: const Text(
-              'Smazat',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                letterSpacing: 0.1,
+                child: Text(
+                  'Zrušit',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSurfaceVariant,
+                    letterSpacing: 0.1,
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 8),
+              FilledButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(this.context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Účet byl smazán',
+                        style: TextStyle(fontFamily: 'Poppins'),
+                      ),
+                      backgroundColor: const Color(0xFFCE0101),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                  );
+                  Navigator.pushNamedAndRemoveUntil(this.context, '/login', (_) => false);
+                },
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFFCE0101),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                ),
+                child: const Text(
+                  'Smazat',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    letterSpacing: 0.1,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
