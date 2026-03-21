@@ -81,6 +81,12 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                           },
                           activeColor: Colors.white,
                           activeTrackColor: cs.primary,
+                          inactiveThumbColor: cs.onSurfaceVariant,
+                          inactiveTrackColor: cs.surfaceContainerHighest,
+                          trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+                            if (states.contains(WidgetState.selected)) return Colors.transparent;
+                            return cs.onSurfaceVariant;
+                          }),
                         ),
                       ],
                     ),
