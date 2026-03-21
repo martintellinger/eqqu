@@ -41,41 +41,42 @@ Future<T?> showBlurBottomSheet<T>({
   required WidgetBuilder builder,
   Color? backgroundColor,
   ShapeBorder? shape,
-  bool isScrollControlled = false,
 }) {
   return showModalBottomSheet<T>(
     context: context,
     backgroundColor: Colors.transparent,
     barrierColor: Colors.transparent,
-    isScrollControlled: isScrollControlled,
+    isScrollControlled: true,
     builder: (ctx) {
       final effectiveBg = backgroundColor ?? Theme.of(ctx).colorScheme.surface;
       final effectiveShape = shape ?? const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       );
-      return Stack(
-        children: [
-          // Full-screen blur barrier
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: () => Navigator.pop(ctx),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                child: Container(color: Colors.black.withValues(alpha: 0.15)),
+      return SizedBox.expand(
+        child: Stack(
+          children: [
+            // Full-screen blur barrier
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () => Navigator.pop(ctx),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: Container(color: Colors.black.withValues(alpha: 0.15)),
+                ),
               ),
             ),
-          ),
-          // Bottom sheet content
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Material(
-              color: effectiveBg,
-              shape: effectiveShape,
-              clipBehavior: Clip.antiAlias,
-              child: builder(ctx),
+            // Bottom sheet content
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Material(
+                color: effectiveBg,
+                shape: effectiveShape,
+                clipBehavior: Clip.antiAlias,
+                child: builder(ctx),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     },
   );
