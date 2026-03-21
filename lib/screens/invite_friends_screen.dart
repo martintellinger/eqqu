@@ -22,7 +22,7 @@ class InviteFriendsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                    'Pozvěte své přátele do EQQU – nejlepší aplikace pro nákup jezdeckých potřeb, kde najdete vše pro vašeho koně na jednom místě.',
                     style: TextStyle(
                       fontFamily: 'Outfit',
                       fontSize: 24,
@@ -33,7 +33,7 @@ class InviteFriendsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec risus justo, mattis non justo sed, viverra imperdiet augue. Ut finibus orci a massa dictum, sed faucibus lectus efficitur. ',
+                    'Přidejte se k EQQU a objevte široký výběr kvalitních potřeb pro koně. Pozvěte přátele a užijte si pohodlný nákup s odbornou podporou přímo v aplikaci.',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 16,
@@ -47,9 +47,8 @@ class InviteFriendsScreen extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
-                      'assets/images/background.jpg',
+                      'assets/images/horse_rider.png',
                       width: double.infinity,
-                      height: 300,
                       fit: BoxFit.cover,
                     ),
                   ),

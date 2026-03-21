@@ -8,12 +8,12 @@ class EqquPlatformScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const InfoPage(
       title: 'EQQU platforma',
-      headline: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+      headline: 'EQQU platforma je místo, kde najdete vše pro koně, podobně jako Vinted pro módu.',
       paragraphs: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec risus justo, mattis non justo sed, viverra imperdiet augue. Ut finibus orci a massa dictum, sed faucibus lectus efficitur. Vivamus et enim commodo justo viverra placerat a vitae lacus. In facilisis purus libero, a congue turpis consectetur ornare. Duis id tempor dolor.',
-        'Fusce nulla eros, mattis eget congue nec, porttitor id felis. Cras auctor tempus metus, mattis scelerisque mi efficitur vel. Nulla sollicitudin quam id mollis facilisis. Integer ornare porta dignissim. Praesent pellentesque mauris urna, vel venenatis purus dictum vel. Proin tristique varius euismod.',
+        'EQQU je online tržiště zaměřené na jezdecké potřeby, kde můžete nakupovat a prodávat vybavení pro koně snadno a rychle, stejně jako na Vinted.',
+        'Na EQQU najdete široký výběr koňských potřeb, od sedel po ohlávky, vše na jednom místě, podobně jako Vinted pro oblečení.',
       ],
-      imagePath: 'assets/images/background.jpg',
+      imagePath: 'assets/images/horse_rider.png',
     );
   }
 }
