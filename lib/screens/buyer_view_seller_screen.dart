@@ -5,6 +5,7 @@ import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/screens/reviews_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/screens/build_set_screen.dart';
 
 class BuyerViewSellerScreen extends StatefulWidget {
   const BuyerViewSellerScreen({super.key});
@@ -705,7 +706,16 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => BuildSetScreen(
+                                  products: _products.map((p) => Map<String, String>.from(p)).toList(),
+                                ),
+                              ),
+                            );
+                          },
                           child: Text(
                             'Sestavit sadu',
                             style: TextStyle(
