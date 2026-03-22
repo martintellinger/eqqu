@@ -16,76 +16,51 @@ class _BuildSetScreenState extends State<BuildSetScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    return Scaffold(
-      backgroundColor: cs.surface,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            AppHeader(
-              title: 'Sestavit sadu',
-              showBack: true,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-                      child: Text(
-                        'Přidejte produkty do košiku',
-                        style: TextStyle(
-                          fontFamily: 'Outfit',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: cs.onSurface,
-                          height: 28 / 20,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: _buildProductGrid(cs),
-                    ),
-                  ],
-                ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) {
+          Navigator.pop(context, _selectedIndices.length);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: cs.surface,
+        body: SafeArea(
+          child: Column(
+            children: [
+              AppHeader(
+                title: 'Sestavit sadu',
+                showBack: true,
+                onBack: () => Navigator.pop(context, _selectedIndices.length),
               ),
-            ),
-            if (_selectedIndices.isNotEmpty)
-              SafeArea(
-                top: false,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: FilledButton(
-                      onPressed: () {
-                        Navigator.pop(context, _selectedIndices.length);
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor: cs.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                        child: Text(
+                          'Přidejte produkty do košiku',
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: cs.onSurface,
+                            height: 28 / 20,
+                          ),
                         ),
                       ),
-                      child: Text(
-                        'Buy (${_selectedIndices.length})',
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          letterSpacing: 0.15,
-                          height: 24 / 16,
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: _buildProductGrid(cs),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );

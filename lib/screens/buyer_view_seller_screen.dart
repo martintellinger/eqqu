@@ -18,6 +18,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   final Set<int> _favorites = {};
   bool _isFollowing = false;
   bool _isBlocked = false;
+  int _setItemCount = 0;
 
   static const _products = [
     {
@@ -706,8 +707,8 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            final result = await Navigator.push<int>(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => BuildSetScreen(
@@ -715,6 +716,9 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                                 ),
                               ),
                             );
+                            if (result != null) {
+                              setState(() => _setItemCount = result);
+                            }
                           },
                           child: Text(
                             'Sestavit sadu',
@@ -737,10 +741,43 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     padding: const EdgeInsets.all(16),
                     child: _buildProductGrid(cs),
                   ),
+                  if (_setItemCount > 0)
+                    const SizedBox(height: 72),
                 ],
               ),
             ),
           ),
+          if (_setItemCount > 0)
+            SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: FilledButton(
+                    onPressed: () {},
+                    style: FilledButton.styleFrom(
+                      backgroundColor: cs.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                    child: Text(
+                      'Buy ($_setItemCount)',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        letterSpacing: 0.15,
+                        height: 24 / 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
