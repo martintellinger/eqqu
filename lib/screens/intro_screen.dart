@@ -35,7 +35,7 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   void _startImageCycling() {
-    Future.delayed(const Duration(seconds: 8), () {
+    Future.delayed(const Duration(seconds: 5), () {
       if (!mounted) return;
       setState(() {
         _currentImageIndex = (_currentImageIndex + 1) % _bgImages.length;

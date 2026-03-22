@@ -13,6 +13,12 @@ class BuildSetScreen extends StatefulWidget {
 class _BuildSetScreenState extends State<BuildSetScreen> {
   final Set<int> _selectedIndices = {};
 
+  List<Map<String, String>> _getSelectedProducts() {
+    return _selectedIndices
+        .map((i) => Map<String, String>.from(widget.products[i]))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -20,7 +26,7 @@ class _BuildSetScreenState extends State<BuildSetScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) {
-          Navigator.pop(context, _selectedIndices.length);
+          Navigator.pop(context, _getSelectedProducts());
         }
       },
       child: Scaffold(
@@ -31,7 +37,7 @@ class _BuildSetScreenState extends State<BuildSetScreen> {
               AppHeader(
                 title: 'Sestavit sadu',
                 showBack: true,
-                onBack: () => Navigator.pop(context, _selectedIndices.length),
+                onBack: () => Navigator.pop(context, _getSelectedProducts()),
               ),
               Expanded(
                 child: SingleChildScrollView(

@@ -6,6 +6,7 @@ import 'package:eqqu/screens/reviews_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/build_set_screen.dart';
+import 'package:eqqu/screens/cart_screen.dart';
 
 class BuyerViewSellerScreen extends StatefulWidget {
   const BuyerViewSellerScreen({super.key});
@@ -18,7 +19,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   final Set<int> _favorites = {};
   bool _isFollowing = false;
   bool _isBlocked = false;
-  int _setItemCount = 0;
+  List<Map<String, String>> _setItems = [];
 
   static const _products = [
     {
@@ -708,7 +709,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            final result = await Navigator.push<int>(
+                            final result = await Navigator.push<List<Map<String, String>>>(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => BuildSetScreen(
@@ -717,7 +718,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                               ),
                             );
                             if (result != null) {
-                              setState(() => _setItemCount = result);
+                              setState(() => _setItems = result);
                             }
                           },
                           child: Text(
@@ -741,38 +742,51 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     padding: const EdgeInsets.all(16),
                     child: _buildProductGrid(cs),
                   ),
-                  if (_setItemCount > 0)
-                    const SizedBox(height: 72),
                 ],
               ),
             ),
           ),
-          if (_setItemCount > 0)
-            SafeArea(
-              top: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: FilledButton(
-                    onPressed: () {},
-                    style: FilledButton.styleFrom(
-                      backgroundColor: cs.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
+          if (_setItems.isNotEmpty)
+            Container(
+              decoration: BoxDecoration(
+                color: cs.surface,
+                border: Border(
+                  top: BorderSide(color: cs.outline, width: 1),
+                ),
+              ),
+              padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.of(context).padding.bottom + 16),
+              child: SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: FilledButton(
+                  onPressed: () {
+                    final cartItems = _setItems.map((p) => {
+                      'title': p['title'] ?? '',
+                      'price': p['newPrice'] ?? '',
+                      'priceNum': (p['newPrice'] ?? '').replaceAll(RegExp(r'[^0-9]'), ''),
+                      'image': p['image'] ?? '',
+                    }).toList();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CartScreen(initialItems: cartItems),
                       ),
+                    );
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: cs.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
-                      'Buy ($_setItemCount)',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        letterSpacing: 0.15,
-                        height: 24 / 16,
-                      ),
+                  ),
+                  child: Text(
+                    'Buy (${_setItems.length})',
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      letterSpacing: 0.15,
                     ),
                   ),
                 ),

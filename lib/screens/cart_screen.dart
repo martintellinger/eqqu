@@ -4,7 +4,9 @@ import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+  final List<Map<String, String>>? initialItems;
+
+  const CartScreen({super.key, this.initialItems});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -34,26 +36,28 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    _cartItems = [
-      {
-        'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
-        'price': '159 €',
-        'priceNum': '159',
-        'image': 'assets/images/product_01.png',
-      },
-      {
-        'title': 'Blue Comfort type saddle',
-        'price': '159 €',
-        'priceNum': '159',
-        'image': 'assets/images/product_02.png',
-      },
-      {
-        'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
-        'price': '159 €',
-        'priceNum': '159',
-        'image': 'assets/images/product_03.png',
-      },
-    ];
+    _cartItems = widget.initialItems != null
+        ? widget.initialItems!.map((item) => Map<String, String>.from(item)).toList()
+        : [
+            {
+              'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
+              'price': '159 €',
+              'priceNum': '159',
+              'image': 'assets/images/product_01.png',
+            },
+            {
+              'title': 'Blue Comfort type saddle',
+              'price': '159 €',
+              'priceNum': '159',
+              'image': 'assets/images/product_02.png',
+            },
+            {
+              'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
+              'price': '159 €',
+              'priceNum': '159',
+              'image': 'assets/images/product_03.png',
+            },
+          ];
   }
 
   @override
