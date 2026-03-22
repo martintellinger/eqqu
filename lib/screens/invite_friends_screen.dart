@@ -24,25 +24,12 @@ class InviteFriendsScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Pozvěte své přátele do EQQU – nejlepší aplikace pro nákup jezdeckých potřeb, kde najdete vše pro vašeho koně na jednom místě.',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: cs.secondary,
-                      height: 32 / 24,
-                    ),
+                    style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w600, color: cs.secondary, height: 32 / 24),
                   ),
                   const SizedBox(height: 12),
                   Text(
                     'Přidejte se k EQQU a objevte široký výběr kvalitních potřeb pro koně. Pozvěte přátele a užijte si pohodlný nákup s odbornou podporou přímo v aplikaci.',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: cs.secondary,
-                      letterSpacing: 0.5,
-                      height: 24 / 16,
-                    ),
+                    style: AppTextStyles.bodyLarge(cs.secondary),
                   ),
                   const SizedBox(height: 24),
                   ClipRRect(
@@ -78,14 +65,9 @@ class InviteFriendsScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Sdílet odkaz',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.productTitle(Colors.white),
                   ),
                 ),
               ),
