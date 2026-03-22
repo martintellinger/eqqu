@@ -41,12 +41,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 children: [
                   Text(
                     s.appLanguage,
-                    style: AppTextStyles.poppins(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: cs.secondary,
-                      height: 28 / 20,
-                    ),
+                    style: AppTextStyles.pageHeader(cs.secondary),
                   ),
                   const SizedBox(height: 16),
                   ...LanguageNotifier.languages.map((lang) {
@@ -131,12 +126,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
             const SizedBox(width: 12),
             Text(
               lang.name,
-              style: AppTextStyles.poppins(
-                fontSize: 16,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+              style: AppTextStyles.selectableOption(
                 color: isSelected ? cs.surfaceTint : cs.onSurface,
-                letterSpacing: 0.5,
-                height: 24 / 16,
+                isSelected: isSelected,
               ),
             ),
           ],

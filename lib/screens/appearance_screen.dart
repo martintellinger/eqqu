@@ -83,12 +83,9 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
             const SizedBox(width: 12),
             Text(
               label,
-              style: AppTextStyles.poppins(
-                fontSize: 16,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+              style: AppTextStyles.selectableOption(
                 color: selected ? cs.surfaceTint : cs.onSurface,
-                letterSpacing: 0.5,
-                height: 24 / 16,
+                isSelected: selected,
               ),
             ),
           ],

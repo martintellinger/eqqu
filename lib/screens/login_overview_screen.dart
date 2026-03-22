@@ -49,7 +49,7 @@ class LoginOverviewScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Přihlášená zařízení',
-                          style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+                          style: AppTextStyles.pageHeader(cs.secondary),
                         ),
                         const SizedBox(height: 12),
                         Text(

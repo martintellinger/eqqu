@@ -5,6 +5,7 @@ import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/theme/app_constants.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class FavoritesScreen extends StatefulWidget {
   final bool showBack;
@@ -107,11 +108,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       const SizedBox(height: 16),
                       Text(
                         s.noFavoritesYet,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          color: cs.tertiary,
-                        ),
+                        style: AppTextStyles.bodyLarge(cs.tertiary),
                       ),
                     ],
                   ),

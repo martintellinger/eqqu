@@ -31,11 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         SnackBar(
           content: Text(
             'Přihlášení bylo úspěšné',
-            style: AppTextStyles.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Colors.white,
-            ),
+            style: AppTextStyles.snackBarMessage(),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,

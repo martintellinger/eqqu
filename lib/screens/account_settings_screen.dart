@@ -95,7 +95,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         SnackBar(
           content: Text(
             'Změny byly uloženy',
-            style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+            style: AppTextStyles.snackBarMessage(),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
@@ -293,7 +293,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         children: [
                           Text(
                             s.changePassword,
-                            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+                            style: AppTextStyles.pageHeader(cs.secondary),
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
@@ -433,7 +433,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     SnackBar(
                       content: Text(
                         'Účet byl smazán',
-                        style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+                        style: AppTextStyles.snackBarMessage(),
                       ),
                       backgroundColor: cs.error,
                       behavior: SnackBarBehavior.floating,

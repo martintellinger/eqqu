@@ -88,7 +88,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       SnackBar(
                         content: Text(
                           'Prodejce byl odblokován',
-                          style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+                          style: AppTextStyles.snackBarMessage(),
                         ),
                         backgroundColor: cs.primary,
                         behavior: SnackBarBehavior.floating,
@@ -198,7 +198,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           SnackBar(
                             content: Text(
                               'Prodejce byl zablokován',
-                              style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+                              style: AppTextStyles.snackBarMessage(),
                             ),
                             backgroundColor: cs.error,
                             behavior: SnackBarBehavior.floating,

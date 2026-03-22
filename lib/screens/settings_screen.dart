@@ -180,12 +180,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(width: 12),
             Text(
               lang.name,
-              style: AppTextStyles.poppins(
-                fontSize: 16,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+              style: AppTextStyles.selectableOption(
                 color: isSelected ? cs.surfaceTint : cs.onSurface,
-                letterSpacing: 0.5,
-                height: 24 / 16,
+                isSelected: isSelected,
               ),
             ),
           ],
@@ -224,12 +221,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(width: 12),
             Text(
               label,
-              style: AppTextStyles.poppins(
-                fontSize: 16,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+              style: AppTextStyles.selectableOption(
                 color: isSelected ? cs.surfaceTint : cs.onSurface,
-                letterSpacing: 0.5,
-                height: 24 / 16,
+                isSelected: isSelected,
               ),
             ),
           ],

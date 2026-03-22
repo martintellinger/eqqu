@@ -206,7 +206,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                                 SnackBar(
                                   content: Text(
                                     'Inzerát byl úspěšně vytvořen',
-                                    style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+                                    style: AppTextStyles.snackBarMessage(),
                                   ),
                                   backgroundColor: Theme.of(context).colorScheme.primary,
                                   behavior: SnackBarBehavior.floating,

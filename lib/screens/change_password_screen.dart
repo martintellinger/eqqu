@@ -31,7 +31,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         SnackBar(
           content: Text(
             'Heslo bylo změněno',
-            style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+            style: AppTextStyles.snackBarMessage(),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
@@ -88,7 +88,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     children: [
                       Text(
                         'Změň si heslo',
-                        style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+                        style: AppTextStyles.pageHeader(cs.secondary),
                       ),
                       const SizedBox(height: 12),
                       Text(

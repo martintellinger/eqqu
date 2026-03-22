@@ -33,7 +33,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       SnackBar(
         content: Text(
           'Zpětná vazba byla odeslána',
-          style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+          style: AppTextStyles.snackBarMessage(),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         behavior: SnackBarBehavior.floating,

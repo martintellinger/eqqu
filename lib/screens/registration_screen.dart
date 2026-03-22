@@ -38,11 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         SnackBar(
           content: Text(
             'Musíte souhlasit s podmínkami',
-            style: AppTextStyles.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Colors.white,
-            ),
+            style: AppTextStyles.snackBarMessage(),
           ),
           backgroundColor: Theme.of(context).colorScheme.error,
           behavior: SnackBarBehavior.floating,
@@ -57,11 +53,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         SnackBar(
           content: Text(
             'Účet byl úspěšně vytvořen',
-            style: AppTextStyles.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Colors.white,
-            ),
+            style: AppTextStyles.snackBarMessage(),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,

@@ -92,7 +92,7 @@ class _CartScreenState extends State<CartScreen> {
       SnackBar(
         content: Text(
           'Produkt byl odebrán z košíku',
-          style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+          style: AppTextStyles.snackBarMessage(),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         behavior: SnackBarBehavior.floating,
@@ -315,7 +315,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Text(
             'Produkty (${_cartItems.length})',
-            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+            style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
           ...List.generate(_cartItems.length, (index) {
@@ -373,7 +373,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Text(
             title,
-            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+            style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
           ...children,
@@ -666,7 +666,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Text(
             'Cena celkem',
-            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+            style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
           _buildPriceRow(cs, s.productPrice, '$_totalProductPrice €', false),

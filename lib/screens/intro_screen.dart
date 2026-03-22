@@ -144,12 +144,9 @@ class _IntroScreenState extends State<IntroScreen> {
                               const SizedBox(width: 12),
                               Text(
                                 lang.name,
-                                style: AppTextStyles.poppins(
-                                  fontSize: 16,
-                                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                                style: AppTextStyles.selectableOption(
                                   color: isSelected ? const Color(0xFF85D89C) : Colors.white,
-                                  letterSpacing: 0.5,
-                                  height: 24 / 16,
+                                  isSelected: isSelected,
                                 ),
                               ),
                             ],

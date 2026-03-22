@@ -158,4 +158,34 @@ class AppTextStyles {
     letterSpacing: 0.1,
     height: 20 / 14,
   );
+
+  // ── Page / content headers ──
+
+  static TextStyle pageHeader(Color color) => poppins(
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+    color: color,
+    height: 28 / 20,
+  );
+
+  // ── Toast / SnackBar ──
+
+  static TextStyle snackBarMessage() => poppins(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
+
+  // ── Selectable option (language, theme, etc.) ──
+
+  static TextStyle selectableOption({
+    required Color color,
+    required bool isSelected,
+  }) => poppins(
+    fontSize: 16,
+    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+    color: color,
+    letterSpacing: 0.5,
+    height: 24 / 16,
+  );
 }

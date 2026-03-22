@@ -57,7 +57,7 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                               SnackBar(
                                 content: Text(
                                   v ? 'Mimo stáj zapnuto' : 'Mimo stáj vypnuto',
-                                  style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+                                  style: AppTextStyles.snackBarMessage(),
                                 ),
                                 backgroundColor: cs.primary,
                                 behavior: SnackBarBehavior.floating,

@@ -70,7 +70,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       SnackBar(
         content: Text(
           value ? '$label zapnuto' : '$label vypnuto',
-          style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+          style: AppTextStyles.snackBarMessage(),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         behavior: SnackBarBehavior.floating,

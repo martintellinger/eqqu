@@ -116,7 +116,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                               SnackBar(
                                 content: Text(
                                   'Hodnocení bylo odesláno',
-                                  style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+                                  style: AppTextStyles.snackBarMessage(),
                                 ),
                                 backgroundColor: Theme.of(context).colorScheme.primary,
                                 behavior: SnackBarBehavior.floating,
@@ -263,7 +263,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         children: [
           Text(
             'Produkty',
-            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+            style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
           ..._products.map((product) => Padding(
@@ -318,7 +318,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         children: [
           Text(
             'Informace o kupujícím',
-            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+            style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
           Opacity(
@@ -365,7 +365,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         children: [
           Text(
             'Doprava',
-            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+            style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
           Opacity(
@@ -398,7 +398,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         children: [
           Text(
             'Informace o prodejci',
-            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+            style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
           Container(
@@ -485,7 +485,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             opacity: 0.8,
             child: Text(
               'Cena celkem',
-              style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
+              style: AppTextStyles.pageHeader(cs.secondary),
             ),
           ),
           const SizedBox(height: 16),
