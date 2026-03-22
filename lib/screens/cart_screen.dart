@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
@@ -203,14 +204,15 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Košík', showBack: true),
+            child: AppHeader(title: s.cart, showBack: true),
           ),
           Expanded(
             child: _cartItems.isEmpty
@@ -656,6 +658,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildPriceSummary(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -666,13 +669,13 @@ class _CartScreenState extends State<CartScreen> {
             style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
           ),
           const SizedBox(height: 16),
-          _buildPriceRow(cs, 'Cena zboží', '$_totalProductPrice €', false),
+          _buildPriceRow(cs, s.productPrice, '$_totalProductPrice €', false),
           const SizedBox(height: 8),
           _buildPriceRow(cs, 'Cena dopravy', '$_deliveryPrice €', false),
           const SizedBox(height: 8),
           _buildPriceRow(cs, 'Poplatek za ochranu kupujícího', '$_buyerProtectionFee €', false),
           const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Celkem k úhradě', '$_totalPrice €', true),
+          _buildPriceRow(cs, s.totalPrice, '$_totalPrice €', true),
         ],
       ),
     );

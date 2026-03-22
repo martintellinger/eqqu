@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 
@@ -113,13 +114,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Registrace'),
+        title: Text(s.registration),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Divider(
@@ -148,8 +150,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           children: [
                             TextFormField(
                               controller: _emailController,
-                              decoration: const InputDecoration(
-                                labelText: 'E-mail',
+                              decoration: InputDecoration(
+                                labelText: s.email,
                                 hintText: 'example@gmail.com',
                               ),
                               keyboardType: TextInputType.emailAddress,
@@ -166,8 +168,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             const SizedBox(height: 20),
                             TextFormField(
                               controller: _passwordController,
-                              decoration: const InputDecoration(
-                                labelText: 'Heslo',
+                              decoration: InputDecoration(
+                                labelText: s.password,
                               ),
                               obscureText: true,
                               validator: _validatePassword,
@@ -215,7 +217,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           children: [
                             FilledButton(
                               onPressed: _register,
-                              child: const Text('Vytvořit účet'),
+                              child: Text(s.createAccount),
                             ),
                             const SizedBox(height: 16),
                             SizedBox(
@@ -225,7 +227,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
                                 },
                                 child: Text(
-                                  'Pokračovat bez registrace',
+                                  s.continueWithoutRegistration,
                                   style: AppTextStyles.poppins(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -253,7 +255,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   Opacity(
                     opacity: 0.8,
                     child: Text(
-                      'Již máte účet?',
+                      s.alreadyHaveAccount,
                       style: AppTextStyles.bodyMedium(Theme.of(context).colorScheme.secondary),
                     ),
                   ),
@@ -265,7 +267,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                     ),
                     child: Text(
-                      'Přihlaste se',
+                      s.login,
                       style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary),
                     ),
                   ),

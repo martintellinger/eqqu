@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class InviteFriendsScreen extends StatelessWidget {
@@ -8,13 +9,14 @@ class InviteFriendsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Pozvat přátele', showBack: true),
+            child: AppHeader(title: s.inviteFriends, showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(

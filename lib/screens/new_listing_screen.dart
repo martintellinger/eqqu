@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
@@ -53,15 +54,16 @@ class _NewListingScreenState extends State<NewListingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: Column(
         children: [
           // M3 Small App bar with back button
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Nový inzerát', showBack: true),
+            child: AppHeader(title: s.newListing, showBack: true),
           ),
 
           // Scrollable content
@@ -74,7 +76,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                     child: Text(
-                      'Základní informace',
+                      s.basicInfo,
                       style: AppTextStyles.sectionTitle(cs.onSurface),
                     ),
                   ),
@@ -111,7 +113,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         const SizedBox(height: 16),
 
                         // Kategorie*
-                        _buildSelectorField(cs, 'Kategorie*', _selectedCategory, () async {
+                        _buildSelectorField(cs, '${s.category}*', _selectedCategory, () async {
                           final result = await showCategoriesSheet(context);
                           if (result != null) {
                             setState(() => _selectedCategory = result);

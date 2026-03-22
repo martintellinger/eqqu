@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
@@ -140,13 +141,14 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Nastavení účtu', showBack: true),
+            child: AppHeader(title: s.accountSettings, showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -290,7 +292,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Změna hesla',
+                            s.changePassword,
                             style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
                           ),
                           const SizedBox(height: 16),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/app_state.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/utils/language_notifier.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 
@@ -23,13 +24,14 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Jazyk', showBack: true),
+            child: AppHeader(title: s.language, showBack: true),
           ),
           Expanded(
             child: Padding(
@@ -38,7 +40,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Jazyk aplikace',
+                    s.appLanguage,
                     style: AppTextStyles.poppins(
                       fontSize: 20,
                       fontWeight: FontWeight.w400,

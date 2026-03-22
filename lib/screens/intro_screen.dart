@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
@@ -169,6 +170,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -243,7 +245,7 @@ class _IntroScreenState extends State<IntroScreen> {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       child: Text(
-                        'Skip',
+                        s.skip,
                         style: AppTextStyles.actionLink(Colors.white).copyWith(height: null),
                       ),
                     ),
@@ -298,7 +300,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       ),
                     ),
                     child: Text(
-                      'Registrace',
+                      s.registration,
                       style: AppTextStyles.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -315,7 +317,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     Navigator.pushNamed(context, AppRoutes.login);
                   },
                   child: Text(
-                    'Přihlášení',
+                    s.login,
                     style: AppTextStyles.actionLink(Colors.white).copyWith(height: null),
                   ),
                 ),

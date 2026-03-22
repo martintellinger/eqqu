@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/theme/app_constants.dart';
@@ -42,6 +43,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -165,7 +167,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 child: Text(
-                  'Buy',
+                  s.buy,
                   style: AppTextStyles.productTitle(Colors.white),
                 ),
               ),
@@ -344,6 +346,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildPriceRow(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Row(
       children: [
         Text(
@@ -364,7 +367,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Icon(Icons.verified_user, size: 18, color: cs.surfaceTint),
                 const SizedBox(width: 8),
                 Text(
-                  'Včetně ochrany kupujícího',
+                  s.buyerProtection,
                   style: AppTextStyles.chip(cs.onSurface),
                 ),
               ],
@@ -426,6 +429,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildSellerCard(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -490,7 +494,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       children: [
                         Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
                         const SizedBox(width: 4),
-                        Text('Message seller', style: AppTextStyles.actionLink(cs.surfaceTint)),
+                        Text(s.messageSeller, style: AppTextStyles.actionLink(cs.surfaceTint)),
                       ],
                     ),
                   ),
@@ -577,11 +581,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildMoreFromSeller(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Row(
       children: [
         Expanded(
           child: Text(
-            'More from this seller',
+            s.moreFromSeller,
             style: AppTextStyles.sectionTitle(cs.onSurface),
           ),
         ),

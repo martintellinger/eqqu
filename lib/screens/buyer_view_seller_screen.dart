@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/theme/app_constants.dart';
@@ -460,6 +461,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -512,7 +514,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           ),
                         ),
                         child: Text(
-                          _isFollowing ? 'Sledujete' : 'Sledovat',
+                          _isFollowing ? s.following : s.follow,
                           style: AppTextStyles.labelMedium(_isFollowing
                               ? cs.onSecondaryContainer
                               : Colors.white),
@@ -544,7 +546,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         },
                         icon: Icon(Icons.chat_bubble_outline, size: 20, color: cs.primary),
                         label: Text(
-                          'Napsat zprávu',
+                          s.writeMessage,
                           style: AppTextStyles.labelMedium(cs.primary),
                         ),
                         style: OutlinedButton.styleFrom(
@@ -564,7 +566,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Inzeráty',
+                          s.listings,
                           style: AppTextStyles.sectionTitle(cs.onSurface),
                         ),
                         GestureDetector(

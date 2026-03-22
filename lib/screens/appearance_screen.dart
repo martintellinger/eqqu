@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/app_state.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 
 class AppearanceScreen extends StatefulWidget {
@@ -22,24 +23,25 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Vzhled', showBack: true),
+            child: AppHeader(title: s.appearance, showBack: true),
           ),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildOption(cs, ThemeMode.light, 'Light mode'),
+                _buildOption(cs, ThemeMode.light, s.lightMode),
                 const SizedBox(height: 16),
-                _buildOption(cs, ThemeMode.dark, 'Dark mode'),
+                _buildOption(cs, ThemeMode.dark, s.darkMode),
                 const SizedBox(height: 16),
-                _buildOption(cs, ThemeMode.system, 'Podle systému'),
+                _buildOption(cs, ThemeMode.system, s.systemMode),
               ],
             ),
           ),

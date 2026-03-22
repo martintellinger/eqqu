@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/models/listing.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
@@ -144,6 +145,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   }
 
   void _showProductActions(int index, Listing listing) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     final isHidden = _hiddenIndices.contains(index);
 
@@ -175,7 +177,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               _buildSheetButton(
                 cs: cs,
                 icon: Icons.check_circle,
-                label: 'Rezervovat',
+                label: s.reserve,
                 onTap: () async {
                   Navigator.pop(ctx);
                   await Future.delayed(const Duration(milliseconds: 300));
@@ -195,7 +197,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               _buildSheetButton(
                 cs: cs,
                 icon: isHidden ? Icons.visibility : Icons.visibility_off,
-                label: isHidden ? 'Odkrýt' : 'Skrýt',
+                label: isHidden ? 'Odkrýt' : s.hide,
                 onTap: () {
                   Navigator.pop(ctx);
                   _toggleHideItem(index);
@@ -436,15 +438,16 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     final anyHidden = _hiddenIndices.isNotEmpty;
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Moje inzeráty', showBack: true),
+            child: AppHeader(title: s.myListings, showBack: true),
           ),
           Expanded(
             child: Stack(

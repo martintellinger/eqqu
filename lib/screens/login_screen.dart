@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 
@@ -47,13 +48,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Přihlášení'),
+        title: Text(s.login),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Divider(
@@ -80,8 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'E-mail',
+                        decoration: InputDecoration(
+                          labelText: s.email,
                         ),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
@@ -97,8 +99,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 20),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Heslo',
+                        decoration: InputDecoration(
+                          labelText: s.password,
                         ),
                         obscureText: true,
                         validator: (value) {
@@ -122,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           child: Text(
-                            'Zapomenuté heslo',
+                            s.forgotPassword,
                             style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary).copyWith(height: null),
                           ),
                         ),
@@ -140,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   FilledButton(
                     onPressed: _login,
-                    child: const Text('Přihlásit se'),
+                    child: Text(s.login),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
@@ -150,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
                       },
                       child: Text(
-                        'Pokračovat bez přihlášení',
+                        s.continueWithoutLogin,
                         style: AppTextStyles.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -189,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       child: Text(
-                        'Vytvořte si ho',
+                        s.createAccount,
                         style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary),
                       ),
                     ),

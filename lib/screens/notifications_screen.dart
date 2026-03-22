@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class NotificationsScreen extends StatefulWidget {
@@ -16,13 +17,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Oznámení', showBack: true),
+            child: AppHeader(title: s.notifications, showBack: true),
           ),
           Expanded(
             child: Padding(

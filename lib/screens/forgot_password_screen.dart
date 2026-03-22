@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 
 /// Handles all forgot password states from Figma:
@@ -52,13 +53,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Zapomenuté heslo'),
+        title: Text(s.forgotPassword),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Divider(
@@ -76,6 +78,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Widget _buildInputState() {
+    final s = AppStrings.of(context);
     final showError = _hasSubmitted && !_isEmailValid && !_isEmailEmpty;
 
     return Column(
@@ -98,7 +101,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      labelText: 'E-mail',
+                      labelText: s.email,
                       errorText: showError ? 'Neplatný e-mail' : null,
                       suffixIcon: showError
                           ? Icon(Icons.error, color: Theme.of(context).colorScheme.error)
@@ -126,7 +129,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   _isEmailEmpty ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.38) : Colors.white,
             ),
             child: Text(
-              'Odeslat',
+              s.sendResetLink,
               style: AppTextStyles.poppins(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -146,7 +149,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Opacity(
                   opacity: 0.8,
                   child: Text(
-                    'Pamatujete si heslo?',
+                    s.rememberPassword,
                     style: AppTextStyles.bodyMedium(Theme.of(context).colorScheme.secondary),
                   ),
                 ),
@@ -159,7 +162,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
                   child: Text(
-                    'Zpět na přihlášení',
+                    s.login,
                     style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary),
                   ),
                 ),

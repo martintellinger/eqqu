@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/widgets/app_header.dart';
@@ -32,6 +33,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     final favProducts = _products
         .asMap()
@@ -45,7 +47,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           slivers: [
             // App bar
             SliverToBoxAdapter(
-              child: AppHeader(title: 'Oblíbené', showBack: widget.showBack),
+              child: AppHeader(title: s.favorites, showBack: widget.showBack),
             ),
 
           // Product grid
@@ -104,7 +106,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       Icon(Icons.favorite_border, size: 64, color: cs.tertiary),
                       const SizedBox(height: 16),
                       Text(
-                        'Zatím nemáte žádné oblíbené',
+                        s.noFavoritesYet,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 16,
