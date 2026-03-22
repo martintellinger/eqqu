@@ -5,6 +5,7 @@ import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/app_state.dart';
 import 'package:eqqu/utils/language_notifier.dart';
+import 'package:eqqu/widgets/sheet_helpers.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -89,15 +90,7 @@ class _IntroScreenState extends State<IntroScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 16, bottom: 16),
-                    width: 32,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.white24,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
+                  buildDragHandle(Theme.of(ctx).colorScheme, color: Colors.white24),
                   Text(
                     'Jazyk / Language',
                     style: AppTextStyles.sectionTitle(Colors.white),

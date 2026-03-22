@@ -7,6 +7,8 @@ import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/services/cart_service.dart';
 import 'package:eqqu/services/validators.dart';
+import 'package:eqqu/widgets/price_summary.dart';
+import 'package:eqqu/widgets/sheet_helpers.dart';
 
 class CartScreen extends StatefulWidget {
   final List<Map<String, String>>? initialItems;
@@ -385,15 +387,7 @@ class _CartScreenState extends State<CartScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                margin: const EdgeInsets.only(top: 16, bottom: 16),
-                width: 32,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: cs.outline,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
+              buildDragHandle(cs),
               Text(
                 'Doručovací adresa',
                 style: AppTextStyles.sectionTitle(cs.onSurface),
@@ -627,38 +621,13 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _buildPriceSummary(ColorScheme cs) {
     final s = AppStrings.of(context);
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Cena celkem',
-            style: AppTextStyles.pageHeader(cs.secondary),
-          ),
-          const SizedBox(height: 16),
-          _buildPriceRow(cs, s.productPrice, '$_totalProductPrice €', false),
-          const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Cena dopravy', '$_deliveryPrice €', false),
-          const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Poplatek za ochranu kupujícího', '$_buyerProtectionFee €', false),
-          const SizedBox(height: 8),
-          _buildPriceRow(cs, s.totalPrice, '$_totalPrice €', true),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPriceRow(ColorScheme cs, String label, String value, bool isTotal) {
-    final style = isTotal
-        ? AppTextStyles.productNewPrice(cs.surfaceTint)
-        : AppTextStyles.bodyMedium(cs.secondary);
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(child: Text(label, style: style)),
-        Text(value, style: style),
+    return PriceSummary(
+      title: 'Cena celkem',
+      rows: [
+        PriceRow(label: s.productPrice, value: '$_totalProductPrice €'),
+        PriceRow(label: 'Cena dopravy', value: '$_deliveryPrice €'),
+        PriceRow(label: 'Poplatek za ochranu kupujícího', value: '$_buyerProtectionFee €'),
+        PriceRow(label: s.totalPrice, value: '$_totalPrice €', isBold: true),
       ],
     );
   }

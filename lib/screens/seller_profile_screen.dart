@@ -11,6 +11,9 @@ import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/data/mock_products.dart';
 import 'package:eqqu/widgets/sheet_button.dart';
+import 'package:eqqu/widgets/sheet_helpers.dart';
+import 'package:provider/provider.dart';
+import 'package:eqqu/providers/favorites_provider.dart';
 
 class SellerProfileScreen extends StatefulWidget {
   const SellerProfileScreen({super.key});
@@ -20,8 +23,6 @@ class SellerProfileScreen extends StatefulWidget {
 }
 
 class _SellerProfileScreenState extends State<SellerProfileScreen> {
-  final Set<int> _favorites = {};
-
   static const _products = MockProducts.sellerProducts;
 
   void _showMoreSheet() {
@@ -40,15 +41,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Drag handle
-              Container(
-                margin: const EdgeInsets.only(top: 16, bottom: 16),
-                width: 32,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: cs.outline,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
+              buildDragHandle(cs),
               // Share button
               SheetButton(
                 icon: Icons.share,
@@ -303,20 +296,15 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   }
 
   Widget _buildProductCard(ColorScheme cs, int index, Product product) {
-    final isFav = _favorites.contains(index);
+    final favProvider = context.read<FavoritesProvider>();
+    final isFav = context.watch<FavoritesProvider>().isFavorite(index);
     final heroTag = 'seller_profile_${product.imageAsset}_$index';
     return ProductCard(
       product: product,
       imageAsset: product.imageAsset,
       isFavorite: isFav,
       heroTag: heroTag,
-      onFavoriteToggle: () => setState(() {
-        if (isFav) {
-          _favorites.remove(index);
-        } else {
-          _favorites.add(index);
-        }
-      }),
+      onFavoriteToggle: () => favProvider.toggle(index),
       onTap: () {
         Navigator.push(
           context,

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 
 /// Drag handle at top of bottom sheets.
-Widget buildDragHandle(ColorScheme cs) {
+Widget buildDragHandle(ColorScheme cs, {Color? color, EdgeInsetsGeometry? margin}) {
   return Container(
-    margin: const EdgeInsets.only(top: 8),
-    width: 40,
+    margin: margin ?? const EdgeInsets.only(top: 16, bottom: 16),
+    width: 32,
     height: 4,
     decoration: BoxDecoration(
-      color: cs.onSurface.withValues(alpha: 0.3),
-      borderRadius: BorderRadius.circular(2),
+      color: color ?? cs.outline,
+      borderRadius: BorderRadius.circular(100),
     ),
   );
 }

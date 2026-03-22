@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class FavoritesProvider extends ChangeNotifier {
-  final Set<int> _favorites = {};
+  final Set<int> _favorites = {0, 1, 2, 3, 4, 5, 6, 7};
 
   Set<int> get favorites => Set.unmodifiable(_favorites);
 

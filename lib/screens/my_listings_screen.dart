@@ -5,6 +5,7 @@ import 'package:eqqu/models/listing.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/widgets/sheet_helpers.dart';
 
 
 class MyListingsScreen extends StatefulWidget {
@@ -161,15 +162,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Drag handle
-              Container(
-                width: 32,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 24),
-                decoration: BoxDecoration(
-                  color: cs.outlineVariant,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+              buildDragHandle(cs, color: cs.outlineVariant, margin: const EdgeInsets.only(bottom: 24)),
               // Rezervovat
               _buildSheetButton(
                 cs: cs,
@@ -378,15 +371,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Drag handle
-              Container(
-                width: 32,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 24),
-                decoration: BoxDecoration(
-                  color: cs.onErrorContainer.withValues(alpha: 0.4),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+              buildDragHandle(cs, color: cs.onErrorContainer.withValues(alpha: 0.4), margin: const EdgeInsets.only(bottom: 24)),
               Icon(
                 Icons.error_outline,
                 size: 48,

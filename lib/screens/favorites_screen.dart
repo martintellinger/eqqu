@@ -7,6 +7,8 @@ import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/data/mock_products.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:provider/provider.dart';
+import 'package:eqqu/providers/favorites_provider.dart';
 
 class FavoritesScreen extends StatefulWidget {
   final bool showBack;
@@ -18,18 +20,17 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  final Set<int> _favorites = {0, 1, 2, 3, 4, 5, 6, 7};
-
   static const _products = MockProducts.favoriteProducts;
 
   @override
   Widget build(BuildContext context) {
     final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
+    final favSet = context.watch<FavoritesProvider>().favorites;
     final favProducts = _products
         .asMap()
         .entries
-        .where((e) => _favorites.contains(e.key))
+        .where((e) => favSet.contains(e.key))
         .toList();
 
     return Scaffold(
@@ -117,20 +118,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget _buildProductCard(
     ColorScheme cs, int index, Product product, String imagePath,
   ) {
-    final isFav = _favorites.contains(index);
+    final favProvider = context.read<FavoritesProvider>();
+    final isFav = context.watch<FavoritesProvider>().isFavorite(index);
     final heroTag = 'favorites_${imagePath}_$index';
     return ProductCard(
       product: product,
       imageAsset: imagePath,
       isFavorite: isFav,
       heroTag: heroTag,
-      onFavoriteToggle: () => setState(() {
-        if (isFav) {
-          _favorites.remove(index);
-        } else {
-          _favorites.add(index);
-        }
-      }),
+      onFavoriteToggle: () => favProvider.toggle(index),
       onTap: () {
         Navigator.push(
           context,

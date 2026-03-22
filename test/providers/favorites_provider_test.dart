@@ -9,19 +9,24 @@ void main() {
       provider = FavoritesProvider();
     });
 
-    test('starts empty', () {
-      expect(provider.favorites, isEmpty);
+    test('starts pre-populated with indices 0-7', () {
+      expect(provider.favorites, {0, 1, 2, 3, 4, 5, 6, 7});
     });
 
-    test('toggle adds item', () {
+    test('toggle removes pre-populated item', () {
+      provider.toggle(1);
+      expect(provider.isFavorite(1), isFalse);
+    });
+
+    test('toggle re-adds removed item', () {
+      provider.toggle(1);
       provider.toggle(1);
       expect(provider.isFavorite(1), isTrue);
     });
 
-    test('toggle removes item', () {
-      provider.toggle(1);
-      provider.toggle(1);
-      expect(provider.isFavorite(1), isFalse);
+    test('toggle adds new item', () {
+      provider.toggle(99);
+      expect(provider.isFavorite(99), isTrue);
     });
 
     test('isFavorite returns false for unknown', () {
@@ -29,9 +34,6 @@ void main() {
     });
 
     test('clear removes all', () {
-      provider.toggle(1);
-      provider.toggle(2);
-      provider.toggle(3);
       provider.clear();
       expect(provider.favorites, isEmpty);
     });

@@ -10,6 +10,7 @@ import 'package:eqqu/screens/secure_account_screen.dart';
 import 'package:eqqu/screens/notifications_screen.dart';
 import 'package:eqqu/utils/language_notifier.dart';
 import 'package:eqqu/l10n/app_strings.dart';
+import 'package:eqqu/widgets/sheet_helpers.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -59,15 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 16, bottom: 16),
-                  width: 32,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: cs.outline,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
+                buildDragHandle(cs),
                 Text(
                   'Vzhled',
                   style: AppTextStyles.sectionTitle(cs.onSurface),
@@ -113,15 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 16, bottom: 16),
-                  width: 32,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: cs.outline,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
+                buildDragHandle(cs),
                 Text(
                   'Jazyk',
                   style: AppTextStyles.sectionTitle(cs.onSurface),

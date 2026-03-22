@@ -14,6 +14,8 @@ import 'package:eqqu/widgets/tap_scale_widget.dart';
 import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/data/mock_products.dart';
 import 'package:eqqu/services/search_service.dart';
+import 'package:provider/provider.dart';
+import 'package:eqqu/providers/favorites_provider.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -146,7 +148,6 @@ class _HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
-  final Set<int> _favorites = {};
   String? _activeChip;
   String _searchQuery = '';
   bool _isSearching = false;
@@ -753,7 +754,8 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
   }
 
   Widget _buildProductCard(ColorScheme cs, int index, Product product, String imagePath) {
-    final isFav = _favorites.contains(index);
+    final favProvider = context.read<FavoritesProvider>();
+    final isFav = context.watch<FavoritesProvider>().isFavorite(index);
     final heroTag = 'product_image_${imagePath}_$index';
 
     Widget card = TapScaleWidget(
@@ -783,13 +785,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
         imageAsset: imagePath,
         isFavorite: isFav,
         heroTag: heroTag,
-        onFavoriteToggle: () => setState(() {
-          if (isFav) {
-            _favorites.remove(index);
-          } else {
-            _favorites.add(index);
-          }
-        }),
+        onFavoriteToggle: () => favProvider.toggle(index),
         // onTap handled by TapScaleWidget
         titleBuilder: _searchQuery.isNotEmpty
             ? (text, style) => _highlightedText(text, _searchQuery, style, cs.surfaceTint)

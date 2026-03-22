@@ -5,6 +5,7 @@ import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
+import 'package:eqqu/widgets/price_summary.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   const OrderDetailScreen({super.key});
@@ -467,41 +468,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildPriceSummary(ColorScheme cs) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Opacity(
-            opacity: 0.8,
-            child: Text(
-              'Cena celkem',
-              style: AppTextStyles.pageHeader(cs.secondary),
-            ),
-          ),
-          const SizedBox(height: 16),
-          _buildPriceRow(cs, 'Cena zboží', '416 €', false),
-          const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Cena dopravy', '2 €', false),
-          const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Poplatek za ochranu kupujícího', '2 €', false),
-          const SizedBox(height: 8),
-          _buildPriceRow(cs, 'Celkem k úhradě', '418 €', true),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPriceRow(ColorScheme cs, String label, String value, bool isTotal) {
-    final style = isTotal
-        ? AppTextStyles.productNewPrice(cs.surfaceTint)
-        : AppTextStyles.bodyMedium(cs.secondary);
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(child: Text(label, style: style)),
-        Text(value, style: style),
+    return const PriceSummary(
+      title: 'Cena celkem',
+      titleOpacity: 0.8,
+      rows: [
+        PriceRow(label: 'Cena zboží', value: '416 €'),
+        PriceRow(label: 'Cena dopravy', value: '2 €'),
+        PriceRow(label: 'Poplatek za ochranu kupujícího', value: '2 €'),
+        PriceRow(label: 'Celkem k úhradě', value: '418 €', isBold: true),
       ],
     );
   }

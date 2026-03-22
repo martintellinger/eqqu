@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
-import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
@@ -14,6 +13,8 @@ import 'package:eqqu/widgets/image_carousel.dart';
 import 'package:eqqu/widgets/specs_grid.dart';
 import 'package:eqqu/widgets/featured_banner.dart';
 import 'package:eqqu/widgets/sheet_button.dart';
+import 'package:eqqu/widgets/seller_card.dart';
+import 'package:eqqu/widgets/sheet_helpers.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -284,81 +285,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Widget _buildSellerCard(ColorScheme cs) {
     final s = AppStrings.of(context);
-    return GestureDetector(
+    return SellerCard(
+      name: 'Emma Novak',
+      avatarAsset: 'assets/images/avatar_1.png',
+      messageCta: s.messageSeller,
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const BuyerViewSellerScreen()),
         );
       },
-      child: Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Avatar
-          ClipOval(
-            child: Image.asset(
-              'assets/images/avatar_1.png',
-              width: 64,
-              height: 64,
-              fit: BoxFit.cover,
+      onMessageTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const ChatDetailScreen(
+              name: 'Emma Novak',
+              initials: 'EN',
+              avatarImage: 'assets/images/avatar_1.png',
+              productImage: 'assets/images/product_01.png',
+              productName: 'Black GP type saddle',
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Name + stars
-                Row(
-                  children: [
-                    Text('Emma Novak', style: AppTextStyles.labelMedium(cs.secondary)),
-                    const SizedBox(width: 12),
-                    ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor)),
-                    Icon(Icons.star_border, size: 20, color: cs.tertiary),
-                    const SizedBox(width: 8),
-                    Text('4.2', style: AppTextStyles.labelMedium(cs.tertiary)),
-                  ],
-                ),
-                // Message seller
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ChatDetailScreen(
-                          name: 'Emma Novak',
-                          initials: 'EN',
-                          avatarImage: 'assets/images/avatar_1.png',
-                          productImage: 'assets/images/product_01.png',
-                          productName: 'Black GP type saddle',
-                        ),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
-                        const SizedBox(width: 4),
-                        Text(s.messageSeller, style: AppTextStyles.actionLink(cs.surfaceTint)),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      ),
+        );
+      },
     );
   }
 
@@ -413,15 +363,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Drag handle
-              Container(
-                margin: const EdgeInsets.only(top: 16, bottom: 16),
-                width: 32,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: cs.outline,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
+              buildDragHandle(cs),
               // Share button
               SheetButton(
                 icon: Icons.share,

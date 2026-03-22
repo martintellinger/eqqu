@@ -15,6 +15,9 @@ import 'package:eqqu/screens/build_set_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
 import 'package:eqqu/data/mock_products.dart';
 import 'package:eqqu/widgets/sheet_button.dart';
+import 'package:eqqu/widgets/sheet_helpers.dart';
+import 'package:provider/provider.dart';
+import 'package:eqqu/providers/favorites_provider.dart';
 
 class BuyerViewSellerScreen extends StatefulWidget {
   const BuyerViewSellerScreen({super.key});
@@ -24,7 +27,6 @@ class BuyerViewSellerScreen extends StatefulWidget {
 }
 
 class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
-  final Set<int> _favorites = {};
   bool _isFollowing = false;
   bool _isBlocked = false;
   List<Product> _setItems = [];
@@ -47,15 +49,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Drag handle
-              Container(
-                margin: const EdgeInsets.only(top: 16, bottom: 16),
-                width: 32,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: cs.outline,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
+              buildDragHandle(cs),
               // Share button
               SheetButton(
                 icon: Icons.share,
@@ -199,17 +193,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Drag handle
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 16, bottom: 16),
-                    width: 32,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: cs.outline,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                ),
+                Center(child: buildDragHandle(cs)),
                 Text(
                   'Důvod nahlášení',
                   style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w500, color: cs.onSurface, height: 32 / 24),
@@ -759,20 +743,15 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   }
 
   Widget _buildProductCard(ColorScheme cs, int index, Product product) {
-    final isFav = _favorites.contains(index);
+    final favProvider = context.read<FavoritesProvider>();
+    final isFav = context.watch<FavoritesProvider>().isFavorite(index);
     final heroTag = 'buyer_seller_${product.imageAsset}_$index';
     return ProductCard(
       product: product,
       imageAsset: product.imageAsset,
       isFavorite: isFav,
       heroTag: heroTag,
-      onFavoriteToggle: () => setState(() {
-        if (isFav) {
-          _favorites.remove(index);
-        } else {
-          _favorites.add(index);
-        }
-      }),
+      onFavoriteToggle: () => favProvider.toggle(index),
       onTap: () {
         Navigator.push(
           context,
