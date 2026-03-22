@@ -129,10 +129,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     ColorScheme cs, int index, Product product, String imagePath,
   ) {
     final isFav = _favorites.contains(index);
+    final heroTag = 'favorites_${imagePath}_$index';
     return ProductCard(
       product: product,
       imageAsset: imagePath,
       isFavorite: isFav,
+      heroTag: heroTag,
       onFavoriteToggle: () => setState(() {
         if (isFav) {
           _favorites.remove(index);
@@ -143,15 +145,27 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (_) => ProductDetailScreen(
+          PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 350),
+            reverseTransitionDuration: const Duration(milliseconds: 300),
+            pageBuilder: (_, __, ___) => ProductDetailScreen(
               brand: product.parsedBrand,
               name: product.title,
               condition: 'Used',
               price: product.newPrice,
               oldPrice: product.oldPrice,
               imageAsset: imagePath,
+              heroTag: heroTag,
             ),
+            transitionsBuilder: (_, animation, __, child) {
+              return FadeTransition(
+                opacity: CurvedAnimation(
+                  parent: animation,
+                  curve: const Interval(0.5, 1.0),
+                ),
+                child: child,
+              );
+            },
           ),
         );
       },
