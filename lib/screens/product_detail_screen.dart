@@ -836,14 +836,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: products.asMap().entries.map((entry) {
+      children: products.asMap().entries.expand((entry) {
         final i = entry.key;
         final p = entry.value;
         final isFav = _moreFavorites.contains(i);
-        return Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(left: i > 0 ? 16 : 0),
-            child: GestureDetector(
+        return [
+          if (i > 0) const SizedBox(width: 16),
+          Expanded(
+          child: GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -970,7 +970,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             ),
           ),
-        );
+        ];
       }).toList(),
     );
   }
