@@ -168,7 +168,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                     letterSpacing: 0.15,
-                    height: 24 / 16,
                   ),
                 ),
               ),
@@ -805,7 +804,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             fontWeight: FontWeight.w500,
             color: fgColor,
             letterSpacing: 0.15,
-            height: 24 / 16,
           ),
         ),
         style: FilledButton.styleFrom(

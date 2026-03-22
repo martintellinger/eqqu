@@ -180,7 +180,6 @@ class _AddressScreenState extends State<AddressScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.15,
-                    height: 24 / 16,
                   ),
                 ),
               ),

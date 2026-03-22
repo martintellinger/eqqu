@@ -236,7 +236,6 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             fontWeight: FontWeight.w600,
             color: fgColor,
             letterSpacing: 0.15,
-            height: 24 / 16,
           ),
         ),
         style: FilledButton.styleFrom(

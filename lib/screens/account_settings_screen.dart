@@ -402,7 +402,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                   fontWeight: FontWeight.w600,
                                   color: cs.error,
                                   letterSpacing: 0.1,
-                                  height: 20 / 14,
                                 ),
                               ),
                             ),

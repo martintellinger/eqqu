@@ -143,7 +143,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
             fontWeight: FontWeight.w500,
             color: fgColor,
             letterSpacing: 0.15,
-            height: 24 / 16,
           ),
         ),
         style: FilledButton.styleFrom(
@@ -356,7 +355,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                         letterSpacing: 0.15,
-                        height: 24 / 16,
                       ),
                     ),
                   ),
@@ -612,7 +610,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                                 ? cs.onSecondaryContainer
                                 : Colors.white,
                             letterSpacing: 0.15,
-                            height: 24 / 16,
                           ),
                         ),
                       ),
@@ -649,7 +646,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                             fontWeight: FontWeight.w500,
                             color: cs.primary,
                             letterSpacing: 0.15,
-                            height: 24 / 16,
                           ),
                         ),
                         style: OutlinedButton.styleFrom(

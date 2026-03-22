@@ -90,7 +90,6 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       fontWeight: FontWeight.w500,
                       color: cs.onSecondaryContainer,
                       letterSpacing: 0.15,
-                      height: 24 / 16,
                     ),
                   ),
                   style: FilledButton.styleFrom(

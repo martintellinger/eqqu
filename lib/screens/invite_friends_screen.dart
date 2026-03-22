@@ -84,7 +84,6 @@ class InviteFriendsScreen extends StatelessWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.15,
-                      height: 24 / 16,
                     ),
                   ),
                 ),
