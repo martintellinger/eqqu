@@ -731,12 +731,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       imageAsset: p.imageAsset,
                       heroTag: heroTag,
                     ),
-                    transitionsBuilder: (_, animation, __, child) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
+                    transitionsBuilder: (_, animation, __, child) => child,
                   ),
                 );
               },
