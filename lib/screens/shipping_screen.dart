@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/address_screen.dart';
 
@@ -13,9 +12,9 @@ class ShippingScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Přeprava', showBack: true),
+            child: AppHeader(title: 'Přeprava', showBack: true),
           ),
           Expanded(
             child: Padding(

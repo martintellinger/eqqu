@@ -164,15 +164,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Buy',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                    letterSpacing: 0.15,
-                  ),
+                  style: AppTextStyles.productTitle(Colors.white),
                 ),
               ),
             ),
@@ -328,13 +322,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
               Text(
                 widget.name,
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 28,
-                  fontWeight: FontWeight.w600,
-                  color: cs.onSurface,
-                  height: 36 / 28,
-                ),
+                style: AppTextStyles.outfit(fontSize: 28, fontWeight: FontWeight.w600, color: cs.onSurface, height: 36 / 28),
               ),
               if (widget.oldPrice.isNotEmpty)
                 Text(
@@ -360,13 +348,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       children: [
         Text(
           '${widget.price}  ',
-          style: TextStyle(
-            fontFamily: 'Outfit',
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: cs.surfaceTint,
-            height: 32 / 24,
-          ),
+          style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w600, color: cs.surfaceTint, height: 32 / 24),
         ),
         const SizedBox(width: 16),
         Container(
@@ -383,14 +365,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 const SizedBox(width: 8),
                 Text(
                   'Včetně ochrany kupujícího',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSurface,
-                    letterSpacing: 0.1,
-                    height: 20 / 14,
-                  ),
+                  style: AppTextStyles.chip(cs.onSurface),
                 ),
               ],
             ),
@@ -552,17 +527,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
             ),
             // EQQU logo top-left
-            const Positioned(
+            Positioned(
               left: 16,
               top: 16,
               child: Text(
                 'EQQU',
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
+                style: AppTextStyles.outfit(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white),
               ),
             ),
             // Content bottom-left
@@ -573,28 +543,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   Text(
                     'Lorem ipsum dolor sit amet, elit adipiscin',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      height: 28 / 20,
-                    ),
+                    style: AppTextStyles.sectionTitle(Colors.white),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                      letterSpacing: 0.25,
-                      height: 20 / 14,
-                    ),
+                    style: AppTextStyles.bodyMedium(Colors.white),
                   ),
                 ],
               ),

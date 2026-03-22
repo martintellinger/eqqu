@@ -11,9 +11,9 @@ class InviteFriendsScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Pozvat přátele', showBack: true),
+            child: AppHeader(title: 'Pozvat přátele', showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(

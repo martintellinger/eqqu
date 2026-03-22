@@ -18,9 +18,9 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Mimo stáj', showBack: true),
+            child: AppHeader(title: 'Mimo stáj', showBack: true),
           ),
           Expanded(
             child: Padding(

@@ -188,13 +188,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               style: AppTextStyles.bodyLarge(cs.onSurface),
               decoration: InputDecoration(
                 hintText: 'Napište zprávu',
-                hintStyle: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurfaceVariant,
-                  letterSpacing: 0.5,
-                ),
+                hintStyle: AppTextStyles.bodyLarge(cs.onSurfaceVariant),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide: BorderSide(color: cs.outline),

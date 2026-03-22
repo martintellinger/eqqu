@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/routes.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -33,9 +35,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (!_agreeTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
+          content: Text(
             'Musíte souhlasit s podmínkami',
-            style: TextStyle(fontFamily: 'Poppins'),
+            style: AppTextStyles.poppins(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+            ),
           ),
           backgroundColor: Theme.of(context).colorScheme.error,
           behavior: SnackBarBehavior.floating,
@@ -48,16 +54,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
+          content: Text(
             'Účet byl úspěšně vytvořen',
-            style: TextStyle(fontFamily: 'Poppins'),
+            style: AppTextStyles.poppins(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+            ),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       );
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
     }
   }
 
@@ -212,14 +222,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               width: double.infinity,
                               child: TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
                                 },
-                                child: const Text(
+                                child: Text(
                                   'Pokračovat bez registrace',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
+                                  style: AppTextStyles.poppins(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).colorScheme.primary,
                                     letterSpacing: 0.15,
                                   ),
                                 ),
@@ -244,30 +254,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     opacity: 0.8,
                     child: Text(
                       'Již máte účet?',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        color: Theme.of(context).colorScheme.secondary,
-                        letterSpacing: 0.25,
-                      ),
+                      style: AppTextStyles.bodyMedium(Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushNamed(context, AppRoutes.login);
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                     ),
                     child: Text(
                       'Přihlaste se',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.secondary,
-                        letterSpacing: 0.1,
-                      ),
+                      style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary),
                     ),
                   ),
                 ],
@@ -298,13 +297,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Expanded(
               child: Text(
                 label,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  color: showError
+                style: AppTextStyles.bodyMedium(
+                  showError
                       ? Theme.of(context).colorScheme.error
                       : Theme.of(context).colorScheme.secondary,
-                  letterSpacing: 0.25,
                 ),
               ),
             ),

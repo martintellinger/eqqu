@@ -94,9 +94,9 @@ class _AddressScreenState extends State<AddressScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Adresa', showBack: true),
+            child: AppHeader(title: 'Adresa', showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(

@@ -89,9 +89,9 @@ class _CartScreenState extends State<CartScreen> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text(
+        content: Text(
           'Produkt byl odebrán z košíku',
-          style: TextStyle(fontFamily: 'Poppins'),
+          style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         behavior: SnackBarBehavior.floating,
@@ -168,13 +168,7 @@ class _CartScreenState extends State<CartScreen> {
               const SizedBox(height: 16),
               Text(
                 'Je to tam!',
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: cs.onSurface,
-                  height: 32 / 24,
-                ),
+                style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w600, color: cs.onSurface, height: 32 / 24),
               ),
               const SizedBox(height: 8),
               Text(
@@ -194,14 +188,9 @@ class _CartScreenState extends State<CartScreen> {
                       MaterialPageRoute(builder: (_) => const OrderDetailScreen()),
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     'Zobrazit objednávku',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.15),
                   ),
                 ),
               ),
@@ -219,9 +208,9 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Košík', showBack: true),
+            child: AppHeader(title: 'Košík', showBack: true),
           ),
           Expanded(
             child: _cartItems.isEmpty
@@ -279,14 +268,9 @@ class _CartScreenState extends State<CartScreen> {
                             height: 56,
                             child: FilledButton(
                               onPressed: _submitOrder,
-                              child: const Text(
+                              child: Text(
                                 'Objednávka zavazující k platbě',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.15,
-                                ),
+                                style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.15),
                               ),
                             ),
                           ),
@@ -309,13 +293,7 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(height: 16),
           Text(
             'Košík je prázdný',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-              color: cs.secondary,
-              height: 28 / 20,
-            ),
+            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w500, color: cs.secondary, height: 28 / 20),
           ),
           const SizedBox(height: 8),
           Text(
@@ -335,13 +313,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Text(
             'Produkty (${_cartItems.length})',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              height: 28 / 20,
-            ),
+            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
           ),
           const SizedBox(height: 16),
           ...List.generate(_cartItems.length, (index) {
@@ -399,13 +371,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              height: 28 / 20,
-            ),
+            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
           ),
           const SizedBox(height: 16),
           ...children,
@@ -681,14 +647,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
             Text(
               price,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: cs.surfaceTint,
-                letterSpacing: 0.1,
-                height: 20 / 14,
-              ),
+              style: AppTextStyles.chip(cs.surfaceTint),
             ),
           ],
         ),
@@ -704,13 +663,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Text(
             'Cena celkem',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              height: 28 / 20,
-            ),
+            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
           ),
           const SizedBox(height: 16),
           _buildPriceRow(cs, 'Cena zboží', '$_totalProductPrice €', false),

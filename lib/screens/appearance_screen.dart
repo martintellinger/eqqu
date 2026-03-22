@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
-import 'package:eqqu/main.dart';
+import 'package:eqqu/app_state.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class AppearanceScreen extends StatefulWidget {
   const AppearanceScreen({super.key});
@@ -13,9 +14,9 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
   late ThemeMode _selected;
 
   @override
-  void initState() {
-    super.initState();
-    _selected = themeNotifier.themeMode;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _selected = AppState.of(context).themeNotifier.themeMode;
   }
 
   @override
@@ -25,9 +26,9 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Vzhled', showBack: true),
+            child: AppHeader(title: 'Vzhled', showBack: true),
           ),
           Padding(
             padding: const EdgeInsets.all(16),
@@ -52,7 +53,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
     return GestureDetector(
       onTap: () {
         setState(() => _selected = mode);
-        themeNotifier.setThemeMode(mode);
+        AppState.of(context).themeNotifier.setThemeMode(mode);
       },
       child: Container(
         width: double.infinity,
@@ -80,8 +81,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
             const SizedBox(width: 12),
             Text(
               label,
-              style: TextStyle(
-                fontFamily: 'Poppins',
+              style: AppTextStyles.poppins(
                 fontSize: 16,
                 fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                 color: selected ? cs.surfaceTint : cs.onSurface,

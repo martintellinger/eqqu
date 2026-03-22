@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
-import 'package:eqqu/main.dart';
+import 'package:eqqu/app_state.dart';
 import 'package:eqqu/utils/language_notifier.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -11,12 +12,12 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class _LanguageScreenState extends State<LanguageScreen> {
-  late String _selectedCode;
+  String? _selectedCode;
 
   @override
-  void initState() {
-    super.initState();
-    _selectedCode = languageNotifier.selectedCode;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _selectedCode ??= AppState.of(context).languageNotifier.selectedCode;
   }
 
   @override
@@ -26,9 +27,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Jazyk', showBack: true),
+            child: AppHeader(title: 'Jazyk', showBack: true),
           ),
           Expanded(
             child: Padding(
@@ -38,8 +39,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 children: [
                   Text(
                     'Jazyk aplikace',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
+                    style: AppTextStyles.poppins(
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
                       color: cs.secondary,
@@ -64,9 +64,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
               width: double.infinity,
               height: 56,
               child: FilledButton(
-                onPressed: _selectedCode != languageNotifier.selectedCode
+                onPressed: _selectedCode != AppState.of(context).languageNotifier.selectedCode
                     ? () {
-                        languageNotifier.setLanguage(_selectedCode);
+                        AppState.of(context).languageNotifier.setLanguage(_selectedCode!);
                         Navigator.pop(context);
                       }
                     : null,
@@ -78,12 +78,12 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Uložit',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
+                  style: AppTextStyles.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
+                    color: Colors.white,
                     letterSpacing: 0.15,
                   ),
                 ),
@@ -129,8 +129,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
             const SizedBox(width: 12),
             Text(
               lang.name,
-              style: TextStyle(
-                fontFamily: 'Poppins',
+              style: AppTextStyles.poppins(
                 fontSize: 16,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected ? cs.surfaceTint : cs.onSurface,

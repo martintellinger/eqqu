@@ -19,9 +19,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Oznámení', showBack: true),
+            child: AppHeader(title: 'Oznámení', showBack: true),
           ),
           Expanded(
             child: Padding(

@@ -12,6 +12,7 @@ import 'package:eqqu/widgets/bottom_sheets.dart';
 import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/widgets/tap_scale_widget.dart';
 import 'package:eqqu/theme/app_constants.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,12 +24,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
-  static const _navItems = [
-    {'svg': 'assets/menu/Home.svg', 'label': 'Domů'},
-    {'svg': 'assets/menu/Chat.svg', 'label': 'Chat'},
-    {'svg': 'assets/menu/Plus_symbol_button.svg', 'label': 'Prodat'},
-    {'svg': 'assets/menu/Heart.svg', 'label': 'Oblíbené'},
-    {'svg': 'assets/menu/User.svg', 'label': 'Profil'},
+  static const _navSvgs = [
+    'assets/menu/Home.svg',
+    'assets/menu/Chat.svg',
+    'assets/menu/Plus_symbol_button.svg',
+    'assets/menu/Heart.svg',
+    'assets/menu/User.svg',
+  ];
+
+  List<String> _navLabels(AppStrings s) => [
+    s.home, s.chat, s.sell, s.favorites, s.profile,
   ];
 
   @override
@@ -68,8 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
-            children: List.generate(_navItems.length, (i) {
-              final item = _navItems[i];
+            children: List.generate(_navSvgs.length, (i) {
+              final labels = _navLabels(AppStrings.of(context));
               final isActive = _currentIndex == i;
               final color = isActive ? cs.surfaceTint : cs.tertiary;
               return Expanded(
@@ -95,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           duration: const Duration(milliseconds: 200),
                           curve: Curves.easeOutBack,
                           child: SvgPicture.asset(
-                            item['svg']!,
+                            _navSvgs[i],
                             width: 24,
                             height: 24,
                             colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
@@ -104,15 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 8),
                         AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 200),
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                            color: color,
-                            letterSpacing: 0.5,
-                            height: 16 / 12,
-                          ),
-                          child: Text(item['label']!),
+                          style: AppTextStyles.navLabel(color: color, isActive: isActive),
+                          child: Text(labels[i]),
                         ),
                         const SizedBox(height: 4),
                         AnimatedContainer(
@@ -365,24 +363,10 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                                         setState(() => _isSearching = true);
                                       }
                                     },
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: cs.onSurface,
-                                      letterSpacing: 0.5,
-                                      height: 24 / 16,
-                                    ),
+                                    style: AppTextStyles.bodyLarge(cs.onSurface),
                                     decoration: InputDecoration(
                                       hintText: 'Hledat',
-                                      hintStyle: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: cs.onSurfaceVariant,
-                                        letterSpacing: 0.5,
-                                        height: 24 / 16,
-                                      ),
+                                      hintStyle: AppTextStyles.bodyLarge(cs.onSurfaceVariant),
                                       border: InputBorder.none,
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
@@ -442,8 +426,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                                 child: Center(
                                   child: Text(
                                     '${_activeFilters.length}',
-                                    style: const TextStyle(
-                                      fontFamily: 'Poppins',
+                                    style: AppTextStyles.poppins(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
@@ -548,13 +531,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                                       const SizedBox(width: 4),
                                       Text(
                                         user['rating']!,
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: cs.tertiary,
-                                          letterSpacing: 0.1,
-                                        ),
+                                        style: AppTextStyles.chip(cs.tertiary),
                                       ),
                                     ],
                                   ),
@@ -622,9 +599,9 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                     child: Center(
                       child: Text(
                         'Žádné výsledky',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
+                        style: AppTextStyles.poppins(
                           fontSize: 16,
+                          fontWeight: FontWeight.w400,
                           color: cs.tertiary,
                         ),
                       ),
@@ -639,8 +616,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                     padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                     child: Text(
                       'Featured',
-                      style: TextStyle(
-                        fontFamily: 'Outfit',
+                      style: AppTextStyles.outfit(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
                         color: cs.onSurface,
@@ -711,9 +687,9 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                                   Expanded(
                                     child: Text(
                                       suggestion,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
+                                      style: AppTextStyles.poppins(
                                         fontSize: 14,
+                                        fontWeight: FontWeight.w400,
                                         color: cs.onSurface,
                                       ),
                                     ),
@@ -779,8 +755,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
             children: [
               Text(
                 '$label: $value',
-                style: const TextStyle(
-                  fontFamily: 'Poppins',
+                style: AppTextStyles.poppins(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
@@ -816,14 +791,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           child: Text(
             label,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: isActive ? Colors.white : cs.onSurfaceVariant,
-              letterSpacing: 0.1,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.chip(isActive ? Colors.white : cs.onSurfaceVariant),
           ),
         ),
       ),
@@ -928,7 +896,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             left: 16,
             bottom: 16,
             child: Column(
@@ -937,25 +905,17 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
               children: [
                 Text(
                   'EQQU',
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
+                  style: AppTextStyles.outfit(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                     height: 1,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   'Lorem ipsum',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
+                  style: AppTextStyles.productBadge(Colors.white),
                 ),
               ],
             ),

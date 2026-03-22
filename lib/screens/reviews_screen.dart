@@ -52,9 +52,9 @@ class ReviewsScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Hodnocení', showBack: true),
+            child: AppHeader(title: 'Hodnocení', showBack: true),
           ),
           // Summary header
           Padding(
@@ -63,13 +63,7 @@ class ReviewsScreen extends StatelessWidget {
               children: [
                 Text(
                   '4.2',
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    fontSize: 32,
-                    fontWeight: FontWeight.w500,
-                    color: cs.secondary,
-                    height: 40 / 32,
-                  ),
+                  style: AppTextStyles.outfit(fontSize: 32, fontWeight: FontWeight.w500, color: cs.secondary, height: 40 / 32),
                 ),
                 const SizedBox(width: 12),
                 Column(

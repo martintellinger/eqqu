@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/routes.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
@@ -91,9 +92,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
+          content: Text(
             'Změny byly uloženy',
-            style: TextStyle(fontFamily: 'Poppins'),
+            style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
@@ -108,13 +109,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     final cs = Theme.of(context).colorScheme;
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(
-        fontFamily: 'Poppins',
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        color: enabled ? cs.onSurfaceVariant : cs.onSurface.withValues(alpha: 0.38),
-        letterSpacing: 0.4,
-      ),
+      labelStyle: AppTextStyles.labelSmall(enabled ? cs.onSurfaceVariant : cs.onSurface.withValues(alpha: 0.38)),
       floatingLabelBehavior: FloatingLabelBehavior.always,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
@@ -149,9 +144,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Nastavení účtu', showBack: true),
+            child: AppHeader(title: 'Nastavení účtu', showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -296,13 +291,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         children: [
                           Text(
                             'Změna hesla',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
-                              color: cs.secondary,
-                              height: 28 / 20,
-                            ),
+                            style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
@@ -371,14 +360,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Uložit',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.15,
-                                ),
+                                style: AppTextStyles.productTitle(Colors.white),
                               ),
                             ),
                           ),
@@ -390,13 +374,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                               onPressed: () => _showDeleteDialog(),
                               child: Text(
                                 'Smazat účet',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: cs.error,
-                                  letterSpacing: 0.1,
-                                ),
+                                style: AppTextStyles.actionLink(cs.error),
                               ),
                             ),
                           ),
@@ -422,13 +400,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         title: Text(
           'Smazat profil?',
-          style: TextStyle(
-            fontFamily: 'Outfit',
-            fontSize: 24,
-            fontWeight: FontWeight.w400,
-            color: cs.onSurface,
-            height: 32 / 24,
-          ),
+          style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w400, color: cs.onSurface, height: 32 / 24),
         ),
         content: Text(
           'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
@@ -449,13 +421,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 ),
                 child: Text(
                   'Zrušit',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSurfaceVariant,
-                    letterSpacing: 0.1,
-                  ),
+                  style: AppTextStyles.chip(cs.onSurfaceVariant),
                 ),
               ),
               FilledButton(
@@ -463,16 +429,16 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   Navigator.pop(dialogCtx);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: const Text(
+                      content: Text(
                         'Účet byl smazán',
-                        style: TextStyle(fontFamily: 'Poppins'),
+                        style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
                       ),
                       backgroundColor: cs.error,
                       behavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                   );
-                  Navigator.pushNamedAndRemoveUntil(context, '/intro', (_) => false);
+                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.intro, (_) => false);
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.error,
@@ -481,14 +447,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 ),
-                child: const Text(
+                child: Text(
                   'Smazat',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.1,
-                  ),
+                  style: AppTextStyles.chip(Colors.white),
                 ),
               ),
             ],

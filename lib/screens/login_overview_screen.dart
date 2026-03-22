@@ -32,9 +32,9 @@ class LoginOverviewScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Přehled přihlášení', showBack: true),
+            child: AppHeader(title: 'Přehled přihlášení', showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/routes.dart';
 import 'package:eqqu/widgets/app_header.dart';
-import 'package:eqqu/main.dart';
+import 'package:eqqu/app_state.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/account_settings_screen.dart';
 import 'package:eqqu/screens/shipping_screen.dart';
 import 'package:eqqu/screens/secure_account_screen.dart';
 import 'package:eqqu/screens/notifications_screen.dart';
-
 import 'package:eqqu/utils/language_notifier.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -21,21 +22,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    themeNotifier.addListener(_onChanged);
-    languageNotifier.addListener(_onChanged);
+    // Listeners attached in didChangeDependencies
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final appState = AppState.of(context);
+    appState.themeNotifier.addListener(_onChanged);
+    appState.languageNotifier.addListener(_onChanged);
   }
 
   @override
   void dispose() {
-    themeNotifier.removeListener(_onChanged);
-    languageNotifier.removeListener(_onChanged);
+    // Note: listeners are cleaned up when the notifier is disposed
     super.dispose();
   }
 
-  void _onChanged() => setState(() {});
+  void _onChanged() {
+    if (mounted) setState(() {});
+  }
 
   void _showAppearanceSheet(ColorScheme cs) {
-    ThemeMode selected = themeNotifier.themeMode;
+    ThemeMode selected = AppState.of(context).themeNotifier.themeMode;
     showModalBottomSheet(
       context: context,
       backgroundColor: cs.surface,
@@ -66,17 +75,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(height: 16),
                 _buildThemeOption(cs, ThemeMode.light, 'Light mode', selected, (mode) {
                   setSheetState(() => selected = mode);
-                  themeNotifier.setThemeMode(mode);
+                  AppState.of(context).themeNotifier.setThemeMode(mode);
                 }),
                 const SizedBox(height: 12),
                 _buildThemeOption(cs, ThemeMode.dark, 'Dark mode', selected, (mode) {
                   setSheetState(() => selected = mode);
-                  themeNotifier.setThemeMode(mode);
+                  AppState.of(context).themeNotifier.setThemeMode(mode);
                 }),
                 const SizedBox(height: 12),
                 _buildThemeOption(cs, ThemeMode.system, 'Podle systému', selected, (mode) {
                   setSheetState(() => selected = mode);
-                  themeNotifier.setThemeMode(mode);
+                  AppState.of(context).themeNotifier.setThemeMode(mode);
                 }),
                 const SizedBox(height: 8),
               ],
@@ -88,7 +97,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showLanguageSheet(ColorScheme cs) {
-    String selected = languageNotifier.selectedCode;
+    final langNotifier = AppState.of(context).languageNotifier;
+    String selected = langNotifier.selectedCode;
     showModalBottomSheet(
       context: context,
       backgroundColor: cs.surface,
@@ -123,7 +133,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: _buildLanguageOption(cs, lang, isSelected, (code) {
                       setSheetState(() => selected = code);
-                      languageNotifier.setLanguage(code);
+                      langNotifier.setLanguage(code);
                     }),
                   );
                 }),
@@ -170,8 +180,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(width: 12),
             Text(
               lang.name,
-              style: TextStyle(
-                fontFamily: 'Poppins',
+              style: AppTextStyles.poppins(
                 fontSize: 16,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected ? cs.surfaceTint : cs.onSurface,
@@ -215,8 +224,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(width: 12),
             Text(
               label,
-              style: TextStyle(
-                fontFamily: 'Poppins',
+              style: AppTextStyles.poppins(
                 fontSize: 16,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected ? cs.surfaceTint : cs.onSurface,
@@ -233,13 +241,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         children: [
           SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Nastavení', showBack: true),
+            child: AppHeader(title: s.settings, showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -250,7 +259,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildMenuItem(
                       cs,
                       Icons.person_outline,
-                      'Nastavení účtu',
+                      s.accountSettings,
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountSettingsScreen()));
                       },
@@ -259,13 +268,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildMenuItem(
                       cs,
                       Icons.account_balance_wallet_outlined,
-                      'Platby',
+                      s.payments,
                     ),
                     const SizedBox(height: 12),
                     _buildMenuItem(
                       cs,
                       Icons.local_shipping_outlined,
-                      'Přeprava',
+                      s.shipping,
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const ShippingScreen()));
                       },
@@ -274,7 +283,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildMenuItem(
                       cs,
                       Icons.shield_outlined,
-                      'Bezpečný účet',
+                      s.secureAccount,
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const SecureAccountScreen()));
                       },
@@ -283,7 +292,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildMenuItem(
                       cs,
                       Icons.notifications_outlined,
-                      'Oznámení',
+                      s.notifications,
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen()));
                       },
@@ -292,16 +301,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildMenuItem(
                       cs,
                       Icons.language,
-                      'Jazyk',
-                      trailingText: '${languageNotifier.selected.flag} ${languageNotifier.selected.name}',
+                      s.language,
+                      trailingText: '${AppState.of(context).languageNotifier.selected.flag} ${AppState.of(context).languageNotifier.selected.name}',
                       onTap: () => _showLanguageSheet(cs),
                     ),
                     const SizedBox(height: 12),
                     _buildMenuItem(
                       cs,
                       Icons.palette_outlined,
-                      'Vzhled',
-                      trailingText: themeNotifier.label,
+                      s.appearance,
+                      trailingText: AppState.of(context).themeNotifier.label,
                       onTap: () => _showAppearanceSheet(cs),
                     ),
                     const SizedBox(height: 24),
@@ -348,14 +357,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (trailingText != null) ...[
                   Text(
                     trailingText,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: cs.surfaceTint,
-                      letterSpacing: 0.1,
-                      height: 20 / 14,
-                    ),
+                    style: AppTextStyles.chip(cs.surfaceTint),
                   ),
                   const SizedBox(width: 8),
                 ],
@@ -374,7 +376,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       height: 56,
       child: TextButton(
         onPressed: () {
-          Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
         },
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
@@ -387,7 +389,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Icon(Icons.logout, size: 24, color: cs.secondary),
             const SizedBox(width: 8),
             Text(
-              'Odhlásit se',
+              AppStrings.of(context).logout,
               style: AppTextStyles.productTitle(cs.secondary),
             ),
           ],

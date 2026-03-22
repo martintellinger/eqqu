@@ -29,9 +29,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
+          content: Text(
             'Heslo bylo změněno',
-            style: TextStyle(fontFamily: 'Poppins'),
+            style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
@@ -45,13 +45,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   InputDecoration _fieldDecoration(ColorScheme cs, String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(
-        fontFamily: 'Poppins',
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        color: cs.onSurfaceVariant,
-        letterSpacing: 0.4,
-      ),
+      labelStyle: AppTextStyles.labelSmall(cs.onSurfaceVariant),
       floatingLabelBehavior: FloatingLabelBehavior.always,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
@@ -76,9 +70,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Změna hesla', showBack: true),
+            child: AppHeader(title: 'Změna hesla', showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -94,13 +88,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     children: [
                       Text(
                         'Změň si heslo',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          color: cs.secondary,
-                          height: 28 / 20,
-                        ),
+                        style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
                       ),
                       const SizedBox(height: 12),
                       Text(
@@ -148,14 +136,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         height: 56,
                         child: FilledButton(
                           onPressed: _save,
-                          child: const Text(
+                          child: Text(
                             'Uložit',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.15,
-                            ),
+                            style: AppTextStyles.productTitle(Colors.white),
                           ),
                         ),
                       ),

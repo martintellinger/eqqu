@@ -85,9 +85,9 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     setState(() => _isBlocked = false);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text(
+                        content: Text(
                           'Prodejce byl odblokován',
-                          style: TextStyle(fontFamily: 'Poppins'),
+                          style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
                         ),
                         backgroundColor: cs.primary,
                         behavior: SnackBarBehavior.floating,
@@ -160,13 +160,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
             children: [
               Text(
                 'Zablokovat prodejce?',
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                  color: cs.onSurface,
-                  height: 32 / 24,
-                ),
+                style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w500, color: cs.onSurface, height: 32 / 24),
               ),
               const SizedBox(height: 16),
               Text(
@@ -189,13 +183,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       ),
                       child: Text(
                         'Zrušit',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: cs.onSurfaceVariant,
-                          letterSpacing: 0.1,
-                        ),
+                        style: AppTextStyles.chip(cs.onSurfaceVariant),
                       ),
                     ),
                   ),
@@ -207,9 +195,9 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         setState(() => _isBlocked = true);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: const Text(
+                            content: Text(
                               'Prodejce byl zablokován',
-                              style: TextStyle(fontFamily: 'Poppins'),
+                              style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
                             ),
                             backgroundColor: cs.error,
                             behavior: SnackBarBehavior.floating,
@@ -225,15 +213,9 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Zablokovat',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                          letterSpacing: 0.1,
-                        ),
+                        style: AppTextStyles.chip(Colors.white),
                       ),
                     ),
                   ),
@@ -280,13 +262,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 ),
                 Text(
                   'Důvod nahlášení',
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSurface,
-                    height: 32 / 24,
-                  ),
+                  style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w500, color: cs.onSurface, height: 32 / 24),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -337,13 +313,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     ),
                     child: Text(
                       'Odeslat',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                        letterSpacing: 0.15,
-                      ),
+                      style: AppTextStyles.labelMedium(Colors.white),
                     ),
                   ),
                 ),
@@ -373,14 +343,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
             Expanded(
               child: Text(
                 label,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                  color: selected ? cs.surfaceTint : cs.onSurface,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.poppins(fontSize: 14, fontWeight: selected ? FontWeight.w600 : FontWeight.w400, color: selected ? cs.surfaceTint : cs.onSurface, letterSpacing: 0.25, height: 20 / 14),
               ),
             ),
             const SizedBox(width: 12),
@@ -418,25 +381,12 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
             children: [
               Text(
                 'Důvod nahlášení',
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                  color: cs.onSurface,
-                  height: 32 / 24,
-                ),
+                style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w500, color: cs.onSurface, height: 32 / 24),
               ),
               const SizedBox(height: 16),
               Text(
                 'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurfaceVariant,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
               ),
               const SizedBox(height: 16),
               TextField(
@@ -444,13 +394,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 maxLines: 5,
                 decoration: InputDecoration(
                   hintText: 'Popište důvod*',
-                  hintStyle: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onSurfaceVariant,
-                    letterSpacing: 0.25,
-                  ),
+                  hintStyle: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(color: cs.outlineVariant),
@@ -465,14 +409,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   ),
                   contentPadding: const EdgeInsets.all(16),
                 ),
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurface,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.bodyMedium(cs.onSurface),
               ),
               const SizedBox(height: 24),
               Row(
@@ -490,13 +427,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       ),
                       child: Text(
                         'Zrušit',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: cs.onSurfaceVariant,
-                          letterSpacing: 0.1,
-                        ),
+                        style: AppTextStyles.chip(cs.onSurfaceVariant),
                       ),
                     ),
                   ),
@@ -514,13 +445,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       ),
                       child: Text(
                         'Odeslat',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: cs.onSecondaryContainer,
-                          letterSpacing: 0.1,
-                        ),
+                        style: AppTextStyles.chip(cs.onSecondaryContainer),
                       ),
                     ),
                   ),
@@ -588,15 +513,9 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         ),
                         child: Text(
                           _isFollowing ? 'Sledujete' : 'Sledovat',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: _isFollowing
-                                ? cs.onSecondaryContainer
-                                : Colors.white,
-                            letterSpacing: 0.15,
-                          ),
+                          style: AppTextStyles.labelMedium(_isFollowing
+                              ? cs.onSecondaryContainer
+                              : Colors.white),
                         ),
                       ),
                     ),
@@ -626,13 +545,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         icon: Icon(Icons.chat_bubble_outline, size: 20, color: cs.primary),
                         label: Text(
                           'Napsat zprávu',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: cs.primary,
-                            letterSpacing: 0.15,
-                          ),
+                          style: AppTextStyles.labelMedium(cs.primary),
                         ),
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: cs.primary),
@@ -786,14 +699,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       ),
                       child: Text(
                         'Zablokovaný prodejce',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: cs.error,
-                          letterSpacing: 0.4,
-                          height: 16 / 12,
-                        ),
+                        style: AppTextStyles.poppins(fontSize: 12, fontWeight: FontWeight.w500, color: cs.error, letterSpacing: 0.4, height: 16 / 12),
                       ),
                     ),
                   Text('Emma Novak', style: AppTextStyles.sectionTitle(cs.secondary)),

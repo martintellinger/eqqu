@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/routes.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,16 +28,20 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
+          content: Text(
             'Přihlášení bylo úspěšné',
-            style: TextStyle(fontFamily: 'Poppins'),
+            style: AppTextStyles.poppins(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+            ),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       );
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
     }
   }
 
@@ -107,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/forgot-password');
+                            Navigator.pushNamed(context, AppRoutes.forgotPassword);
                           },
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
@@ -117,13 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: Text(
                             'Zapomenuté heslo',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.secondary,
-                              letterSpacing: 0.1,
-                            ),
+                            style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary).copyWith(height: null),
                           ),
                         ),
                       ),
@@ -147,14 +147,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
                       },
-                      child: const Text(
+                      child: Text(
                         'Pokračovat bez přihlášení',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
+                        style: AppTextStyles.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.primary,
                           letterSpacing: 0.15,
                         ),
                       ),
@@ -174,18 +174,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       opacity: 0.8,
                       child: Text(
                         'Ještě nemáte účet?',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          color: Theme.of(context).colorScheme.secondary,
-                          letterSpacing: 0.25,
-                        ),
+                        style: AppTextStyles.bodyMedium(Theme.of(context).colorScheme.secondary),
                       ),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamed(
-                            context, '/registration');
+                            context, AppRoutes.registration);
                       },
                       style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -195,13 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: Text(
                         'Vytvořte si ho',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.secondary,
-                          letterSpacing: 0.1,
-                        ),
+                        style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary),
                       ),
                     ),
                   ],

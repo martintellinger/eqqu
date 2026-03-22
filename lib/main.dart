@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/app_state.dart';
+import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_theme.dart';
 import 'package:eqqu/theme/theme_notifier.dart';
 import 'package:eqqu/utils/language_notifier.dart';
@@ -8,9 +10,6 @@ import 'package:eqqu/screens/login_screen.dart';
 import 'package:eqqu/screens/forgot_password_screen.dart';
 import 'package:eqqu/screens/intro_screen.dart';
 import 'package:eqqu/screens/home_screen.dart';
-
-final themeNotifier = ThemeNotifier();
-final languageNotifier = LanguageNotifier();
 
 void main() {
   runApp(const EqquApp());
@@ -24,29 +23,43 @@ class EqquApp extends StatefulWidget {
 }
 
 class _EqquAppState extends State<EqquApp> {
+  final _themeNotifier = ThemeNotifier();
+  final _languageNotifier = LanguageNotifier();
+
   @override
   void initState() {
     super.initState();
-    themeNotifier.addListener(() => setState(() {}));
+    _themeNotifier.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _themeNotifier.dispose();
+    _languageNotifier.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'EQQU',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeNotifier.themeMode,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/intro': (context) => const IntroScreen(),
-        '/registration': (context) => const RegistrationScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/forgot-password': (context) => const ForgotPasswordScreen(),
-        '/home': (context) => const HomeScreen(),
-      },
+    return AppState(
+      themeNotifier: _themeNotifier,
+      languageNotifier: _languageNotifier,
+      child: MaterialApp(
+        title: 'EQQU',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: _themeNotifier.themeMode,
+        initialRoute: AppRoutes.splash,
+        routes: {
+          AppRoutes.splash: (context) => const SplashScreen(),
+          AppRoutes.intro: (context) => const IntroScreen(),
+          AppRoutes.registration: (context) => const RegistrationScreen(),
+          AppRoutes.login: (context) => const LoginScreen(),
+          AppRoutes.forgotPassword: (context) => const ForgotPasswordScreen(),
+          AppRoutes.home: (context) => const HomeScreen(),
+        },
+      ),
     );
   }
 }

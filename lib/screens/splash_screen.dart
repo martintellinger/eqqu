@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/routes.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -35,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _navigateToIntro() async {
     await Future.delayed(const Duration(seconds: 3));
     if (mounted) {
-      Navigator.pushReplacementNamed(context, '/intro');
+      Navigator.pushReplacementNamed(context, AppRoutes.intro);
     }
   }
 
@@ -66,8 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
                   opacity: 0.8,
                   child: Text(
                     'Equine community market',
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
+                    style: AppTextStyles.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,

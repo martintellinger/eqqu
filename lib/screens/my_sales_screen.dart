@@ -67,7 +67,7 @@ class _MySalesScreenState extends State<MySalesScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
             child: AppHeader(title: 'Moje prodeje', showBack: true),
           ),
@@ -123,7 +123,7 @@ class _MySalesScreenState extends State<MySalesScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (selected) ...[
-              Icon(Icons.check, size: 18, color: Colors.white),
+              const Icon(Icons.check, size: 18, color: Colors.white),
               const SizedBox(width: 8),
             ],
             Text(

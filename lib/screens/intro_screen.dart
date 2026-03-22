@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/routes.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
-import 'package:eqqu/main.dart';
+import 'package:eqqu/app_state.dart';
 import 'package:eqqu/utils/language_notifier.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -32,12 +34,13 @@ class _IntroScreenState extends State<IntroScreen> {
       _allBgImages[0],
       ...(List.from(_allBgImages.sublist(1))..shuffle()),
     ];
-    languageNotifier.addListener(_onLanguageChanged);
+    // Language listener attached in didChangeDependencies
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    AppState.of(context).languageNotifier.addListener(_onLanguageChanged);
     if (!_imagesPrecached) {
       _imagesPrecached = true;
       Future.wait(
@@ -60,14 +63,15 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   void dispose() {
-    languageNotifier.removeListener(_onLanguageChanged);
+    // Listener cleaned up with notifier disposal
     super.dispose();
   }
 
   void _onLanguageChanged() => setState(() {});
 
   void _showLanguageSheet() {
-    String selected = languageNotifier.selectedCode;
+    final langNotifier = AppState.of(context).languageNotifier;
+    String selected = langNotifier.selectedCode;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -93,15 +97,9 @@ class _IntroScreenState extends State<IntroScreen> {
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Jazyk / Language',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      height: 28 / 20,
-                    ),
+                    style: AppTextStyles.sectionTitle(Colors.white),
                   ),
                   const SizedBox(height: 16),
                   ...LanguageNotifier.languages.map((lang) {
@@ -111,7 +109,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       child: GestureDetector(
                         onTap: () {
                           setSheetState(() => selected = lang.code);
-                          languageNotifier.setLanguage(lang.code);
+                          langNotifier.setLanguage(lang.code);
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -145,8 +143,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               const SizedBox(width: 12),
                               Text(
                                 lang.name,
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
+                                style: AppTextStyles.poppins(
                                   fontSize: 16,
                                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                                   color: isSelected ? const Color(0xFF85D89C) : Colors.white,
@@ -230,37 +227,24 @@ class _IntroScreenState extends State<IntroScreen> {
                           const Icon(Icons.expand_more, color: Colors.white, size: 20),
                           const SizedBox(width: 4),
                           Text(
-                            languageNotifier.selectedCode.toUpperCase(),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                              letterSpacing: 0.1,
-                              height: 20 / 14,
-                            ),
+                            AppState.of(context).languageNotifier.selectedCode.toUpperCase(),
+                            style: AppTextStyles.actionLink(Colors.white),
                           ),
                         ],
                       ),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
                       },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      child: const Text(
+                      child: Text(
                         'Skip',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          letterSpacing: 0.1,
-                        ),
+                        style: AppTextStyles.actionLink(Colors.white).copyWith(height: null),
                       ),
                     ),
                   ],
@@ -277,10 +261,9 @@ class _IntroScreenState extends State<IntroScreen> {
             child: Column(
               children: [
                 // Title
-                const Text(
+                Text(
                   'RIDER TO RIDER',
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
+                  style: AppTextStyles.outfit(
                     fontSize: 36,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -290,18 +273,11 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
                 const SizedBox(height: 4),
                 // Subtitle
-                const Opacity(
+                Opacity(
                   opacity: 0.8,
                   child: Text(
                     'Your tack is someones gold! Pass it on and find your favorite one.',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      height: 24 / 16,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.labelMedium(Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -312,7 +288,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   height: 56,
                   child: FilledButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/registration');
+                      Navigator.pushNamed(context, AppRoutes.registration);
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: const Color(0xFF006535),
@@ -321,12 +297,12 @@ class _IntroScreenState extends State<IntroScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Registrace',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
+                      style: AppTextStyles.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
+                        color: Colors.white,
                         letterSpacing: 0.15,
                       ),
                     ),
@@ -336,17 +312,11 @@ class _IntroScreenState extends State<IntroScreen> {
                 // Přihlášení button
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.pushNamed(context, AppRoutes.login);
                   },
-                  child: const Text(
+                  child: Text(
                     'Přihlášení',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                      letterSpacing: 0.1,
-                    ),
+                    style: AppTextStyles.actionLink(Colors.white).copyWith(height: null),
                   ),
                 ),
                 const SizedBox(height: 16),

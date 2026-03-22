@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/routes.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/screens/seller_profile_screen.dart';
@@ -257,7 +258,7 @@ class ProfileScreen extends StatelessWidget {
       height: 56,
       child: TextButton(
         onPressed: () {
-          Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
         },
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(

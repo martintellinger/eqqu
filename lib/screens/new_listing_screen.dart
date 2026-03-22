@@ -202,9 +202,9 @@ class _NewListingScreenState extends State<NewListingScreen> {
                             onPressed: _isFormValid ? () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: const Text(
+                                  content: Text(
                                     'Inzerát byl úspěšně vytvořen',
-                                    style: TextStyle(fontFamily: 'Poppins'),
+                                    style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
                                   ),
                                   backgroundColor: Theme.of(context).colorScheme.primary,
                                   behavior: SnackBarBehavior.floating,
@@ -223,8 +223,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                             ),
                             child: Text(
                               'Vytvořit inzerát',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
+                              style: AppTextStyles.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: _isFormValid ? Colors.white : cs.onSurface.withValues(alpha: 0.38),
@@ -268,14 +267,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
               const SizedBox(height: 12),
               Text(
                 'Klepněte pro nahrání',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w600, color: cs.surfaceTint, letterSpacing: 0.25, height: 20 / 14),
               ),
               const SizedBox(height: 4),
               Text(
@@ -302,13 +294,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
         child: value != null
             ? Text(
                 value,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurface,
-                  letterSpacing: 0.5,
-                ),
+                style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w400, color: cs.onSurface, letterSpacing: 0.5),
               )
             : null,
       ),
@@ -316,8 +302,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
   }
 
   TextStyle _inputTextStyle(ColorScheme cs) {
-    return TextStyle(
-      fontFamily: 'Poppins',
+    return AppTextStyles.poppins(
       fontSize: 16,
       fontWeight: FontWeight.w400,
       color: cs.onSurface,
@@ -355,8 +340,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Text(
                 title,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
+                style: AppTextStyles.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
                   color: cs.onSurface,
@@ -367,8 +351,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
             ...options.map((option) => ListTile(
               title: Text(
                 option,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
+                style: AppTextStyles.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: cs.onSurface,

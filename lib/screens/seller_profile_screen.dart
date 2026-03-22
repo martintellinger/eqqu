@@ -64,13 +64,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   icon: Icon(Icons.share, color: cs.onSecondaryContainer),
                   label: Text(
                     'Sdílet profil',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: cs.onSecondaryContainer,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.labelMedium(cs.onSecondaryContainer),
                   ),
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.secondaryContainer,
@@ -90,13 +84,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   icon: Icon(Icons.edit, color: cs.onSecondaryContainer),
                   label: Text(
                     'Editovat profil',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: cs.onSecondaryContainer,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.labelMedium(cs.onSecondaryContainer),
                   ),
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.secondaryContainer,
@@ -199,13 +187,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 children: [
                   Text(
                     'Emma Novak',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: cs.secondary,
-                      height: 28 / 20,
-                    ),
+                    style: AppTextStyles.sectionTitle(cs.secondary),
                   ),
                   const SizedBox(height: 4),
                   Row(
@@ -216,14 +198,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                       const SizedBox(width: 8),
                       Text(
                         '4.2',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: cs.tertiary,
-                          letterSpacing: 0.15,
-                          height: 24 / 16,
-                        ),
+                        style: AppTextStyles.labelMedium(cs.tertiary),
                       ),
                     ],
                   ),
@@ -253,25 +228,12 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
       children: [
         Text(
           value,
-          style: TextStyle(
-            fontFamily: 'Outfit',
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: cs.secondary,
-            height: 28 / 20,
-          ),
+          style: AppTextStyles.sectionTitle(cs.secondary),
           textAlign: TextAlign.center,
         ),
         Text(
           label,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: cs.tertiary,
-            letterSpacing: 0.4,
-            height: 16 / 12,
-          ),
+          style: AppTextStyles.labelSmall(cs.tertiary),
           textAlign: TextAlign.center,
         ),
       ],
@@ -321,25 +283,11 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               children: [
                 TextSpan(
                   text: text,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.secondary,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
+                  style: AppTextStyles.bodyMedium(cs.secondary),
                 ),
                 TextSpan(
                   text: trailingBold,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: cs.secondary,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
+                  style: AppTextStyles.actionLink(cs.secondary),
                 ),
               ],
             ),
@@ -347,14 +295,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
         else
           Text(
             text,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.bodyMedium(cs.secondary),
           ),
       ],
     );

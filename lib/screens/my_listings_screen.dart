@@ -19,9 +19,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       _listings.isNotEmpty && _hiddenIndices.length == _listings.length;
 
   final List<Listing> _listings = [
-    Listing(
+    const Listing(
       id: '1',
-      product: const Product(
+      product: Product(
         title: 'Black GP type saddle',
         subtitle: 'No brand / Good / 17"',
         oldPrice: '140 €',
@@ -31,9 +31,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       ),
       status: 'active',
     ),
-    Listing(
+    const Listing(
       id: '2',
-      product: const Product(
+      product: Product(
         title: 'Green Mountain type saddle',
         subtitle: 'Rugged Brand / Very Good / 16"',
         oldPrice: '180 €',
@@ -43,9 +43,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       ),
       status: 'sold',
     ),
-    Listing(
+    const Listing(
       id: '3',
-      product: const Product(
+      product: Product(
         title: 'Red Racing type saddle',
         subtitle: 'Speedy Brand / Excellent / 15"',
         oldPrice: '200 €',
@@ -55,9 +55,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       ),
       status: 'sold',
     ),
-    Listing(
+    const Listing(
       id: '4',
-      product: const Product(
+      product: Product(
         title: 'Black GP type saddle',
         subtitle: 'No brand / Good / 17"',
         oldPrice: '140 €',
@@ -67,9 +67,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       ),
       status: 'shipped',
     ),
-    Listing(
+    const Listing(
       id: '5',
-      product: const Product(
+      product: Product(
         title: 'Red Racing type saddle',
         subtitle: 'Speedy Brand / Excellent / 15"',
         oldPrice: '200 €',
@@ -79,9 +79,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       ),
       status: 'shipped',
     ),
-    Listing(
+    const Listing(
       id: '6',
-      product: const Product(
+      product: Product(
         title: 'Green Mountain type saddle',
         subtitle: 'Rugged Brand / Very Good / 16"',
         oldPrice: '180 €',
@@ -270,8 +270,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           actionsPadding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
           title: Text(
             'Rezervovat',
-            style: TextStyle(
-              fontFamily: 'Poppins',
+            style: AppTextStyles.poppins(
               fontSize: 24,
               fontWeight: FontWeight.w400,
               color: cs.onSurface,
@@ -290,8 +289,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Uživatelské jméno*',
-                  labelStyle: TextStyle(
-                    fontFamily: 'Poppins',
+                  labelStyle: AppTextStyles.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: cs.onSurfaceVariant,
@@ -312,9 +310,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                     horizontal: 16, vertical: 16,
                   ),
                 ),
-                style: TextStyle(
-                  fontFamily: 'Poppins',
+                style: AppTextStyles.poppins(
                   fontSize: 16,
+                  fontWeight: FontWeight.w400,
                   color: cs.onSurface,
                 ),
               ),
@@ -398,8 +396,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               const SizedBox(height: 16),
               Text(
                 'Rezervace se nezdařila',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
+                style: AppTextStyles.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: cs.onErrorContainer,
@@ -445,9 +442,9 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Moje inzeráty', showBack: true),
+            child: AppHeader(title: 'Moje inzeráty', showBack: true),
           ),
           Expanded(
             child: Stack(

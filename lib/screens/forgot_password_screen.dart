@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 /// Handles all forgot password states from Figma:
 /// - Empty (Zapomenuté heslo)
@@ -88,12 +89,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                    height: 24 / 16,
-                  ),
+                  style: AppTextStyles.bodyLarge(Theme.of(context).colorScheme.onSurface),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
@@ -129,12 +125,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               foregroundColor:
                   _isEmailEmpty ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.38) : Colors.white,
             ),
-            child: const Text(
+            child: Text(
               'Odeslat',
-              style: TextStyle(
-                fontFamily: 'Poppins',
+              style: AppTextStyles.poppins(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
+                color: Colors.white,
                 letterSpacing: 0.15,
               ),
             ),
@@ -151,12 +147,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   opacity: 0.8,
                   child: Text(
                     'Pamatujete si heslo?',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.secondary,
-                      letterSpacing: 0.25,
-                    ),
+                    style: AppTextStyles.bodyMedium(Theme.of(context).colorScheme.secondary),
                   ),
                 ),
                 TextButton(
@@ -169,13 +160,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                   child: Text(
                     'Zpět na přihlášení',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.secondary,
-                      letterSpacing: 0.1,
-                    ),
+                    style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary),
                   ),
                 ),
               ],
@@ -198,12 +183,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 Text(
                   'Odeslali jsme odkaz pro resetování hesla na zadanou e-mailovou adresu.',
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                    height: 24 / 16,
-                  ),
+                  style: AppTextStyles.bodyLarge(Theme.of(context).colorScheme.onSurface),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -230,12 +210,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   opacity: 0.8,
                   child: Text(
                     'Nedorazil mail?',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.secondary,
-                      letterSpacing: 0.25,
-                    ),
+                    style: AppTextStyles.bodyMedium(Theme.of(context).colorScheme.secondary),
                   ),
                 ),
                 TextButton(
@@ -248,13 +223,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                   child: Text(
                     'Poslat znova',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.secondary,
-                      letterSpacing: 0.1,
-                    ),
+                    style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary),
                   ),
                 ),
               ],

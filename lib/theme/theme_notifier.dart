@@ -10,6 +10,23 @@ class ThemeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Returns a display label for the current theme mode.
+  /// Uses the provided [getString] to resolve localized labels,
+  /// falling back to English defaults.
+  String labelFor({
+    required String Function(String key) getString,
+  }) {
+    switch (_themeMode) {
+      case ThemeMode.light:
+        return getString('lightMode');
+      case ThemeMode.dark:
+        return getString('darkMode');
+      case ThemeMode.system:
+        return getString('systemMode');
+    }
+  }
+
+  /// Simple label (non-localized fallback).
   String get label {
     switch (_themeMode) {
       case ThemeMode.light:

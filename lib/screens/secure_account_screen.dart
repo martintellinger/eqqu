@@ -13,9 +13,9 @@ class SecureAccountScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Bezpečný účet', showBack: true),
+            child: AppHeader(title: 'Bezpečný účet', showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(

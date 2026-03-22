@@ -30,9 +30,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text(
+        content: Text(
           'Zpětná vazba byla odeslána',
-          style: TextStyle(fontFamily: 'Poppins'),
+          style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         behavior: SnackBarBehavior.floating,
@@ -49,9 +49,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
-            child: const AppHeader(title: 'Zpětná vazba', showBack: true),
+            child: AppHeader(title: 'Zpětná vazba', showBack: true),
           ),
           Expanded(
             child: Padding(
@@ -78,13 +78,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       decoration: InputDecoration(
                         labelText: 'Zpráva',
                         errorText: _errorText,
-                        labelStyle: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurfaceVariant,
-                          letterSpacing: 0.4,
-                        ),
+                        labelStyle: AppTextStyles.labelSmall(cs.onSurfaceVariant),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4),
@@ -131,14 +125,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Odeslat',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.productTitle(Colors.white),
                   ),
                 ),
               ),
