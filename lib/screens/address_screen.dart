@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class AddressScreen extends StatefulWidget {
@@ -33,9 +34,9 @@ class _AddressScreenState extends State<AddressScreen> {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
+          content: Text(
             'Adresa byla uložena',
-            style: TextStyle(fontFamily: 'Poppins'),
+            style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           behavior: SnackBarBehavior.floating,
@@ -50,13 +51,7 @@ class _AddressScreenState extends State<AddressScreen> {
     final cs = Theme.of(context).colorScheme;
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(
-        fontFamily: 'Poppins',
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        color: cs.onSurfaceVariant,
-        letterSpacing: 0.4,
-      ),
+      labelStyle: AppTextStyles.labelSmall(cs.onSurfaceVariant),
       floatingLabelBehavior: FloatingLabelBehavior.always,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
@@ -77,14 +72,7 @@ class _AddressScreenState extends State<AddressScreen> {
 
   TextStyle get _fieldTextStyle {
     final cs = Theme.of(context).colorScheme;
-    return TextStyle(
-      fontFamily: 'Poppins',
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-      color: cs.onSurface,
-      letterSpacing: 0.5,
-      height: 24 / 16,
-    );
+    return AppTextStyles.bodyLarge(cs.onSurface);
   }
 
   @override
@@ -173,14 +161,9 @@ class _AddressScreenState extends State<AddressScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Uložit',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.15,
-                  ),
+                  style: AppTextStyles.productTitle(Colors.white),
                 ),
               ),
             ),

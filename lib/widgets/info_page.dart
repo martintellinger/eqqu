@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 /// Shared layout for informational pages (Jak funguje, Nápověda, O nás, EQQU platforma).
@@ -36,27 +37,14 @@ class InfoPage extends StatelessWidget {
                 children: [
                   Text(
                     headline,
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: cs.secondary,
-                      height: 32 / 24,
-                    ),
+                    style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w600, color: cs.secondary, height: 32 / 24),
                   ),
                   const SizedBox(height: 12),
                   for (int i = 0; i < paragraphs.length; i++) ...[
                     if (i > 0) const SizedBox(height: 12),
                     Text(
                       paragraphs[i],
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: cs.secondary,
-                        letterSpacing: 0.5,
-                        height: 24 / 16,
-                      ),
+                      style: AppTextStyles.bodyLarge(cs.secondary),
                     ),
                   ],
                   const SizedBox(height: 24),

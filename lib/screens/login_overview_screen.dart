@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class LoginOverviewScreen extends StatelessWidget {
@@ -48,25 +49,12 @@ class LoginOverviewScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Přihlášená zařízení',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            color: cs.secondary,
-                            height: 28 / 20,
-                          ),
+                          style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
                         ),
                         const SizedBox(height: 12),
                         Text(
                           'Zkontroluj si zařízení, na kterých jsi přihlášený/á.',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: cs.secondary,
-                            letterSpacing: 0.25,
-                            height: 20 / 14,
-                          ),
+                          style: AppTextStyles.bodyMedium(cs.secondary),
                         ),
                       ],
                     ),
@@ -111,14 +99,7 @@ class LoginOverviewScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         session['device'] as String,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: cs.onSurface,
-                          letterSpacing: 0.15,
-                          height: 24 / 16,
-                        ),
+                        style: AppTextStyles.labelMedium(cs.onSurface),
                       ),
                     ),
                     if (isCurrent)
@@ -128,15 +109,9 @@ class LoginOverviewScreen extends StatelessWidget {
                           color: cs.primary,
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Aktuální',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            letterSpacing: 0.4,
-                          ),
+                          style: AppTextStyles.poppins(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white, letterSpacing: 0.4),
                         ),
                       ),
                   ],
@@ -144,14 +119,7 @@ class LoginOverviewScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '${session['os']} • ${session['date']}',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onSurfaceVariant,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
+                  style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
                 ),
               ],
             ),

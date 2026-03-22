@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/address_screen.dart';
 
@@ -26,14 +27,7 @@ class ShippingScreen extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                     child: Text(
                       'Moje adresa',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: cs.onSurface,
-                        letterSpacing: 0.15,
-                        height: 24 / 16,
-                      ),
+                      style: AppTextStyles.labelMedium(cs.onSurface),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -76,14 +70,9 @@ class ShippingScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Přidat adresu',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.productTitle(Colors.white),
                   ),
                 ),
               ),
@@ -114,14 +103,7 @@ class ShippingScreen extends StatelessWidget {
                 Expanded(
                   child: Text(
                     address,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: cs.onSurface,
-                      letterSpacing: 0.5,
-                      height: 24 / 16,
-                    ),
+                    style: AppTextStyles.bodyLarge(cs.onSurface),
                   ),
                 ),
                 Icon(Icons.edit_outlined, size: 20, color: cs.onSurfaceVariant),
