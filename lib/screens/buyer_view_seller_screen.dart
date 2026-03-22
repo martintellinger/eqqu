@@ -691,7 +691,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (_) => BuildSetScreen(
-                                  products: _products.map((p) => Map<String, String>.from(p)).toList(),
+                                  products: _products.map((p) => p.toMap()).toList(),
                                 ),
                               ),
                             );

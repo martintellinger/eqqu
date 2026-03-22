@@ -25,4 +25,15 @@ class Product {
     final parts = subtitle.split(' / ');
     return parts.length > 1 ? parts[1] : '';
   }
+
+  /// Convert to Map for backward compatibility with screens not yet refactored.
+  Map<String, String> toMap() => {
+    'title': title,
+    'subtitle': subtitle,
+    'oldPrice': oldPrice,
+    'newPrice': newPrice,
+    if (imageAsset.isNotEmpty) 'image': imageAsset,
+    if (brand.isNotEmpty) 'brand': brand,
+    if (category.isNotEmpty) 'category': category,
+  };
 }
