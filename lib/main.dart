@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:eqqu/app_state.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_theme.dart';
 import 'package:eqqu/theme/theme_notifier.dart';
 import 'package:eqqu/utils/language_notifier.dart';
+import 'package:eqqu/providers/favorites_provider.dart';
+import 'package:eqqu/providers/cart_provider.dart';
+import 'package:eqqu/providers/search_provider.dart';
 import 'package:eqqu/screens/splash_screen.dart';
 import 'package:eqqu/screens/registration_screen.dart';
 import 'package:eqqu/screens/login_screen.dart';
@@ -41,10 +45,16 @@ class _EqquAppState extends State<EqquApp> {
 
   @override
   Widget build(BuildContext context) {
-    return AppState(
-      themeNotifier: _themeNotifier,
-      languageNotifier: _languageNotifier,
-      child: MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => SearchProvider()),
+      ],
+      child: AppState(
+        themeNotifier: _themeNotifier,
+        languageNotifier: _languageNotifier,
+        child: MaterialApp(
         title: 'EQQU',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
@@ -59,6 +69,7 @@ class _EqquAppState extends State<EqquApp> {
           AppRoutes.forgotPassword: (context) => const ForgotPasswordScreen(),
           AppRoutes.home: (context) => const HomeScreen(),
         },
+        ),
       ),
     );
   }
