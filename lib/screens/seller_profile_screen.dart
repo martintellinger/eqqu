@@ -10,6 +10,7 @@ import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/data/mock_products.dart';
+import 'package:eqqu/widgets/sheet_button.dart';
 
 class SellerProfileScreen extends StatefulWidget {
   const SellerProfileScreen({super.key});
@@ -49,46 +50,24 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 ),
               ),
               // Share button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: FilledButton.icon(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
-                  },
-                  icon: Icon(Icons.share, color: cs.onSecondaryContainer),
-                  label: Text(
-                    'Sdílet profil',
-                    style: AppTextStyles.labelMedium(cs.onSecondaryContainer),
-                  ),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: cs.secondaryContainer,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
+              SheetButton(
+                icon: Icons.share,
+                label: 'Sdílet profil',
+                backgroundColor: cs.secondaryContainer,
+                foregroundColor: cs.onSecondaryContainer,
+                onPressed: () {
+                  Navigator.pop(context);
+                  AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
+                },
               ),
               const SizedBox(height: 16),
               // Edit profile button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: FilledButton.icon(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(Icons.edit, color: cs.onSecondaryContainer),
-                  label: Text(
-                    'Editovat profil',
-                    style: AppTextStyles.labelMedium(cs.onSecondaryContainer),
-                  ),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: cs.secondaryContainer,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
+              SheetButton(
+                icon: Icons.edit,
+                label: 'Editovat profil',
+                backgroundColor: cs.secondaryContainer,
+                foregroundColor: cs.onSecondaryContainer,
+                onPressed: () => Navigator.pop(context),
               ),
               const SizedBox(height: 24),
             ],

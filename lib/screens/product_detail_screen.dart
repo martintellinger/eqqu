@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
@@ -11,6 +10,10 @@ import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/animated_heart.dart';
 import 'package:eqqu/widgets/product_card.dart';
+import 'package:eqqu/widgets/image_carousel.dart';
+import 'package:eqqu/widgets/specs_grid.dart';
+import 'package:eqqu/widgets/featured_banner.dart';
+import 'package:eqqu/widgets/sheet_button.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -180,135 +183,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildImageHeader(ColorScheme cs) {
-    Widget imageArea = SizedBox(
-      height: 391,
-      child: Stack(
-        children: [
-          // Image carousel
-          PageView.builder(
-            itemCount: _totalImages,
-            onPageChanged: (i) => setState(() => _currentImageIndex = i),
-            itemBuilder: (_, index) {
-              if (widget.imageAsset.isNotEmpty) {
-                return Image.asset(
-                  widget.imageAsset,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                );
-              }
-              return Container(
-                color: cs.surfaceContainerLow,
-                child: Icon(Icons.image_outlined, size: 64, color: cs.tertiary.withValues(alpha: 0.3)),
-              );
-            },
-          ),
-
-          // Top gradient
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 116,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 0.35, 1.0],
-                  colors: [
-                    Color(0x80000000),
-                    Color(0x404E4E4E),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // Bottom gradient
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 80,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  stops: [0.12, 0.28, 1.0],
-                  colors: [
-                    Color(0x80000000),
-                    Color(0x40000000),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // Animated page indicators
-          Positioned(
-            bottom: 16,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(_totalImages, (i) {
-                final isActive = i == _currentImageIndex;
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  width: isActive ? 32 : 8,
-                  height: 8,
-                  margin: EdgeInsets.only(left: i > 0 ? 8 : 0),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: isActive ? 1.0 : 0.5),
-                    borderRadius: BorderRadius.circular(1000),
-                  ),
-                );
-              }),
-            ),
-          ),
-        ],
-      ),
+    return ImageCarousel(
+      imageAsset: widget.imageAsset,
+      totalImages: _totalImages,
+      currentIndex: _currentImageIndex,
+      onPageChanged: (i) => setState(() => _currentImageIndex = i),
+      heroTag: widget.heroTag,
+      colorScheme: cs,
     );
-
-    // Wrap entire image area with Hero for smooth grid→detail transition
-    if (widget.heroTag.isNotEmpty) {
-      imageArea = Hero(
-        tag: widget.heroTag,
-        flightShuttleBuilder: (_, animation, direction, fromContext, toContext) {
-          return AnimatedBuilder(
-            animation: animation,
-            builder: (context, child) {
-              final borderRadius = BorderRadius.lerp(
-                BorderRadius.circular(4),
-                BorderRadius.zero,
-                animation.value,
-              )!;
-              return ClipRRect(
-                borderRadius: borderRadius,
-                child: widget.imageAsset.isNotEmpty
-                    ? Image.asset(
-                        widget.imageAsset,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      )
-                    : Container(color: cs.surfaceContainerLow),
-              );
-            },
-          );
-        },
-        child: Material(
-          type: MaterialType.transparency,
-          child: imageArea,
-        ),
-      );
-    }
-
-    return imageArea;
   }
 
   Widget _buildProductInfo(ColorScheme cs) {
@@ -390,41 +272,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildSpecsGrid(ColorScheme cs) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(child: _specItem(cs, 'assets/icons/Tag.svg', 'Condition', widget.condition)),
-            const SizedBox(width: 12),
-            Expanded(child: _specItem(cs, 'assets/icons/Measuring_tape.svg', 'Size', 'One size')),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(child: _specItem(cs, 'assets/icons/Color.svg', 'Color', 'Gray')),
-            const SizedBox(width: 12),
-            Expanded(child: _specItem(cs, 'assets/icons/Fabric.svg', 'Material', 'Cotton')),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _specItem(ColorScheme cs, String svgPath, String label, String value) {
-    return Row(
-      children: [
-        SvgPicture.asset(svgPath, width: 24, height: 24),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: AppTextStyles.bodyMedium(cs.tertiary)),
-              Text(value, style: AppTextStyles.bodyLarge(cs.secondary)),
-            ],
-          ),
-        ),
+    return SpecsGrid(
+      specs: [
+        SpecItem(svgPath: 'assets/icons/Tag.svg', label: 'Condition', value: widget.condition),
+        const SpecItem(svgPath: 'assets/icons/Measuring_tape.svg', label: 'Size', value: 'One size'),
+        const SpecItem(svgPath: 'assets/icons/Color.svg', label: 'Color', value: 'Gray'),
+        const SpecItem(svgPath: 'assets/icons/Fabric.svg', label: 'Material', value: 'Cotton'),
       ],
     );
   }
@@ -510,74 +363,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildFeaturedBanner(ColorScheme cs) {
-    return AspectRatio(
-      aspectRatio: 370 / 240,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset(
-              'assets/images/product_03.png',
-              fit: BoxFit.cover,
-            ),
-            // Gradient overlay
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment(0.5, -0.3),
-                  end: Alignment(-0.5, 1.0),
-                  colors: [Colors.transparent, Color(0x80000000)],
-                ),
-              ),
-            ),
-            // EQQU logo top-left
-            Positioned(
-              left: 16,
-              top: 16,
-              child: Text(
-                'EQQU',
-                style: AppTextStyles.outfit(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white),
-              ),
-            ),
-            // Content bottom-left
-            Positioned(
-              left: 16,
-              right: 64,
-              bottom: 16,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Lorem ipsum dolor sit amet, elit adipiscin',
-                    style: AppTextStyles.sectionTitle(Colors.white),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
-                    style: AppTextStyles.bodyMedium(Colors.white),
-                  ),
-                ],
-              ),
-            ),
-            // Arrow button bottom-right
-            Positioned(
-              right: 16,
-              bottom: 16,
-              child: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: cs.secondaryContainer,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(Icons.arrow_forward, size: 24, color: cs.onSecondaryContainer),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return const FeaturedBanner(
+      imageAsset: 'assets/images/product_03.png',
+      title: 'Lorem ipsum dolor sit amet, elit adipiscin',
+      subtitle: 'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
     );
   }
 
@@ -634,54 +423,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
               ),
               // Share button
-              _buildSheetButton(
-                cs,
-                Icons.share,
-                'Sdílet produkt',
-                cs.secondaryContainer,
-                cs.onSecondaryContainer,
-                () {
+              SheetButton(
+                icon: Icons.share,
+                label: 'Sdílet produkt',
+                backgroundColor: cs.secondaryContainer,
+                foregroundColor: cs.onSecondaryContainer,
+                onPressed: () {
                   Navigator.pop(context);
                   AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
                 },
               ),
               const SizedBox(height: 16),
               // Report button
-              _buildSheetButton(
-                cs,
-                Icons.flag_outlined,
-                'Nahlásit produkt',
-                cs.error,
-                cs.onError,
-                () => Navigator.pop(context),
+              SheetButton(
+                icon: Icons.flag_outlined,
+                label: 'Nahlásit produkt',
+                backgroundColor: cs.error,
+                foregroundColor: cs.onError,
+                onPressed: () => Navigator.pop(context),
               ),
               const SizedBox(height: 24),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSheetButton(
-    ColorScheme cs,
-    IconData icon,
-    String label,
-    Color bgColor,
-    Color fgColor,
-    VoidCallback onPressed,
-  ) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: FilledButton.icon(
-        onPressed: onPressed,
-        icon: Icon(icon, color: fgColor),
-        label: Text(label, style: AppTextStyles.labelMedium(fgColor)),
-        style: FilledButton.styleFrom(
-          backgroundColor: bgColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
           ),
         ),
       ),

@@ -14,6 +14,7 @@ import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/build_set_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
 import 'package:eqqu/data/mock_products.dart';
+import 'package:eqqu/widgets/sheet_button.dart';
 
 class BuyerViewSellerScreen extends StatefulWidget {
   const BuyerViewSellerScreen({super.key});
@@ -56,26 +57,24 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 ),
               ),
               // Share button
-              _buildSheetButton(
-                cs,
-                Icons.share,
-                'Sdílet profil',
-                cs.secondaryContainer,
-                cs.onSecondaryContainer,
-                () {
+              SheetButton(
+                icon: Icons.share,
+                label: 'Sdílet profil',
+                backgroundColor: cs.secondaryContainer,
+                foregroundColor: cs.onSecondaryContainer,
+                onPressed: () {
                   Navigator.pop(context);
                   AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
                 },
               ),
               const SizedBox(height: 16),
               // Block button
-              _buildSheetButton(
-                cs,
-                _isBlocked ? Icons.check_circle_outline : Icons.block,
-                _isBlocked ? 'Odblokovat prodejce' : 'Zablokovat prodejce',
-                cs.secondaryContainer,
-                cs.onSecondaryContainer,
-                () {
+              SheetButton(
+                icon: _isBlocked ? Icons.check_circle_outline : Icons.block,
+                label: _isBlocked ? 'Odblokovat prodejce' : 'Zablokovat prodejce',
+                backgroundColor: cs.secondaryContainer,
+                foregroundColor: cs.onSecondaryContainer,
+                onPressed: () {
                   Navigator.pop(context);
                   if (_isBlocked) {
                     setState(() => _isBlocked = false);
@@ -87,13 +86,12 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               ),
               const SizedBox(height: 16),
               // Report button
-              _buildSheetButton(
-                cs,
-                Icons.flag_outlined,
-                'Nahlásit profil',
-                cs.error,
-                cs.onError,
-                () {
+              SheetButton(
+                icon: Icons.flag_outlined,
+                label: 'Nahlásit profil',
+                backgroundColor: cs.error,
+                foregroundColor: cs.onError,
+                onPressed: () {
                   Navigator.pop(context);
                   _showReportSelectionSheet();
                 },
@@ -106,30 +104,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
     );
   }
 
-  Widget _buildSheetButton(
-    ColorScheme cs,
-    IconData icon,
-    String label,
-    Color bgColor,
-    Color fgColor,
-    VoidCallback onPressed,
-  ) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: FilledButton.icon(
-        onPressed: onPressed,
-        icon: Icon(icon, color: fgColor),
-        label: Text(label, style: AppTextStyles.labelMedium(fgColor)),
-        style: FilledButton.styleFrom(
-          backgroundColor: bgColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
-    );
-  }
 
   void _showBlockDialog() {
     final cs = Theme.of(context).colorScheme;
