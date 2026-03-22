@@ -16,6 +16,7 @@ class BuyerViewSellerScreen extends StatefulWidget {
 class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   final Set<int> _favorites = {};
   bool _isFollowing = false;
+  bool _isBlocked = false;
 
   static const _products = [
     {
@@ -91,13 +92,28 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               // Block button
               _buildSheetButton(
                 cs,
-                Icons.block,
-                'Zablokovat prodejce',
+                _isBlocked ? Icons.check_circle_outline : Icons.block,
+                _isBlocked ? 'Odblokovat prodejce' : 'Zablokovat prodejce',
                 cs.secondaryContainer,
                 cs.onSecondaryContainer,
                 () {
                   Navigator.pop(context);
-                  _showBlockDialog();
+                  if (_isBlocked) {
+                    setState(() => _isBlocked = false);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Prodejce byl odblokován',
+                          style: TextStyle(fontFamily: 'Poppins'),
+                        ),
+                        backgroundColor: cs.primary,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                    );
+                  } else {
+                    _showBlockDialog();
+                  }
                 },
               ),
               const SizedBox(height: 16),
@@ -220,7 +236,21 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   SizedBox(
                     height: 48,
                     child: FilledButton(
-                      onPressed: () => Navigator.pop(ctx),
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        setState(() => _isBlocked = true);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'Prodejce byl zablokován',
+                              style: TextStyle(fontFamily: 'Poppins'),
+                            ),
+                            backgroundColor: cs.error,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                        );
+                      },
                       style: FilledButton.styleFrom(
                         backgroundColor: cs.error,
                         minimumSize: Size.zero,
@@ -728,9 +758,30 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-              Column(
+              Expanded(
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (_isBlocked)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: cs.error.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        'Zablokovaný prodejce',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: cs.error,
+                          letterSpacing: 0.4,
+                          height: 16 / 12,
+                        ),
+                      ),
+                    ),
                   Text(
                     'Emma Novak',
                     style: TextStyle(
@@ -772,6 +823,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     ),
                   ),
                 ],
+              ),
               ),
             ],
           ),
