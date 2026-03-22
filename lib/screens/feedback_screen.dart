@@ -113,14 +113,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   onPressed: _submit,
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.primary,
-                    foregroundColor: Colors.white,
+                    foregroundColor: cs.onPrimary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: Text(
                     'Odeslat',
-                    style: AppTextStyles.productTitle(Colors.white),
+                    style: AppTextStyles.productTitle(cs.onPrimary),
                   ),
                 ),
               ),

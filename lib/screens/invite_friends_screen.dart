@@ -61,14 +61,14 @@ class InviteFriendsScreen extends StatelessWidget {
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.primary,
-                    foregroundColor: Colors.white,
+                    foregroundColor: cs.onPrimary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: Text(
                     'Sdílet odkaz',
-                    style: AppTextStyles.productTitle(Colors.white),
+                    style: AppTextStyles.productTitle(cs.onPrimary),
                   ),
                 ),
               ),

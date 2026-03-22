@@ -149,14 +149,14 @@ class _AddressScreenState extends State<AddressScreen> {
                 onPressed: _save,
                 style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: cs.onPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: Text(
                   'Uložit',
-                  style: AppTextStyles.productTitle(Colors.white),
+                  style: AppTextStyles.productTitle(cs.onPrimary),
                 ),
               ),
             ),

@@ -80,7 +80,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   style: AppTextStyles.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: cs.onPrimary,
                     letterSpacing: 0.15,
                   ),
                 ),
