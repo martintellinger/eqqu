@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class InviteFriendsScreen extends StatelessWidget {

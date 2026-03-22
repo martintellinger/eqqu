@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/change_password_screen.dart';
 import 'package:eqqu/screens/login_overview_screen.dart';
@@ -29,25 +30,12 @@ class SecureAccountScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Zabezpeč si účet',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            color: cs.secondary,
-                            height: 28 / 20,
-                          ),
+                          style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w400, color: cs.secondary, height: 28 / 20),
                         ),
                         const SizedBox(height: 12),
                         Text(
                           'Zkontroluj si své údaje, pomůžeš tím svůj účet ochránit.',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: cs.secondary,
-                            letterSpacing: 0.25,
-                            height: 20 / 14,
-                          ),
+                          style: AppTextStyles.bodyMedium(cs.secondary),
                         ),
                       ],
                     ),
@@ -124,25 +112,11 @@ class SecureAccountScreen extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurface,
-                          letterSpacing: 0.5,
-                          height: 24 / 16,
-                        ),
+                        style: AppTextStyles.bodyLarge(cs.onSurface),
                       ),
                       Text(
                         subtitle,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurfaceVariant,
-                          letterSpacing: 0.25,
-                          height: 20 / 14,
-                        ),
+                        style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
                       ),
                     ],
                   ),
