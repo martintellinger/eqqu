@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return const ChatListScreen();
       case 3:
-        return const FavoritesScreen();
+        return const FavoritesScreen(showBack: false);
       case 4:
         return const ProfileScreen();
       default:

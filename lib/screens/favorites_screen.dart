@@ -18,7 +18,9 @@ const _productImages = [
 ];
 
 class FavoritesScreen extends StatefulWidget {
-  const FavoritesScreen({super.key});
+  final bool showBack;
+
+  const FavoritesScreen({super.key, this.showBack = true});
 
   @override
   State<FavoritesScreen> createState() => _FavoritesScreenState();
@@ -105,7 +107,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           slivers: [
             // App bar
             const SliverToBoxAdapter(
-              child: AppHeader(title: 'Oblíbené', showBack: true),
+              child: AppHeader(title: 'Oblíbené', showBack: widget.showBack),
             ),
 
           // Product grid
