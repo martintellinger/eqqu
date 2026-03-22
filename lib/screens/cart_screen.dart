@@ -5,6 +5,8 @@ import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
+import 'package:eqqu/services/cart_service.dart';
+import 'package:eqqu/services/validators.dart';
 
 class CartScreen extends StatefulWidget {
   final List<Map<String, String>>? initialItems;
@@ -71,19 +73,13 @@ class _CartScreenState extends State<CartScreen> {
     super.dispose();
   }
 
-  int get _totalProductPrice {
-    int total = 0;
-    for (final item in _cartItems) {
-      total += int.tryParse(item['priceNum'] ?? '0') ?? 0;
-    }
-    return total;
-  }
+  int get _totalProductPrice => CartService.totalProductPrice(_cartItems);
 
-  int get _deliveryPrice => _deliveryMethod == 'pickup' ? 0 : 2;
+  int get _deliveryPrice => CartService.deliveryPrice(_deliveryMethod);
 
-  int get _buyerProtectionFee => _cartItems.isNotEmpty ? 2 : 0;
+  int get _buyerProtectionFee => CartService.buyerProtectionFee(_cartItems);
 
-  int get _totalPrice => _totalProductPrice + _deliveryPrice + _buyerProtectionFee;
+  int get _totalPrice => CartService.totalPrice(_cartItems, _deliveryMethod);
 
   void _removeItem(int index) {
     setState(() {
@@ -97,29 +93,11 @@ class _CartScreenState extends State<CartScreen> {
 
     bool valid = true;
     setState(() {
-      _cardNumberError = null;
-      _expiryError = null;
-      _cvcError = null;
+      _cardNumberError = Validators.cardNumber(_cardNumberController.text);
+      _expiryError = Validators.expiry(_expiryController.text);
+      _cvcError = Validators.cvc(_cvcController.text);
 
-      final cardNum = _cardNumberController.text.replaceAll(' ', '');
-      if (cardNum.isEmpty) {
-        _cardNumberError = 'Zadejte číslo karty';
-        valid = false;
-      } else if (cardNum.length < 13) {
-        _cardNumberError = 'Neplatné číslo karty';
-        valid = false;
-      }
-
-      if (_expiryController.text.trim().isEmpty) {
-        _expiryError = 'Zadejte expiraci';
-        valid = false;
-      }
-
-      if (_cvcController.text.trim().isEmpty) {
-        _cvcError = 'Zadejte CVC';
-        valid = false;
-      } else if (_cvcController.text.trim().length < 3) {
-        _cvcError = 'Neplatný CVC';
+      if (_cardNumberError != null || _expiryError != null || _cvcError != null) {
         valid = false;
       }
     });

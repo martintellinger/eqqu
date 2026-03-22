@@ -3,6 +3,7 @@ import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
+import 'package:eqqu/services/validators.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -73,15 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           labelText: s.email,
                         ),
                         keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Zadejte e-mail';
-                          }
-                          if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value.trim())) {
-                            return 'Neplatný formát e-mailu';
-                          }
-                          return null;
-                        },
+                        validator: Validators.email,
                       ),
                       const SizedBox(height: 20),
                       TextFormField(

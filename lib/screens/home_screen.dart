@@ -13,6 +13,7 @@ import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/widgets/tap_scale_widget.dart';
 import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/data/mock_products.dart';
+import 'package:eqqu/services/search_service.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -232,54 +233,17 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
     'Jan Novotný',
   ];
 
-  int _searchRelevance(Product p, String q) {
-    final title = p.title.toLowerCase();
-    final brand = p.brand.toLowerCase();
-    if (title.startsWith(q) || brand.startsWith(q)) return 0;
-    final titleWords = title.split(RegExp(r'\s+'));
-    final brandWords = brand.split(RegExp(r'\s+'));
-    if (titleWords.any((w) => w.startsWith(q)) || brandWords.any((w) => w.startsWith(q))) return 1;
-    if (title.contains(q) || brand.contains(q)) return 2;
-    if (p.category.toLowerCase().contains(q)) return 3;
-    return 4;
-  }
+  List<Product> get _filteredProducts => SearchService.filterProducts(
+        _allProducts,
+        brandChip: _activeChip,
+        query: _searchQuery,
+      );
 
-  List<Product> get _filteredProducts {
-    var products = _allProducts;
-    if (_activeChip != null) {
-      products = products.where((p) => p.brand == _activeChip).toList();
-    }
-    if (_searchQuery.isNotEmpty) {
-      final q = _searchQuery.toLowerCase();
-      products = products.where((p) =>
-        p.title.toLowerCase().contains(q) ||
-        p.subtitle.toLowerCase().contains(q) ||
-        p.brand.toLowerCase().contains(q) ||
-        p.category.toLowerCase().contains(q)
-      ).toList();
-      products.sort((a, b) => _searchRelevance(a, q).compareTo(_searchRelevance(b, q)));
-    }
-    return products;
-  }
+  List<Map<String, String>> get _filteredUsers =>
+      SearchService.filterUsers(_users, _searchQuery, isSearching: _isSearching);
 
-  List<Map<String, String>> get _filteredUsers {
-    if (!_isSearching && _searchQuery.isEmpty) return [];
-    if (_searchQuery.isEmpty) return _users;
-    final q = _searchQuery.toLowerCase();
-    return _users.where((u) =>
-      u['name']!.toLowerCase().contains(q) ||
-      u['username']!.toLowerCase().contains(q)
-    ).toList();
-  }
-
-  List<String> get _currentSuggestions {
-    if (_searchQuery.isEmpty) return _searchSuggestions.take(5).toList();
-    final q = _searchQuery.toLowerCase();
-    return _searchSuggestions
-        .where((s) => s.toLowerCase().contains(q))
-        .take(5)
-        .toList();
-  }
+  List<String> get _currentSuggestions =>
+      SearchService.filterSuggestions(_searchSuggestions, _searchQuery);
 
   @override
   void initState() {

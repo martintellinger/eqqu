@@ -3,6 +3,7 @@ import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
+import 'package:eqqu/services/validators.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -45,45 +46,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
   }
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Zadejte e-mail';
-    }
-    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value.trim())) {
-      return 'Neplatný formát e-mailu';
-    }
-    return null;
-  }
+  String? _validateEmail(String? value) => Validators.email(value);
 
-  String? _validateUsername(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Zadejte uživatelské jméno';
-    }
-    if (value.trim().length < 3) {
-      return 'Minimálně 3 znaky';
-    }
-    return null;
-  }
+  String? _validateUsername(String? value) => Validators.username(value);
 
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Zadejte heslo';
-    }
-    if (value.length < 6) {
-      return 'Heslo musí mít alespoň 6 znaků';
-    }
-    return null;
-  }
+  String? _validatePassword(String? value) => Validators.password(value);
 
-  String? _validateConfirmPassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Potvrďte heslo';
-    }
-    if (value != _passwordController.text) {
-      return 'Hesla se neshodují';
-    }
-    return null;
-  }
+  String? _validateConfirmPassword(String? value) =>
+      Validators.confirmPassword(value, _passwordController.text);
 
   @override
   Widget build(BuildContext context) {

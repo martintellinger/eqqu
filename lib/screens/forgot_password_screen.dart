@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
+import 'package:eqqu/services/validators.dart';
 
 /// Handles all forgot password states from Figma:
 /// - Empty (Zapomenuté heslo)
@@ -30,10 +31,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
 
-  bool get _isEmailValid {
-    final email = _emailController.text.trim();
-    return RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
-  }
+  bool get _isEmailValid => Validators.isEmailValid(_emailController.text);
 
   bool get _isEmailEmpty => _emailController.text.trim().isEmpty;
 
