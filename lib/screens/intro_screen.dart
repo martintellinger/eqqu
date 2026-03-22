@@ -176,9 +176,18 @@ class _IntroScreenState extends State<IntroScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background image with animated cross-fade
+          // Background image with cross-fade (no white flash)
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 1500),
+            layoutBuilder: (currentChild, previousChildren) {
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  ...previousChildren,
+                  if (currentChild != null) currentChild,
+                ],
+              );
+            },
             child: Image.asset(
               _bgImages[_currentImageIndex],
               key: ValueKey(_currentImageIndex),
