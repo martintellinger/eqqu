@@ -567,7 +567,8 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Image with status badge
-          Expanded(
+          AspectRatio(
+            aspectRatio: 177 / 200,
             child: Stack(
               children: [
                 ClipRRect(
