@@ -652,7 +652,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Icons.flag_outlined,
                 'Nahlásit produkt',
                 cs.error,
-                Colors.white,
+                cs.onError,
                 () => Navigator.pop(context),
               ),
               const SizedBox(height: 24),

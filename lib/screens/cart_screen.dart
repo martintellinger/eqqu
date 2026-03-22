@@ -154,7 +154,7 @@ class _CartScreenState extends State<CartScreen> {
                   color: cs.primary,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.check, size: 32, color: Colors.white),
+                child: Icon(Icons.check, size: 32, color: cs.onPrimary),
               ),
               const SizedBox(height: 16),
               Text(
@@ -181,7 +181,7 @@ class _CartScreenState extends State<CartScreen> {
                   },
                   child: Text(
                     'Zobrazit objednávku',
-                    style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.15),
+                    style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: cs.onPrimary, letterSpacing: 0.15),
                   ),
                 ),
               ),
@@ -262,7 +262,7 @@ class _CartScreenState extends State<CartScreen> {
                               onPressed: _submitOrder,
                               child: Text(
                                 'Objednávka zavazující k platbě',
-                                style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white, letterSpacing: 0.15),
+                                style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: cs.onPrimary, letterSpacing: 0.15),
                               ),
                             ),
                           ),

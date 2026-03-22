@@ -92,7 +92,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 Icons.flag_outlined,
                 'Nahlásit profil',
                 cs.error,
-                Colors.white,
+                cs.onError,
                 () {
                   Navigator.pop(context);
                   _showReportSelectionSheet();
@@ -191,7 +191,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       ),
                       child: Text(
                         'Zablokovat',
-                        style: AppTextStyles.chip(Colors.white),
+                        style: AppTextStyles.chip(cs.onError),
                       ),
                     ),
                   ),
@@ -289,7 +289,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     ),
                     child: Text(
                       'Odeslat',
-                      style: AppTextStyles.labelMedium(Colors.white),
+                      style: AppTextStyles.labelMedium(cs.onPrimary),
                     ),
                   ),
                 ),
@@ -492,7 +492,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           _isFollowing ? s.following : s.follow,
                           style: AppTextStyles.labelMedium(_isFollowing
                               ? cs.onSecondaryContainer
-                              : Colors.white),
+                              : cs.onPrimary),
                         ),
                       ),
                     ),
@@ -611,7 +611,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   ),
                   child: Text(
                     'Buy (${_setItems.length})',
-                    style: AppTextStyles.productTitle(Colors.white),
+                    style: AppTextStyles.productTitle(cs.onPrimary),
                   ),
                 ),
               ),
