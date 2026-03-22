@@ -140,6 +140,8 @@ class ProfileScreen extends StatelessWidget {
                     'assets/images/avatar_1.png',
                     width: 80,
                     height: 80,
+                    cacheWidth: 240,
+                    cacheHeight: 240,
                     fit: BoxFit.cover,
                   ),
                 ),

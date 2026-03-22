@@ -247,6 +247,8 @@ class _ChatListScreenState extends State<ChatListScreen>
           avatarPath,
           width: size,
           height: size,
+          cacheWidth: (size * 3).toInt(),
+          cacheHeight: (size * 3).toInt(),
           fit: BoxFit.cover,
         ),
       );

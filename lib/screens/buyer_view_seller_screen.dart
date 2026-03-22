@@ -507,7 +507,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                             final result = await Navigator.push<List<Product>>(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => BuildSetScreen(
+                                builder: (_) => const BuildSetScreen(
                                   products: _products,
                                 ),
                               ),
@@ -761,7 +761,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
             pageBuilder: (_, __, ___) => ProductDetailScreen(
               brand: product.parsedBrand,
               name: product.title,
-              condition: 'Used',
+              condition: AppStrings.of(context).used,
               price: product.newPrice,
               oldPrice: product.oldPrice,
               imageAsset: product.imageAsset,

@@ -70,5 +70,19 @@ void main() {
       provider.removeItem(0);
       expect(count, 3);
     });
+
+    test('setDeliveryMethod skips notify when unchanged', () {
+      int count = 0;
+      provider.addListener(() => count++);
+      provider.setDeliveryMethod('delivery'); // already 'delivery'
+      expect(count, 0);
+    });
+
+    test('setPaymentMethod skips notify when unchanged', () {
+      int count = 0;
+      provider.addListener(() => count++);
+      provider.setPaymentMethod('card'); // already 'card'
+      expect(count, 0);
+    });
   });
 }

@@ -5,61 +5,57 @@ class AppTheme {
 
   static const Color _primaryGreen = Color(0xFF006535);
 
-  // ── Dark Theme ──
-  static ThemeData get darkTheme {
-    const colorScheme = ColorScheme.dark(
-      primary: _primaryGreen,
-      onPrimary: Colors.white,
-      primaryContainer: Color(0xFF006434),
-      onPrimaryContainer: Color(0xFF8ADEA2),
-      secondary: Colors.white,
-      onSecondary: Colors.black,
-      secondaryContainer: Colors.white,
-      onSecondaryContainer: Colors.black,
-      tertiary: Color(0xFF989898),
-      surface: Color(0xFF070707),
-      onSurface: Colors.white,
-      surfaceContainerLow: Color(0xFF252B25),
-      surfaceContainerHigh: Color(0xFF2A2A2A),
-      surfaceContainerHighest: Color(0xFF353434),
-      surfaceTint: Color(0xFF85D89C),
-      error: Color(0xFFFFB4A8),
-      onError: Color(0xFFA10000),
-      outline: Color(0xFF545454),
-      outlineVariant: Color(0xFF3F4940),
-      onSurfaceVariant: Color(0xFFBFC9BE),
-      inverseSurface: Color(0xFFF5F9F7),
-    );
-    return _buildThemeData(colorScheme);
-  }
+  static final _inputBorderRadius = BorderRadius.circular(4);
 
-  // ── Light Theme ──
-  static ThemeData get lightTheme {
-    const colorScheme = ColorScheme.light(
-      primary: _primaryGreen,
-      onPrimary: Colors.white,
-      primaryContainer: Color(0xFF006434),
-      onPrimaryContainer: Color(0xFF8ADEA2),
-      secondary: Colors.black,
-      onSecondary: Colors.white,
-      secondaryContainer: Color(0xFF070707),
-      onSecondaryContainer: Colors.white,
-      tertiary: Color(0xFF8C8C8C),
-      surface: Colors.white,
-      onSurface: Color(0xFF1C1B1B),
-      surfaceContainerLow: Color(0xFFF5F9F7),
-      surfaceContainerHigh: Color(0xFFF7F7F7),
-      surfaceContainerHighest: Color(0xFFEDEDED),
-      surfaceTint: _primaryGreen,
-      error: Color(0xFFA10000),
-      onError: Colors.white,
-      outline: Color(0xFFEDEDED),
-      outlineVariant: Color(0xFFD6E6DF),
-      onSurfaceVariant: Color(0xFF3F4940),
-      inverseSurface: Color(0xFF1C1B1B),
-    );
-    return _buildThemeData(colorScheme);
-  }
+  // ── Dark Theme (built once, cached) ──
+  static final ThemeData darkTheme = _buildThemeData(const ColorScheme.dark(
+    primary: _primaryGreen,
+    onPrimary: Colors.white,
+    primaryContainer: Color(0xFF006434),
+    onPrimaryContainer: Color(0xFF8ADEA2),
+    secondary: Colors.white,
+    onSecondary: Colors.black,
+    secondaryContainer: Colors.white,
+    onSecondaryContainer: Colors.black,
+    tertiary: Color(0xFF989898),
+    surface: Color(0xFF070707),
+    onSurface: Colors.white,
+    surfaceContainerLow: Color(0xFF252B25),
+    surfaceContainerHigh: Color(0xFF2A2A2A),
+    surfaceContainerHighest: Color(0xFF353434),
+    surfaceTint: Color(0xFF85D89C),
+    error: Color(0xFFFFB4A8),
+    onError: Color(0xFFA10000),
+    outline: Color(0xFF545454),
+    outlineVariant: Color(0xFF3F4940),
+    onSurfaceVariant: Color(0xFFBFC9BE),
+    inverseSurface: Color(0xFFF5F9F7),
+  ));
+
+  // ── Light Theme (built once, cached) ──
+  static final ThemeData lightTheme = _buildThemeData(const ColorScheme.light(
+    primary: _primaryGreen,
+    onPrimary: Colors.white,
+    primaryContainer: Color(0xFF006434),
+    onPrimaryContainer: Color(0xFF8ADEA2),
+    secondary: Colors.black,
+    onSecondary: Colors.white,
+    secondaryContainer: Color(0xFF070707),
+    onSecondaryContainer: Colors.white,
+    tertiary: Color(0xFF8C8C8C),
+    surface: Colors.white,
+    onSurface: Color(0xFF1C1B1B),
+    surfaceContainerLow: Color(0xFFF5F9F7),
+    surfaceContainerHigh: Color(0xFFF7F7F7),
+    surfaceContainerHighest: Color(0xFFEDEDED),
+    surfaceTint: _primaryGreen,
+    error: Color(0xFFA10000),
+    onError: Colors.white,
+    outline: Color(0xFFEDEDED),
+    outlineVariant: Color(0xFFD6E6DF),
+    onSurfaceVariant: Color(0xFF3F4940),
+    inverseSurface: Color(0xFF1C1B1B),
+  ));
 
   static ThemeData _buildThemeData(ColorScheme colorScheme) {
     return ThemeData(
@@ -82,23 +78,23 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: _inputBorderRadius,
           borderSide: BorderSide(color: colorScheme.outline),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: _inputBorderRadius,
           borderSide: BorderSide(color: colorScheme.outline),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: _inputBorderRadius,
           borderSide: BorderSide(color: colorScheme.onSurface, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: _inputBorderRadius,
           borderSide: BorderSide(color: colorScheme.error, width: 2),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: _inputBorderRadius,
           borderSide: BorderSide(color: colorScheme.error, width: 3),
         ),
         labelStyle: _poppins(

@@ -300,6 +300,8 @@ class _CartScreenState extends State<CartScreen> {
                       item['image']!,
                       width: 80,
                       height: 87,
+                      cacheWidth: 240,
+                      cacheHeight: 261,
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -125,6 +125,7 @@ class AppStrings {
   String get completed => _t('completed');
   String get newStatus => _t('newStatus');
   String get noFavoritesYet => _t('noFavoritesYet');
+  String get used => _t('used');
   String get buildSet => _t('buildSet');
   String get reserve => _t('reserve');
   String get hide => _t('hide');
@@ -217,6 +218,7 @@ class AppStrings {
       'completed': 'Dokončené',
       'newStatus': 'Nové',
       'noFavoritesYet': 'Zatím nemáte žádné oblíbené',
+      'used': 'Použité',
       'buildSet': 'Sestavit sadu',
       'reserve': 'Rezervovat',
       'hide': 'Skrýt',
@@ -307,6 +309,7 @@ class AppStrings {
       'completed': 'Completed',
       'newStatus': 'New',
       'noFavoritesYet': 'No favorites yet',
+      'used': 'Used',
       'buildSet': 'Build set',
       'reserve': 'Reserve',
       'hide': 'Hide',

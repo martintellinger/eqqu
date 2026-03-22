@@ -753,9 +753,9 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildProductCard(ColorScheme cs, int index, Product product, String imagePath) {
+  Widget _buildProductCard(ColorScheme cs, int index, Product product, String imagePath, {bool? isFav}) {
     final favProvider = context.read<FavoritesProvider>();
-    final isFav = context.watch<FavoritesProvider>().isFavorite(index);
+    isFav ??= context.select<FavoritesProvider, bool>((p) => p.isFavorite(index));
     final heroTag = 'product_image_${imagePath}_$index';
 
     Widget card = TapScaleWidget(
@@ -768,7 +768,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
             pageBuilder: (_, __, ___) => ProductDetailScreen(
               brand: product.parsedBrand,
               name: product.title,
-              condition: 'Used',
+              condition: AppStrings.of(context).used,
               price: product.newPrice,
               oldPrice: product.oldPrice,
               imageAsset: imagePath,

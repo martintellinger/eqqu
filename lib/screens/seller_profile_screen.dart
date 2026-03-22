@@ -297,7 +297,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
 
   Widget _buildProductCard(ColorScheme cs, int index, Product product) {
     final favProvider = context.read<FavoritesProvider>();
-    final isFav = context.watch<FavoritesProvider>().isFavorite(index);
+    final isFav = context.select<FavoritesProvider, bool>((p) => p.isFavorite(index));
     final heroTag = 'seller_profile_${product.imageAsset}_$index';
     return ProductCard(
       product: product,
@@ -314,7 +314,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
             pageBuilder: (_, __, ___) => ProductDetailScreen(
               brand: product.parsedBrand,
               name: product.title,
-              condition: 'Used',
+              condition: AppStrings.of(context).used,
               price: product.newPrice,
               oldPrice: product.oldPrice,
               imageAsset: product.imageAsset,

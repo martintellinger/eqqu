@@ -41,6 +41,8 @@ class SellerCard extends StatelessWidget {
                 avatarAsset,
                 width: 64,
                 height: 64,
+                cacheWidth: 192,
+                cacheHeight: 192,
                 fit: BoxFit.cover,
               ),
             ),

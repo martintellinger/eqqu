@@ -10,39 +10,32 @@ import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:eqqu/providers/favorites_provider.dart';
 
-class FavoritesScreen extends StatefulWidget {
+class FavoritesScreen extends StatelessWidget {
   final bool showBack;
 
-  const FavoritesScreen({super.key, this.showBack = true});
-
-  @override
-  State<FavoritesScreen> createState() => _FavoritesScreenState();
-}
-
-class _FavoritesScreenState extends State<FavoritesScreen> {
   static const _products = MockProducts.favoriteProducts;
+
+  const FavoritesScreen({super.key, this.showBack = true});
 
   @override
   Widget build(BuildContext context) {
     final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
-    final favSet = context.watch<FavoritesProvider>().favorites;
+    final favProvider = context.watch<FavoritesProvider>();
     final favProducts = _products
         .asMap()
         .entries
-        .where((e) => favSet.contains(e.key))
+        .where((e) => favProvider.isFavorite(e.key))
         .toList();
 
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            // App bar
             SliverToBoxAdapter(
-              child: AppHeader(title: s.favorites, showBack: widget.showBack),
+              child: AppHeader(title: s.favorites, showBack: showBack),
             ),
 
-          // Product grid
           if (favProducts.isNotEmpty)
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -60,20 +53,24 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           children: [
                             Expanded(
                               child: _buildProductCard(
+                                context,
                                 cs,
                                 favProducts[i].key,
                                 favProducts[i].value,
                                 kProductImages[favProducts[i].key % kProductImages.length],
+                                favProvider.isFavorite(favProducts[i].key),
                               ),
                             ),
                             const SizedBox(width: 16),
                             if (i + 1 < favProducts.length)
                               Expanded(
                                 child: _buildProductCard(
+                                  context,
                                   cs,
                                   favProducts[i + 1].key,
                                   favProducts[i + 1].value,
                                   kProductImages[favProducts[i + 1].key % kProductImages.length],
+                                  favProvider.isFavorite(favProducts[i + 1].key),
                                 ),
                               )
                             else
@@ -114,19 +111,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-
   Widget _buildProductCard(
-    ColorScheme cs, int index, Product product, String imagePath,
+    BuildContext context, ColorScheme cs, int index, Product product,
+    String imagePath, bool isFav,
   ) {
-    final favProvider = context.read<FavoritesProvider>();
-    final isFav = context.watch<FavoritesProvider>().isFavorite(index);
     final heroTag = 'favorites_${imagePath}_$index';
     return ProductCard(
       product: product,
       imageAsset: imagePath,
       isFavorite: isFav,
       heroTag: heroTag,
-      onFavoriteToggle: () => favProvider.toggle(index),
+      onFavoriteToggle: () => context.read<FavoritesProvider>().toggle(index),
       onTap: () {
         Navigator.push(
           context,
@@ -136,7 +131,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             pageBuilder: (_, __, ___) => ProductDetailScreen(
               brand: product.parsedBrand,
               name: product.title,
-              condition: 'Used',
+              condition: AppStrings.of(context).used,
               price: product.newPrice,
               oldPrice: product.oldPrice,
               imageAsset: imagePath,

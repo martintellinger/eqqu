@@ -14,16 +14,19 @@ class SearchProvider extends ChangeNotifier {
   Map<String, String> get activeFilters => Map.unmodifiable(_activeFilters);
 
   void setQuery(String value) {
+    if (_query == value) return;
     _query = value;
     notifyListeners();
   }
 
   void setSearching(bool value) {
+    if (_isSearching == value) return;
     _isSearching = value;
     notifyListeners();
   }
 
   void setActiveChip(String? chip) {
+    if (_activeChip == chip) return;
     _activeChip = chip;
     notifyListeners();
   }

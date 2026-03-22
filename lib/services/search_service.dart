@@ -42,8 +42,9 @@ class SearchService {
               p.brand.toLowerCase().contains(q) ||
               p.category.toLowerCase().contains(q))
           .toList();
-      result.sort(
-          (a, b) => searchRelevance(a, q).compareTo(searchRelevance(b, q)));
+      final scored = result.map((p) => MapEntry(searchRelevance(p, q), p)).toList()
+        ..sort((a, b) => a.key.compareTo(b.key));
+      result = scored.map((e) => e.value).toList();
     }
     return result;
   }

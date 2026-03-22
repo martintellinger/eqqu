@@ -26,11 +26,13 @@ class CartProvider extends ChangeNotifier {
   }
 
   void setDeliveryMethod(String method) {
+    if (_deliveryMethod == method) return;
     _deliveryMethod = method;
     notifyListeners();
   }
 
   void setPaymentMethod(String method) {
+    if (_paymentMethod == method) return;
     _paymentMethod = method;
     notifyListeners();
   }
