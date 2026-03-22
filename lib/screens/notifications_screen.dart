@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class NotificationsScreen extends StatefulWidget {
@@ -31,14 +32,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 children: [
                   Text(
                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: cs.secondary,
-                      letterSpacing: 0.5,
-                      height: 24 / 16,
-                    ),
+                    style: AppTextStyles.bodyLarge(cs.secondary),
                   ),
                   const SizedBox(height: 24),
                   _buildToggleItem(
@@ -74,7 +68,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       SnackBar(
         content: Text(
           value ? '$label zapnuto' : '$label vypnuto',
-          style: const TextStyle(fontFamily: 'Poppins'),
+          style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         behavior: SnackBarBehavior.floating,
@@ -97,14 +91,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           Expanded(
             child: Text(
               label,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: cs.secondary,
-                letterSpacing: 0.15,
-                height: 24 / 16,
-              ),
+              style: AppTextStyles.labelMedium(cs.secondary),
             ),
           ),
           Switch(

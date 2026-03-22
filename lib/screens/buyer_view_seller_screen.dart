@@ -565,13 +565,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       children: [
                         Text(
                           'Inzeráty',
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurface,
-                            height: 28 / 20,
-                          ),
+                          style: AppTextStyles.sectionTitle(cs.onSurface),
                         ),
                         GestureDetector(
                           onTap: () async {
@@ -589,14 +583,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           },
                           child: Text(
                             'Sestavit sadu',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: cs.surfaceTint,
-                              letterSpacing: 0.1,
-                              height: 20 / 14,
-                            ),
+                            style: AppTextStyles.actionLink(cs.surfaceTint),
                           ),
                         ),
                       ],
@@ -647,13 +634,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   ),
                   child: Text(
                     'Buy (${_setItems.length})',
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.productTitle(Colors.white),
                   ),
                 ),
               ),
