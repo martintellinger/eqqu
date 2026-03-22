@@ -3,19 +3,7 @@ import 'package:eqqu/models/product.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/product_card.dart';
-
-const _productImages = [
-  'assets/images/product_01.png',
-  'assets/images/product_02.png',
-  'assets/images/product_03.png',
-  'assets/images/product_04.png',
-  'assets/images/product_05.png',
-  'assets/images/product_06.png',
-  'assets/images/product_07.png',
-  'assets/images/product_8.png',
-  'assets/images/product_9.png',
-  'assets/images/product_10.png',
-];
+import 'package:eqqu/theme/app_constants.dart';
 
 class FavoritesScreen extends StatefulWidget {
   final bool showBack;
@@ -81,7 +69,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                 cs,
                                 favProducts[i].key,
                                 favProducts[i].value,
-                                _productImages[favProducts[i].key % _productImages.length],
+                                kProductImages[favProducts[i].key % kProductImages.length],
                               ),
                             ),
                             const SizedBox(width: 16),
@@ -91,7 +79,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                   cs,
                                   favProducts[i + 1].key,
                                   favProducts[i + 1].value,
-                                  _productImages[favProducts[i + 1].key % _productImages.length],
+                                  kProductImages[favProducts[i + 1].key % kProductImages.length],
                                 ),
                               )
                             else

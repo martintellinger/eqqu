@@ -11,19 +11,7 @@ import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/widgets/tap_scale_widget.dart';
-
-const _productImages = [
-  'assets/images/product_01.png',
-  'assets/images/product_02.png',
-  'assets/images/product_03.png',
-  'assets/images/product_04.png',
-  'assets/images/product_05.png',
-  'assets/images/product_06.png',
-  'assets/images/product_07.png',
-  'assets/images/product_8.png',
-  'assets/images/product_9.png',
-  'assets/images/product_10.png',
-];
+import 'package:eqqu/theme/app_constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -604,14 +592,14 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                               children: [
                                 Expanded(
                                   child: _buildProductCard(
-                                    cs, i, products[i], _productImages[i % _productImages.length],
+                                    cs, i, products[i], kProductImages[i % kProductImages.length],
                                   ),
                                 ),
                                 const SizedBox(width: 12),
                                 if (i + 1 < products.length)
                                   Expanded(
                                     child: _buildProductCard(
-                                      cs, i + 1, products[i + 1], _productImages[(i + 1) % _productImages.length],
+                                      cs, i + 1, products[i + 1], kProductImages[(i + 1) % kProductImages.length],
                                     ),
                                   )
                                 else
@@ -675,7 +663,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         if (index < 2) {
-                          return _buildFeaturedCard(_productImages[index]);
+                          return _buildFeaturedCard(kProductImages[index]);
                         }
                         final pIndex = index - 2;
                         final fp = _featuredProducts[pIndex];
