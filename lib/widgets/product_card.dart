@@ -10,7 +10,7 @@ class ProductCard extends StatelessWidget {
   final String imageAsset;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String heroTag;
 
   /// Optional builder for highlighted text (used by search in HomeScreen).
@@ -23,7 +23,7 @@ class ProductCard extends StatelessWidget {
     required this.imageAsset,
     required this.isFavorite,
     required this.onFavoriteToggle,
-    required this.onTap,
+    this.onTap,
     this.heroTag = '',
     this.titleBuilder,
     this.subtitleBuilder,
@@ -35,6 +35,7 @@ class ProductCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
+      behavior: onTap != null ? HitTestBehavior.opaque : HitTestBehavior.translucent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,

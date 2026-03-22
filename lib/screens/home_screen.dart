@@ -836,7 +836,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
             _favorites.add(index);
           }
         }),
-        onTap: () {}, // handled by TapScaleWidget
+        // onTap handled by TapScaleWidget
         titleBuilder: _searchQuery.isNotEmpty
             ? (text, style) => _highlightedText(text, _searchQuery, style, cs.surfaceTint)
             : null,
