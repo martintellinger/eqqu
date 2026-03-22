@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/models/product.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/screens/chat_list_screen.dart';
 import 'package:eqqu/screens/new_listing_screen.dart';
@@ -7,7 +9,8 @@ import 'package:eqqu/screens/favorites_screen.dart';
 import 'package:eqqu/screens/profile_screen.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
-import 'package:eqqu/widgets/animated_heart.dart';
+import 'package:eqqu/widgets/product_card.dart';
+import 'package:eqqu/widgets/tap_scale_widget.dart';
 
 const _productImages = [
   'assets/images/product_01.png',
@@ -182,103 +185,21 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
   }
 
   static const _allProducts = [
-    {
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-      'brand': 'No brand',
-      'category': 'Sedla',
-    },
-    {
-      'title': 'Blue Comfort type saddle',
-      'subtitle': 'Comfy Brand / Fair / 18"',
-      'oldPrice': '120 €',
-      'newPrice': '135 €',
-      'brand': 'Comfy Brand',
-      'category': 'Sedla',
-    },
-    {
-      'title': 'Red Racing type saddle',
-      'subtitle': 'Speedy Brand / Excellent / 15"',
-      'oldPrice': '200 €',
-      'newPrice': '230 €',
-      'brand': 'Cavalleria Toscana',
-      'category': 'Sedla',
-    },
-    {
-      'title': 'Green Mountain type saddle',
-      'subtitle': 'Rugged Brand / Very Good / 16"',
-      'oldPrice': '180 €',
-      'newPrice': '199 €',
-      'brand': 'Animo',
-      'category': 'Sedla',
-    },
-    {
-      'title': 'White Cruiser type saddle',
-      'subtitle': 'Cruiser Co. / Fair / 19"',
-      'oldPrice': '160 €',
-      'newPrice': '175 €',
-      'brand': 'Kingsland',
-      'category': 'Sedla',
-    },
-    {
-      'title': 'Shires Velociti bridle',
-      'subtitle': 'Shires / New / Cob',
-      'oldPrice': '42 €',
-      'newPrice': '49 €',
-      'brand': 'Shires',
-      'category': 'Uzdečky',
-    },
-    {
-      'title': 'Fleece bandáže Kentucky',
-      'subtitle': 'Kentucky / New / One size',
-      'oldPrice': '35 €',
-      'newPrice': '42 €',
-      'brand': 'Kingsland',
-      'category': 'Kamaše',
-    },
-    {
-      'title': 'Deka Eskadron Classic',
-      'subtitle': 'Eskadron / Very Good / 145cm',
-      'oldPrice': '95 €',
-      'newPrice': '110 €',
-      'brand': 'Animo',
-      'category': 'Deky',
-    },
-    {
-      'title': 'Třmeny Flex-On',
-      'subtitle': 'Flex-On / Excellent / Standard',
-      'oldPrice': '280 €',
-      'newPrice': '320 €',
-      'brand': 'Cavalleria Toscana',
-      'category': 'Třmeny',
-    },
-    {
-      'title': 'Podsedlová dečka Animo',
-      'subtitle': 'Animo / New / Drezúra',
-      'oldPrice': '55 €',
-      'newPrice': '65 €',
-      'brand': 'Animo',
-      'category': 'Sedla',
-    },
+    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', brand: 'No brand', category: 'Sedla'),
+    Product(title: 'Blue Comfort type saddle', subtitle: 'Comfy Brand / Fair / 18"', oldPrice: '120 €', newPrice: '135 €', brand: 'Comfy Brand', category: 'Sedla'),
+    Product(title: 'Red Racing type saddle', subtitle: 'Speedy Brand / Excellent / 15"', oldPrice: '200 €', newPrice: '230 €', brand: 'Cavalleria Toscana', category: 'Sedla'),
+    Product(title: 'Green Mountain type saddle', subtitle: 'Rugged Brand / Very Good / 16"', oldPrice: '180 €', newPrice: '199 €', brand: 'Animo', category: 'Sedla'),
+    Product(title: 'White Cruiser type saddle', subtitle: 'Cruiser Co. / Fair / 19"', oldPrice: '160 €', newPrice: '175 €', brand: 'Kingsland', category: 'Sedla'),
+    Product(title: 'Shires Velociti bridle', subtitle: 'Shires / New / Cob', oldPrice: '42 €', newPrice: '49 €', brand: 'Shires', category: 'Uzdečky'),
+    Product(title: 'Fleece bandáže Kentucky', subtitle: 'Kentucky / New / One size', oldPrice: '35 €', newPrice: '42 €', brand: 'Kingsland', category: 'Kamaše'),
+    Product(title: 'Deka Eskadron Classic', subtitle: 'Eskadron / Very Good / 145cm', oldPrice: '95 €', newPrice: '110 €', brand: 'Animo', category: 'Deky'),
+    Product(title: 'Třmeny Flex-On', subtitle: 'Flex-On / Excellent / Standard', oldPrice: '280 €', newPrice: '320 €', brand: 'Cavalleria Toscana', category: 'Třmeny'),
+    Product(title: 'Podsedlová dečka Animo', subtitle: 'Animo / New / Drezúra', oldPrice: '55 €', newPrice: '65 €', brand: 'Animo', category: 'Sedla'),
   ];
 
   static const _featuredProducts = [
-    {
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-      'image': 'assets/images/product_01.png',
-    },
-    {
-      'title': 'Blue Comfort type saddle',
-      'subtitle': 'Shires / New / Cob',
-      'oldPrice': '42 €',
-      'newPrice': '49 €',
-      'image': 'assets/images/product_02.png',
-    },
+    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', imageAsset: 'assets/images/product_01.png'),
+    Product(title: 'Blue Comfort type saddle', subtitle: 'Shires / New / Cob', oldPrice: '42 €', newPrice: '49 €', imageAsset: 'assets/images/product_02.png'),
   ];
 
   static const _chips = ['Cavalleria Toscana', 'Animo', 'Kingsland', 'Shires'];
@@ -335,34 +256,30 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
     'Jan Novotný',
   ];
 
-  int _searchRelevance(Map<String, String> p, String q) {
-    final title = p['title']!.toLowerCase();
-    final brand = p['brand']!.toLowerCase();
-    // Word-start match in title or brand = highest relevance
+  int _searchRelevance(Product p, String q) {
+    final title = p.title.toLowerCase();
+    final brand = p.brand.toLowerCase();
     if (title.startsWith(q) || brand.startsWith(q)) return 0;
     final titleWords = title.split(RegExp(r'\s+'));
     final brandWords = brand.split(RegExp(r'\s+'));
     if (titleWords.any((w) => w.startsWith(q)) || brandWords.any((w) => w.startsWith(q))) return 1;
-    // Contains in title or brand
     if (title.contains(q) || brand.contains(q)) return 2;
-    // Match in category
-    if (p['category']!.toLowerCase().contains(q)) return 3;
-    // Match in subtitle (least relevant)
+    if (p.category.toLowerCase().contains(q)) return 3;
     return 4;
   }
 
-  List<Map<String, String>> get _filteredProducts {
+  List<Product> get _filteredProducts {
     var products = _allProducts;
     if (_activeChip != null) {
-      products = products.where((p) => p['brand'] == _activeChip).toList();
+      products = products.where((p) => p.brand == _activeChip).toList();
     }
     if (_searchQuery.isNotEmpty) {
       final q = _searchQuery.toLowerCase();
       products = products.where((p) =>
-        p['title']!.toLowerCase().contains(q) ||
-        p['subtitle']!.toLowerCase().contains(q) ||
-        p['brand']!.toLowerCase().contains(q) ||
-        p['category']!.toLowerCase().contains(q)
+        p.title.toLowerCase().contains(q) ||
+        p.subtitle.toLowerCase().contains(q) ||
+        p.brand.toLowerCase().contains(q) ||
+        p.category.toLowerCase().contains(q)
       ).toList();
       products.sort((a, b) => _searchRelevance(a, q).compareTo(_searchRelevance(b, q)));
     }
@@ -590,13 +507,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                       children: [
                         Text(
                           'Uživatelé',
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurface,
-                            height: 28 / 20,
-                          ),
+                          style: AppTextStyles.sectionTitle(cs.onSurface),
                         ),
                         const SizedBox(height: 8),
                         ..._filteredUsers.map((user) => Padding(
@@ -632,26 +543,12 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                                         _highlightedText(
                                           user['name']!,
                                           _searchQuery,
-                                          TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: cs.secondary,
-                                            letterSpacing: 0.1,
-                                            height: 20 / 14,
-                                          ),
+                                          AppTextStyles.actionLink(cs.secondary),
                                           cs.surfaceTint,
                                         ),
                                         Text(
                                           '@${user['username']}',
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            color: cs.tertiary,
-                                            letterSpacing: 0.4,
-                                            height: 16 / 12,
-                                          ),
+                                          style: AppTextStyles.labelSmall(cs.tertiary),
                                         ),
                                       ],
                                     ),
@@ -682,13 +579,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                           const SizedBox(height: 8),
                           Text(
                             'Produkty',
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: cs.onSurface,
-                              height: 28 / 20,
-                            ),
+                            style: AppTextStyles.sectionTitle(cs.onSurface),
                           ),
                         ],
                       ],
@@ -789,7 +680,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                         final pIndex = index - 2;
                         final fp = _featuredProducts[pIndex];
                         return _buildProductCard(
-                          cs, 100 + pIndex, fp, fp['image']!,
+                          cs, 100 + pIndex, fp, fp.imageAsset,
                         );
                       },
                       childCount: 4,
@@ -808,13 +699,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                       children: [
                         Text(
                           'Poslední hledání',
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurface,
-                            height: 28 / 20,
-                          ),
+                          style: AppTextStyles.sectionTitle(cs.onSurface),
                         ),
                         const SizedBox(height: 8),
                         ..._currentSuggestions.map((suggestion) {
@@ -957,12 +842,11 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildProductCard(ColorScheme cs, int index, Map<String, String> product, String imagePath) {
+  Widget _buildProductCard(ColorScheme cs, int index, Product product, String imagePath) {
     final isFav = _favorites.contains(index);
     final heroTag = 'product_image_${imagePath}_$index';
 
-    // Stagger animation wrapper
-    Widget card = _TapScaleWidget(
+    Widget card = TapScaleWidget(
       onTap: () {
         Navigator.push(
           context,
@@ -970,11 +854,11 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
             transitionDuration: const Duration(milliseconds: 350),
             reverseTransitionDuration: const Duration(milliseconds: 300),
             pageBuilder: (_, __, ___) => ProductDetailScreen(
-              brand: product['subtitle']!.split(' / ').first,
-              name: product['title']!,
+              brand: product.parsedBrand,
+              name: product.title,
               condition: 'Used',
-              price: product['newPrice']!,
-              oldPrice: product['oldPrice']!,
+              price: product.newPrice,
+              oldPrice: product.oldPrice,
               imageAsset: imagePath,
               heroTag: heroTag,
             ),
@@ -984,114 +868,25 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
           ),
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Image with heart
-          AspectRatio(
-            aspectRatio: 177 / 200,
-            child: Stack(
-              children: [
-                Hero(
-                  tag: heroTag,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: Image.asset(
-                      imagePath,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: AnimatedHeartButton(
-                    isFavorite: isFav,
-                    cs: cs,
-                    onToggle: () => setState(() {
-                      if (isFav) {
-                        _favorites.remove(index);
-                      } else {
-                        _favorites.add(index);
-                      }
-                    }),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 4),
-          _highlightedText(
-            product['title']!,
-            _searchQuery,
-            TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: cs.secondary,
-              letterSpacing: 0.15,
-              height: 24 / 16,
-            ),
-            cs.surfaceTint,
-          ),
-          _highlightedText(
-            product['subtitle']!,
-            _searchQuery,
-            TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.tertiary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
-            cs.surfaceTint,
-          ),
-          const SizedBox(height: 1),
-          Row(
-            children: [
-              Text(
-                '${product['oldPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: cs.tertiary,
-                  letterSpacing: 0.4,
-                  height: 16 / 12,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '${product['newPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.5,
-                  height: 24 / 16,
-                ),
-              ),
-              Text(
-                'vč.',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
-              ),
-              const SizedBox(width: 4),
-              Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
-            ],
-          ),
-        ],
+      child: ProductCard(
+        product: product,
+        imageAsset: imagePath,
+        isFavorite: isFav,
+        heroTag: heroTag,
+        onFavoriteToggle: () => setState(() {
+          if (isFav) {
+            _favorites.remove(index);
+          } else {
+            _favorites.add(index);
+          }
+        }),
+        onTap: () {}, // handled by TapScaleWidget
+        titleBuilder: _searchQuery.isNotEmpty
+            ? (text, style) => _highlightedText(text, _searchQuery, style, cs.surfaceTint)
+            : null,
+        subtitleBuilder: _searchQuery.isNotEmpty
+            ? (text, style) => _highlightedText(text, _searchQuery, style, cs.surfaceTint)
+            : null,
       ),
     );
 
@@ -1115,7 +910,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
   }
 
   Widget _buildFeaturedCard(String imagePath) {
-    return _TapScaleWidget(
+    return TapScaleWidget(
       onTap: () {},
       child: ClipRRect(
       borderRadius: BorderRadius.circular(4),
@@ -1184,60 +979,3 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
   }
 }
 
-/// A widget that scales down slightly on tap for a tactile press effect.
-class _TapScaleWidget extends StatefulWidget {
-  final Widget child;
-  final VoidCallback onTap;
-
-  const _TapScaleWidget({required this.child, required this.onTap});
-
-  @override
-  State<_TapScaleWidget> createState() => _TapScaleWidgetState();
-}
-
-class _TapScaleWidgetState extends State<_TapScaleWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 120),
-      reverseDuration: const Duration(milliseconds: 200),
-      vsync: this,
-      lowerBound: 0.0,
-      upperBound: 1.0,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.97).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
-      onTapUp: (_) {
-        _controller.reverse();
-        widget.onTap();
-      },
-      onTapCancel: () => _controller.reverse(),
-      child: AnimatedBuilder(
-        animation: _scaleAnimation,
-        builder: (context, child) => Transform.scale(
-          scale: _scaleAnimation.value,
-          child: child,
-        ),
-        child: widget.child,
-      ),
-    );
-  }
-}

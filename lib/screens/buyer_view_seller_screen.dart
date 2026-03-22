@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/models/product.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/screens/reviews_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
@@ -22,34 +24,10 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   List<Map<String, String>> _setItems = [];
 
   static const _products = [
-    {
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-      'image': 'assets/images/product_01.png',
-    },
-    {
-      'title': 'Blue Comfort type saddle',
-      'subtitle': 'Shires / New / Cob',
-      'oldPrice': '42 €',
-      'newPrice': '49 €',
-      'image': 'assets/images/product_02.png',
-    },
-    {
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-      'image': 'assets/images/product_03.png',
-    },
-    {
-      'title': 'Blue Comfort type saddle',
-      'subtitle': 'Comfy Brand / Fair / 18"',
-      'oldPrice': '120 €',
-      'newPrice': '135 €',
-      'image': 'assets/images/product_04.png',
-    },
+    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', imageAsset: 'assets/images/product_01.png'),
+    Product(title: 'Blue Comfort type saddle', subtitle: 'Shires / New / Cob', oldPrice: '42 €', newPrice: '49 €', imageAsset: 'assets/images/product_02.png'),
+    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', imageAsset: 'assets/images/product_03.png'),
+    Product(title: 'Blue Comfort type saddle', subtitle: 'Comfy Brand / Fair / 18"', oldPrice: '120 €', newPrice: '135 €', imageAsset: 'assets/images/product_04.png'),
   ];
 
   void _showMoreSheet() {
@@ -1049,155 +1027,34 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
     return Column(children: rows);
   }
 
-  Widget _buildProductCard(ColorScheme cs, int index, Map<String, String> product) {
+  Widget _buildProductCard(ColorScheme cs, int index, Product product) {
     final isFav = _favorites.contains(index);
-    return GestureDetector(
+    return ProductCard(
+      product: product,
+      imageAsset: product.imageAsset,
+      isFavorite: isFav,
+      onFavoriteToggle: () => setState(() {
+        if (isFav) {
+          _favorites.remove(index);
+        } else {
+          _favorites.add(index);
+        }
+      }),
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => ProductDetailScreen(
-              brand: product['subtitle']!.split(' / ').first,
-              name: product['title']!,
+              brand: product.parsedBrand,
+              name: product.title,
               condition: 'Used',
-              price: product['newPrice']!,
-              oldPrice: product['oldPrice']!,
-              imageAsset: product['image']!,
+              price: product.newPrice,
+              oldPrice: product.oldPrice,
+              imageAsset: product.imageAsset,
             ),
           ),
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AspectRatio(
-            aspectRatio: 177 / 200,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Image.asset(
-                    product['image']!,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: () => setState(() {
-                      if (isFav) {
-                        _favorites.remove(index);
-                      } else {
-                        _favorites.add(index);
-                      }
-                    }),
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: Center(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: 32,
-                              height: 32,
-                              decoration: BoxDecoration(
-                                color: cs.secondaryContainer,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            SvgPicture.asset(
-                              isFav ? 'assets/icons/Heart.svg' : 'assets/icons/HeartEmpty.svg',
-                              width: 16,
-                              height: 16,
-                              colorFilter: ColorFilter.mode(
-                                isFav ? cs.error : cs.onSecondaryContainer,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            product['title']!,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: cs.secondary,
-              letterSpacing: 0.15,
-              height: 24 / 16,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            product['subtitle']!,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.tertiary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 1),
-          Row(
-            children: [
-              Text(
-                '${product['oldPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: cs.tertiary,
-                  letterSpacing: 0.4,
-                  height: 16 / 12,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '${product['newPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.5,
-                  height: 24 / 16,
-                ),
-              ),
-              Text(
-                'vč.',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
-              ),
-              const SizedBox(width: 4),
-              Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

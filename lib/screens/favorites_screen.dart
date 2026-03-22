@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/models/product.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/widgets/app_header.dart';
-import 'package:eqqu/widgets/animated_heart.dart';
+import 'package:eqqu/widgets/product_card.dart';
 
 const _productImages = [
   'assets/images/product_01.png',
@@ -30,66 +30,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   final Set<int> _favorites = {0, 1, 2, 3, 4, 5, 6, 7};
 
   static const _products = [
-    {
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-    },
-    {
-      'title': 'Blue Comfort type saddle',
-      'subtitle': 'Comfy Brand / Fair / 18"',
-      'oldPrice': '120 €',
-      'newPrice': '135 €',
-    },
-    {
-      'title': 'Red Racing type saddle',
-      'subtitle': 'Speedy Brand / Excellent / 15"',
-      'oldPrice': '200 €',
-      'newPrice': '230 €',
-    },
-    {
-      'title': 'Green Mountain type saddle',
-      'subtitle': 'Rugged Brand / Very Good / 16"',
-      'oldPrice': '180 €',
-      'newPrice': '199 €',
-    },
-    {
-      'title': 'White Cruiser type saddle',
-      'subtitle': 'Cruiser Co. / Fair / 19"',
-      'oldPrice': '160 €',
-      'newPrice': '175 €',
-    },
-    {
-      'title': 'Shires Velociti bridle',
-      'subtitle': 'Shires / New / Cob',
-      'oldPrice': '42 €',
-      'newPrice': '49 €',
-    },
-    {
-      'title': 'Fleece bandáže Kentucky',
-      'subtitle': 'Kentucky / New / One size',
-      'oldPrice': '35 €',
-      'newPrice': '42 €',
-    },
-    {
-      'title': 'Deka Eskadron Classic',
-      'subtitle': 'Eskadron / Very Good / 145cm',
-      'oldPrice': '95 €',
-      'newPrice': '110 €',
-    },
-    {
-      'title': 'Třmeny Flex-On',
-      'subtitle': 'Flex-On / Excellent / Standard',
-      'oldPrice': '280 €',
-      'newPrice': '320 €',
-    },
-    {
-      'title': 'Podsedlová dečka Animo',
-      'subtitle': 'Animo / New / Drezúra',
-      'oldPrice': '55 €',
-      'newPrice': '65 €',
-    },
+    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €'),
+    Product(title: 'Blue Comfort type saddle', subtitle: 'Comfy Brand / Fair / 18"', oldPrice: '120 €', newPrice: '135 €'),
+    Product(title: 'Red Racing type saddle', subtitle: 'Speedy Brand / Excellent / 15"', oldPrice: '200 €', newPrice: '230 €'),
+    Product(title: 'Green Mountain type saddle', subtitle: 'Rugged Brand / Very Good / 16"', oldPrice: '180 €', newPrice: '199 €'),
+    Product(title: 'White Cruiser type saddle', subtitle: 'Cruiser Co. / Fair / 19"', oldPrice: '160 €', newPrice: '175 €'),
+    Product(title: 'Shires Velociti bridle', subtitle: 'Shires / New / Cob', oldPrice: '42 €', newPrice: '49 €'),
+    Product(title: 'Fleece bandáže Kentucky', subtitle: 'Kentucky / New / One size', oldPrice: '35 €', newPrice: '42 €'),
+    Product(title: 'Deka Eskadron Classic', subtitle: 'Eskadron / Very Good / 145cm', oldPrice: '95 €', newPrice: '110 €'),
+    Product(title: 'Třmeny Flex-On', subtitle: 'Flex-On / Excellent / Standard', oldPrice: '280 €', newPrice: '320 €'),
+    Product(title: 'Podsedlová dečka Animo', subtitle: 'Animo / New / Drezúra', oldPrice: '55 €', newPrice: '65 €'),
   ];
 
   @override
@@ -188,130 +138,35 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
 
   Widget _buildProductCard(
-    ColorScheme cs, int index, Map<String, String> product, String imagePath,
+    ColorScheme cs, int index, Product product, String imagePath,
   ) {
     final isFav = _favorites.contains(index);
-    return GestureDetector(
+    return ProductCard(
+      product: product,
+      imageAsset: imagePath,
+      isFavorite: isFav,
+      onFavoriteToggle: () => setState(() {
+        if (isFav) {
+          _favorites.remove(index);
+        } else {
+          _favorites.add(index);
+        }
+      }),
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => ProductDetailScreen(
-              brand: product['subtitle']!.split(' / ').first,
-              name: product['title']!,
+              brand: product.parsedBrand,
+              name: product.title,
               condition: 'Used',
-              price: product['newPrice']!,
-              oldPrice: product['oldPrice']!,
+              price: product.newPrice,
+              oldPrice: product.oldPrice,
               imageAsset: imagePath,
             ),
           ),
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AspectRatio(
-            aspectRatio: 177 / 200,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Image.asset(
-                    imagePath,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: AnimatedHeartButton(
-                    isFavorite: isFav,
-                    cs: cs,
-                    onToggle: () => setState(() {
-                      if (isFav) {
-                        _favorites.remove(index);
-                      } else {
-                        _favorites.add(index);
-                      }
-                    }),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            product['title']!,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: cs.secondary,
-              letterSpacing: 0.15,
-              height: 24 / 16,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            product['subtitle']!,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.tertiary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 1),
-          Row(
-            children: [
-              Text(
-                '${product['oldPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: cs.tertiary,
-                  letterSpacing: 0.4,
-                  height: 16 / 12,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '${product['newPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.5,
-                  height: 24 / 16,
-                ),
-              ),
-              Text(
-                'vč.',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
-              ),
-              const SizedBox(width: 4),
-              Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/models/product.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/widgets/animated_heart.dart';
+import 'package:eqqu/widgets/product_card.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -692,13 +695,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         Expanded(
           child: Text(
             'More from this seller',
-            style: TextStyle(
-              fontFamily: 'Outfit',
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-              color: cs.onSurface,
-              height: 28 / 20,
-            ),
+            style: AppTextStyles.sectionTitle(cs.onSurface),
           ),
         ),
         GestureDetector(
@@ -710,14 +707,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               const SizedBox(width: 4),
               Text(
                 'Show all',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.1,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.actionLink(cs.surfaceTint),
               ),
             ],
           ),
@@ -817,21 +807,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildMoreProducts(ColorScheme cs) {
-    final products = [
-      {
-        'title': 'Fleece bandáže Kentucky',
-        'subtitle': 'Kentucky / New / One size',
-        'oldPrice': '35 €',
-        'newPrice': '42 €',
-        'image': 'assets/images/product_07.png',
-      },
-      {
-        'title': 'Deka Eskadron Classic',
-        'subtitle': 'Eskadron / Very Good / 145cm',
-        'oldPrice': '95 €',
-        'newPrice': '110 €',
-        'image': 'assets/images/product_8.png',
-      },
+    const products = [
+      Product(title: 'Fleece bandáže Kentucky', subtitle: 'Kentucky / New / One size', oldPrice: '35 €', newPrice: '42 €', imageAsset: 'assets/images/product_07.png'),
+      Product(title: 'Deka Eskadron Classic', subtitle: 'Eskadron / Very Good / 145cm', oldPrice: '95 €', newPrice: '110 €', imageAsset: 'assets/images/product_8.png'),
     ];
 
     return Row(
@@ -840,13 +818,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         final i = entry.key;
         final p = entry.value;
         final isFav = _moreFavorites.contains(i);
+        final heroTag = 'more_seller_${p.imageAsset}_$i';
         return [
           if (i > 0) const SizedBox(width: 16),
           Expanded(
-          child: Builder(
-            builder: (context) {
-              final heroTag = 'more_seller_${p['image']}_$i';
-              return GestureDetector(
+            child: ProductCard(
+              product: p,
+              imageAsset: p.imageAsset,
+              isFavorite: isFav,
+              heroTag: heroTag,
+              onFavoriteToggle: () => setState(() {
+                if (isFav) {
+                  _moreFavorites.remove(i);
+                } else {
+                  _moreFavorites.add(i);
+                }
+              }),
               onTap: () {
                 Navigator.push(
                   context,
@@ -854,12 +841,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     transitionDuration: const Duration(milliseconds: 350),
                     reverseTransitionDuration: const Duration(milliseconds: 300),
                     pageBuilder: (_, __, ___) => ProductDetailScreen(
-                      brand: p['subtitle']!.split(' / ').first,
-                      name: p['title']!,
-                      condition: p['subtitle']!.split(' / ')[1],
-                      price: p['newPrice']!,
-                      oldPrice: p['oldPrice']!,
-                      imageAsset: p['image']!,
+                      brand: p.parsedBrand,
+                      name: p.title,
+                      condition: p.parsedCondition,
+                      price: p.newPrice,
+                      oldPrice: p.oldPrice,
+                      imageAsset: p.imageAsset,
                       heroTag: heroTag,
                     ),
                     transitionsBuilder: (_, animation, __, child) {
@@ -868,116 +855,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 );
               },
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AspectRatio(
-                  aspectRatio: 177 / 200,
-                  child: Stack(
-                    children: [
-                      Hero(
-                        tag: heroTag,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Image.asset(
-                            p['image']!,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: AnimatedHeartButton(
-                          isFavorite: isFav,
-                          cs: cs,
-                          onToggle: () => setState(() {
-                            if (isFav) {
-                              _moreFavorites.remove(i);
-                            } else {
-                              _moreFavorites.add(i);
-                            }
-                          }),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  p['title']!,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: cs.secondary,
-                    letterSpacing: 0.15,
-                    height: 24 / 16,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  p['subtitle']!,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.tertiary,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 1),
-                Row(
-                  children: [
-                    Text(
-                      '${p['oldPrice']}  ',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: cs.tertiary,
-                        letterSpacing: 0.4,
-                        height: 16 / 12,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '${p['newPrice']}  ',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: cs.surfaceTint,
-                        letterSpacing: 0.5,
-                        height: 24 / 16,
-                      ),
-                    ),
-                    Text(
-                      'vč.',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: cs.surfaceTint,
-                        letterSpacing: 0.25,
-                        height: 20 / 14,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
-                  ],
-                ),
-              ],
             ),
-            );
-            },
-          ),
           ),
         ];
       }).toList(),
