@@ -479,70 +479,73 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             child: const AppHeader(title: 'Moje inzeráty', showBack: true),
           ),
           Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 177 / 290,
-              ),
-              itemCount: _listings.length,
-              itemBuilder: (context, index) {
-                final item = _listings[index];
-                return KeyedSubtree(
-                  key: ValueKey(item['id']),
-                  child: _buildProductCard(cs, index, item),
-                );
-              },
-            ),
-          ),
-          // Bottom floating button
-          Container(
-            padding: EdgeInsets.fromLTRB(
-              16, 16, 16, MediaQuery.of(context).padding.bottom + 16,
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: Material(
-                elevation: 3,
-                borderRadius: BorderRadius.circular(8),
-                color: cs.primary,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(8),
-                  onTap: _toggleHideAll,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24, vertical: 16,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          anyHidden ? Icons.visibility : Icons.visibility_off,
-                          size: 24,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          anyHidden
-                              ? 'Odkrýt všechny inzeráty'
-                              : 'Skrýt všechny inzeráty',
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            letterSpacing: 0.15,
-                            height: 24 / 16,
+            child: Stack(
+              children: [
+                GridView.builder(
+                  padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.of(context).padding.bottom + 88),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 177 / 290,
+                  ),
+                  itemCount: _listings.length,
+                  itemBuilder: (context, index) {
+                    final item = _listings[index];
+                    return KeyedSubtree(
+                      key: ValueKey(item['id']),
+                      child: _buildProductCard(cs, index, item),
+                    );
+                  },
+                ),
+                // Bottom floating button
+                Positioned(
+                  left: 16,
+                  right: 16,
+                  bottom: MediaQuery.of(context).padding.bottom + 16,
+                  child: SizedBox(
+                    height: 56,
+                    child: Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(8),
+                      color: cs.primary,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: _toggleHideAll,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 16,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                anyHidden ? Icons.visibility : Icons.visibility_off,
+                                size: 24,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                anyHidden
+                                    ? 'Odkrýt všechny inzeráty'
+                                    : 'Skrýt všechny inzeráty',
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  letterSpacing: 0.15,
+                                  height: 24 / 16,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
