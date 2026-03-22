@@ -106,7 +106,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         child: CustomScrollView(
           slivers: [
             // App bar
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: AppHeader(title: 'Oblíbené', showBack: widget.showBack),
             ),
 
