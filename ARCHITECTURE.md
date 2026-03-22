@@ -52,6 +52,9 @@ lib/
     specs_grid.dart      # 2-column specs display
     featured_banner.dart # Promotional banner
     sheet_button.dart    # Bottom sheet action button
+    sheet_helpers.dart   # buildDragHandle() for bottom sheets
+    price_summary.dart   # Reusable price breakdown rows
+    seller_card.dart     # Seller info card with avatar, stars, message CTA
     app_header.dart      # Screen header with back button
     tap_scale_widget.dart
     ...
@@ -61,7 +64,7 @@ lib/
 
 The app uses a hybrid approach:
 
-- **Provider** (`MultiProvider` in `main.dart`): `FavoritesProvider`, `CartProvider`, `SearchProvider` for shared state across screens.
+- **Provider** (`MultiProvider` in `main.dart`): `FavoritesProvider`, `CartProvider`, `SearchProvider` for shared state across screens. All screens use Provider for favorites (no local `_favorites` sets).
 - **InheritedWidget** (`AppState`): Provides `ThemeNotifier` and `LanguageNotifier` for theme/language switching.
 - **Local `setState`**: Used for screen-specific UI state (form inputs, animation controllers, etc.).
 
@@ -100,6 +103,7 @@ dart analyze lib/               # Static analysis
 Test structure mirrors `lib/`:
 - `test/services/` — Unit tests for validators, cart, search
 - `test/providers/` — Unit tests for state providers
+- `test/widgets/` — Widget tests for PriceSummary, SellerCard, SheetButton
 - `test/models/` — Unit tests for data models
 
 ## Adding a New Screen
