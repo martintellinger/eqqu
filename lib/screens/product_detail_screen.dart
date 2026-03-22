@@ -8,6 +8,7 @@ import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/animated_heart.dart';
 import 'package:eqqu/widgets/product_card.dart';
 
@@ -641,9 +642,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 cs.onSecondaryContainer,
                 () {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Odkaz byl zkopírován do schránky')),
-                  );
+                  AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
                 },
               ),
               const SizedBox(height: 16),

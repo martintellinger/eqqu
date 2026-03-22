@@ -8,6 +8,8 @@ import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
+import 'package:eqqu/data/mock_products.dart';
 
 class SellerProfileScreen extends StatefulWidget {
   const SellerProfileScreen({super.key});
@@ -19,12 +21,7 @@ class SellerProfileScreen extends StatefulWidget {
 class _SellerProfileScreenState extends State<SellerProfileScreen> {
   final Set<int> _favorites = {};
 
-  static const _products = [
-    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', imageAsset: 'assets/images/product_01.png'),
-    Product(title: 'Blue Comfort type saddle', subtitle: 'Shires / New / Cob', oldPrice: '42 €', newPrice: '49 €', imageAsset: 'assets/images/product_02.png'),
-    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', imageAsset: 'assets/images/product_03.png'),
-    Product(title: 'Blue Comfort type saddle', subtitle: 'Comfy Brand / Fair / 18"', oldPrice: '120 €', newPrice: '135 €', imageAsset: 'assets/images/product_04.png'),
-  ];
+  static const _products = MockProducts.sellerProducts;
 
   void _showMoreSheet() {
     final cs = Theme.of(context).colorScheme;
@@ -58,9 +55,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 child: FilledButton.icon(
                   onPressed: () {
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Odkaz byl zkopírován do schránky')),
-                    );
+                    AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
                   },
                   icon: Icon(Icons.share, color: cs.onSecondaryContainer),
                   label: Text(

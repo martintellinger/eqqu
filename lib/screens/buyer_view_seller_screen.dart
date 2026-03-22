@@ -4,6 +4,7 @@ import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/theme/app_constants.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
@@ -12,6 +13,7 @@ import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/build_set_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
+import 'package:eqqu/data/mock_products.dart';
 
 class BuyerViewSellerScreen extends StatefulWidget {
   const BuyerViewSellerScreen({super.key});
@@ -26,12 +28,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   bool _isBlocked = false;
   List<Product> _setItems = [];
 
-  static const _products = [
-    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', imageAsset: 'assets/images/product_01.png'),
-    Product(title: 'Blue Comfort type saddle', subtitle: 'Shires / New / Cob', oldPrice: '42 €', newPrice: '49 €', imageAsset: 'assets/images/product_02.png'),
-    Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', imageAsset: 'assets/images/product_03.png'),
-    Product(title: 'Blue Comfort type saddle', subtitle: 'Comfy Brand / Fair / 18"', oldPrice: '120 €', newPrice: '135 €', imageAsset: 'assets/images/product_04.png'),
-  ];
+  static const _products = MockProducts.sellerProducts;
 
   void _showMoreSheet() {
     final cs = Theme.of(context).colorScheme;
@@ -67,9 +64,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 cs.onSecondaryContainer,
                 () {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Odkaz byl zkopírován do schránky')),
-                  );
+                  AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
                 },
               ),
               const SizedBox(height: 16),
@@ -84,17 +79,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   Navigator.pop(context);
                   if (_isBlocked) {
                     setState(() => _isBlocked = false);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Prodejce byl odblokován',
-                          style: AppTextStyles.snackBarMessage(),
-                        ),
-                        backgroundColor: cs.primary,
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                    );
+                    AppSnackBar.show(context, message: 'Prodejce byl odblokován');
                   } else {
                     _showBlockDialog();
                   }
@@ -194,17 +179,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       onPressed: () {
                         Navigator.pop(ctx);
                         setState(() => _isBlocked = true);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Prodejce byl zablokován',
-                              style: AppTextStyles.snackBarMessage(),
-                            ),
-                            backgroundColor: cs.error,
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          ),
-                        );
+                        AppSnackBar.showError(context, message: 'Prodejce byl zablokován');
                       },
                       style: FilledButton.styleFrom(
                         backgroundColor: cs.error,

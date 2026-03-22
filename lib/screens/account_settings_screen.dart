@@ -4,6 +4,7 @@ import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
@@ -91,17 +92,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     setState(() => _hasSubmitted = true);
 
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Změny byly uloženy',
-            style: AppTextStyles.snackBarMessage(),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
+      AppSnackBar.show(context, message: 'Změny byly uloženy');
       Navigator.pop(context);
     }
   }
@@ -429,17 +420,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               FilledButton(
                 onPressed: () {
                   Navigator.pop(dialogCtx);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Účet byl smazán',
-                        style: AppTextStyles.snackBarMessage(),
-                      ),
-                      backgroundColor: cs.error,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                  );
+                  AppSnackBar.showError(context, message: 'Účet byl smazán');
                   Navigator.pushNamedAndRemoveUntil(context, AppRoutes.intro, (_) => false);
                 },
                 style: FilledButton.styleFrom(

@@ -5,6 +5,7 @@ import 'package:eqqu/widgets/bottom_sheets.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 
 class NewListingScreen extends StatefulWidget {
   const NewListingScreen({super.key});
@@ -202,17 +203,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                           height: 56,
                           child: FilledButton(
                             onPressed: _isFormValid ? () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Inzerát byl úspěšně vytvořen',
-                                    style: AppTextStyles.snackBarMessage(),
-                                  ),
-                                  backgroundColor: Theme.of(context).colorScheme.primary,
-                                  behavior: SnackBarBehavior.floating,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                ),
-                              );
+                              AppSnackBar.show(context, message: 'Inzerát byl úspěšně vytvořen');
                               Navigator.pop(context);
                             } : null,
                             style: FilledButton.styleFrom(

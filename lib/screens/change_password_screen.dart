@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -27,17 +28,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   void _save() {
     setState(() => _hasSubmitted = true);
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Heslo bylo změněno',
-            style: AppTextStyles.snackBarMessage(),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
+      AppSnackBar.show(context, message: 'Heslo bylo změněno');
       Navigator.pop(context);
     }
   }

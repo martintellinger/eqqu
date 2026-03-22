@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/l10n/app_strings.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class NotificationsScreen extends StatefulWidget {
@@ -66,18 +67,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   void _onToggleChanged(String label, bool value) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          value ? '$label zapnuto' : '$label vypnuto',
-          style: AppTextStyles.snackBarMessage(),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    AppSnackBar.show(context, message: value ? '$label zapnuto' : '$label vypnuto', duration: const Duration(seconds: 2));
   }
 
   Widget _buildToggleItem(ColorScheme cs, String label, bool value, ValueChanged<bool> onChanged) {

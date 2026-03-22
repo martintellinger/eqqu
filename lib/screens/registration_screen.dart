@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -34,32 +35,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     setState(() => _hasSubmitted = true);
 
     if (!_agreeTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Musíte souhlasit s podmínkami',
-            style: AppTextStyles.snackBarMessage(),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.error,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
+      AppSnackBar.showError(context, message: 'Musíte souhlasit s podmínkami');
       return;
     }
 
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Účet byl úspěšně vytvořen',
-            style: AppTextStyles.snackBarMessage(),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
+      AppSnackBar.show(context, message: 'Účet byl úspěšně vytvořen');
       Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
     }
   }

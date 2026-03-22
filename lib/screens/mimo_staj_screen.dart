@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class MimoStajScreen extends StatefulWidget {
@@ -53,18 +54,7 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                           value: _enabled,
                           onChanged: (v) {
                             setState(() => _enabled = v);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  v ? 'Mimo stáj zapnuto' : 'Mimo stáj vypnuto',
-                                  style: AppTextStyles.snackBarMessage(),
-                                ),
-                                backgroundColor: cs.primary,
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
+                            AppSnackBar.show(context, message: v ? 'Mimo stáj zapnuto' : 'Mimo stáj vypnuto', duration: const Duration(seconds: 2));
                           },
                           activeColor: Colors.white,
                           activeTrackColor: cs.primary,

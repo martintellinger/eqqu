@@ -4,6 +4,7 @@ import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 
 class CartScreen extends StatefulWidget {
   final List<Map<String, String>>? initialItems;
@@ -88,18 +89,7 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       _cartItems.removeAt(index);
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Produkt byl odebrán z košíku',
-          style: AppTextStyles.snackBarMessage(),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    AppSnackBar.show(context, message: 'Produkt byl odebrán z košíku', duration: const Duration(seconds: 2));
   }
 
   bool _validateCardFields() {

@@ -3,6 +3,7 @@ import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/models/listing.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 
@@ -136,11 +137,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           ..clear()
           ..addAll(newHidden);
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${deleted.product.title} byl smazán'),
-        ),
-      );
+      AppSnackBar.show(context, message: '${deleted.product.title} byl smazán');
     });
   }
 

@@ -4,6 +4,7 @@ import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/theme/app_constants.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   const OrderDetailScreen({super.key});
@@ -112,17 +113,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         child: FilledButton(
                           onPressed: () {
                             Navigator.pop(ctx);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Hodnocení bylo odesláno',
-                                  style: AppTextStyles.snackBarMessage(),
-                                ),
-                                backgroundColor: Theme.of(context).colorScheme.primary,
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                              ),
-                            );
+                            AppSnackBar.show(context, message: 'Hodnocení bylo odesláno');
                           },
                           style: FilledButton.styleFrom(
                             backgroundColor: cs.secondaryContainer,

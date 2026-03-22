@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
@@ -33,17 +34,7 @@ class _AddressScreenState extends State<AddressScreen> {
     setState(() => _hasSubmitted = true);
 
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Adresa byla uložena',
-            style: AppTextStyles.snackBarMessage(),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
+      AppSnackBar.show(context, message: 'Adresa byla uložena');
       Navigator.pop(context);
     }
   }
