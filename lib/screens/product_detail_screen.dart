@@ -843,7 +843,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         return [
           if (i > 0) const SizedBox(width: 16),
           Expanded(
-          child: GestureDetector(
+          child: Builder(
+            builder: (context) {
+              final heroTag = 'more_seller_${p['image']}_$i';
+              return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -857,6 +860,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       price: p['newPrice']!,
                       oldPrice: p['oldPrice']!,
                       imageAsset: p['image']!,
+                      heroTag: heroTag,
                     ),
                     transitionsBuilder: (_, animation, __, child) {
                       return FadeTransition(opacity: animation, child: child);
@@ -871,13 +875,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   aspectRatio: 177 / 200,
                   child: Stack(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Image.asset(
-                          p['image']!,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
+                      Hero(
+                        tag: heroTag,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Image.asset(
+                            p['image']!,
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Positioned(
@@ -968,7 +975,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
               ],
             ),
-            ),
+            );
+            },
           ),
         ];
       }).toList(),
