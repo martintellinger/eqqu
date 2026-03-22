@@ -5,6 +5,7 @@ import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/screens/reviews_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/screens/build_set_screen.dart';
 
 class BuyerViewSellerScreen extends StatefulWidget {
   const BuyerViewSellerScreen({super.key});
@@ -16,6 +17,8 @@ class BuyerViewSellerScreen extends StatefulWidget {
 class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   final Set<int> _favorites = {};
   bool _isFollowing = false;
+  bool _isBlocked = false;
+  int _setItemCount = 0;
 
   static const _products = [
     {
@@ -91,13 +94,28 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               // Block button
               _buildSheetButton(
                 cs,
-                Icons.block,
-                'Zablokovat prodejce',
+                _isBlocked ? Icons.check_circle_outline : Icons.block,
+                _isBlocked ? 'Odblokovat prodejce' : 'Zablokovat prodejce',
                 cs.secondaryContainer,
                 cs.onSecondaryContainer,
                 () {
                   Navigator.pop(context);
-                  _showBlockDialog();
+                  if (_isBlocked) {
+                    setState(() => _isBlocked = false);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Prodejce byl odblokován',
+                          style: TextStyle(fontFamily: 'Poppins'),
+                        ),
+                        backgroundColor: cs.primary,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                    );
+                  } else {
+                    _showBlockDialog();
+                  }
                 },
               ),
               const SizedBox(height: 16),
@@ -220,7 +238,21 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   SizedBox(
                     height: 48,
                     child: FilledButton(
-                      onPressed: () => Navigator.pop(ctx),
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        setState(() => _isBlocked = true);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'Prodejce byl zablokován',
+                              style: TextStyle(fontFamily: 'Poppins'),
+                            ),
+                            backgroundColor: cs.error,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                        );
+                      },
                       style: FilledButton.styleFrom(
                         backgroundColor: cs.error,
                         minimumSize: Size.zero,
@@ -675,7 +707,19 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            final result = await Navigator.push<int>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => BuildSetScreen(
+                                  products: _products.map((p) => Map<String, String>.from(p)).toList(),
+                                ),
+                              ),
+                            );
+                            if (result != null) {
+                              setState(() => _setItemCount = result);
+                            }
+                          },
                           child: Text(
                             'Sestavit sadu',
                             style: TextStyle(
@@ -697,10 +741,43 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     padding: const EdgeInsets.all(16),
                     child: _buildProductGrid(cs),
                   ),
+                  if (_setItemCount > 0)
+                    const SizedBox(height: 72),
                 ],
               ),
             ),
           ),
+          if (_setItemCount > 0)
+            SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: FilledButton(
+                    onPressed: () {},
+                    style: FilledButton.styleFrom(
+                      backgroundColor: cs.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                    child: Text(
+                      'Buy ($_setItemCount)',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        letterSpacing: 0.15,
+                        height: 24 / 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -728,9 +805,30 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-              Column(
+              Expanded(
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (_isBlocked)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: cs.error.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        'Zablokovaný prodejce',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: cs.error,
+                          letterSpacing: 0.4,
+                          height: 16 / 12,
+                        ),
+                      ),
+                    ),
                   Text(
                     'Emma Novak',
                     style: TextStyle(
@@ -772,6 +870,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     ),
                   ),
                 ],
+              ),
               ),
             ],
           ),

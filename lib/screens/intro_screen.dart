@@ -14,21 +14,21 @@ class _IntroScreenState extends State<IntroScreen> {
   int _currentImageIndex = 0;
   late final List<String> _bgImages;
 
-  static const _allProductImages = [
-    'assets/images/background.jpg',
-    'assets/images/product_01.png',
-    'assets/images/product_02.png',
-    'assets/images/product_03.png',
-    'assets/images/product_04.png',
-    'assets/images/product_05.png',
+  static const _allBgImages = [
+    'assets/images/bg_default.png',
+    'assets/images/bg_europe.png',
+    'assets/images/bg_france.png',
+    'assets/images/bg_italy.png',
+    'assets/images/bg_uk.png',
+    'assets/images/bg_usa.png',
   ];
 
   @override
   void initState() {
     super.initState();
     _bgImages = [
-      _allProductImages[0],
-      ...(List.from(_allProductImages.sublist(1))..shuffle()),
+      _allBgImages[0],
+      ...(List.from(_allBgImages.sublist(1))..shuffle()),
     ];
     languageNotifier.addListener(_onLanguageChanged);
     _startImageCycling();
