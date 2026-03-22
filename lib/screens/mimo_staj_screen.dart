@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class MimoStajScreen extends StatefulWidget {
@@ -30,14 +31,7 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                 children: [
                   Text(
                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: cs.secondary,
-                      letterSpacing: 0.5,
-                      height: 24 / 16,
-                    ),
+                    style: AppTextStyles.bodyLarge(cs.secondary),
                   ),
                   const SizedBox(height: 24),
                   Container(
@@ -52,14 +46,7 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                         Expanded(
                           child: Text(
                             'Mimo stáj',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: cs.secondary,
-                              letterSpacing: 0.15,
-                              height: 24 / 16,
-                            ),
+                            style: AppTextStyles.labelMedium(cs.secondary),
                           ),
                         ),
                         Switch(
@@ -70,7 +57,7 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                               SnackBar(
                                 content: Text(
                                   v ? 'Mimo stáj zapnuto' : 'Mimo stáj vypnuto',
-                                  style: const TextStyle(fontFamily: 'Poppins'),
+                                  style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
                                 ),
                                 backgroundColor: cs.primary,
                                 behavior: SnackBarBehavior.floating,
