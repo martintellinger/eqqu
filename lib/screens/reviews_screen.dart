@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 
@@ -88,14 +89,7 @@ class ReviewsScreen extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       '12 hodnocení',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: cs.tertiary,
-                        letterSpacing: 0.4,
-                        height: 16 / 12,
-                      ),
+                      style: AppTextStyles.labelSmall(cs.tertiary),
                     ),
                   ],
                 ),
@@ -154,25 +148,11 @@ class ReviewsScreen extends StatelessWidget {
                   children: [
                     Text(
                       review['name'] as String,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: cs.secondary,
-                        letterSpacing: 0.1,
-                        height: 20 / 14,
-                      ),
+                      style: AppTextStyles.actionLink(cs.secondary),
                     ),
                     Text(
                       review['country'] as String,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: cs.tertiary,
-                        letterSpacing: 0.4,
-                        height: 16 / 12,
-                      ),
+                      style: AppTextStyles.labelSmall(cs.tertiary),
                     ),
                   ],
                 ),
@@ -197,14 +177,7 @@ class ReviewsScreen extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               review['time'] as String,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: cs.tertiary,
-                letterSpacing: 0.4,
-                height: 16 / 12,
-              ),
+              style: AppTextStyles.labelSmall(cs.tertiary),
             ),
           ],
         ),
@@ -212,14 +185,7 @@ class ReviewsScreen extends StatelessWidget {
         // Review text
         Text(
           review['text'] as String,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: cs.secondary,
-            letterSpacing: 0.25,
-            height: 20 / 14,
-          ),
+          style: AppTextStyles.bodyMedium(cs.secondary),
         ),
       ],
     );

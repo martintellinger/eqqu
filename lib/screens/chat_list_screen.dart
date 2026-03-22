@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/models/conversation.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class ChatListScreen extends StatefulWidget {
@@ -27,67 +29,63 @@ class _ChatListScreenState extends State<ChatListScreen>
 
   static const _conversations = [
     // Unread conversations first (bold font + green dot)
-    {
-      'name': 'Emma Novak',
-      'initials': 'EN',
-      'avatar': 'assets/images/avatar_1.png',
-      'message': 'Ahoj, je sedlo ještě dostupné?',
-      'time': '10:30',
-      'unread': '2',
-      'image': 'assets/images/product_01.png',
-      'productName': 'Black GP type saddle',
-    },
-    {
-      'name': 'Petra Svobodová',
-      'initials': 'PS',
-      'avatar': 'assets/images/avatar_3.png',
-      'message': 'Můžete poslat více fotek?',
-      'time': 'Včera',
-      'unread': '1',
-      'image': 'assets/images/product_03.png',
-      'productName': 'Red Racing type saddle',
-    },
-    {
-      'name': 'Tomáš Němec',
-      'initials': 'TN',
-      'avatar': '',
-      'message': 'Je možná sleva?',
-      'time': 'Po',
-      'unread': '3',
-      'image': 'assets/images/product_9.png',
-      'productName': 'Třmeny Flex-On',
-    },
+    Conversation(
+      name: 'Emma Novak',
+      initials: 'EN',
+      avatarAsset: 'assets/images/avatar_1.png',
+      lastMessage: 'Ahoj, je sedlo ještě dostupné?',
+      time: '10:30',
+      unreadCount: 2,
+      productImageAsset: 'assets/images/product_01.png',
+      productName: 'Black GP type saddle',
+    ),
+    Conversation(
+      name: 'Petra Svobodová',
+      initials: 'PS',
+      avatarAsset: 'assets/images/avatar_3.png',
+      lastMessage: 'Můžete poslat více fotek?',
+      time: 'Včera',
+      unreadCount: 1,
+      productImageAsset: 'assets/images/product_03.png',
+      productName: 'Red Racing type saddle',
+    ),
+    Conversation(
+      name: 'Tomáš Němec',
+      initials: 'TN',
+      lastMessage: 'Je možná sleva?',
+      time: 'Po',
+      unreadCount: 3,
+      productImageAsset: 'assets/images/product_9.png',
+      productName: 'Třmeny Flex-On',
+    ),
     // Read conversations
-    {
-      'name': 'Jan Dvořák',
-      'initials': 'JD',
-      'avatar': 'assets/images/avatar_2.png',
-      'message': 'Děkuji za rychlou odpověď!',
-      'time': '9:15',
-      'unread': '',
-      'image': 'assets/images/product_02.png',
-      'productName': 'Blue Comfort type saddle',
-    },
-    {
-      'name': 'Martin Horák',
-      'initials': 'MH',
-      'avatar': 'assets/images/avatar_4.png',
-      'message': 'Dobrý den, mám zájem o uzdečku.',
-      'time': 'Včera',
-      'unread': '',
-      'image': 'assets/images/product_07.png',
-      'productName': 'Fleece bandáže Kentucky',
-    },
-    {
-      'name': 'Lucie Králová',
-      'initials': 'LK',
-      'avatar': 'assets/images/avatar_5.png',
-      'message': 'Posílám platbu dnes.',
-      'time': 'Po',
-      'unread': '',
-      'image': 'assets/images/product_8.png',
-      'productName': 'Deka Eskadron Classic',
-    },
+    Conversation(
+      name: 'Jan Dvořák',
+      initials: 'JD',
+      avatarAsset: 'assets/images/avatar_2.png',
+      lastMessage: 'Děkuji za rychlou odpověď!',
+      time: '9:15',
+      productImageAsset: 'assets/images/product_02.png',
+      productName: 'Blue Comfort type saddle',
+    ),
+    Conversation(
+      name: 'Martin Horák',
+      initials: 'MH',
+      avatarAsset: 'assets/images/avatar_4.png',
+      lastMessage: 'Dobrý den, mám zájem o uzdečku.',
+      time: 'Včera',
+      productImageAsset: 'assets/images/product_07.png',
+      productName: 'Fleece bandáže Kentucky',
+    ),
+    Conversation(
+      name: 'Lucie Králová',
+      initials: 'LK',
+      avatarAsset: 'assets/images/avatar_5.png',
+      lastMessage: 'Posílám platbu dnes.',
+      time: 'Po',
+      productImageAsset: 'assets/images/product_8.png',
+      productName: 'Deka Eskadron Classic',
+    ),
   ];
 
   static const _notifications = [
@@ -125,16 +123,8 @@ class _ChatListScreenState extends State<ChatListScreen>
             unselectedLabelColor: cs.onSurfaceVariant,
             indicatorColor: cs.surfaceTint,
             indicatorSize: TabBarIndicatorSize.tab,
-            labelStyle: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            labelStyle: AppTextStyles.chip(cs.surfaceTint),
+            unselectedLabelStyle: AppTextStyles.chip(cs.onSurfaceVariant),
             tabs: const [
               Tab(text: 'Zprávy 1'),
               Tab(text: 'Oznámení 48'),
@@ -167,18 +157,18 @@ class _ChatListScreenState extends State<ChatListScreen>
       ),
       itemBuilder: (context, index) {
         final conv = _conversations[index];
-        final hasUnread = conv['unread']!.isNotEmpty;
+        final hasUnread = conv.unreadCount > 0;
         return InkWell(
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (_) => ChatDetailScreen(
-                  name: conv['name']!,
-                  initials: conv['initials']!,
-                  avatarImage: conv['avatar']!,
-                  productImage: conv['image']!,
-                  productName: conv['productName']!,
+                  name: conv.name,
+                  initials: conv.initials,
+                  avatarImage: conv.avatarAsset,
+                  productImage: conv.productImageAsset,
+                  productName: conv.productName,
                 ),
               ),
             );
@@ -188,7 +178,7 @@ class _ChatListScreenState extends State<ChatListScreen>
             child: Row(
               children: [
                 // Avatar 64px
-                _buildAvatar(cs, conv['avatar']!, conv['initials']!, 64),
+                _buildAvatar(cs, conv.avatarAsset, conv.initials, 64),
                 const SizedBox(width: 16),
                 // Content
                 Expanded(
@@ -200,29 +190,17 @@ class _ChatListScreenState extends State<ChatListScreen>
                         children: [
                           Expanded(
                             child: Text(
-                              conv['name']!,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                fontWeight: hasUnread ? FontWeight.w600 : FontWeight.w500,
-                                color: cs.onSurface,
-                                letterSpacing: 0.15,
-                                height: 24 / 16,
-                              ),
+                              conv.name,
+                              style: hasUnread
+                                  ? AppTextStyles.productTitle(cs.onSurface)
+                                  : AppTextStyles.labelMedium(cs.onSurface),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Text(
-                            conv['time']!,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: cs.onSurfaceVariant,
-                              letterSpacing: 0.25,
-                              height: 20 / 14,
-                            ),
+                            conv.time,
+                            style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
                           ),
                         ],
                       ),
@@ -232,15 +210,10 @@ class _ChatListScreenState extends State<ChatListScreen>
                         children: [
                           Expanded(
                             child: Text(
-                              conv['message']!,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 14,
-                                fontWeight: hasUnread ? FontWeight.w600 : FontWeight.w400,
-                                color: cs.onSurfaceVariant,
-                                letterSpacing: 0.25,
-                                height: 20 / 14,
-                              ),
+                              conv.lastMessage,
+                              style: hasUnread
+                                  ? AppTextStyles.productBadge(cs.onSurfaceVariant)
+                                  : AppTextStyles.bodyMedium(cs.onSurfaceVariant),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -288,8 +261,7 @@ class _ChatListScreenState extends State<ChatListScreen>
       child: Center(
         child: Text(
           initials,
-          style: TextStyle(
-            fontFamily: 'Poppins',
+          style: AppTextStyles.poppins(
             fontSize: size * 0.3,
             fontWeight: FontWeight.w600,
             color: Colors.white,
@@ -327,23 +299,11 @@ class _ChatListScreenState extends State<ChatListScreen>
                   children: [
                     Text(
                       notif['title']!,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: cs.onSurface,
-                        height: 20 / 14,
-                      ),
+                      style: AppTextStyles.actionLink(cs.onSurface),
                     ),
                     Text(
                       notif['message']!,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: cs.tertiary,
-                        height: 20 / 14,
-                      ),
+                      style: AppTextStyles.bodyMedium(cs.tertiary),
                     ),
                   ],
                 ),
@@ -351,11 +311,7 @@ class _ChatListScreenState extends State<ChatListScreen>
               const SizedBox(width: 8),
               Text(
                 notif['time']!,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  color: cs.tertiary,
-                ),
+                style: AppTextStyles.labelSmall(cs.tertiary),
               ),
             ],
           ),

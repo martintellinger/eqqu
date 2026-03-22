@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/models/product.dart';
+import 'package:eqqu/models/listing.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
-import 'package:eqqu/screens/product_detail_screen.dart';
+
 
 class MyListingsScreen extends StatefulWidget {
   const MyListingsScreen({super.key});
@@ -15,73 +18,79 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   bool get _allHidden =>
       _listings.isNotEmpty && _hiddenIndices.length == _listings.length;
 
-  final List<Map<String, String>> _listings = [
-    {
-      'id': '1',
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-      'image': 'assets/images/product_01.png',
-      'status': 'active',
-      'brand': 'No brand',
-      'condition': 'Good',
-    },
-    {
-      'id': '2',
-      'title': 'Green Mountain type saddle',
-      'subtitle': 'Rugged Brand / Very Good / 16"',
-      'oldPrice': '180 €',
-      'newPrice': '199 €',
-      'image': 'assets/images/product_02.png',
-      'status': 'sold',
-      'brand': 'Rugged Brand',
-      'condition': 'Very Good',
-    },
-    {
-      'id': '3',
-      'title': 'Red Racing type saddle',
-      'subtitle': 'Speedy Brand / Excellent / 15"',
-      'oldPrice': '200 €',
-      'newPrice': '230 €',
-      'image': 'assets/images/product_03.png',
-      'status': 'sold',
-      'brand': 'Speedy Brand',
-      'condition': 'Excellent',
-    },
-    {
-      'id': '4',
-      'title': 'Black GP type saddle',
-      'subtitle': 'No brand / Good / 17"',
-      'oldPrice': '140 €',
-      'newPrice': '159 €',
-      'image': 'assets/images/product_01.png',
-      'status': 'shipped',
-      'brand': 'No brand',
-      'condition': 'Good',
-    },
-    {
-      'id': '5',
-      'title': 'Red Racing type saddle',
-      'subtitle': 'Speedy Brand / Excellent / 15"',
-      'oldPrice': '200 €',
-      'newPrice': '230 €',
-      'image': 'assets/images/product_03.png',
-      'status': 'shipped',
-      'brand': 'Speedy Brand',
-      'condition': 'Excellent',
-    },
-    {
-      'id': '6',
-      'title': 'Green Mountain type saddle',
-      'subtitle': 'Rugged Brand / Very Good / 16"',
-      'oldPrice': '180 €',
-      'newPrice': '199 €',
-      'image': 'assets/images/product_02.png',
-      'status': 'shipped',
-      'brand': 'Rugged Brand',
-      'condition': 'Very Good',
-    },
+  final List<Listing> _listings = [
+    Listing(
+      id: '1',
+      product: const Product(
+        title: 'Black GP type saddle',
+        subtitle: 'No brand / Good / 17"',
+        oldPrice: '140 €',
+        newPrice: '159 €',
+        imageAsset: 'assets/images/product_01.png',
+        brand: 'No brand',
+      ),
+      status: 'active',
+    ),
+    Listing(
+      id: '2',
+      product: const Product(
+        title: 'Green Mountain type saddle',
+        subtitle: 'Rugged Brand / Very Good / 16"',
+        oldPrice: '180 €',
+        newPrice: '199 €',
+        imageAsset: 'assets/images/product_02.png',
+        brand: 'Rugged Brand',
+      ),
+      status: 'sold',
+    ),
+    Listing(
+      id: '3',
+      product: const Product(
+        title: 'Red Racing type saddle',
+        subtitle: 'Speedy Brand / Excellent / 15"',
+        oldPrice: '200 €',
+        newPrice: '230 €',
+        imageAsset: 'assets/images/product_03.png',
+        brand: 'Speedy Brand',
+      ),
+      status: 'sold',
+    ),
+    Listing(
+      id: '4',
+      product: const Product(
+        title: 'Black GP type saddle',
+        subtitle: 'No brand / Good / 17"',
+        oldPrice: '140 €',
+        newPrice: '159 €',
+        imageAsset: 'assets/images/product_01.png',
+        brand: 'No brand',
+      ),
+      status: 'shipped',
+    ),
+    Listing(
+      id: '5',
+      product: const Product(
+        title: 'Red Racing type saddle',
+        subtitle: 'Speedy Brand / Excellent / 15"',
+        oldPrice: '200 €',
+        newPrice: '230 €',
+        imageAsset: 'assets/images/product_03.png',
+        brand: 'Speedy Brand',
+      ),
+      status: 'shipped',
+    ),
+    Listing(
+      id: '6',
+      product: const Product(
+        title: 'Green Mountain type saddle',
+        subtitle: 'Rugged Brand / Very Good / 16"',
+        oldPrice: '180 €',
+        newPrice: '199 €',
+        imageAsset: 'assets/images/product_02.png',
+        brand: 'Rugged Brand',
+      ),
+      status: 'shipped',
+    ),
   ];
 
   void _toggleHideAll() {
@@ -128,13 +137,13 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${deleted['title']} byl smazán'),
+          content: Text('${deleted.product.title} byl smazán'),
         ),
       );
     });
   }
 
-  void _showProductActions(int index, Map<String, String> product) {
+  void _showProductActions(int index, Listing listing) {
     final cs = Theme.of(context).colorScheme;
     final isHidden = _hiddenIndices.contains(index);
 
@@ -230,13 +239,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
         icon: Icon(icon, color: fgColor),
         label: Text(
           label,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: fgColor,
-            letterSpacing: 0.15,
-          ),
+          style: AppTextStyles.productTitle(fgColor),
         ),
         style: FilledButton.styleFrom(
           backgroundColor: bgColor,
@@ -281,14 +284,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             children: [
               Text(
                 'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurfaceVariant,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
               ),
               const SizedBox(height: 24),
               TextField(
@@ -337,13 +333,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 ),
                 child: Text(
                   'Zrušit',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSurfaceVariant,
-                    letterSpacing: 0.1,
-                  ),
+                  style: AppTextStyles.chip(cs.onSurfaceVariant),
                 ),
               ),
             ),
@@ -363,13 +353,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 ),
                 child: Text(
                   'Rezervovat',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSecondaryContainer,
-                    letterSpacing: 0.1,
-                  ),
+                  style: AppTextStyles.chip(cs.onSecondaryContainer),
                 ),
               ),
             ),
@@ -426,14 +410,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               Text(
                 'Nepodařilo se rezervovat inzerát. Zkuste to prosím znovu později.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onErrorContainer,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.bodyMedium(cs.onErrorContainer),
               ),
               const SizedBox(height: 24),
               SizedBox(
@@ -449,13 +426,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                   ),
                   child: Text(
                     'Zavřít',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: cs.onError,
-                      letterSpacing: 0.15,
-                    ),
+                    style: AppTextStyles.productTitle(cs.onError),
                   ),
                 ),
               ),
@@ -493,7 +464,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                   itemBuilder: (context, index) {
                     final item = _listings[index];
                     return KeyedSubtree(
-                      key: ValueKey(item['id']),
+                      key: ValueKey(item.id),
                       child: _buildProductCard(cs, index, item),
                     );
                   },
@@ -529,14 +500,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                                 anyHidden
                                     ? 'Odkrýt všechny inzeráty'
                                     : 'Skrýt všechny inzeráty',
-                                style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                  letterSpacing: 0.15,
-                                  height: 24 / 16,
-                                ),
+                                style: AppTextStyles.productTitle(Colors.white),
                               ),
                             ],
                           ),
@@ -556,13 +520,14 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   Widget _buildProductCard(
     ColorScheme cs,
     int index,
-    Map<String, String> product,
+    Listing listing,
   ) {
-    final status = product['status']!;
+    final status = listing.status;
+    final product = listing.product;
     final isHidden = _hiddenIndices.contains(index);
 
     return GestureDetector(
-      onTap: () => _showProductActions(index, product),
+      onTap: () => _showProductActions(index, listing),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -574,7 +539,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: Image.asset(
-                    product['image']!,
+                    product.imageAsset,
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,
@@ -599,29 +564,15 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           const SizedBox(height: 4),
           // Title
           Text(
-            product['title']!,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: cs.secondary,
-              letterSpacing: 0.15,
-              height: 24 / 16,
-            ),
+            product.title,
+            style: AppTextStyles.productTitle(cs.secondary),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           // Subtitle
           Text(
-            product['subtitle']!,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.tertiary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
+            product.subtitle,
+            style: AppTextStyles.bodyMedium(cs.tertiary),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -629,38 +580,17 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           Row(
             children: [
               Text(
-                '${product['oldPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: cs.tertiary,
-                  letterSpacing: 0.4,
-                  height: 16 / 12,
-                ),
+                '${product.oldPrice}  ',
+                style: AppTextStyles.labelSmall(cs.tertiary),
               ),
               const SizedBox(width: 8),
               Text(
-                '${product['newPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.5,
-                  height: 24 / 16,
-                ),
+                '${product.newPrice}  ',
+                style: AppTextStyles.productNewPrice(cs.surfaceTint),
               ),
               Text(
                 'vč.',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.productBadge(cs.surfaceTint),
               ),
               const SizedBox(width: 4),
               Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
@@ -725,14 +655,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           const SizedBox(width: 8),
           Text(
             label,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: textColor,
-              letterSpacing: 0.1,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.chip(textColor),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
 
@@ -113,14 +114,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
             ],
             Text(
               label,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: selected ? Colors.white : cs.onSurfaceVariant,
-                letterSpacing: 0.1,
-                height: 20 / 14,
-              ),
+              style: AppTextStyles.chip(selected ? Colors.white : cs.onSurfaceVariant),
             ),
           ],
         ),
@@ -164,28 +158,14 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
                     children: [
                       Text(
                         'Objednávka ${order['id']}',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: cs.secondary,
-                          letterSpacing: 0.1,
-                          height: 20 / 14,
-                        ),
+                        style: AppTextStyles.actionLink(cs.secondary),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         order['date'] as String,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: cs.tertiary,
-                          letterSpacing: 0.25,
-                          height: 20 / 14,
-                        ),
+                        style: AppTextStyles.bodyMedium(cs.tertiary),
                       ),
                     ],
                   ),
@@ -216,14 +196,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
                 ),
                 Text(
                   order['price'] as String,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: cs.surfaceTint,
-                    letterSpacing: 0.5,
-                    height: 24 / 16,
-                  ),
+                  style: AppTextStyles.productNewPrice(cs.surfaceTint),
                 ),
               ],
             ),
@@ -274,14 +247,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
           const SizedBox(width: 8),
           Text(
             label,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: textColor,
-              letterSpacing: 0.1,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.chip(textColor),
           ),
         ],
       ),

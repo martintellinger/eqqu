@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
@@ -138,14 +139,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
   TextStyle get _fieldTextStyle {
     final cs = Theme.of(context).colorScheme;
-    return TextStyle(
-      fontFamily: 'Poppins',
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-      color: cs.onSurface,
-      letterSpacing: 0.5,
-      height: 24 / 16,
-    );
+    return AppTextStyles.bodyLarge(cs.onSurface);
   }
 
   @override
@@ -438,14 +432,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         ),
         content: Text(
           'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: cs.onSurfaceVariant,
-            letterSpacing: 0.25,
-            height: 20 / 14,
-          ),
+          style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
         ),
         actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
         actions: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -104,27 +105,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       const SizedBox(height: 12),
                       Text(
                         'Pro změnu hesla zadej staré heslo a poté nové heslo.',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: cs.secondary,
-                          letterSpacing: 0.25,
-                          height: 20 / 14,
-                        ),
+                        style: AppTextStyles.bodyMedium(cs.secondary),
                       ),
                       const SizedBox(height: 24),
                       TextFormField(
                         controller: _oldPasswordController,
                         obscureText: true,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurface,
-                          letterSpacing: 0.5,
-                          height: 24 / 16,
-                        ),
+                        style: AppTextStyles.bodyLarge(cs.onSurface),
                         decoration: _fieldDecoration(cs, 'Staré heslo*'),
                         validator: (v) {
                           if (v == null || v.isEmpty) return 'Zadejte staré heslo';
@@ -135,14 +122,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       TextFormField(
                         controller: _newPasswordController,
                         obscureText: true,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurface,
-                          letterSpacing: 0.5,
-                          height: 24 / 16,
-                        ),
+                        style: AppTextStyles.bodyLarge(cs.onSurface),
                         decoration: _fieldDecoration(cs, 'Nové heslo*'),
                         validator: (v) {
                           if (v == null || v.isEmpty) return 'Zadejte nové heslo';
@@ -154,14 +134,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       TextFormField(
                         controller: _confirmPasswordController,
                         obscureText: true,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurface,
-                          letterSpacing: 0.5,
-                          height: 24 / 16,
-                        ),
+                        style: AppTextStyles.bodyLarge(cs.onSurface),
                         decoration: _fieldDecoration(cs, 'Potvrzení nového hesla*'),
                         validator: (v) {
                           if (v == null || v.isEmpty) return 'Potvrďte nové heslo';

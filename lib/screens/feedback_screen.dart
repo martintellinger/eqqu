@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -60,14 +61,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 children: [
                   Text(
                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: cs.secondary,
-                      letterSpacing: 0.5,
-                      height: 24 / 16,
-                    ),
+                    style: AppTextStyles.bodyLarge(cs.secondary),
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
@@ -80,14 +74,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       onChanged: (_) {
                         if (_errorText != null) setState(() => _errorText = null);
                       },
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: cs.onSurface,
-                        letterSpacing: 0.5,
-                        height: 24 / 16,
-                      ),
+                      style: AppTextStyles.bodyLarge(cs.onSurface),
                       decoration: InputDecoration(
                         labelText: 'Zpráva',
                         errorText: _errorText,

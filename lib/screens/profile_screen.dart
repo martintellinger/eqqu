@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/screens/seller_profile_screen.dart';
 import 'package:eqqu/screens/my_listings_screen.dart';
 import 'package:eqqu/screens/my_sales_screen.dart';
@@ -144,13 +145,7 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 Text(
                   'Emma Novak',
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: cs.secondary,
-                    height: 28 / 20,
-                  ),
+                  style: AppTextStyles.sectionTitle(cs.secondary),
                 ),
                 const SizedBox(height: 4),
                 Row(
@@ -162,14 +157,7 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       '4.2',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: cs.tertiary,
-                        letterSpacing: 0.15,
-                        height: 24 / 16,
-                      ),
+                      style: AppTextStyles.labelMedium(cs.tertiary),
                     ),
                   ],
                 ),
@@ -212,24 +200,11 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Text(
             value,
-            style: TextStyle(
-              fontFamily: 'Outfit',
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-              color: cs.secondary,
-              height: 28 / 20,
-            ),
+            style: AppTextStyles.sectionTitle(cs.secondary),
           ),
           Text(
             label,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: cs.tertiary,
-              letterSpacing: 0.4,
-              height: 16 / 12,
-            ),
+            style: AppTextStyles.labelSmall(cs.tertiary),
           ),
         ],
       ),
@@ -264,14 +239,7 @@ class ProfileScreen extends StatelessWidget {
                 Expanded(
                   child: Text(
                     label,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: cs.onSurface,
-                      letterSpacing: 0.5,
-                      height: 24 / 16,
-                    ),
+                    style: AppTextStyles.bodyLarge(cs.onSurface),
                   ),
                 ),
                 Icon(Icons.chevron_right, size: 20, color: cs.onSurfaceVariant),
@@ -303,14 +271,7 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               'Odhlásit se',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: cs.secondary,
-                letterSpacing: 0.15,
-                height: 24 / 16,
-              ),
+              style: AppTextStyles.productTitle(cs.secondary),
             ),
           ],
         ),

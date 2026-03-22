@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/theme/app_constants.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   const OrderDetailScreen({super.key});
@@ -60,14 +62,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   const SizedBox(height: 16),
                   Text(
                     'Lorem ipsum dolor sit amet',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: cs.onSurfaceVariant,
-                      letterSpacing: 0.25,
-                      height: 20 / 14,
-                    ),
+                    style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
                   ),
                   const SizedBox(height: 16),
                   // Star rating
@@ -79,7 +74,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           i < selectedStars ? Icons.star : Icons.star_border,
                           size: 40,
                           color: i < selectedStars
-                              ? const Color(0xFFFFD700)
+                              ? AppConstants.starColor
                               : cs.tertiary,
                         ),
                       );
@@ -220,13 +215,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         onPressed: _showRatingDialog,
                         child: Text(
                           'Ohodnotit',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            letterSpacing: 0.15,
-                          ),
+                          style: AppTextStyles.productTitle(Colors.white),
                         ),
                       ),
                     ),
@@ -288,14 +277,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           const SizedBox(height: 4),
           Text(
             '23.06.2025 13:49',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.tertiary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.bodyMedium(cs.tertiary),
           ),
         ],
       ),
@@ -347,28 +329,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             children: [
               Text(
                 product['title']!,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.secondary,
-                  letterSpacing: 0.1,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.actionLink(cs.secondary),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 4),
               Text(
                 product['price']!,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.5,
-                  height: 24 / 16,
-                ),
+                style: AppTextStyles.productNewPrice(cs.surfaceTint),
               ),
             ],
           ),
@@ -401,25 +369,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               children: [
                 Text(
                   'Anna Novak',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.secondary,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
+                  style: AppTextStyles.bodyMedium(cs.secondary),
                 ),
                 Text(
                   '+420 123 456 789',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.secondary,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
+                  style: AppTextStyles.bodyMedium(cs.secondary),
                 ),
                 const SizedBox(height: 12),
                 Text.rich(
@@ -438,14 +392,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       TextSpan(
                         text: 'Soukenická 4, Praha 110 00, Česká republika',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: cs.secondary,
-                          letterSpacing: 0.25,
-                          height: 20 / 14,
-                        ),
+                        style: AppTextStyles.bodyMedium(cs.secondary),
                       ),
                     ],
                   ),
@@ -493,14 +440,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   ),
                   TextSpan(
                     text: 'Zásilkovna (lorem ipsum dolor)',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: cs.secondary,
-                      letterSpacing: 0.25,
-                      height: 20 / 14,
-                    ),
+                    style: AppTextStyles.bodyMedium(cs.secondary),
                   ),
                 ],
               ),
@@ -557,31 +497,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         children: [
                           Text(
                             'Emma Novak',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: cs.secondary,
-                              letterSpacing: 0.15,
-                              height: 24 / 16,
-                            ),
+                            style: AppTextStyles.labelMedium(cs.secondary),
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
+                              ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor)),
                               Icon(Icons.star_border, size: 20, color: cs.tertiary),
                               const SizedBox(width: 8),
                               Text(
                                 '4.2',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: cs.tertiary,
-                                  letterSpacing: 0.15,
-                                  height: 24 / 16,
-                                ),
+                                style: AppTextStyles.labelMedium(cs.tertiary),
                               ),
                             ],
                           ),
@@ -599,14 +525,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                               const SizedBox(width: 4),
                               Text(
                                 'Message seller',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: cs.surfaceTint,
-                                  letterSpacing: 0.1,
-                                  height: 20 / 14,
-                                ),
+                                style: AppTextStyles.actionLink(cs.surfaceTint),
                               ),
                             ],
                           ),
@@ -657,22 +576,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   Widget _buildPriceRow(ColorScheme cs, String label, String value, bool isTotal) {
     final style = isTotal
-        ? TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: cs.surfaceTint,
-            letterSpacing: 0.5,
-            height: 24 / 16,
-          )
-        : TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: cs.secondary,
-            letterSpacing: 0.25,
-            height: 20 / 14,
-          );
+        ? AppTextStyles.productNewPrice(cs.surfaceTint)
+        : AppTextStyles.bodyMedium(cs.secondary);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

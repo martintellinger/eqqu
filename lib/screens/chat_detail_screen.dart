@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 
@@ -160,14 +161,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
           child: Text(
             msg.text,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: isMe ? cs.onSecondary : cs.onSurfaceVariant,
-              letterSpacing: 0.5,
-              height: 24 / 16,
-            ),
+            style: AppTextStyles.bodyLarge(isMe ? cs.onSecondary : cs.onSurfaceVariant),
           ),
         ),
       ),
@@ -191,13 +185,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             child: TextField(
               controller: _controller,
               onSubmitted: (_) => _sendMessage(),
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                color: cs.onSurface,
-                letterSpacing: 0.5,
-                height: 24 / 16,
-              ),
+              style: AppTextStyles.bodyLarge(cs.onSurface),
               decoration: InputDecoration(
                 hintText: 'Napište zprávu',
                 hintStyle: TextStyle(

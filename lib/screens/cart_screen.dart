@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class CartScreen extends StatefulWidget {
   final List<Map<String, String>>? initialItems;
@@ -179,14 +180,7 @@ class _CartScreenState extends State<CartScreen> {
               Text(
                 'Tvoje objednávka byla úspěšně odeslána.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurfaceVariant,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
               ),
               const SizedBox(height: 24),
               SizedBox(
@@ -326,14 +320,7 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(height: 8),
           Text(
             'Přidejte produkty do košíku a začněte nakupovat.',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.onSurfaceVariant,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
           ),
         ],
       ),
@@ -379,28 +366,14 @@ class _CartScreenState extends State<CartScreen> {
                       children: [
                         Text(
                           item['title']!,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: cs.secondary,
-                            letterSpacing: 0.1,
-                            height: 20 / 14,
-                          ),
+                          style: AppTextStyles.actionLink(cs.secondary),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 4),
                         Text(
                           item['price']!,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: cs.surfaceTint,
-                            letterSpacing: 0.5,
-                            height: 24 / 16,
-                          ),
+                          style: AppTextStyles.productNewPrice(cs.surfaceTint),
                         ),
                       ],
                     ),
@@ -443,14 +416,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _buildAddressInfo(ColorScheme cs) {
     final addr = _addresses[_selectedAddressIndex];
-    final textStyle = TextStyle(
-      fontFamily: 'Poppins',
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      color: cs.secondary,
-      letterSpacing: 0.25,
-      height: 20 / 14,
-    );
+    final textStyle = AppTextStyles.bodyMedium(cs.secondary);
     return Opacity(
       opacity: 0.8,
       child: Column(
@@ -464,14 +430,7 @@ class _CartScreenState extends State<CartScreen> {
             onTap: () => _showAddressSheet(),
             child: Text(
               'Změnit adresu',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: cs.surfaceTint,
-                letterSpacing: 0.1,
-                height: 20 / 14,
-              ),
+              style: AppTextStyles.actionLink(cs.surfaceTint),
             ),
           ),
         ],
@@ -501,13 +460,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
               Text(
                 'Doručovací adresa',
-                style: TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: cs.onSurface,
-                  height: 28 / 20,
-                ),
+                style: AppTextStyles.sectionTitle(cs.onSurface),
               ),
               const SizedBox(height: 16),
               ...List.generate(_addresses.length, (i) {
@@ -540,25 +493,11 @@ class _CartScreenState extends State<CartScreen> {
                               children: [
                                 Text(
                                   addr['name']!,
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: cs.onSurface,
-                                    letterSpacing: 0.15,
-                                    height: 24 / 16,
-                                  ),
+                                  style: AppTextStyles.labelMedium(cs.onSurface),
                                 ),
                                 Text(
                                   addr['street']!,
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: cs.secondary,
-                                    letterSpacing: 0.25,
-                                    height: 20 / 14,
-                                  ),
+                                  style: AppTextStyles.bodyMedium(cs.secondary),
                                 ),
                               ],
                             ),
@@ -587,36 +526,15 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Text(
             'Anna Novak',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.bodyMedium(cs.secondary),
           ),
           Text(
             '+420 123 456 789',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.bodyMedium(cs.secondary),
           ),
           Text(
             'anna.novak@email.cz',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
+            style: AppTextStyles.bodyMedium(cs.secondary),
           ),
         ],
       ),
@@ -654,14 +572,7 @@ class _CartScreenState extends State<CartScreen> {
             const SizedBox(width: 8),
             Text(
               label,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: cs.onSurface,
-                letterSpacing: 0.5,
-                height: 24 / 16,
-              ),
+              style: AppTextStyles.bodyLarge(cs.onSurface),
             ),
           ],
         ),
@@ -675,12 +586,7 @@ class _CartScreenState extends State<CartScreen> {
         TextField(
           controller: _cardNumberController,
           keyboardType: TextInputType.number,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: cs.onSurface,
-          ),
+          style: AppTextStyles.bodyLarge(cs.onSurface),
           decoration: InputDecoration(
             labelText: 'Číslo karty',
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -694,12 +600,7 @@ class _CartScreenState extends State<CartScreen> {
               child: TextField(
                 controller: _expiryController,
                 keyboardType: TextInputType.datetime,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurface,
-                ),
+                style: AppTextStyles.bodyLarge(cs.onSurface),
                 decoration: InputDecoration(
                   labelText: 'Expirace',
                   floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -713,12 +614,7 @@ class _CartScreenState extends State<CartScreen> {
                 controller: _cvcController,
                 keyboardType: TextInputType.number,
                 obscureText: true,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurface,
-                ),
+                style: AppTextStyles.bodyLarge(cs.onSurface),
                 decoration: InputDecoration(
                   labelText: 'CVC/CVV',
                   floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -742,14 +638,7 @@ class _CartScreenState extends State<CartScreen> {
             const SizedBox(width: 8),
             Text(
               'Uložit kartu pro příští nákup',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: cs.onSurface,
-                letterSpacing: 0.25,
-                height: 20 / 14,
-              ),
+              style: AppTextStyles.bodyMedium(cs.onSurface),
             ),
           ],
         ),
@@ -787,14 +676,7 @@ class _CartScreenState extends State<CartScreen> {
             Expanded(
               child: Text(
                 label,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurface,
-                  letterSpacing: 0.5,
-                  height: 24 / 16,
-                ),
+                style: AppTextStyles.bodyLarge(cs.onSurface),
               ),
             ),
             Text(
@@ -845,22 +727,8 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _buildPriceRow(ColorScheme cs, String label, String value, bool isTotal) {
     final style = isTotal
-        ? TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: cs.surfaceTint,
-            letterSpacing: 0.5,
-            height: 24 / 16,
-          )
-        : TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: cs.secondary,
-            letterSpacing: 0.25,
-            height: 20 / 14,
-          );
+        ? AppTextStyles.productNewPrice(cs.surfaceTint)
+        : AppTextStyles.bodyMedium(cs.secondary);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

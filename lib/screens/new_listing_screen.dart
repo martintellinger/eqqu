@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 
 class NewListingScreen extends StatefulWidget {
   const NewListingScreen({super.key});
@@ -74,13 +75,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                     child: Text(
                       'Základní informace',
-                      style: TextStyle(
-                        fontFamily: 'Outfit',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: cs.onSurface,
-                        height: 28 / 20,
-                      ),
+                      style: AppTextStyles.sectionTitle(cs.onSurface),
                     ),
                   ),
 
@@ -192,13 +187,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                             Expanded(
                               child: Text(
                                 'Ochrana kupujícího bude automaticky přidána k ceně',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12,
-                                  color: cs.tertiary,
-                                  letterSpacing: 0.4,
-                                  height: 16 / 12,
-                                ),
+                                style: AppTextStyles.labelSmall(cs.tertiary),
                               ),
                             ),
                           ],
@@ -291,13 +280,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
               const SizedBox(height: 4),
               Text(
                 'SVG, PNG, JPG nebo GIF (max. 800x400px)',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  color: cs.tertiary,
-                  letterSpacing: 0.4,
-                  height: 16 / 12,
-                ),
+                style: AppTextStyles.labelSmall(cs.tertiary),
                 textAlign: TextAlign.center,
               ),
             ],

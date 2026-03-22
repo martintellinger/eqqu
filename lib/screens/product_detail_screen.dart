@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/models/product.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/screens/cart_screen.dart';
@@ -323,14 +324,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             children: [
               Text(
                 widget.brand,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: cs.tertiary,
-                  letterSpacing: 0.15,
-                  height: 24 / 16,
-                ),
+                style: AppTextStyles.labelMedium(cs.tertiary),
               ),
               Text(
                 widget.name,
@@ -345,14 +339,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               if (widget.oldPrice.isNotEmpty)
                 Text(
                   '${widget.oldPrice}  ',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: cs.tertiary,
-                    letterSpacing: 0.15,
-                    height: 24 / 16,
-                  ),
+                  style: AppTextStyles.labelMedium(cs.tertiary),
                 ),
             ],
           ),
@@ -418,14 +405,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       opacity: 0.8,
       child: Text(
         'Kentucky bandages for sale never used, 4 pieces. Unisex size. The 280 g/m2 Polar Fleece Bandages feature a strong Velcro fastening and are designed with a high quality fleece to avoid pilling. These bandages measure 325 x 12 cm.',
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: cs.secondary,
-          letterSpacing: 0.25,
-          height: 20 / 14,
-        ),
+        style: AppTextStyles.bodyMedium(cs.secondary),
       ),
     );
   }
@@ -461,28 +441,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: cs.tertiary,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
-              ),
-              Text(
-                value,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: cs.secondary,
-                  letterSpacing: 0.5,
-                  height: 24 / 16,
-                ),
-              ),
+              Text(label, style: AppTextStyles.bodyMedium(cs.tertiary)),
+              Text(value, style: AppTextStyles.bodyLarge(cs.secondary)),
             ],
           ),
         ),
@@ -524,32 +484,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 // Name + stars
                 Row(
                   children: [
-                    Text(
-                      'Emma Novak',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: cs.secondary,
-                        letterSpacing: 0.15,
-                        height: 24 / 16,
-                      ),
-                    ),
+                    Text('Emma Novak', style: AppTextStyles.labelMedium(cs.secondary)),
                     const SizedBox(width: 12),
-                    ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
+                    ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor)),
                     Icon(Icons.star_border, size: 20, color: cs.tertiary),
                     const SizedBox(width: 8),
-                    Text(
-                      '4.2',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: cs.tertiary,
-                        letterSpacing: 0.15,
-                        height: 24 / 16,
-                      ),
-                    ),
+                    Text('4.2', style: AppTextStyles.labelMedium(cs.tertiary)),
                   ],
                 ),
                 // Message seller
@@ -575,17 +515,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       children: [
                         Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
                         const SizedBox(width: 4),
-                        Text(
-                          'Message seller',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: cs.surfaceTint,
-                            letterSpacing: 0.1,
-                            height: 20 / 14,
-                          ),
-                        ),
+                        Text('Message seller', style: AppTextStyles.actionLink(cs.surfaceTint)),
                       ],
                     ),
                   ),
@@ -786,16 +716,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       child: FilledButton.icon(
         onPressed: onPressed,
         icon: Icon(icon, color: fgColor),
-        label: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: fgColor,
-            letterSpacing: 0.15,
-          ),
-        ),
+        label: Text(label, style: AppTextStyles.labelMedium(fgColor)),
         style: FilledButton.styleFrom(
           backgroundColor: bgColor,
           shape: RoundedRectangleBorder(

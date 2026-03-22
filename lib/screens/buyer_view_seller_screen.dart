@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:eqqu/models/product.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
@@ -21,7 +23,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   final Set<int> _favorites = {};
   bool _isFollowing = false;
   bool _isBlocked = false;
-  List<Map<String, String>> _setItems = [];
+  List<Product> _setItems = [];
 
   static const _products = [
     Product(title: 'Black GP type saddle', subtitle: 'No brand / Good / 17"', oldPrice: '140 €', newPrice: '159 €', imageAsset: 'assets/images/product_01.png'),
@@ -132,16 +134,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
       child: FilledButton.icon(
         onPressed: onPressed,
         icon: Icon(icon, color: fgColor),
-        label: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: fgColor,
-            letterSpacing: 0.15,
-          ),
-        ),
+        label: Text(label, style: AppTextStyles.labelMedium(fgColor)),
         style: FilledButton.styleFrom(
           backgroundColor: bgColor,
           shape: RoundedRectangleBorder(
@@ -178,14 +171,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               const SizedBox(height: 16),
               Text(
                 'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurfaceVariant,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
               ),
               const SizedBox(height: 24),
               Row(
@@ -307,14 +293,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 const SizedBox(height: 16),
                 Text(
                   'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit.',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onSurfaceVariant,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
+                  style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
                 ),
                 const SizedBox(height: 16),
                 _buildRadioOption(
@@ -687,11 +666,11 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            final result = await Navigator.push<List<Map<String, String>>>(
+                            final result = await Navigator.push<List<Product>>(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => BuildSetScreen(
-                                  products: _products.map((p) => p.toMap()).toList(),
+                                  products: _products,
                                 ),
                               ),
                             );
@@ -739,10 +718,10 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 child: FilledButton(
                   onPressed: () {
                     final cartItems = _setItems.map((p) => {
-                      'title': p['title'] ?? '',
-                      'price': p['newPrice'] ?? '',
-                      'priceNum': (p['newPrice'] ?? '').replaceAll(RegExp(r'[^0-9]'), ''),
-                      'image': p['image'] ?? '',
+                      'title': p.title,
+                      'price': p.newPrice,
+                      'priceNum': p.newPrice.replaceAll(RegExp(r'[^0-9]'), ''),
+                      'image': p.imageAsset,
                     }).toList();
                     Navigator.push(
                       context,
@@ -821,16 +800,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         ),
                       ),
                     ),
-                  Text(
-                    'Emma Novak',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: cs.secondary,
-                      height: 28 / 20,
-                    ),
-                  ),
+                  Text('Emma Novak', style: AppTextStyles.sectionTitle(cs.secondary)),
                   const SizedBox(height: 4),
                   GestureDetector(
                     onTap: () {
@@ -844,20 +814,10 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
+                        ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor)),
                         Icon(Icons.star_border, size: 20, color: cs.tertiary),
                         const SizedBox(width: 8),
-                        Text(
-                          '4.2',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: cs.tertiary,
-                            letterSpacing: 0.15,
-                            height: 24 / 16,
-                          ),
-                        ),
+                        Text('4.2', style: AppTextStyles.labelMedium(cs.tertiary)),
                       ],
                     ),
                   ),
@@ -886,29 +846,8 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   Widget _buildStatColumn(ColorScheme cs, String value, String label) {
     return Column(
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontFamily: 'Outfit',
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: cs.secondary,
-            height: 28 / 20,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: cs.tertiary,
-            letterSpacing: 0.4,
-            height: 16 / 12,
-          ),
-          textAlign: TextAlign.center,
-        ),
+        Text(value, style: AppTextStyles.sectionTitle(cs.secondary), textAlign: TextAlign.center),
+        Text(label, style: AppTextStyles.labelSmall(cs.tertiary), textAlign: TextAlign.center),
       ],
     );
   }
@@ -920,14 +859,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
         // Bio
         Text(
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu mauris nec quam malesuada scelerisque ac luctus purus. Suspendisse placerat tristique orci, id volutpat nulla molestie non.',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: cs.secondary,
-            letterSpacing: 0.25,
-            height: 20 / 14,
-          ),
+          style: AppTextStyles.bodyMedium(cs.secondary),
         ),
         const SizedBox(height: 12),
         // Location
@@ -950,54 +882,19 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   Widget _buildInfoRow(ColorScheme cs, String svgPath, String text, {String? trailingBold}) {
     return Row(
       children: [
-        SvgPicture.asset(
-          svgPath,
-          width: 24,
-          height: 24,
-          colorFilter: ColorFilter.mode(cs.secondary, BlendMode.srcIn),
-        ),
+        SvgPicture.asset(svgPath, width: 24, height: 24, colorFilter: ColorFilter.mode(cs.secondary, BlendMode.srcIn)),
         const SizedBox(width: 12),
         if (trailingBold != null)
           Text.rich(
             TextSpan(
               children: [
-                TextSpan(
-                  text: text,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: cs.secondary,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
-                ),
-                TextSpan(
-                  text: trailingBold,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: cs.secondary,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                  ),
-                ),
+                TextSpan(text: text, style: AppTextStyles.bodyMedium(cs.secondary)),
+                TextSpan(text: trailingBold, style: AppTextStyles.actionLink(cs.secondary)),
               ],
             ),
           )
         else
-          Text(
-            text,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.secondary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
-          ),
+          Text(text, style: AppTextStyles.bodyMedium(cs.secondary)),
       ],
     );
   }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/main.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/account_settings_screen.dart';
 import 'package:eqqu/screens/shipping_screen.dart';
 import 'package:eqqu/screens/secure_account_screen.dart';
 import 'package:eqqu/screens/notifications_screen.dart';
-import 'package:eqqu/screens/language_screen.dart';
+
 import 'package:eqqu/utils/language_notifier.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -60,13 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Text(
                   'Vzhled',
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSurface,
-                    height: 28 / 20,
-                  ),
+                  style: AppTextStyles.sectionTitle(cs.onSurface),
                 ),
                 const SizedBox(height: 16),
                 _buildThemeOption(cs, ThemeMode.light, 'Light mode', selected, (mode) {
@@ -119,13 +114,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Text(
                   'Jazyk',
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSurface,
-                    height: 28 / 20,
-                  ),
+                  style: AppTextStyles.sectionTitle(cs.onSurface),
                 ),
                 const SizedBox(height: 16),
                 ...LanguageNotifier.languages.map((lang) {
@@ -353,14 +342,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Expanded(
                   child: Text(
                     label,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: cs.onSurface,
-                      letterSpacing: 0.5,
-                      height: 24 / 16,
-                    ),
+                    style: AppTextStyles.bodyLarge(cs.onSurface),
                   ),
                 ),
                 if (trailingText != null) ...[
@@ -406,14 +388,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(width: 8),
             Text(
               'Odhlásit se',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: cs.secondary,
-                letterSpacing: 0.15,
-                height: 24 / 16,
-              ),
+              style: AppTextStyles.productTitle(cs.secondary),
             ),
           ],
         ),

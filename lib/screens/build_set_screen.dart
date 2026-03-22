@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/models/product.dart';
+import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class BuildSetScreen extends StatefulWidget {
-  final List<Map<String, String>> products;
+  final List<Product> products;
 
   const BuildSetScreen({super.key, required this.products});
 
@@ -13,9 +15,9 @@ class BuildSetScreen extends StatefulWidget {
 class _BuildSetScreenState extends State<BuildSetScreen> {
   final Set<int> _selectedIndices = {};
 
-  List<Map<String, String>> _getSelectedProducts() {
+  List<Product> _getSelectedProducts() {
     return _selectedIndices
-        .map((i) => Map<String, String>.from(widget.products[i]))
+        .map((i) => widget.products[i])
         .toList();
   }
 
@@ -48,13 +50,7 @@ class _BuildSetScreenState extends State<BuildSetScreen> {
                         padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                         child: Text(
                           'Přidejte produkty do košiku',
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: cs.onSurface,
-                            height: 28 / 20,
-                          ),
+                          style: AppTextStyles.sectionTitle(cs.onSurface),
                         ),
                       ),
                       Padding(
@@ -120,7 +116,7 @@ class _BuildSetScreenState extends State<BuildSetScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: Image.asset(
-                    p['image']!,
+                    p.imageAsset,
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,
@@ -163,28 +159,14 @@ class _BuildSetScreenState extends State<BuildSetScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            p['title']!,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: cs.secondary,
-              letterSpacing: 0.15,
-              height: 24 / 16,
-            ),
+            p.title,
+            style: AppTextStyles.productTitle(cs.secondary),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            p['subtitle']!,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.tertiary,
-              letterSpacing: 0.25,
-              height: 20 / 14,
-            ),
+            p.subtitle,
+            style: AppTextStyles.bodyMedium(cs.tertiary),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -192,38 +174,17 @@ class _BuildSetScreenState extends State<BuildSetScreen> {
           Row(
             children: [
               Text(
-                '${p['oldPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: cs.tertiary,
-                  letterSpacing: 0.4,
-                  height: 16 / 12,
-                ),
+                '${p.oldPrice}  ',
+                style: AppTextStyles.labelSmall(cs.tertiary),
               ),
               const SizedBox(width: 8),
               Text(
-                '${p['newPrice']}  ',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.5,
-                  height: 24 / 16,
-                ),
+                '${p.newPrice}  ',
+                style: AppTextStyles.productNewPrice(cs.surfaceTint),
               ),
               Text(
                 'vč.',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.surfaceTint,
-                  letterSpacing: 0.25,
-                  height: 20 / 14,
-                ),
+                style: AppTextStyles.productBadge(cs.surfaceTint),
               ),
               const SizedBox(width: 4),
               Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
