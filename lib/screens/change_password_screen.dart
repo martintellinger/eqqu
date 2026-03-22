@@ -129,7 +129,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           onPressed: _save,
                           child: Text(
                             'Uložit',
-                            style: AppTextStyles.productTitle(Colors.white),
+                            style: AppTextStyles.productTitle(cs.onPrimary),
                           ),
                         ),
                       ),

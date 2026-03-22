@@ -219,7 +219,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                               style: AppTextStyles.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: _isFormValid ? Colors.white : cs.onSurface.withValues(alpha: 0.38),
+                                color: _isFormValid ? cs.onPrimary : cs.onSurface.withValues(alpha: 0.38),
                               ),
                             ),
                           ),

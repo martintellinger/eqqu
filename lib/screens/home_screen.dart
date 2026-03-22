@@ -419,7 +419,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                                     style: AppTextStyles.poppins(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: cs.onPrimary,
                                       height: 1,
                                     ),
                                   ),
@@ -748,13 +748,13 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                 style: AppTextStyles.poppins(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white,
+                  color: cs.onPrimary,
                   letterSpacing: 0.1,
                   height: 20 / 12,
                 ),
               ),
               const SizedBox(width: 6),
-              Icon(Icons.close, size: 14, color: Colors.white.withValues(alpha: 0.8)),
+              Icon(Icons.close, size: 14, color: cs.onPrimary.withValues(alpha: 0.8)),
             ],
           ),
         ),
@@ -781,7 +781,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           child: Text(
             label,
-            style: AppTextStyles.chip(isActive ? Colors.white : cs.onSurfaceVariant),
+            style: AppTextStyles.chip(isActive ? cs.onPrimary : cs.onSurfaceVariant),
           ),
         ),
       ),

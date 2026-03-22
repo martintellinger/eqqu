@@ -67,14 +67,14 @@ class ShippingScreen extends StatelessWidget {
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.primary,
-                    foregroundColor: Colors.white,
+                    foregroundColor: cs.onPrimary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: Text(
                     'Přidat adresu',
-                    style: AppTextStyles.productTitle(Colors.white),
+                    style: AppTextStyles.productTitle(cs.onPrimary),
                   ),
                 ),
               ),

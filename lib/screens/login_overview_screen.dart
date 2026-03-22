@@ -111,7 +111,7 @@ class LoginOverviewScreen extends StatelessWidget {
                         ),
                         child: Text(
                           'Aktuální',
-                          style: AppTextStyles.poppins(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white, letterSpacing: 0.4),
+                          style: AppTextStyles.poppins(fontSize: 12, fontWeight: FontWeight.w500, color: cs.onPrimary, letterSpacing: 0.4),
                         ),
                       ),
                   ],

@@ -220,7 +220,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 color: cs.primary,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(Icons.send, size: 24, color: Colors.white),
+              child: Icon(Icons.send, size: 24, color: cs.onPrimary),
             ),
           ),
         ],

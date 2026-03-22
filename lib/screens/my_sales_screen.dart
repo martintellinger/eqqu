@@ -123,12 +123,12 @@ class _MySalesScreenState extends State<MySalesScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (selected) ...[
-              const Icon(Icons.check, size: 18, color: Colors.white),
+              Icon(Icons.check, size: 18, color: cs.onPrimary),
               const SizedBox(width: 8),
             ],
             Text(
               label,
-              style: AppTextStyles.chip(selected ? Colors.white : cs.onSurfaceVariant),
+              style: AppTextStyles.chip(selected ? cs.onPrimary : cs.onSurfaceVariant),
             ),
           ],
         ),

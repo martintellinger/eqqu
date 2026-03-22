@@ -490,14 +490,14 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                               Icon(
                                 anyHidden ? Icons.visibility : Icons.visibility_off,
                                 size: 24,
-                                color: Colors.white,
+                                color: cs.onPrimary,
                               ),
                               const SizedBox(width: 8),
                               Text(
                                 anyHidden
                                     ? 'Odkrýt všechny inzeráty'
                                     : 'Skrýt všechny inzeráty',
-                                style: AppTextStyles.productTitle(Colors.white),
+                                style: AppTextStyles.productTitle(cs.onPrimary),
                               ),
                             ],
                           ),

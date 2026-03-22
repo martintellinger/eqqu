@@ -190,7 +190,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         onPressed: _showRatingDialog,
                         child: Text(
                           'Ohodnotit',
-                          style: AppTextStyles.productTitle(Colors.white),
+                          style: AppTextStyles.productTitle(cs.onPrimary),
                         ),
                       ),
                     ),
