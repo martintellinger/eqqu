@@ -23,6 +23,8 @@ class _IntroScreenState extends State<IntroScreen> {
     'assets/images/bg_usa.png',
   ];
 
+  bool _imagesPrecached = false;
+
   @override
   void initState() {
     super.initState();
@@ -31,7 +33,19 @@ class _IntroScreenState extends State<IntroScreen> {
       ...(List.from(_allBgImages.sublist(1))..shuffle()),
     ];
     languageNotifier.addListener(_onLanguageChanged);
-    _startImageCycling();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_imagesPrecached) {
+      _imagesPrecached = true;
+      Future.wait(
+        _bgImages.map((path) => precacheImage(AssetImage(path), context)),
+      ).then((_) {
+        if (mounted) _startImageCycling();
+      });
+    }
   }
 
   void _startImageCycling() {
