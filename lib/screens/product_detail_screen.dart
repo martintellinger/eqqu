@@ -843,7 +843,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         return Expanded(
           child: Padding(
             padding: EdgeInsets.only(left: i > 0 ? 16 : 0),
-            child: Column(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 350),
+                    reverseTransitionDuration: const Duration(milliseconds: 300),
+                    pageBuilder: (_, __, ___) => ProductDetailScreen(
+                      brand: p['subtitle']!.split(' / ').first,
+                      name: p['title']!,
+                      condition: p['subtitle']!.split(' / ')[1],
+                      price: p['newPrice']!,
+                      oldPrice: p['oldPrice']!,
+                      imageAsset: p['image']!,
+                    ),
+                    transitionsBuilder: (_, animation, __, child) {
+                      return FadeTransition(opacity: animation, child: child);
+                    },
+                  ),
+                );
+              },
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AspectRatio(
@@ -946,6 +967,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ],
                 ),
               ],
+            ),
             ),
           ),
         );
