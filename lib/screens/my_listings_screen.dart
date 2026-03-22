@@ -631,15 +631,19 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       decoration: BoxDecoration(
         color: cs.surfaceContainerLow,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x4D000000),
-            offset: Offset(0, 1),
+            color: cs.brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.1)
+                : const Color(0x4D000000),
+            offset: const Offset(0, 1),
             blurRadius: 2,
           ),
           BoxShadow(
-            color: Color(0x26000000),
-            offset: Offset(0, 1),
+            color: cs.brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.05)
+                : const Color(0x26000000),
+            offset: const Offset(0, 1),
             blurRadius: 3,
             spreadRadius: 1,
           ),
@@ -666,15 +670,19 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       decoration: BoxDecoration(
         color: cs.surfaceContainerLow,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x4D000000),
-            offset: Offset(0, 1),
+            color: cs.brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.1)
+                : const Color(0x4D000000),
+            offset: const Offset(0, 1),
             blurRadius: 2,
           ),
           BoxShadow(
-            color: Color(0x26000000),
-            offset: Offset(0, 1),
+            color: cs.brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.05)
+                : const Color(0x26000000),
+            offset: const Offset(0, 1),
             blurRadius: 3,
             spreadRadius: 1,
           ),

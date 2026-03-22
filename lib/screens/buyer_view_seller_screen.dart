@@ -815,13 +815,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               heroTag: heroTag,
             ),
             transitionsBuilder: (_, animation, __, child) {
-              return FadeTransition(
-                opacity: CurvedAnimation(
-                  parent: animation,
-                  curve: const Interval(0.5, 1.0),
-                ),
-                child: child,
-              );
+              return FadeTransition(opacity: animation, child: child);
             },
           ),
         );

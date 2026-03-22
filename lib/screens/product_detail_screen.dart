@@ -169,7 +169,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 child: Text(
                   s.buy,
-                  style: AppTextStyles.productTitle(Colors.white),
+                  style: AppTextStyles.productTitle(cs.onPrimary),
                 ),
               ),
             ),
@@ -733,10 +733,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     transitionsBuilder: (_, animation, __, child) {
                       return FadeTransition(
-                        opacity: CurvedAnimation(
-                          parent: animation,
-                          curve: const Interval(0.5, 1.0),
-                        ),
+                        opacity: animation,
                         child: child,
                       );
                     },

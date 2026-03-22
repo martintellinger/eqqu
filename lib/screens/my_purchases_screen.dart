@@ -109,12 +109,12 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (selected) ...[
-              const Icon(Icons.check, size: 18, color: Colors.white),
+              Icon(Icons.check, size: 18, color: cs.onPrimary),
               const SizedBox(width: 8),
             ],
             Text(
               label,
-              style: AppTextStyles.chip(selected ? Colors.white : cs.onSurfaceVariant),
+              style: AppTextStyles.chip(selected ? cs.onPrimary : cs.onSurfaceVariant),
             ),
           ],
         ),
@@ -127,7 +127,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
     Color cardBg;
     if (status == 'cancelled') {
       cardBg = cs.brightness == Brightness.dark
-          ? const Color(0xFF370902)
+          ? const Color(0xFF5C1A10)
           : const Color(0xFFFFF2F0);
     } else {
       cardBg = cs.surfaceContainerLow;
