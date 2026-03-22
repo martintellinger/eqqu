@@ -1218,7 +1218,7 @@ Widget _filterNavTile(ColorScheme cs, String label, String? value, {required Voi
 /// Green save button at bottom of sheets
 Widget _saveButton(ColorScheme cs, BuildContext context, String label, {required VoidCallback onPressed}) {
   return Padding(
-    padding: EdgeInsets.fromLTRB(16, 12, 16, MediaQuery.of(context).padding.bottom + 12),
+    padding: EdgeInsets.fromLTRB(16, 12, 16, MediaQuery.of(context).viewPadding.bottom + 12),
     child: SizedBox(
       width: double.infinity,
       height: 56,

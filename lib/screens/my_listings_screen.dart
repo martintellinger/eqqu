@@ -147,7 +147,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       builder: (ctx) {
         return Padding(
           padding: EdgeInsets.fromLTRB(
-            16, 8, 16, MediaQuery.of(ctx).padding.bottom + 16,
+            16, 8, 16, MediaQuery.of(ctx).viewPadding.bottom + 16,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -391,7 +391,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       builder: (ctx) {
         return Padding(
           padding: EdgeInsets.fromLTRB(
-            24, 8, 24, MediaQuery.of(ctx).padding.bottom + 24,
+            24, 8, 24, MediaQuery.of(ctx).viewPadding.bottom + 24,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
