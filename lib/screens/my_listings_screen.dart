@@ -340,14 +340,14 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                           if (mounted) _showReservationErrorSheet();
                         },
                         style: FilledButton.styleFrom(
-                          backgroundColor: cs.secondaryContainer,
+                          backgroundColor: cs.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           ),
                         ),
                         child: Text(
                           s.reserve,
-                          style: AppTextStyles.chip(cs.onSecondaryContainer),
+                          style: AppTextStyles.chip(cs.onPrimary),
                         ),
                       ),
                     ),
