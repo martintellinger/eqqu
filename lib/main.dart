@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:eqqu/app_state.dart';
+import 'package:eqqu/cache/cache_manager.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_theme.dart';
 import 'package:eqqu/theme/theme_notifier.dart';
@@ -15,7 +16,9 @@ import 'package:eqqu/screens/forgot_password_screen.dart';
 import 'package:eqqu/screens/intro_screen.dart';
 import 'package:eqqu/screens/home_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheManager.init();
   runApp(const EqquApp());
 }
 
@@ -34,6 +37,15 @@ class _EqquAppState extends State<EqquApp> {
   void initState() {
     super.initState();
     _themeNotifier.addListener(() => setState(() {}));
+    _languageNotifier.addListener(() => setState(() {}));
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    await Future.wait([
+      _themeNotifier.load(),
+      _languageNotifier.load(),
+    ]);
   }
 
   @override
