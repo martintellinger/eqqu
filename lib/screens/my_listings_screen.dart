@@ -341,6 +341,8 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                         },
                         style: FilledButton.styleFrom(
                           backgroundColor: cs.primary,
+                          minimumSize: Size.zero,
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           ),
