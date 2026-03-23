@@ -14,6 +14,7 @@ import 'package:eqqu/widgets/sheet_button.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
 import 'package:provider/provider.dart';
 import 'package:eqqu/providers/favorites_provider.dart';
+import 'package:eqqu/utils/fade_route.dart';
 
 class SellerProfileScreen extends StatefulWidget {
   const SellerProfileScreen({super.key});
@@ -308,22 +309,15 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
       onTap: () {
         Navigator.push(
           context,
-          PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 350),
-            reverseTransitionDuration: const Duration(milliseconds: 300),
-            pageBuilder: (_, __, ___) => ProductDetailScreen(
-              brand: product.parsedBrand,
-              name: product.title,
-              condition: AppStrings.of(context).used,
-              price: product.newPrice,
-              oldPrice: product.oldPrice,
-              imageAsset: product.imageAsset,
-              heroTag: heroTag,
-            ),
-            transitionsBuilder: (_, animation, __, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-          ),
+          fadeRoute(ProductDetailScreen(
+            brand: product.parsedBrand,
+            name: product.title,
+            condition: AppStrings.of(context).used,
+            price: product.newPrice,
+            oldPrice: product.oldPrice,
+            imageAsset: product.imageAsset,
+            heroTag: heroTag,
+          )),
         );
       },
     );

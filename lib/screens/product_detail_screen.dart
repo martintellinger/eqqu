@@ -104,41 +104,49 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: SizedBox(
-                              width: 48,
-                              height: 48,
-                              child: Center(
-                                child: Container(
-                                  width: 32,
-                                  height: 32,
-                                  decoration: BoxDecoration(
-                                    color: cs.secondaryContainer,
-                                    shape: BoxShape.circle,
+                          Semantics(
+                            label: AppStrings.of(context).back,
+                            button: true,
+                            child: GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: SizedBox(
+                                width: 48,
+                                height: 48,
+                                child: Center(
+                                  child: Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      color: cs.secondaryContainer,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(Icons.arrow_back, size: 24, color: cs.onSecondaryContainer),
                                   ),
-                                  child: Icon(Icons.arrow_back, size: 24, color: cs.onSecondaryContainer),
                                 ),
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () => _showMoreSheet(),
-                            child: SizedBox(
-                              width: 48,
-                              height: 48,
-                              child: Center(
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: cs.secondaryContainer,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(Icons.more_vert, size: 24, color: cs.onSecondaryContainer),
+                          Semantics(
+                            label: AppStrings.of(context).more,
+                            button: true,
+                            child: GestureDetector(
+                              onTap: () => _showMoreSheet(),
+                              child: SizedBox(
+                                width: 48,
+                                height: 48,
+                                child: Center(
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: cs.secondaryContainer,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(Icons.more_vert, size: 24, color: cs.onSecondaryContainer),
                                 ),
                               ),
                             ),
+                          ),
                           ),
                         ],
                       ),

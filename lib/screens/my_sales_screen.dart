@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/widgets/filter_chip_bar.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
 
 class MySalesScreen extends StatefulWidget {
@@ -71,25 +72,15 @@ class _MySalesScreenState extends State<MySalesScreen> {
             bottom: false,
             child: AppHeader(title: 'Moje prodeje', showBack: true),
           ),
-          // Filter chips
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: List.generate(_filters.length, (i) {
-                final selected = _selectedFilter == i;
-                return Padding(
-                  padding: EdgeInsets.only(right: i < _filters.length - 1 ? 8 : 0),
-                  child: _buildFilterChip(cs, _filters[i], selected, () {
-                    setState(() => _selectedFilter = i);
-                  }),
-                );
-              }),
-            ),
+          FilterChipBar(
+            filters: _filters,
+            selectedIndex: _selectedFilter,
+            onSelected: (i) => setState(() => _selectedFilter = i),
           ),
           // Order list
           Expanded(
             child: ListView.separated(
+              addAutomaticKeepAlives: false,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: _filteredOrders.length,
               separatorBuilder: (_, __) => const SizedBox(height: 16),
@@ -103,38 +94,6 @@ class _MySalesScreenState extends State<MySalesScreen> {
     );
   }
 
-  Widget _buildFilterChip(ColorScheme cs, String label, bool selected, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 32,
-        padding: EdgeInsets.only(
-          left: selected ? 8 : 16,
-          right: 16,
-          top: 6,
-          bottom: 6,
-        ),
-        decoration: BoxDecoration(
-          color: selected ? cs.primary : Colors.transparent,
-          border: selected ? null : Border.all(color: cs.outlineVariant),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (selected) ...[
-              Icon(Icons.check, size: 18, color: cs.onPrimary),
-              const SizedBox(width: 8),
-            ],
-            Text(
-              label,
-              style: AppTextStyles.chip(selected ? cs.onPrimary : cs.onSurfaceVariant),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildOrderCard(ColorScheme cs, Map<String, dynamic> order) {
     final status = order['status'] as String;

@@ -134,6 +134,9 @@ class AppStrings {
   String get contactUs => _t('contactUs');
   String get changesSaved => _t('changesSaved');
   String get skip => _t('skip');
+  String get back => _t('back');
+  String get more => _t('more');
+  String get send => _t('send');
 
   // ── Translations ──
   static const _translations = <String, Map<String, String>>{
@@ -227,6 +230,9 @@ class AppStrings {
       'contactUs': 'Napiš nám',
       'changesSaved': 'Změny byly uloženy',
       'skip': 'Skip',
+      'back': 'Zpět',
+      'more': 'Více',
+      'send': 'Odeslat',
     },
     'en': {
       'home': 'Home',
@@ -318,6 +324,9 @@ class AppStrings {
       'contactUs': 'Contact us',
       'changesSaved': 'Changes saved',
       'skip': 'Skip',
+      'back': 'Back',
+      'more': 'More',
+      'send': 'Send',
     },
   };
 }

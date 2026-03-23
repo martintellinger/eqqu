@@ -94,6 +94,7 @@ class ReviewsScreen extends StatelessWidget {
           // Reviews list
           Expanded(
             child: ListView.separated(
+              addAutomaticKeepAlives: false,
               padding: const EdgeInsets.all(16),
               itemCount: _reviews.length,
               separatorBuilder: (_, __) => Padding(

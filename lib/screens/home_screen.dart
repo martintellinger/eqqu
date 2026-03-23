@@ -17,6 +17,7 @@ import 'package:eqqu/services/search_service.dart';
 import 'package:provider/provider.dart';
 import 'package:eqqu/providers/favorites_provider.dart';
 import 'package:eqqu/l10n/app_strings.dart';
+import 'package:eqqu/utils/fade_route.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -762,22 +763,15 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
       onTap: () {
         Navigator.push(
           context,
-          PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 350),
-            reverseTransitionDuration: const Duration(milliseconds: 300),
-            pageBuilder: (_, __, ___) => ProductDetailScreen(
-              brand: product.parsedBrand,
-              name: product.title,
-              condition: AppStrings.of(context).used,
-              price: product.newPrice,
-              oldPrice: product.oldPrice,
-              imageAsset: imagePath,
-              heroTag: heroTag,
-            ),
-            transitionsBuilder: (_, animation, __, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-          ),
+          fadeRoute(ProductDetailScreen(
+            brand: product.parsedBrand,
+            name: product.title,
+            condition: AppStrings.of(context).used,
+            price: product.newPrice,
+            oldPrice: product.oldPrice,
+            imageAsset: imagePath,
+            heroTag: heroTag,
+          )),
         );
       },
       child: ProductCard(
