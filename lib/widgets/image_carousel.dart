@@ -20,8 +20,8 @@ class ImageCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget imageArea = SizedBox(
-      height: 391,
+    Widget imageArea = AspectRatio(
+      aspectRatio: 177 / 200,
       child: Stack(
         children: [
           PageView.builder(
