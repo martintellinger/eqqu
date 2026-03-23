@@ -3,6 +3,7 @@ import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:country_flags/country_flags.dart';
 import 'package:eqqu/app_state.dart';
 import 'package:eqqu/utils/language_notifier.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
@@ -133,9 +134,13 @@ class _IntroScreenState extends State<IntroScreen> {
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              Text(
-                                lang.flag,
-                                style: const TextStyle(fontSize: 22),
+                              ClipOval(
+                                child: CountryFlag.fromCountryCode(
+                                  lang.countryCode,
+                                  width: 24,
+                                  height: 24,
+                                  shape: const Circle(),
+                                ),
                               ),
                               const SizedBox(width: 12),
                               Text(

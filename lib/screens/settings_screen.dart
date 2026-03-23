@@ -4,6 +4,7 @@ import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/app_state.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
+import 'package:country_flags/country_flags.dart';
 import 'package:eqqu/screens/account_settings_screen.dart';
 import 'package:eqqu/screens/shipping_screen.dart';
 import 'package:eqqu/screens/secure_account_screen.dart';
@@ -158,9 +159,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             const SizedBox(width: 12),
-            Text(
-              lang.flag,
-              style: const TextStyle(fontSize: 22),
+            ClipOval(
+              child: CountryFlag.fromCountryCode(
+                lang.countryCode,
+                width: 24,
+                height: 24,
+                shape: const Circle(),
+              ),
             ),
             const SizedBox(width: 12),
             Text(
@@ -281,7 +286,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       cs,
                       Icons.language,
                       s.language,
-                      trailingText: '${AppState.of(context).languageNotifier.selected.flag} ${AppState.of(context).languageNotifier.selected.name}',
+                      trailingText: AppState.of(context).languageNotifier.selected.name,
                       onTap: () => _showLanguageSheet(cs),
                     ),
                     const SizedBox(height: 12),

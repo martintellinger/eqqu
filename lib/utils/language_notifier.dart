@@ -4,20 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Language {
   final String code;
   final String name;
-  final String flag;
+  final String countryCode;
 
-  const Language(this.code, this.name, this.flag);
+  const Language(this.code, this.name, this.countryCode);
 }
 
 class LanguageNotifier extends ChangeNotifier {
   static const _key = 'language_code';
 
   static const List<Language> languages = [
-    Language('cs', 'Čeština', '🇨🇿'),
-    Language('sk', 'Slovenčina', '🇸🇰'),
-    Language('en', 'English', '🇬🇧'),
-    Language('pl', 'Polski', '🇵🇱'),
-    Language('de', 'Deutsch', '🇩🇪'),
+    Language('cs', 'Čeština', 'CZ'),
+    Language('sk', 'Slovenčina', 'SK'),
+    Language('en', 'English', 'GB'),
+    Language('pl', 'Polski', 'PL'),
+    Language('de', 'Deutsch', 'DE'),
   ];
 
   String _selectedCode = 'cs';

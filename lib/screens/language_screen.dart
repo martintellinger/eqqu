@@ -4,6 +4,7 @@ import 'package:eqqu/app_state.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/utils/language_notifier.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:country_flags/country_flags.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -119,9 +120,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
               ),
             ),
             const SizedBox(width: 12),
-            Text(
-              lang.flag,
-              style: const TextStyle(fontSize: 22),
+            ClipOval(
+              child: CountryFlag.fromCountryCode(
+                lang.countryCode,
+                width: 24,
+                height: 24,
+                shape: const Circle(),
+              ),
             ),
             const SizedBox(width: 12),
             Text(
