@@ -134,13 +134,11 @@ class _IntroScreenState extends State<IntroScreen> {
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              ClipOval(
-                                child: CountryFlag.fromCountryCode(
-                                  lang.countryCode,
-                                  width: 24,
-                                  height: 24,
-                                  shape: const Circle(),
-                                ),
+                              CountryFlag.fromCountryCode(
+                                lang.countryCode,
+                                width: 24,
+                                height: 24,
+                                shape: const Circle(),
                               ),
                               const SizedBox(width: 12),
                               Text(

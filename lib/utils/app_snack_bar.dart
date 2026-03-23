@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 
 class AppSnackBar {
   AppSnackBar._();
+
+  static OverlayEntry? _activeEntry;
 
   /// Neutral snackbar – black background, white text.
   static void show(
@@ -49,15 +53,22 @@ class AppSnackBar {
     required Color backgroundColor,
     required Duration duration,
   }) {
+    _activeEntry?.remove();
+    _activeEntry = null;
+
     late OverlayEntry entry;
     entry = OverlayEntry(
       builder: (_) => _AnimatedSnackBar(
         message: message,
         backgroundColor: backgroundColor,
         duration: duration,
-        onDismissed: () => entry.remove(),
+        onDismissed: () {
+          entry.remove();
+          if (_activeEntry == entry) _activeEntry = null;
+        },
       ),
     );
+    _activeEntry = entry;
     Overlay.of(context).insert(entry);
   }
 }
@@ -84,6 +95,7 @@ class _AnimatedSnackBarState extends State<_AnimatedSnackBar>
   late final AnimationController _controller;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _fadeAnimation;
+  Timer? _dismissTimer;
 
   @override
   void initState() {
@@ -96,13 +108,17 @@ class _AnimatedSnackBarState extends State<_AnimatedSnackBar>
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 1),
       end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic));
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+      reverseCurve: Curves.easeInCubic,
+    ));
     _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
     _controller.forward();
-    Future.delayed(widget.duration, _dismiss);
+    _dismissTimer = Timer(widget.duration, _dismiss);
   }
 
   void _dismiss() {
@@ -114,6 +130,7 @@ class _AnimatedSnackBarState extends State<_AnimatedSnackBar>
 
   @override
   void dispose() {
+    _dismissTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -132,7 +149,6 @@ class _AnimatedSnackBarState extends State<_AnimatedSnackBar>
           child: Material(
             color: Colors.transparent,
             child: Container(
-              width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                 color: widget.backgroundColor,
