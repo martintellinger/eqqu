@@ -307,9 +307,6 @@ class AppStrings {
   String get tapToUpload => _t('tapToUpload');
   String get uploadFormats => _t('uploadFormats');
 
-  // ── Parameterized ──
-  String wasDeleted(String title) => '$title ${_t('wasDeleted')}';
-
   // ── Translations ──
   static const _translations = <String, Map<String, String>>{
     'cs': {
