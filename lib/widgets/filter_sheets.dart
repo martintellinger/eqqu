@@ -451,6 +451,8 @@ class _PriceFilterSheetState extends State<_PriceFilterSheet> {
   late RangeValues _range;
   late TextEditingController _minController;
   late TextEditingController _maxController;
+  final FocusNode _minFocus = FocusNode();
+  final FocusNode _maxFocus = FocusNode();
 
   @override
   void initState() {
@@ -466,12 +468,42 @@ class _PriceFilterSheetState extends State<_PriceFilterSheet> {
     _range = RangeValues(min, max);
     _minController = TextEditingController(text: min.round().toString());
     _maxController = TextEditingController(text: max.round().toString());
+    _minFocus.addListener(() { if (!_minFocus.hasFocus) _applyMin(); });
+    _maxFocus.addListener(() { if (!_maxFocus.hasFocus) _applyMax(); });
+  }
+
+  void _applyMin() {
+    final val = double.tryParse(_minController.text);
+    if (val != null) {
+      final clamped = val.clamp(0.0, _range.end);
+      setState(() {
+        _range = RangeValues(clamped, _range.end);
+        _minController.text = clamped.round().toString();
+      });
+    } else {
+      _minController.text = _range.start.round().toString();
+    }
+  }
+
+  void _applyMax() {
+    final val = double.tryParse(_maxController.text);
+    if (val != null) {
+      final clamped = val.clamp(_range.start, 5000.0);
+      setState(() {
+        _range = RangeValues(_range.start, clamped);
+        _maxController.text = clamped.round().toString();
+      });
+    } else {
+      _maxController.text = _range.end.round().toString();
+    }
   }
 
   @override
   void dispose() {
     _minController.dispose();
     _maxController.dispose();
+    _minFocus.dispose();
+    _maxFocus.dispose();
     super.dispose();
   }
 
@@ -524,28 +556,20 @@ class _PriceFilterSheetState extends State<_PriceFilterSheet> {
                     Expanded(
                       child: TextField(
                         controller: _minController,
+                        focusNode: _minFocus,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(labelText: 'Min (€)'),
-                        onChanged: (v) {
-                          final val = double.tryParse(v);
-                          if (val != null && val >= 0 && val <= _range.end) {
-                            setState(() => _range = RangeValues(val, _range.end));
-                          }
-                        },
+                        onSubmitted: (_) => _applyMin(),
                       ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: TextField(
                         controller: _maxController,
+                        focusNode: _maxFocus,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(labelText: 'Max (€)'),
-                        onChanged: (v) {
-                          final val = double.tryParse(v);
-                          if (val != null && val >= _range.start && val <= 5000) {
-                            setState(() => _range = RangeValues(_range.start, val));
-                          }
-                        },
+                        onSubmitted: (_) => _applyMax(),
                       ),
                     ),
                   ],
