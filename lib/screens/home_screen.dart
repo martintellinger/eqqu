@@ -517,6 +517,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                     delegate: SliverChildBuilderDelegate(
                       (context, rowIndex) {
                         final i = rowIndex * 2;
+                        final origIdx0 = _allProducts.indexOf(products[i]);
                         return Padding(
                           padding: EdgeInsets.only(bottom: rowIndex < (products.length / 2).ceil() - 1 ? 12 : 0),
                           child: IntrinsicHeight(
@@ -525,15 +526,18 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                               children: [
                                 Expanded(
                                   child: _buildProductCard(
-                                    cs, i, products[i], kProductImages[i % kProductImages.length],
+                                    cs, origIdx0, products[i], kProductImages[origIdx0 % kProductImages.length],
                                   ),
                                 ),
                                 const SizedBox(width: 12),
                                 if (i + 1 < products.length)
                                   Expanded(
-                                    child: _buildProductCard(
-                                      cs, i + 1, products[i + 1], kProductImages[(i + 1) % kProductImages.length],
-                                    ),
+                                    child: () {
+                                      final origIdx1 = _allProducts.indexOf(products[i + 1]);
+                                      return _buildProductCard(
+                                        cs, origIdx1, products[i + 1], kProductImages[origIdx1 % kProductImages.length],
+                                      );
+                                    }(),
                                   )
                                 else
                                   const Expanded(child: SizedBox()),
