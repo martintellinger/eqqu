@@ -6,6 +6,7 @@ import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/filter_chip_bar.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 
 class MySalesScreen extends StatefulWidget {
   const MySalesScreen({super.key});
@@ -17,7 +18,7 @@ class MySalesScreen extends StatefulWidget {
 class _MySalesScreenState extends State<MySalesScreen> {
   int _selectedFilter = 0;
 
-  static const _filters = ['Vše', 'Nové', 'Vyřízeno', 'Odesláno'];
+  List<String> _filters(AppStrings s) => [s.all, s.newStatus, s.statusProcessed, s.statusShipped];
 
   static const _orders = MockOrders.sales;
 
@@ -30,17 +31,18 @@ class _MySalesScreenState extends State<MySalesScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Moje prodeje', showBack: true),
+            child: AppHeader(title: s.mySales, showBack: true),
           ),
           FilterChipBar(
-            filters: _filters,
+            filters: _filters(s),
             selectedIndex: _selectedFilter,
             onSelected: (i) => setState(() => _selectedFilter = i),
           ),
@@ -63,6 +65,7 @@ class _MySalesScreenState extends State<MySalesScreen> {
 
 
   Widget _buildOrderCard(ColorScheme cs, SaleOrder order) {
+    final s = AppStrings.of(context);
     Color cardBg;
     if (order.status == SaleStatus.paidOut) {
       cardBg = cs.brightness == Brightness.dark
@@ -96,7 +99,7 @@ class _MySalesScreenState extends State<MySalesScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Objednávka ${order.id}',
+                        s.orderNumber(order.id),
                         style: AppTextStyles.actionLink(cs.secondary),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -146,29 +149,30 @@ class _MySalesScreenState extends State<MySalesScreen> {
   }
 
   Widget _buildStatusChip(ColorScheme cs, SaleStatus status) {
+    final s = AppStrings.of(context);
     final String label;
     final Color textColor;
     final IconData icon;
 
     switch (status) {
       case SaleStatus.newOrder:
-        label = 'Nové';
+        label = s.newStatus;
         textColor = cs.surfaceTint;
         icon = Icons.add_circle_outline;
       case SaleStatus.processed:
-        label = 'Vyřízeno';
+        label = s.statusProcessed;
         textColor = cs.surfaceTint;
         icon = Icons.check_circle_outline;
       case SaleStatus.shipped:
-        label = 'Odesláno';
+        label = s.statusShipped;
         textColor = cs.surfaceTint;
         icon = Icons.access_time;
       case SaleStatus.delivered:
-        label = 'Doručeno';
+        label = s.statusDelivered;
         textColor = cs.surfaceTint;
         icon = Icons.local_shipping_outlined;
       case SaleStatus.paidOut:
-        label = 'Vyplaceno';
+        label = s.statusPaidOut;
         textColor = cs.tertiary;
         icon = Icons.account_balance_wallet_outlined;
     }

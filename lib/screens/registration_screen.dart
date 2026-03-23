@@ -36,24 +36,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     setState(() => _hasSubmitted = true);
 
     if (!_agreeTerms) {
-      AppSnackBar.showError(context, message: 'Musíte souhlasit s podmínkami');
+      final s = AppStrings.of(context);
+      AppSnackBar.showError(context, message: s.mustAgreeToTerms);
       return;
     }
 
     if (_formKey.currentState!.validate()) {
-      AppSnackBar.show(context, message: 'Účet byl úspěšně vytvořen');
+      AppSnackBar.show(context, message: AppStrings.of(context).accountCreated);
       Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
     }
   }
-
-  String? _validateEmail(String? value) => Validators.email(value);
-
-  String? _validateUsername(String? value) => Validators.username(value);
-
-  String? _validatePassword(String? value) => Validators.password(value);
-
-  String? _validateConfirmPassword(String? value) =>
-      Validators.confirmPassword(value, _passwordController.text);
 
   @override
   Widget build(BuildContext context) {
@@ -98,15 +90,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 hintText: 'example@gmail.com',
                               ),
                               keyboardType: TextInputType.emailAddress,
-                              validator: _validateEmail,
+                              validator: (v) => Validators.email(v, s),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
                               controller: _usernameController,
-                              decoration: const InputDecoration(
-                                labelText: 'Uživatelské jméno',
+                              decoration: InputDecoration(
+                                labelText: s.usernameFieldLabel,
                               ),
-                              validator: _validateUsername,
+                              validator: (v) => Validators.username(v, s),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -115,16 +107,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 labelText: s.password,
                               ),
                               obscureText: true,
-                              validator: _validatePassword,
+                              validator: (v) => Validators.password(v, s),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
                               controller: _confirmPasswordController,
-                              decoration: const InputDecoration(
-                                labelText: 'Potvrzení hesla',
+                              decoration: InputDecoration(
+                                labelText: s.passwordConfirmation,
                               ),
                               obscureText: true,
-                              validator: _validateConfirmPassword,
+                              validator: (v) => Validators.confirmPassword(v, _passwordController.text, s),
                             ),
                           ],
                         ),

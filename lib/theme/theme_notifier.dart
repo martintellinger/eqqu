@@ -10,14 +10,18 @@ class ThemeNotifier extends ChangeNotifier {
 
   /// Load persisted theme mode from disk.
   Future<void> load() async {
-    final prefs = await SharedPreferences.getInstance();
-    final stored = prefs.getString(_key);
-    if (stored != null) {
-      _themeMode = ThemeMode.values.firstWhere(
-        (m) => m.name == stored,
-        orElse: () => ThemeMode.system,
-      );
-      notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final stored = prefs.getString(_key);
+      if (stored != null) {
+        _themeMode = ThemeMode.values.firstWhere(
+          (m) => m.name == stored,
+          orElse: () => ThemeMode.system,
+        );
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint('ThemeNotifier.load failed: $e');
     }
   }
 
@@ -25,8 +29,12 @@ class ThemeNotifier extends ChangeNotifier {
     if (_themeMode == mode) return;
     _themeMode = mode;
     notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, mode.name);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_key, mode.name);
+    } catch (e) {
+      debugPrint('ThemeNotifier.setThemeMode failed: $e');
+    }
   }
 
   /// Returns a display label for the current theme mode.

@@ -95,8 +95,8 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         TextField(
                           controller: _nameController,
                           style: _inputTextStyle(cs),
-                          decoration: const InputDecoration(
-                            labelText: 'Název*',
+                          decoration: InputDecoration(
+                            labelText: s.nameRequired,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -106,8 +106,8 @@ class _NewListingScreenState extends State<NewListingScreen> {
                           controller: _descriptionController,
                           style: _inputTextStyle(cs),
                           maxLines: 5,
-                          decoration: const InputDecoration(
-                            labelText: 'Popis*',
+                          decoration: InputDecoration(
+                            labelText: s.descriptionRequired,
                             alignLabelWithHint: true,
                           ),
                         ),
@@ -123,9 +123,9 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         const SizedBox(height: 16),
 
                         // Značka*
-                        _buildSelectorField(cs, 'Značka*', _selectedBrand, () {
+                        _buildSelectorField(cs, '${s.brand}*', _selectedBrand, () {
                           _showSimpleSelector(
-                            context, 'Značka',
+                            context, s.brand,
                             ['No brand', 'Cavalleria Toscana', 'Animo', 'Kingsland', 'Shires', 'Busse', 'Eskadron', 'HKM'],
                             (v) => setState(() => _selectedBrand = v),
                           );
@@ -133,9 +133,9 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         const SizedBox(height: 16),
 
                         // Stav*
-                        _buildSelectorField(cs, 'Stav zboží*', _selectedCondition, () {
+                        _buildSelectorField(cs, '${s.condition}*', _selectedCondition, () {
                           _showSimpleSelector(
-                            context, 'Stav zboží',
+                            context, s.condition,
                             ['Nový s visačkou', 'Nový bez visačky', 'Velmi dobrý', 'Dobrý', 'Uspokojivý'],
                             (v) => setState(() => _selectedCondition = v),
                           );
@@ -143,9 +143,9 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         const SizedBox(height: 16),
 
                         // Velikost
-                        _buildSelectorField(cs, 'Velikost', _selectedSize, () {
+                        _buildSelectorField(cs, s.size, _selectedSize, () {
                           _showSimpleSelector(
-                            context, 'Velikost',
+                            context, s.size,
                             ['XS', 'S', 'M', 'L', 'XL', 'One size', '15"', '16"', '17"', '18"'],
                             (v) => setState(() => _selectedSize = v),
                           );
@@ -153,9 +153,9 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         const SizedBox(height: 16),
 
                         // Barva
-                        _buildSelectorField(cs, 'Barva', _selectedColor, () {
+                        _buildSelectorField(cs, s.color, _selectedColor, () {
                           _showSimpleSelector(
-                            context, 'Barva',
+                            context, s.color,
                             ['Černá', 'Hnědá', 'Bílá', 'Modrá', 'Červená', 'Zelená', 'Šedá', 'Béžová'],
                             (v) => setState(() => _selectedColor = v),
                           );
@@ -163,9 +163,9 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         const SizedBox(height: 16),
 
                         // Materiál
-                        _buildSelectorField(cs, 'Materiál', _selectedMaterial, () {
+                        _buildSelectorField(cs, s.material, _selectedMaterial, () {
                           _showSimpleSelector(
-                            context, 'Materiál',
+                            context, s.material,
                             ['Kůže', 'Syntetika', 'Bavlna', 'Vlna', 'Fleece', 'Neopren'],
                             (v) => setState(() => _selectedMaterial = v),
                           );
@@ -177,8 +177,8 @@ class _NewListingScreenState extends State<NewListingScreen> {
                           controller: _priceController,
                           keyboardType: TextInputType.number,
                           style: _inputTextStyle(cs),
-                          decoration: const InputDecoration(
-                            labelText: 'Požadovaná cena*',
+                          decoration: InputDecoration(
+                            labelText: s.requiredPrice,
                             suffixText: '€',
                           ),
                         ),
@@ -189,7 +189,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Ochrana kupujícího bude automaticky přidána k ceně',
+                                s.buyerProtectionHint,
                                 style: AppTextStyles.labelSmall(cs.tertiary),
                               ),
                             ),
@@ -203,7 +203,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                           height: 56,
                           child: FilledButton(
                             onPressed: _isFormValid ? () {
-                              AppSnackBar.show(context, message: 'Inzerát byl úspěšně vytvořen');
+                              AppSnackBar.show(context, message: s.listingCreated);
                               Navigator.pop(context);
                             } : null,
                             style: FilledButton.styleFrom(
@@ -215,7 +215,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                               ),
                             ),
                             child: Text(
-                              'Vytvořit inzerát',
+                              s.createListing,
                               style: AppTextStyles.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -259,12 +259,12 @@ class _NewListingScreenState extends State<NewListingScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Klepněte pro nahrání',
+                s.tapToUpload,
                 style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w600, color: cs.surfaceTint, letterSpacing: 0.25, height: 20 / 14),
               ),
               const SizedBox(height: 4),
               Text(
-                'SVG, PNG, JPG nebo GIF (max. 800x400px)',
+                s.uploadFormats,
                 style: AppTextStyles.labelSmall(cs.tertiary),
                 textAlign: TextAlign.center,
               ),

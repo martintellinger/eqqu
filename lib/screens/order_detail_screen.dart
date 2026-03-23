@@ -21,6 +21,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   static const _products = MockOrders.orderDetailProducts;
 
   void _showRatingDialog() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     int selectedStars = 4;
     final textController = TextEditingController();
@@ -39,7 +40,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Ohodnoťte nákup',
+                    s.rateOrder,
                     style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w400, color: cs.onSurface, height: 32 / 24),
                   ),
                   const SizedBox(height: 16),
@@ -69,8 +70,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     controller: textController,
                     maxLines: 5,
                     textAlignVertical: TextAlignVertical.top,
-                    decoration: const InputDecoration(
-                      labelText: 'Slovní hodnocení',
+                    decoration: InputDecoration(
+                      labelText: s.verbalRating,
                       alignLabelWithHint: true,
                     ),
                   ),
@@ -90,7 +91,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             ),
                           ),
                           child: Text(
-                            'Zrušit',
+                            s.cancel,
                             style: AppTextStyles.chip(cs.onSurfaceVariant),
                           ),
                         ),
@@ -100,7 +101,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         child: FilledButton(
                           onPressed: () {
                             Navigator.pop(ctx);
-                            AppSnackBar.show(context, message: 'Hodnocení bylo odesláno');
+                            AppSnackBar.show(context, message: s.ratingSubmitted);
                           },
                           style: FilledButton.styleFrom(
                             backgroundColor: cs.secondaryContainer,
@@ -111,7 +112,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             ),
                           ),
                           child: Text(
-                            'Odeslat',
+                            s.send,
                             style: AppTextStyles.chip(cs.onSecondaryContainer),
                           ),
                         ),
@@ -176,7 +177,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       child: FilledButton(
                         onPressed: _showRatingDialog,
                         child: Text(
-                          'Ohodnotit',
+                          s.rate,
                           style: AppTextStyles.productTitle(cs.onPrimary),
                         ),
                       ),
@@ -192,6 +193,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildOrderHeader(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -211,7 +213,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 Icon(Icons.check_circle_outline, size: 18, color: cs.surfaceTint),
                 const SizedBox(width: 8),
                 Text(
-                  'Dokončeno',
+                  s.statusCompleted,
                   style: AppTextStyles.chip(cs.surfaceTint),
                 ),
               ],
@@ -220,7 +222,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           const SizedBox(height: 8),
           // Order title
           Text(
-            'Objednávka 12345678',
+            s.orderNumber('12345678'),
             style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w400, color: cs.secondary, height: 32 / 24),
           ),
           const SizedBox(height: 4),
@@ -234,13 +236,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildProductsSection(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Produkty',
+            s.products,
             style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
@@ -289,13 +292,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildBuyerInfo(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Informace o kupujícím',
+            s.buyerInfo,
             style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
@@ -317,7 +321,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Doručovací adresa:\n',
+                        text: '${s.deliveryAddressLabel}\n',
                         style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w600, color: cs.secondary, letterSpacing: 0.25, height: 20 / 14),
                       ),
                       TextSpan(
@@ -336,13 +340,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildShippingSection(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Doprava',
+            s.shippingSection,
             style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
@@ -352,7 +357,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Doručení na adresu\n',
+                    text: '${s.deliveryToAddress}\n',
                     style: AppTextStyles.poppins(fontSize: 14, fontWeight: FontWeight.w600, color: cs.secondary, letterSpacing: 0.25, height: 20 / 14),
                   ),
                   TextSpan(
@@ -369,13 +374,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildSellerInfo(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Informace o prodejci',
+            s.sellerInfo,
             style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
@@ -435,7 +441,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                               Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
                               const SizedBox(width: 4),
                               Text(
-                                'Message seller',
+                                s.messageSeller,
                                 style: AppTextStyles.actionLink(cs.surfaceTint),
                               ),
                             ],
@@ -454,14 +460,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildPriceSummary(ColorScheme cs) {
-    return const PriceSummary(
-      title: 'Cena celkem',
+    final s = AppStrings.of(context);
+    return PriceSummary(
+      title: s.totalPriceLabel,
       titleOpacity: 0.8,
       rows: [
-        PriceRow(label: 'Cena zboží', value: '416 €'),
-        PriceRow(label: 'Cena dopravy', value: '2 €'),
-        PriceRow(label: 'Poplatek za ochranu kupujícího', value: '2 €'),
-        PriceRow(label: 'Celkem k úhradě', value: '418 €', isBold: true),
+        PriceRow(label: s.productPrice, value: '416 €'),
+        PriceRow(label: s.shippingCost, value: '2 €'),
+        PriceRow(label: s.buyerProtectionFee, value: '2 €'),
+        PriceRow(label: s.totalToPay, value: '418 €', isBold: true),
       ],
     );
   }

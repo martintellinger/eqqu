@@ -27,6 +27,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   static const _products = MockProducts.sellerProducts;
 
   void _showMoreSheet() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     showModalBottomSheet(
       context: context,
@@ -46,19 +47,19 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               // Share button
               SheetButton(
                 icon: Icons.share,
-                label: 'Sdílet profil',
+                label: s.shareProfile,
                 backgroundColor: cs.secondaryContainer,
                 foregroundColor: cs.onSecondaryContainer,
                 onPressed: () {
                   Navigator.pop(context);
-                  AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
+                  AppSnackBar.show(context, message: s.linkCopied);
                 },
               ),
               const SizedBox(height: 16),
               // Edit profile button
               SheetButton(
                 icon: Icons.edit,
-                label: 'Editovat profil',
+                label: s.editProfile,
                 backgroundColor: cs.secondaryContainer,
                 foregroundColor: cs.onSecondaryContainer,
                 onPressed: () => Navigator.pop(context),

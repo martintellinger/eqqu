@@ -92,7 +92,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     setState(() => _hasSubmitted = true);
 
     if (_formKey.currentState!.validate()) {
-      AppSnackBar.show(context, message: 'Změny byly uloženy');
+      final s = AppStrings.of(context);
+      AppSnackBar.show(context, message: s.changesSaved);
       Navigator.pop(context);
     }
   }
@@ -204,10 +205,10 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           TextFormField(
                             controller: _usernameController,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Uživatelské jméno*'),
+                            decoration: _fieldDecoration(s.usernameLabel),
                             validator: (v) {
-                              if (v == null || v.trim().isEmpty) return 'Zadejte uživatelské jméno';
-                              if (v.trim().length < 3) return 'Minimálně 3 znaky';
+                              if (v == null || v.trim().isEmpty) return s.enterUsername;
+                              if (v.trim().length < 3) return s.minThreeChars;
                               return null;
                             },
                           ),
@@ -215,9 +216,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           TextFormField(
                             controller: _nameController,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Jméno a příjmení*'),
+                            decoration: _fieldDecoration(s.fullNameLabel),
                             validator: (v) {
-                              if (v == null || v.trim().isEmpty) return 'Zadejte jméno a příjmení';
+                              if (v == null || v.trim().isEmpty) return s.enterFullName;
                               return null;
                             },
                           ),
@@ -226,15 +227,15 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             controller: _countryController,
                             readOnly: true,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Stát*', hasTrailing: true),
+                            decoration: _fieldDecoration(s.countryLabel, hasTrailing: true),
                           ),
                           const SizedBox(height: 24),
                           TextFormField(
                             controller: _birthdateController,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Datum narození*'),
+                            decoration: _fieldDecoration(s.dateOfBirthLabel),
                             validator: (v) {
-                              if (v == null || v.trim().isEmpty) return 'Zadejte datum narození';
+                              if (v == null || v.trim().isEmpty) return s.enterDateOfBirth;
                               return null;
                             },
                           ),
@@ -247,16 +248,16 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                               expands: true,
                               textAlignVertical: TextAlignVertical.top,
                               style: _fieldTextStyle,
-                              decoration: _fieldDecoration('Popis'),
+                              decoration: _fieldDecoration(s.descriptionLabel),
                             ),
                           ),
                           const SizedBox(height: 24),
                           TextFormField(
                             controller: _addressController,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Adresa*'),
+                            decoration: _fieldDecoration(s.addressLabel),
                             validator: (v) {
-                              if (v == null || v.trim().isEmpty) return 'Zadejte adresu';
+                              if (v == null || v.trim().isEmpty) return s.enterAddress;
                               return null;
                             },
                           ),
@@ -264,9 +265,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           TextFormField(
                             controller: _phoneController,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Telefonní číslo*'),
+                            decoration: _fieldDecoration(s.phoneLabel),
                             validator: (v) {
-                              if (v == null || v.trim().isEmpty) return 'Zadejte telefonní číslo';
+                              if (v == null || v.trim().isEmpty) return s.enterPhone;
                               return null;
                             },
                           ),
@@ -291,12 +292,12 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             controller: _oldPasswordController,
                             obscureText: true,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Staré heslo'),
+                            decoration: _fieldDecoration(s.oldPasswordLabel),
                             validator: (v) {
                               // Only validate if user is trying to change password
                               if (_newPasswordController.text.isNotEmpty &&
                                   (v == null || v.isEmpty)) {
-                                return 'Zadejte staré heslo';
+                                return s.enterOldPassword;
                               }
                               return null;
                             },
@@ -306,11 +307,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             controller: _newPasswordController,
                             obscureText: true,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Nové heslo'),
+                            decoration: _fieldDecoration(s.newPasswordLabel),
                             validator: (v) {
                               if (_oldPasswordController.text.isNotEmpty) {
-                                if (v == null || v.isEmpty) return 'Zadejte nové heslo';
-                                if (v.length < 6) return 'Heslo musí mít alespoň 6 znaků';
+                                if (v == null || v.isEmpty) return s.enterNewPassword;
+                                if (v.length < 6) return s.passwordMinSix;
                               }
                               return null;
                             },
@@ -320,11 +321,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             controller: _confirmPasswordController,
                             obscureText: true,
                             style: _fieldTextStyle,
-                            decoration: _fieldDecoration('Potvrzení nového hesla'),
+                            decoration: _fieldDecoration(s.newPasswordConfirmLabel),
                             validator: (v) {
                               if (_newPasswordController.text.isNotEmpty) {
-                                if (v == null || v.isEmpty) return 'Potvrďte nové heslo';
-                                if (v != _newPasswordController.text) return 'Hesla se neshodují';
+                                if (v == null || v.isEmpty) return s.confirmNewPassword;
+                                if (v != _newPasswordController.text) return s.passwordsDoNotMatch;
                               }
                               return null;
                             },
@@ -354,7 +355,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                 ),
                               ),
                               child: Text(
-                                'Uložit',
+                                s.save,
                                 style: AppTextStyles.productTitle(cs.onPrimary),
                               ),
                             ),
@@ -366,7 +367,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             child: TextButton(
                               onPressed: () => _showDeleteDialog(),
                               child: Text(
-                                'Smazat účet',
+                                s.deleteAccount,
                                 style: AppTextStyles.actionLink(cs.error),
                               ),
                             ),
@@ -386,13 +387,14 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
   void _showDeleteDialog() {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
     showBlurDialog(
       context: context,
       builder: (dialogCtx) => AlertDialog(
         backgroundColor: cs.surfaceContainerHigh,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         title: Text(
-          'Smazat profil?',
+          s.deleteProfileQuestion,
           style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w400, color: cs.onSurface, height: 32 / 24),
         ),
         content: Text(
@@ -413,14 +415,14 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 ),
                 child: Text(
-                  'Zrušit',
+                  s.cancel,
                   style: AppTextStyles.chip(cs.onSurfaceVariant),
                 ),
               ),
               FilledButton(
                 onPressed: () {
                   Navigator.pop(dialogCtx);
-                  AppSnackBar.showError(context, message: 'Účet byl smazán');
+                  AppSnackBar.showError(context, message: s.accountDeleted);
                   Navigator.pushNamedAndRemoveUntil(context, AppRoutes.intro, (_) => false);
                 },
                 style: FilledButton.styleFrom(
@@ -431,7 +433,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 ),
                 child: Text(
-                  'Smazat',
+                  s.delete,
                   style: AppTextStyles.chip(cs.onError),
                 ),
               ),

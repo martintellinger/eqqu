@@ -29,7 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _hasSubmitted = true);
 
     if (_formKey.currentState!.validate()) {
-      AppSnackBar.show(context, message: 'Přihlášení bylo úspěšné');
+      final s = AppStrings.of(context);
+      AppSnackBar.show(context, message: s.loginSuccessful);
       Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
     }
   }
@@ -85,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Zadejte heslo';
+                            return s.enterPassword;
                           }
                           return null;
                         },
@@ -155,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Opacity(
                       opacity: 0.8,
                       child: Text(
-                        'Ještě nemáte účet?',
+                        s.noAccountYet,
                         style: AppTextStyles.bodyMedium(Theme.of(context).colorScheme.secondary),
                       ),
                     ),

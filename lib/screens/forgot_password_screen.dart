@@ -45,7 +45,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   void _resend() {
     // Re-send the email
-    AppSnackBar.show(context, message: 'E-mail byl znovu odeslán');
+    final s = AppStrings.of(context);
+    AppSnackBar.show(context, message: s.emailResent);
   }
 
   @override
@@ -99,7 +100,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     controller: _emailController,
                     decoration: InputDecoration(
                       labelText: s.email,
-                      errorText: showError ? 'Neplatný e-mail' : null,
+                      errorText: showError ? s.invalidEmail : null,
                       suffixIcon: showError
                           ? Icon(Icons.error, color: Theme.of(context).colorScheme.error)
                           : null,
@@ -172,6 +173,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Widget _buildSentState() {
+    final s = AppStrings.of(context);
     return Column(
       children: [
         // Success message
@@ -182,7 +184,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Odeslali jsme odkaz pro resetování hesla na zadanou e-mailovou adresu.',
+                  s.resetLinkSent,
                   style: AppTextStyles.bodyLarge(Theme.of(context).colorScheme.onSurface),
                   textAlign: TextAlign.center,
                 ),
@@ -196,7 +198,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: FilledButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Zpět na přihlášení'),
+            child: Text(s.backToLogin),
           ),
         ),
 
@@ -209,7 +211,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Opacity(
                   opacity: 0.8,
                   child: Text(
-                    'Nedorazil mail?',
+                    s.emailNotArrived,
                     style: AppTextStyles.bodyMedium(Theme.of(context).colorScheme.secondary),
                   ),
                 ),
@@ -222,7 +224,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
                   child: Text(
-                    'Poslat znova',
+                    s.resend,
                     style: AppTextStyles.actionLink(Theme.of(context).colorScheme.secondary),
                   ),
                 ),

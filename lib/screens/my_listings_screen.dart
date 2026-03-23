@@ -66,7 +66,8 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           ..clear()
           ..addAll(newHidden);
       });
-      AppSnackBar.show(context, message: '${deleted.product.title} byl smazán');
+      final s = AppStrings.of(context);
+      AppSnackBar.show(context, message: s.wasDeleted(deleted.product.title));
     });
   }
 
@@ -107,7 +108,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               _buildSheetButton(
                 cs: cs,
                 icon: Icons.edit,
-                label: 'Upravit',
+                label: s.edit,
                 onTap: () => Navigator.pop(ctx),
               ),
               const SizedBox(height: 12),
@@ -115,7 +116,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               _buildSheetButton(
                 cs: cs,
                 icon: isHidden ? Icons.visibility : Icons.visibility_off,
-                label: isHidden ? 'Odkrýt' : s.hide,
+                label: isHidden ? s.unhide : s.hide,
                 onTap: () {
                   Navigator.pop(ctx);
                   _toggleHideItem(index);
@@ -126,7 +127,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               _buildSheetButton(
                 cs: cs,
                 icon: Icons.delete,
-                label: 'Smazat',
+                label: s.delete,
                 isDestructive: true,
                 onTap: () async {
                   Navigator.pop(ctx);
@@ -173,6 +174,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
 
   void _showReservationDialog() {
     if (!mounted) return;
+    final s = AppStrings.of(context);
 
     showDialog<void>(
       context: context,
@@ -189,7 +191,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           actionsAlignment: MainAxisAlignment.spaceBetween,
           actionsPadding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
           title: Text(
-            'Rezervovat',
+            s.reserve,
             style: AppTextStyles.poppins(
               fontSize: 24,
               fontWeight: FontWeight.w400,
@@ -208,7 +210,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               const SizedBox(height: 24),
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Uživatelské jméno*',
+                  labelText: s.usernameLabel,
                   labelStyle: AppTextStyles.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -250,7 +252,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                   ),
                 ),
                 child: Text(
-                  'Zrušit',
+                  s.cancel,
                   style: AppTextStyles.chip(cs.onSurfaceVariant),
                 ),
               ),
@@ -270,7 +272,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                   ),
                 ),
                 child: Text(
-                  'Rezervovat',
+                  s.reserve,
                   style: AppTextStyles.chip(cs.onSecondaryContainer),
                 ),
               ),
@@ -282,6 +284,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   }
 
   void _showReservationErrorSheet() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
 
     showModalBottomSheet(
@@ -307,7 +310,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Rezervace se nezdařila',
+                s.reserveFailed,
                 style: AppTextStyles.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -317,7 +320,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Nepodařilo se rezervovat inzerát. Zkuste to prosím znovu později.',
+                s.reserveFailedMessage,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodyMedium(cs.onErrorContainer),
               ),
@@ -334,7 +337,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                     ),
                   ),
                   child: Text(
-                    'Zavřít',
+                    s.close,
                     style: AppTextStyles.productTitle(cs.onError),
                   ),
                 ),
@@ -408,8 +411,8 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                               const SizedBox(width: 8),
                               Text(
                                 anyHidden
-                                    ? 'Odkrýt všechny inzeráty'
-                                    : 'Skrýt všechny inzeráty',
+                                    ? s.unhideAllListings
+                                    : s.hideAllListings,
                                 style: AppTextStyles.productTitle(cs.onPrimary),
                               ),
                             ],
@@ -432,6 +435,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     int index,
     Listing listing,
   ) {
+    final s = AppStrings.of(context);
     final status = listing.status;
     final product = listing.product;
     final isHidden = _hiddenIndices.contains(index);
@@ -499,7 +503,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 style: AppTextStyles.productNewPrice(cs.surfaceTint),
               ),
               Text(
-                'vč.',
+                s.including,
                 style: AppTextStyles.productBadge(cs.surfaceTint),
               ),
               const SizedBox(width: 4),
@@ -512,21 +516,22 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   }
 
   Widget _buildStatusChip(ColorScheme cs, ListingStatus status) {
+    final s = AppStrings.of(context);
     final String label;
     final Color textColor;
     final IconData icon;
 
     switch (status) {
       case ListingStatus.active:
-        label = 'Aktivní';
+        label = s.statusActive;
         textColor = const Color(0xFFA46700);
         icon = Icons.circle;
       case ListingStatus.sold:
-        label = 'Prodáno';
+        label = s.statusSold;
         textColor = cs.surfaceTint;
         icon = Icons.check_circle;
       case ListingStatus.shipped:
-        label = 'Odesláno';
+        label = s.statusShipped;
         textColor = cs.onSurface;
         icon = Icons.circle;
     }

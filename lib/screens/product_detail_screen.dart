@@ -357,6 +357,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void _showMoreSheet() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     showBlurBottomSheet(
       context: context,
@@ -375,19 +376,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               // Share button
               SheetButton(
                 icon: Icons.share,
-                label: 'Sdílet produkt',
+                label: s.shareProduct,
                 backgroundColor: cs.secondaryContainer,
                 foregroundColor: cs.onSecondaryContainer,
                 onPressed: () {
                   Navigator.pop(context);
-                  AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
+                  AppSnackBar.show(context, message: s.linkCopied);
                 },
               ),
               const SizedBox(height: 16),
               // Report button
               SheetButton(
                 icon: Icons.flag_outlined,
-                label: 'Nahlásit produkt',
+                label: s.reportProduct,
                 backgroundColor: cs.error,
                 foregroundColor: cs.onError,
                 onPressed: () => Navigator.pop(context),

@@ -18,7 +18,17 @@ import 'package:eqqu/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await CacheManager.init();
+  try {
+    await CacheManager.init();
+  } catch (e) {
+    debugPrint('CacheManager.init failed: $e');
+  }
+
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    debugPrint('Flutter error: ${details.exceptionAsString()}');
+  };
+
   runApp(const EqquApp());
 }
 
@@ -42,10 +52,14 @@ class _EqquAppState extends State<EqquApp> {
   }
 
   Future<void> _loadPreferences() async {
-    await Future.wait([
-      _themeNotifier.load(),
-      _languageNotifier.load(),
-    ]);
+    try {
+      await Future.wait([
+        _themeNotifier.load(),
+        _languageNotifier.load(),
+      ]);
+    } catch (e) {
+      debugPrint('Failed to load preferences: $e');
+    }
   }
 
   @override

@@ -68,10 +68,11 @@ class _CartScreenState extends State<CartScreen> {
   int get _totalPrice => CartService.totalPrice(_cartItems, _deliveryMethod);
 
   void _removeItem(int index) {
+    final s = AppStrings.of(context);
     setState(() {
       _cartItems.removeAt(index);
     });
-    AppSnackBar.show(context, message: 'Produkt byl odebrán z košíku', duration: const Duration(seconds: 2));
+    AppSnackBar.show(context, message: s.productRemovedFromCart, duration: const Duration(seconds: 2));
   }
 
   bool _validateCardFields() {
@@ -99,6 +100,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _showOrderConfirmation() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     showBlurDialog(
       context: context,
@@ -122,12 +124,12 @@ class _CartScreenState extends State<CartScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Je to tam!',
+                s.orderSuccess,
                 style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w600, color: cs.onSurface, height: 32 / 24),
               ),
               const SizedBox(height: 8),
               Text(
-                'Tvoje objednávka byla úspěšně odeslána.',
+                s.orderSuccessMessage,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
               ),
@@ -144,7 +146,7 @@ class _CartScreenState extends State<CartScreen> {
                     );
                   },
                   child: Text(
-                    'Zobrazit objednávku',
+                    s.viewOrder,
                     style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: cs.onPrimary, letterSpacing: 0.15),
                   ),
                 ),
@@ -180,24 +182,24 @@ class _CartScreenState extends State<CartScreen> {
                         Divider(height: 1, thickness: 1, color: cs.outline),
 
                         // Delivery address
-                        _buildSection(cs, 'Doručovací adresa', [
+                        _buildSection(cs, s.deliveryAddress, [
                           _buildAddressInfo(cs),
                         ]),
                         Divider(height: 1, thickness: 1, color: cs.outline),
 
                         // Personal info
-                        _buildSection(cs, 'Osobní údaje', [
+                        _buildSection(cs, s.personalInfo, [
                           _buildPersonalInfo(cs),
                         ]),
                         Divider(height: 1, thickness: 1, color: cs.outline),
 
                         // Payment method
-                        _buildSection(cs, 'Způsob platby', [
+                        _buildSection(cs, s.paymentMethod, [
                           _buildPaymentOption(cs, PaymentMethod.applePay, 'Apple Pay', Icons.apple),
                           const SizedBox(height: 12),
                           _buildPaymentOption(cs, PaymentMethod.googlePay, 'Google Pay', Icons.g_mobiledata),
                           const SizedBox(height: 12),
-                          _buildPaymentOption(cs, PaymentMethod.card, 'Platba kartou', Icons.credit_card),
+                          _buildPaymentOption(cs, PaymentMethod.card, s.cardPayment, Icons.credit_card),
                           if (_paymentMethod == PaymentMethod.card) ...[
                             const SizedBox(height: 16),
                             _buildCardFields(cs),
@@ -206,10 +208,10 @@ class _CartScreenState extends State<CartScreen> {
                         Divider(height: 1, thickness: 1, color: cs.outline),
 
                         // Delivery method
-                        _buildSection(cs, 'Způsob doručení', [
-                          _buildDeliveryOption(cs, DeliveryMethod.address, 'Doručení na adresu', '2 €'),
+                        _buildSection(cs, s.deliveryMethodLabel, [
+                          _buildDeliveryOption(cs, DeliveryMethod.address, s.deliveryToAddress, '2 €'),
                           const SizedBox(height: 12),
-                          _buildDeliveryOption(cs, DeliveryMethod.pickup, 'Osobní odběr', 'Zdarma'),
+                          _buildDeliveryOption(cs, DeliveryMethod.pickup, s.personalPickup, s.free),
                         ]),
                         Divider(height: 1, thickness: 1, color: cs.outline),
 
@@ -225,7 +227,7 @@ class _CartScreenState extends State<CartScreen> {
                             child: FilledButton(
                               onPressed: _submitOrder,
                               child: Text(
-                                'Objednávka zavazující k platbě',
+                                s.bindingOrder,
                                 style: AppTextStyles.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: cs.onPrimary, letterSpacing: 0.15),
                               ),
                             ),
@@ -241,6 +243,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildEmptyCart(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -248,12 +251,12 @@ class _CartScreenState extends State<CartScreen> {
           Icon(Icons.shopping_cart_outlined, size: 64, color: cs.onSurfaceVariant),
           const SizedBox(height: 16),
           Text(
-            'Košík je prázdný',
+            s.cartEmpty,
             style: AppTextStyles.poppins(fontSize: 20, fontWeight: FontWeight.w500, color: cs.secondary, height: 28 / 20),
           ),
           const SizedBox(height: 8),
           Text(
-            'Přidejte produkty do košíku a začněte nakupovat.',
+            s.addProductsToCart,
             style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
           ),
         ],
@@ -262,13 +265,14 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildCartItems(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Produkty (${_cartItems.length})',
+            s.productsCount(_cartItems.length),
             style: AppTextStyles.pageHeader(cs.secondary),
           ),
           const SizedBox(height: 16),
@@ -339,6 +343,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildAddressInfo(ColorScheme cs) {
+    final s = AppStrings.of(context);
     final addr = _addresses[_selectedAddressIndex];
     final textStyle = AppTextStyles.bodyMedium(cs.secondary);
     return Opacity(
@@ -353,7 +358,7 @@ class _CartScreenState extends State<CartScreen> {
           GestureDetector(
             onTap: () => _showAddressSheet(),
             child: Text(
-              'Změnit adresu',
+              s.changeAddress,
               style: AppTextStyles.actionLink(cs.surfaceTint),
             ),
           ),
@@ -363,6 +368,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _showAddressSheet() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     showBlurBottomSheet(
       context: context,
@@ -375,7 +381,7 @@ class _CartScreenState extends State<CartScreen> {
             children: [
               buildDragHandle(cs),
               Text(
-                'Doručovací adresa',
+                s.deliveryAddress,
                 style: AppTextStyles.sectionTitle(cs.onSurface),
               ),
               const SizedBox(height: 16),
@@ -497,6 +503,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildCardFields(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return Column(
       children: [
         TextField(
@@ -504,7 +511,7 @@ class _CartScreenState extends State<CartScreen> {
           keyboardType: TextInputType.number,
           style: AppTextStyles.bodyLarge(cs.onSurface),
           decoration: InputDecoration(
-            labelText: 'Číslo karty',
+            labelText: s.cardNumber,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             errorText: _hasSubmitted ? _cardNumberError : null,
           ),
@@ -518,7 +525,7 @@ class _CartScreenState extends State<CartScreen> {
                 keyboardType: TextInputType.datetime,
                 style: AppTextStyles.bodyLarge(cs.onSurface),
                 decoration: InputDecoration(
-                  labelText: 'Expirace',
+                  labelText: s.expiry,
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   errorText: _hasSubmitted ? _expiryError : null,
                 ),
@@ -532,7 +539,7 @@ class _CartScreenState extends State<CartScreen> {
                 obscureText: true,
                 style: AppTextStyles.bodyLarge(cs.onSurface),
                 decoration: InputDecoration(
-                  labelText: 'CVC/CVV',
+                  labelText: s.cvcCvv,
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   errorText: _hasSubmitted ? _cvcError : null,
                 ),
@@ -553,7 +560,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
             const SizedBox(width: 8),
             Text(
-              'Uložit kartu pro příští nákup',
+              s.saveCardForNext,
               style: AppTextStyles.bodyMedium(cs.onSurface),
             ),
           ],
@@ -608,11 +615,11 @@ class _CartScreenState extends State<CartScreen> {
   Widget _buildPriceSummary(ColorScheme cs) {
     final s = AppStrings.of(context);
     return PriceSummary(
-      title: 'Cena celkem',
+      title: s.totalPriceLabel,
       rows: [
         PriceRow(label: s.productPrice, value: '$_totalProductPrice €'),
-        PriceRow(label: 'Cena dopravy', value: '$_deliveryPrice €'),
-        PriceRow(label: 'Poplatek za ochranu kupujícího', value: '$_buyerProtectionFee €'),
+        PriceRow(label: s.shippingCost, value: '$_deliveryPrice €'),
+        PriceRow(label: s.buyerProtectionFee, value: '$_buyerProtectionFee €'),
         PriceRow(label: s.totalPrice, value: '$_totalPrice €', isBold: true),
       ],
     );

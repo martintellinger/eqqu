@@ -26,12 +26,12 @@ class InviteFriendsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Pozvěte své přátele do EQQU – nejlepší aplikace pro nákup jezdeckých potřeb, kde najdete vše pro vašeho koně na jednom místě.',
+                    s.inviteTitle,
                     style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w600, color: cs.secondary, height: 32 / 24),
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Přidejte se k EQQU a objevte široký výběr kvalitních potřeb pro koně. Pozvěte přátele a užijte si pohodlný nákup s odbornou podporou přímo v aplikaci.',
+                    s.inviteBody,
                     style: AppTextStyles.bodyLarge(cs.secondary),
                   ),
                   const SizedBox(height: 24),
@@ -57,7 +57,7 @@ class InviteFriendsScreen extends StatelessWidget {
                 height: 56,
                 child: FilledButton(
                   onPressed: () {
-                    AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
+                    AppSnackBar.show(context, message: s.linkCopied);
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: cs.primary,
@@ -67,7 +67,7 @@ class InviteFriendsScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Sdílet odkaz',
+                    s.shareLink,
                     style: AppTextStyles.productTitle(cs.onPrimary),
                   ),
                 ),

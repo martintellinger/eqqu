@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
@@ -28,7 +29,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   void _save() {
     setState(() => _hasSubmitted = true);
     if (_formKey.currentState!.validate()) {
-      AppSnackBar.show(context, message: 'Heslo bylo změněno');
+      final s = AppStrings.of(context);
+      AppSnackBar.show(context, message: s.passwordChanged);
       Navigator.pop(context);
     }
   }
@@ -57,13 +59,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Změna hesla', showBack: true),
+            child: AppHeader(title: s.changePassword, showBack: true),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -78,12 +81,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Změň si heslo',
+                        s.changeYourPassword,
                         style: AppTextStyles.pageHeader(cs.secondary),
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Pro změnu hesla zadej staré heslo a poté nové heslo.',
+                        s.changePasswordDesc,
                         style: AppTextStyles.bodyMedium(cs.secondary),
                       ),
                       const SizedBox(height: 24),
@@ -91,9 +94,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         controller: _oldPasswordController,
                         obscureText: true,
                         style: AppTextStyles.bodyLarge(cs.onSurface),
-                        decoration: _fieldDecoration(cs, 'Staré heslo*'),
+                        decoration: _fieldDecoration(cs, '${s.oldPasswordLabel}*'),
                         validator: (v) {
-                          if (v == null || v.isEmpty) return 'Zadejte staré heslo';
+                          if (v == null || v.isEmpty) return s.enterOldPassword;
                           return null;
                         },
                       ),
@@ -102,10 +105,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         controller: _newPasswordController,
                         obscureText: true,
                         style: AppTextStyles.bodyLarge(cs.onSurface),
-                        decoration: _fieldDecoration(cs, 'Nové heslo*'),
+                        decoration: _fieldDecoration(cs, '${s.newPasswordLabel}*'),
                         validator: (v) {
-                          if (v == null || v.isEmpty) return 'Zadejte nové heslo';
-                          if (v.length < 6) return 'Heslo musí mít alespoň 6 znaků';
+                          if (v == null || v.isEmpty) return s.enterNewPassword;
+                          if (v.length < 6) return s.passwordMinSix;
                           return null;
                         },
                       ),
@@ -114,10 +117,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         controller: _confirmPasswordController,
                         obscureText: true,
                         style: AppTextStyles.bodyLarge(cs.onSurface),
-                        decoration: _fieldDecoration(cs, 'Potvrzení nového hesla*'),
+                        decoration: _fieldDecoration(cs, '${s.newPasswordConfirmLabel}*'),
                         validator: (v) {
-                          if (v == null || v.isEmpty) return 'Potvrďte nové heslo';
-                          if (v != _newPasswordController.text) return 'Hesla se neshodují';
+                          if (v == null || v.isEmpty) return s.confirmNewPassword;
+                          if (v != _newPasswordController.text) return s.passwordsDoNotMatch;
                           return null;
                         },
                       ),
@@ -128,7 +131,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         child: FilledButton(
                           onPressed: _save,
                           child: Text(
-                            'Uložit',
+                            s.save,
                             style: AppTextStyles.productTitle(cs.onPrimary),
                           ),
                         ),

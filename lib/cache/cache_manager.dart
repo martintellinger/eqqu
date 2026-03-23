@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 /// Lightweight cache layer built on Hive.
@@ -26,31 +27,38 @@ class CacheManager {
     dynamic value, {
     Duration ttl = const Duration(minutes: 15),
   }) async {
-    final box = await openBox(boxName);
-    await box.put(key, value);
+    try {
+      final box = await openBox(boxName);
+      await box.put(key, value);
 
-    // Store expiry timestamp in a separate meta box.
-    final meta = await openBox(_metaBoxName);
-    await meta.put(
-      '${boxName}_$key',
-      DateTime.now().add(ttl).millisecondsSinceEpoch,
-    );
+      final meta = await openBox(_metaBoxName);
+      await meta.put(
+        '${boxName}_$key',
+        DateTime.now().add(ttl).millisecondsSinceEpoch,
+      );
+    } catch (e) {
+      debugPrint('CacheManager.put($boxName, $key) failed: $e');
+    }
   }
 
   /// Retrieve a cached value. Returns `null` if missing or expired.
   static Future<T?> get<T>(String boxName, String key) async {
-    final meta = await openBox(_metaBoxName);
-    final expiryMs = meta.get('${boxName}_$key');
-    if (expiryMs is int && DateTime.now().millisecondsSinceEpoch > expiryMs) {
-      // Expired — remove stale entry.
+    try {
+      final meta = await openBox(_metaBoxName);
+      final expiryMs = meta.get('${boxName}_$key');
+      if (expiryMs is int && DateTime.now().millisecondsSinceEpoch > expiryMs) {
+        final box = await openBox(boxName);
+        await box.delete(key);
+        await meta.delete('${boxName}_$key');
+        return null;
+      }
+
       final box = await openBox(boxName);
-      await box.delete(key);
-      await meta.delete('${boxName}_$key');
+      return box.get(key) as T?;
+    } catch (e) {
+      debugPrint('CacheManager.get($boxName, $key) failed: $e');
       return null;
     }
-
-    final box = await openBox(boxName);
-    return box.get(key) as T?;
   }
 
   /// Check whether a non-expired value exists for [key].
@@ -61,21 +69,33 @@ class CacheManager {
 
   /// Remove a specific entry.
   static Future<void> remove(String boxName, String key) async {
-    final box = await openBox(boxName);
-    await box.delete(key);
-    final meta = await openBox(_metaBoxName);
-    await meta.delete('${boxName}_$key');
+    try {
+      final box = await openBox(boxName);
+      await box.delete(key);
+      final meta = await openBox(_metaBoxName);
+      await meta.delete('${boxName}_$key');
+    } catch (e) {
+      debugPrint('CacheManager.remove($boxName, $key) failed: $e');
+    }
   }
 
   /// Clear all entries in a specific box.
   static Future<void> clearBox(String boxName) async {
-    final box = await openBox(boxName);
-    await box.clear();
+    try {
+      final box = await openBox(boxName);
+      await box.clear();
+    } catch (e) {
+      debugPrint('CacheManager.clearBox($boxName) failed: $e');
+    }
   }
 
   /// Clear all caches (useful on logout).
   static Future<void> clearAll() async {
-    await Hive.deleteFromDisk();
-    await init();
+    try {
+      await Hive.deleteFromDisk();
+      await init();
+    } catch (e) {
+      debugPrint('CacheManager.clearAll failed: $e');
+    }
   }
 }

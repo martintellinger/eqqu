@@ -16,6 +16,7 @@ class LanguageNotifier extends ChangeNotifier {
     Language('cs', 'Čeština', '🇨🇿'),
     Language('sk', 'Slovenčina', '🇸🇰'),
     Language('en', 'English', '🇬🇧'),
+    Language('pl', 'Polski', '🇵🇱'),
     Language('de', 'Deutsch', '🇩🇪'),
   ];
 
@@ -27,11 +28,15 @@ class LanguageNotifier extends ChangeNotifier {
 
   /// Load persisted language from disk.
   Future<void> load() async {
-    final prefs = await SharedPreferences.getInstance();
-    final stored = prefs.getString(_key);
-    if (stored != null && languages.any((l) => l.code == stored)) {
-      _selectedCode = stored;
-      notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final stored = prefs.getString(_key);
+      if (stored != null && languages.any((l) => l.code == stored)) {
+        _selectedCode = stored;
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint('LanguageNotifier.load failed: $e');
     }
   }
 
@@ -39,7 +44,11 @@ class LanguageNotifier extends ChangeNotifier {
     if (_selectedCode == code) return;
     _selectedCode = code;
     notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, code);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_key, code);
+    } catch (e) {
+      debugPrint('LanguageNotifier.setLanguage failed: $e');
+    }
   }
 }

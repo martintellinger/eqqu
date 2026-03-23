@@ -76,7 +76,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   ),
                 ),
                 child: Text(
-                  'Uložit',
+                  s.save,
                   style: AppTextStyles.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
@@ -15,14 +16,15 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Mimo stáj', showBack: true),
+            child: AppHeader(title: s.offStable, showBack: true),
           ),
           Expanded(
             child: Padding(
@@ -46,7 +48,7 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            'Mimo stáj',
+                            s.offStable,
                             style: AppTextStyles.labelMedium(cs.secondary),
                           ),
                         ),
@@ -54,7 +56,7 @@ class _MimoStajScreenState extends State<MimoStajScreen> {
                           value: _enabled,
                           onChanged: (v) {
                             setState(() => _enabled = v);
-                            AppSnackBar.show(context, message: v ? 'Mimo stáj zapnuto' : 'Mimo stáj vypnuto', duration: const Duration(seconds: 2));
+                            AppSnackBar.show(context, message: v ? s.offStableEnabled : s.offStableDisabled, duration: const Duration(seconds: 2));
                           },
                           activeColor: Colors.white,
                           activeTrackColor: cs.primary,

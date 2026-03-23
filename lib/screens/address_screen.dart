@@ -34,7 +34,8 @@ class _AddressScreenState extends State<AddressScreen> {
     setState(() => _hasSubmitted = true);
 
     if (_formKey.currentState!.validate()) {
-      AppSnackBar.show(context, message: 'Adresa byla uložena');
+      final s = AppStrings.of(context);
+      AppSnackBar.show(context, message: s.addressSaved);
       Navigator.pop(context);
     }
   }
@@ -92,9 +93,9 @@ class _AddressScreenState extends State<AddressScreen> {
                     TextFormField(
                       controller: _nameController,
                       style: _fieldTextStyle,
-                      decoration: _fieldDecoration('Jméno a příjmení*'),
+                      decoration: _fieldDecoration(s.fullNameLabel),
                       validator: (v) {
-                        if (v == null || v.trim().isEmpty) return 'Zadejte jméno a příjmení';
+                        if (v == null || v.trim().isEmpty) return s.enterFullName;
                         return null;
                       },
                     ),
@@ -102,9 +103,9 @@ class _AddressScreenState extends State<AddressScreen> {
                     TextFormField(
                       controller: _streetController,
                       style: _fieldTextStyle,
-                      decoration: _fieldDecoration('Ulice a čp'),
+                      decoration: _fieldDecoration(s.streetAndNumber),
                       validator: (v) {
-                        if (v == null || v.trim().isEmpty) return 'Zadejte ulici a číslo popisné';
+                        if (v == null || v.trim().isEmpty) return s.enterStreetNumber;
                         return null;
                       },
                     ),
@@ -112,9 +113,9 @@ class _AddressScreenState extends State<AddressScreen> {
                     TextFormField(
                       controller: _cityController,
                       style: _fieldTextStyle,
-                      decoration: _fieldDecoration('Město'),
+                      decoration: _fieldDecoration(s.cityLabel),
                       validator: (v) {
-                        if (v == null || v.trim().isEmpty) return 'Zadejte město';
+                        if (v == null || v.trim().isEmpty) return s.enterCity;
                         return null;
                       },
                     ),
@@ -122,9 +123,9 @@ class _AddressScreenState extends State<AddressScreen> {
                     TextFormField(
                       controller: _zipController,
                       style: _fieldTextStyle,
-                      decoration: _fieldDecoration('PSČ'),
+                      decoration: _fieldDecoration(s.postalCode),
                       validator: (v) {
-                        if (v == null || v.trim().isEmpty) return 'Zadejte PSČ';
+                        if (v == null || v.trim().isEmpty) return s.enterPostalCode;
                         return null;
                       },
                     ),
@@ -133,7 +134,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       controller: _countryController,
                       readOnly: true,
                       style: _fieldTextStyle,
-                      decoration: _fieldDecoration('Stát*', hasTrailing: true),
+                      decoration: _fieldDecoration(s.countryLabel, hasTrailing: true),
                     ),
                   ],
                 ),
@@ -155,7 +156,7 @@ class _AddressScreenState extends State<AddressScreen> {
                   ),
                 ),
                 child: Text(
-                  'Uložit',
+                  s.save,
                   style: AppTextStyles.productTitle(cs.onPrimary),
                 ),
               ),

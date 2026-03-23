@@ -36,6 +36,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   static const _products = MockProducts.sellerProducts;
 
   void _showMoreSheet() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     showModalBottomSheet(
       context: context,
@@ -55,26 +56,26 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               // Share button
               SheetButton(
                 icon: Icons.share,
-                label: 'Sdílet profil',
+                label: s.shareProfile,
                 backgroundColor: cs.secondaryContainer,
                 foregroundColor: cs.onSecondaryContainer,
                 onPressed: () {
                   Navigator.pop(context);
-                  AppSnackBar.show(context, message: 'Odkaz byl zkopírován do schránky');
+                  AppSnackBar.show(context, message: s.linkCopied);
                 },
               ),
               const SizedBox(height: 16),
               // Block button
               SheetButton(
                 icon: _isBlocked ? Icons.check_circle_outline : Icons.block,
-                label: _isBlocked ? 'Odblokovat prodejce' : 'Zablokovat prodejce',
+                label: _isBlocked ? s.unblockSeller : s.blockSeller,
                 backgroundColor: cs.secondaryContainer,
                 foregroundColor: cs.onSecondaryContainer,
                 onPressed: () {
                   Navigator.pop(context);
                   if (_isBlocked) {
                     setState(() => _isBlocked = false);
-                    AppSnackBar.show(context, message: 'Prodejce byl odblokován');
+                    AppSnackBar.show(context, message: s.sellerUnblocked);
                   } else {
                     _showBlockDialog();
                   }
@@ -84,7 +85,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
               // Report button
               SheetButton(
                 icon: Icons.flag_outlined,
-                label: 'Nahlásit profil',
+                label: s.reportProfile,
                 backgroundColor: cs.error,
                 foregroundColor: cs.onError,
                 onPressed: () {
@@ -102,6 +103,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
 
 
   void _showBlockDialog() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     showBlurDialog(
       context: context,
@@ -115,7 +117,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Zablokovat prodejce?',
+                s.blockSellerQuestion,
                 style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w500, color: cs.onSurface, height: 32 / 24),
               ),
               const SizedBox(height: 16),
@@ -138,7 +140,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         ),
                       ),
                       child: Text(
-                        'Zrušit',
+                        s.cancel,
                         style: AppTextStyles.chip(cs.onSurfaceVariant),
                       ),
                     ),
@@ -149,7 +151,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       onPressed: () {
                         Navigator.pop(ctx);
                         setState(() => _isBlocked = true);
-                        AppSnackBar.showError(context, message: 'Prodejce byl zablokován');
+                        AppSnackBar.showError(context, message: s.sellerBlocked);
                       },
                       style: FilledButton.styleFrom(
                         backgroundColor: cs.error,
@@ -160,7 +162,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         ),
                       ),
                       child: Text(
-                        'Zablokovat',
+                        s.blockSeller,
                         style: AppTextStyles.chip(cs.onError),
                       ),
                     ),
@@ -175,6 +177,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   }
 
   void _showReportSelectionSheet() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     int selectedReason = -1;
 
@@ -197,7 +200,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 // Drag handle
                 Center(child: buildDragHandle(cs)),
                 Text(
-                  'Důvod nahlášení',
+                  s.reportReason,
                   style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w500, color: cs.onSurface, height: 32 / 24),
                 ),
                 const SizedBox(height: 16),
@@ -210,21 +213,21 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                   cs,
                   0,
                   selectedReason,
-                  'Myslím si, že jde o podvod nebo spam',
+                  s.scamOrSpam,
                   (val) => setSheetState(() => selectedReason = val),
                 ),
                 _buildRadioOption(
                   cs,
                   1,
                   selectedReason,
-                  'Text je urážlivý',
+                  s.offensiveText,
                   (val) => setSheetState(() => selectedReason = val),
                 ),
                 _buildRadioOption(
                   cs,
                   2,
                   selectedReason,
-                  'Něco jiného',
+                  s.somethingElse,
                   (val) => setSheetState(() => selectedReason = val),
                 ),
                 const SizedBox(height: 16),
@@ -248,7 +251,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                       ),
                     ),
                     child: Text(
-                      'Odeslat',
+                      s.send,
                       style: AppTextStyles.labelMedium(cs.onPrimary),
                     ),
                   ),
@@ -301,6 +304,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
   }
 
   void _showReportReasonDialog() {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
     final controller = TextEditingController();
 
@@ -316,7 +320,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Důvod nahlášení',
+                s.reportReason,
                 style: AppTextStyles.outfit(fontSize: 24, fontWeight: FontWeight.w500, color: cs.onSurface, height: 32 / 24),
               ),
               const SizedBox(height: 16),
@@ -329,7 +333,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 controller: controller,
                 maxLines: 5,
                 decoration: InputDecoration(
-                  hintText: 'Popište důvod*',
+                  hintText: s.describeReason,
                   hintStyle: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -362,7 +366,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         ),
                       ),
                       child: Text(
-                        'Zrušit',
+                        s.cancel,
                         style: AppTextStyles.chip(cs.onSurfaceVariant),
                       ),
                     ),
@@ -380,7 +384,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                         ),
                       ),
                       child: Text(
-                        'Odeslat',
+                        s.send,
                         style: AppTextStyles.chip(cs.onSecondaryContainer),
                       ),
                     ),

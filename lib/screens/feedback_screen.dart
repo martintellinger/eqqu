@@ -22,15 +22,16 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   void _submit() {
+    final s = AppStrings.of(context);
     final message = _messageController.text.trim();
     if (message.isEmpty) {
-      setState(() => _errorText = 'Zadejte zprávu');
+      setState(() => _errorText = s.enterMessage);
       return;
     }
 
     setState(() => _errorText = null);
 
-    AppSnackBar.show(context, message: 'Zpětná vazba byla odeslána');
+    AppSnackBar.show(context, message: s.feedbackSent);
     Navigator.pop(context);
   }
 
@@ -69,7 +70,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       },
                       style: AppTextStyles.bodyLarge(cs.onSurface),
                       decoration: InputDecoration(
-                        labelText: 'Zpráva',
+                        labelText: s.message,
                         errorText: _errorText,
                         labelStyle: AppTextStyles.labelSmall(cs.onSurfaceVariant),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -119,7 +120,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     ),
                   ),
                   child: Text(
-                    'Odeslat',
+                    s.send,
                     style: AppTextStyles.productTitle(cs.onPrimary),
                   ),
                 ),

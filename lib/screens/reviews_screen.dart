@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/data/mock_conversations.dart';
 import 'package:eqqu/models/review.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 
@@ -17,9 +18,9 @@ class ReviewsScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Hodnocení', showBack: true),
+            child: AppHeader(title: AppStrings.of(context).reviews, showBack: true),
           ),
           // Summary header
           Padding(

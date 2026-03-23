@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/data/mock_conversations.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
 
 class ChatListScreen extends StatefulWidget {
@@ -34,12 +35,13 @@ class _ChatListScreenState extends State<ChatListScreen>
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return SafeArea(
       child: Column(
         children: [
           // App bar
-          const AppHeader(title: 'Zprávy'),
+          AppHeader(title: s.chat),
 
           // Tab bar
           TabBar(
@@ -50,9 +52,9 @@ class _ChatListScreenState extends State<ChatListScreen>
             indicatorSize: TabBarIndicatorSize.tab,
             labelStyle: AppTextStyles.chip(cs.surfaceTint),
             unselectedLabelStyle: AppTextStyles.chip(cs.onSurfaceVariant),
-            tabs: const [
-              Tab(text: 'Zprávy 1'),
-              Tab(text: 'Oznámení 48'),
+            tabs: [
+              Tab(text: '${s.chat} 1'),
+              Tab(text: '${s.notifications} 48'),
             ],
           ),
 

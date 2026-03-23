@@ -62,21 +62,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 buildDragHandle(cs),
                 Text(
-                  'Vzhled',
+                  AppStrings.of(context).appearance,
                   style: AppTextStyles.sectionTitle(cs.onSurface),
                 ),
                 const SizedBox(height: 16),
-                _buildThemeOption(cs, ThemeMode.light, 'Light mode', selected, (mode) {
+                _buildThemeOption(cs, ThemeMode.light, AppStrings.of(context).lightMode, selected, (mode) {
                   setSheetState(() => selected = mode);
                   AppState.of(context).themeNotifier.setThemeMode(mode);
                 }),
                 const SizedBox(height: 12),
-                _buildThemeOption(cs, ThemeMode.dark, 'Dark mode', selected, (mode) {
+                _buildThemeOption(cs, ThemeMode.dark, AppStrings.of(context).darkMode, selected, (mode) {
                   setSheetState(() => selected = mode);
                   AppState.of(context).themeNotifier.setThemeMode(mode);
                 }),
                 const SizedBox(height: 12),
-                _buildThemeOption(cs, ThemeMode.system, 'Podle systému', selected, (mode) {
+                _buildThemeOption(cs, ThemeMode.system, AppStrings.of(context).systemMode, selected, (mode) {
                   setSheetState(() => selected = mode);
                   AppState.of(context).themeNotifier.setThemeMode(mode);
                 }),
@@ -108,7 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 buildDragHandle(cs),
                 Text(
-                  'Jazyk',
+                  AppStrings.of(context).language,
                   style: AppTextStyles.sectionTitle(cs.onSurface),
                 ),
                 const SizedBox(height: 16),

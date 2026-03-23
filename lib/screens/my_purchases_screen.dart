@@ -6,6 +6,7 @@ import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/filter_chip_bar.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 
 class MyPurchasesScreen extends StatefulWidget {
   const MyPurchasesScreen({super.key});
@@ -17,7 +18,7 @@ class MyPurchasesScreen extends StatefulWidget {
 class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
   int _selectedFilter = 0;
 
-  static const _filters = ['Vše', 'Aktivní', 'Dokončené', 'Stornované'];
+  List<String> _filters(AppStrings s) => [s.all, s.statusActive, s.completed, s.statusCancelled];
 
   static const _orders = MockOrders.purchases;
 
@@ -30,17 +31,18 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final s = AppStrings.of(context);
 
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SafeArea(
+          SafeArea(
             bottom: false,
-            child: AppHeader(title: 'Moje nákupy', showBack: true),
+            child: AppHeader(title: s.myPurchases, showBack: true),
           ),
           FilterChipBar(
-            filters: _filters,
+            filters: _filters(s),
             selectedIndex: _selectedFilter,
             onSelected: (i) => setState(() => _selectedFilter = i),
           ),
@@ -63,6 +65,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
 
 
   Widget _buildOrderCard(ColorScheme cs, PurchaseOrder order) {
+    final s = AppStrings.of(context);
     Color cardBg;
     if (order.status == OrderStatus.cancelled) {
       cardBg = cs.brightness == Brightness.dark
@@ -96,7 +99,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Objednávka ${order.id}',
+                        s.orderNumber(order.id),
                         style: AppTextStyles.actionLink(cs.secondary),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -146,21 +149,22 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
   }
 
   Widget _buildStatusChip(ColorScheme cs, OrderStatus status) {
+    final s = AppStrings.of(context);
     final String label;
     final Color textColor;
     final IconData icon;
 
     switch (status) {
       case OrderStatus.active:
-        label = 'Aktivní';
+        label = s.statusActive;
         textColor = const Color(0xFFA46700);
         icon = Icons.access_time;
       case OrderStatus.completed:
-        label = 'Dokončeno';
+        label = s.statusCompleted;
         textColor = cs.surfaceTint;
         icon = Icons.check_circle_outline;
       case OrderStatus.cancelled:
-        label = 'Storno';
+        label = s.statusCancelled;
         textColor = cs.error;
         icon = Icons.cancel_outlined;
     }

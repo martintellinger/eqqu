@@ -49,6 +49,9 @@ class _IntroScreenState extends State<IntroScreen> {
         _bgImages.map((path) => precacheImage(AssetImage(path), context)),
       ).then((_) {
         if (mounted) _startImageCycling();
+      }).catchError((_) {
+        // Start cycling even if some images fail to precache
+        if (mounted) _startImageCycling();
       });
     }
   }

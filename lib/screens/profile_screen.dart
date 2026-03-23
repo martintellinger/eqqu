@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
@@ -22,13 +23,14 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final cs = Theme.of(context).colorScheme;
 
     return SafeArea(
       child: Column(
         children: [
           // M3 App bar
-          const AppHeader(title: 'Profil'),
+          AppHeader(title: s.profile),
 
           // Scrollable content
           Expanded(
@@ -47,62 +49,62 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         );
                       },
-                      child: _buildProfileCard(cs),
+                      child: _buildProfileCard(cs, s),
                     ),
                     const SizedBox(height: 24),
 
                     // Menu group 1
-                    _buildMenuItem(cs, 'assets/icons/moje_inzeraty.svg', 'Moje inzeráty', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/moje_inzeraty.svg', s.myListings, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MyListingsScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/moje_nakupy.svg', 'Moje nákupy', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/moje_nakupy.svg', s.myPurchases, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MyPurchasesScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/moje_prodeje.svg', 'Moje prodeje', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/moje_prodeje.svg', s.mySales, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MySalesScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/oblibene_predmety.svg', 'Oblíbené předměty', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/oblibene_predmety.svg', s.favoriteItems, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const FavoritesScreen()));
                     }),
                     const SizedBox(height: 24),
 
                     // Menu group 2
-                    _buildMenuItem(cs, 'assets/icons/mimo_staj.svg', 'Mimo stáj', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/mimo_staj.svg', s.offStable, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const MimoStajScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/pozvat.svg', 'Pozvat přátele', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/pozvat.svg', s.inviteFriends, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const InviteFriendsScreen()));
                     }),
                     const SizedBox(height: 24),
 
                     // Menu group 3
-                    _buildMenuItem(cs, 'assets/icons/jak_funguje.svg', 'Jak to funguje', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/jak_funguje.svg', s.howItWorks, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const HowItWorksScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/napoveda.svg', 'Nápověda', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/napoveda.svg', s.help, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const HelpScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/zpetna_vazba.svg', 'Zpětná vazba', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/zpetna_vazba.svg', s.feedback, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const FeedbackScreen()));
                     }),
                     const SizedBox(height: 24),
 
                     // Menu group 4
-                    _buildMenuItem(cs, 'assets/icons/nastaveni.svg', 'Nastavení', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/nastaveni.svg', s.settings, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/o_nas.svg', 'O nás', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/o_nas.svg', s.about, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
                     }),
                     const SizedBox(height: 12),
-                    _buildMenuItem(cs, 'assets/icons/eqqu_platforma.svg', 'EQQU Platforma', onTap: () {
+                    _buildMenuItem(cs, 'assets/icons/eqqu_platforma.svg', s.eqquPlatform, onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const EqquPlatformScreen()));
                     }),
                     const SizedBox(height: 24),
@@ -120,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileCard(ColorScheme cs) {
+  Widget _buildProfileCard(ColorScheme cs, AppStrings s) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -173,9 +175,9 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildStatItem(cs, '3', 'Aktivních inzerátů', showBottomBorder: true),
-                _buildStatItem(cs, '15', 'Prodaných inzerátů', showBottomBorder: true),
-                _buildStatItem(cs, '12', 'hodnocení', showBottomBorder: false),
+                _buildStatItem(cs, '3', s.activeListings, showBottomBorder: true),
+                _buildStatItem(cs, '15', s.soldListings, showBottomBorder: true),
+                _buildStatItem(cs, '12', s.ratingsCount, showBottomBorder: false),
               ],
             ),
           ),
@@ -255,6 +257,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildLogoutButton(BuildContext context, ColorScheme cs) {
+    final s = AppStrings.of(context);
     return SizedBox(
       width: double.infinity,
       height: 56,
@@ -273,7 +276,7 @@ class ProfileScreen extends StatelessWidget {
             Icon(Icons.logout, size: 24, color: cs.secondary),
             const SizedBox(width: 8),
             Text(
-              'Odhlásit se',
+              s.logout,
               style: AppTextStyles.productTitle(cs.secondary),
             ),
           ],
