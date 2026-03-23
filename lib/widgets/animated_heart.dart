@@ -59,6 +59,7 @@ class _AnimatedHeartButtonState extends State<AnimatedHeartButton>
     final size = widget.circleSize > 0 ? widget.circleSize + 16 : 48.0;
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: _handleTap,
       child: SizedBox(
         width: size,

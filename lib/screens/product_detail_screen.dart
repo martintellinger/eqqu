@@ -15,6 +15,7 @@ import 'package:eqqu/widgets/featured_banner.dart';
 import 'package:eqqu/widgets/sheet_button.dart';
 import 'package:eqqu/widgets/seller_card.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
+import 'package:eqqu/utils/fade_route.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -114,8 +115,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 height: 48,
                                 child: Center(
                                   child: Container(
-                                    width: 32,
-                                    height: 32,
+                                    width: 40,
+                                    height: 40,
                                     decoration: BoxDecoration(
                                       color: cs.secondaryContainer,
                                       shape: BoxShape.circle,
@@ -432,20 +433,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 350),
-                    reverseTransitionDuration: const Duration(milliseconds: 300),
-                    pageBuilder: (_, __, ___) => ProductDetailScreen(
-                      brand: p.parsedBrand,
-                      name: p.title,
-                      condition: p.parsedCondition,
-                      price: p.newPrice,
-                      oldPrice: p.oldPrice,
-                      imageAsset: p.imageAsset,
-                      heroTag: heroTag,
-                    ),
-                    transitionsBuilder: (_, animation, __, child) => child,
-                  ),
+                  fadeRoute(ProductDetailScreen(
+                    brand: p.parsedBrand,
+                    name: p.title,
+                    condition: p.parsedCondition,
+                    price: p.newPrice,
+                    oldPrice: p.oldPrice,
+                    imageAsset: p.imageAsset,
+                    heroTag: heroTag,
+                  )),
                 );
               },
             ),
