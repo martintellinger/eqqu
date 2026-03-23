@@ -16,6 +16,7 @@ import 'package:eqqu/widgets/sheet_button.dart';
 import 'package:eqqu/widgets/seller_card.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
 import 'package:eqqu/utils/fade_route.dart';
+import 'package:eqqu/utils/report_flow.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String brand;
@@ -392,7 +393,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 label: s.reportProduct,
                 backgroundColor: cs.error,
                 foregroundColor: cs.onError,
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                  showReportSelectionSheet(context);
+                },
               ),
               const SizedBox(height: 24),
             ],

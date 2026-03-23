@@ -138,6 +138,7 @@ class AppStrings {
   String get offensiveText => _t('offensiveText');
   String get somethingElse => _t('somethingElse');
   String get describeReason => _t('describeReason');
+  String get reportSent => _t('reportSent');
 
   // ── Info pages ──
   String get about => _t('about');
@@ -404,6 +405,7 @@ class AppStrings {
       'offensiveText': 'Text je urážlivý',
       'somethingElse': 'Něco jiného',
       'describeReason': 'Popište důvod*',
+      'reportSent': 'Nahlášení bylo odesláno',
       'about': 'O nás',
       'howItWorks': 'Jak to funguje',
       'help': 'Nápověda',
@@ -652,6 +654,7 @@ class AppStrings {
       'offensiveText': 'Text is offensive',
       'somethingElse': 'Something else',
       'describeReason': 'Describe the reason*',
+      'reportSent': 'Report has been sent',
       'about': 'About us',
       'howItWorks': 'How it works',
       'help': 'Help',
@@ -900,6 +903,7 @@ class AppStrings {
       'offensiveText': 'Text je urážlivý',
       'somethingElse': 'Niečo iné',
       'describeReason': 'Opíšte dôvod*',
+      'reportSent': 'Nahlásenie bolo odoslané',
       'about': 'O nás',
       'howItWorks': 'Ako to funguje',
       'help': 'Pomoc',
@@ -1137,6 +1141,7 @@ class AppStrings {
       'offensiveText': 'Tekst jest obraźliwy',
       'somethingElse': 'Coś innego',
       'describeReason': 'Opisz powód*',
+      'reportSent': 'Zgłoszenie zostało wysłane',
       'about': 'O nas',
       'howItWorks': 'Jak to działa',
       'help': 'Pomoc',
