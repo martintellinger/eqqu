@@ -17,6 +17,26 @@ class Product {
     this.category = '',
   });
 
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+    title: json['title'] as String? ?? '',
+    subtitle: json['subtitle'] as String? ?? '',
+    oldPrice: json['oldPrice'] as String? ?? '',
+    newPrice: json['newPrice'] as String? ?? '',
+    imageAsset: json['imageAsset'] as String? ?? json['image'] as String? ?? '',
+    brand: json['brand'] as String? ?? '',
+    category: json['category'] as String? ?? '',
+  );
+
+  Map<String, dynamic> toJson() => {
+    'title': title,
+    'subtitle': subtitle,
+    'oldPrice': oldPrice,
+    'newPrice': newPrice,
+    if (imageAsset.isNotEmpty) 'imageAsset': imageAsset,
+    if (brand.isNotEmpty) 'brand': brand,
+    if (category.isNotEmpty) 'category': category,
+  };
+
   /// Extracts brand from subtitle format "Brand / Condition / Size".
   String get parsedBrand => subtitle.split(' / ').first;
 

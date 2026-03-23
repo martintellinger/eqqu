@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/data/mock_orders.dart';
 import 'package:eqqu/l10n/app_strings.dart';
+import 'package:eqqu/models/cart_item.dart';
+import 'package:eqqu/models/enums.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
@@ -11,7 +14,7 @@ import 'package:eqqu/widgets/price_summary.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
 
 class CartScreen extends StatefulWidget {
-  final List<Map<String, String>>? initialItems;
+  final List<CartItem>? initialItems;
 
   const CartScreen({super.key, this.initialItems});
 
@@ -20,8 +23,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  String _paymentMethod = 'card';
-  String _deliveryMethod = 'address';
+  PaymentMethod _paymentMethod = PaymentMethod.card;
+  DeliveryMethod _deliveryMethod = DeliveryMethod.address;
   bool _saveCard = false;
   bool _hasSubmitted = false;
   String? _cardNumberError;
@@ -38,33 +41,14 @@ class _CartScreenState extends State<CartScreen> {
   final _expiryController = TextEditingController();
   final _cvcController = TextEditingController();
 
-  late List<Map<String, String>> _cartItems;
+  late List<CartItem> _cartItems;
 
   @override
   void initState() {
     super.initState();
     _cartItems = widget.initialItems != null
-        ? widget.initialItems!.map((item) => Map<String, String>.from(item)).toList()
-        : [
-            {
-              'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
-              'price': '159 €',
-              'priceNum': '159',
-              'image': 'assets/images/product_01.png',
-            },
-            {
-              'title': 'Blue Comfort type saddle',
-              'price': '159 €',
-              'priceNum': '159',
-              'image': 'assets/images/product_02.png',
-            },
-            {
-              'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
-              'price': '159 €',
-              'priceNum': '159',
-              'image': 'assets/images/product_03.png',
-            },
-          ];
+        ? List.of(widget.initialItems!)
+        : List.of(MockOrders.defaultCartItems);
   }
 
   @override
@@ -91,7 +75,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   bool _validateCardFields() {
-    if (_paymentMethod != 'card') return true;
+    if (_paymentMethod != PaymentMethod.card) return true;
 
     bool valid = true;
     setState(() {
@@ -209,12 +193,12 @@ class _CartScreenState extends State<CartScreen> {
 
                         // Payment method
                         _buildSection(cs, 'Způsob platby', [
-                          _buildPaymentOption(cs, 'apple_pay', 'Apple Pay', Icons.apple),
+                          _buildPaymentOption(cs, PaymentMethod.applePay, 'Apple Pay', Icons.apple),
                           const SizedBox(height: 12),
-                          _buildPaymentOption(cs, 'google_pay', 'Google Pay', Icons.g_mobiledata),
+                          _buildPaymentOption(cs, PaymentMethod.googlePay, 'Google Pay', Icons.g_mobiledata),
                           const SizedBox(height: 12),
-                          _buildPaymentOption(cs, 'card', 'Platba kartou', Icons.credit_card),
-                          if (_paymentMethod == 'card') ...[
+                          _buildPaymentOption(cs, PaymentMethod.card, 'Platba kartou', Icons.credit_card),
+                          if (_paymentMethod == PaymentMethod.card) ...[
                             const SizedBox(height: 16),
                             _buildCardFields(cs),
                           ],
@@ -223,9 +207,9 @@ class _CartScreenState extends State<CartScreen> {
 
                         // Delivery method
                         _buildSection(cs, 'Způsob doručení', [
-                          _buildDeliveryOption(cs, 'address', 'Doručení na adresu', '2 €'),
+                          _buildDeliveryOption(cs, DeliveryMethod.address, 'Doručení na adresu', '2 €'),
                           const SizedBox(height: 12),
-                          _buildDeliveryOption(cs, 'pickup', 'Osobní odběr', 'Zdarma'),
+                          _buildDeliveryOption(cs, DeliveryMethod.pickup, 'Osobní odběr', 'Zdarma'),
                         ]),
                         Divider(height: 1, thickness: 1, color: cs.outline),
 
@@ -297,7 +281,7 @@ class _CartScreenState extends State<CartScreen> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: Image.asset(
-                      item['image']!,
+                      item.imageAsset,
                       width: 80,
                       height: 87,
                       cacheWidth: 240,
@@ -311,14 +295,14 @@ class _CartScreenState extends State<CartScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          item['title']!,
+                          item.title,
                           style: AppTextStyles.actionLink(cs.secondary),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          item['price']!,
+                          item.price,
                           style: AppTextStyles.productNewPrice(cs.surfaceTint),
                         ),
                       ],
@@ -473,7 +457,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildPaymentOption(ColorScheme cs, String value, String label, IconData icon) {
+  Widget _buildPaymentOption(ColorScheme cs, PaymentMethod value, String label, IconData icon) {
     final selected = _paymentMethod == value;
     return GestureDetector(
       onTap: () => setState(() => _paymentMethod = value),
@@ -578,7 +562,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildDeliveryOption(ColorScheme cs, String value, String label, String price) {
+  Widget _buildDeliveryOption(ColorScheme cs, DeliveryMethod value, String label, String price) {
     final selected = _deliveryMethod == value;
     return GestureDetector(
       onTap: () => setState(() => _deliveryMethod = value),

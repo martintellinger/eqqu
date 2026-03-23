@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/data/mock_orders.dart';
+import 'package:eqqu/models/enums.dart';
+import 'package:eqqu/models/order.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/filter_chip_bar.dart';
@@ -16,34 +19,12 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
 
   static const _filters = ['Vše', 'Aktivní', 'Dokončené', 'Stornované'];
 
-  static const _orders = [
-    {
-      'id': '12345678',
-      'date': '23.06.2025',
-      'status': 'active',
-      'price': '159 €',
-      'images': ['assets/images/product_01.png', 'assets/images/product_02.png', 'assets/images/product_03.png'],
-    },
-    {
-      'id': '12345679',
-      'date': '23.06.2025',
-      'status': 'completed',
-      'price': '418 €',
-      'images': ['assets/images/product_04.png', 'assets/images/product_05.png'],
-    },
-    {
-      'id': '12345680',
-      'date': '23.06.2025',
-      'status': 'cancelled',
-      'price': '159 €',
-      'images': ['assets/images/product_06.png'],
-    },
-  ];
+  static const _orders = MockOrders.purchases;
 
-  List<Map<String, dynamic>> get _filteredOrders {
+  List<PurchaseOrder> get _filteredOrders {
     if (_selectedFilter == 0) return _orders;
-    final statusMap = {1: 'active', 2: 'completed', 3: 'cancelled'};
-    return _orders.where((o) => o['status'] == statusMap[_selectedFilter]).toList();
+    final statusMap = {1: OrderStatus.active, 2: OrderStatus.completed, 3: OrderStatus.cancelled};
+    return _orders.where((o) => o.status == statusMap[_selectedFilter]).toList();
   }
 
   @override
@@ -81,10 +62,9 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
   }
 
 
-  Widget _buildOrderCard(ColorScheme cs, Map<String, dynamic> order) {
-    final status = order['status'] as String;
+  Widget _buildOrderCard(ColorScheme cs, PurchaseOrder order) {
     Color cardBg;
-    if (status == 'cancelled') {
+    if (order.status == OrderStatus.cancelled) {
       cardBg = cs.brightness == Brightness.dark
           ? const Color(0xFF5C1A10)
           : const Color(0xFFFFF2F0);
@@ -116,20 +96,20 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Objednávka ${order['id']}',
+                        'Objednávka ${order.id}',
                         style: AppTextStyles.actionLink(cs.secondary),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        order['date'] as String,
+                        order.date,
                         style: AppTextStyles.bodyMedium(cs.tertiary),
                       ),
                     ],
                   ),
                 ),
-                _buildStatusChip(cs, status),
+                _buildStatusChip(cs, order.status),
               ],
             ),
             const SizedBox(height: 16),
@@ -138,12 +118,12 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
                 Expanded(
                   child: Row(
                     children: [
-                      for (var i = 0; i < (order['images'] as List).length; i++) ...[
+                      for (var i = 0; i < order.images.length; i++) ...[
                         if (i > 0) const SizedBox(width: 8),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: Image.asset(
-                            (order['images'] as List)[i],
+                            order.images[i],
                             width: 40,
                             height: 43,
                             fit: BoxFit.cover,
@@ -154,7 +134,7 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
                   ),
                 ),
                 Text(
-                  order['price'] as String,
+                  order.price,
                   style: AppTextStyles.productNewPrice(cs.surfaceTint),
                 ),
               ],
@@ -165,31 +145,24 @@ class _MyPurchasesScreenState extends State<MyPurchasesScreen> {
     );
   }
 
-  Widget _buildStatusChip(ColorScheme cs, String status) {
-    String label;
-    Color textColor;
-    IconData icon;
+  Widget _buildStatusChip(ColorScheme cs, OrderStatus status) {
+    final String label;
+    final Color textColor;
+    final IconData icon;
 
     switch (status) {
-      case 'active':
+      case OrderStatus.active:
         label = 'Aktivní';
         textColor = const Color(0xFFA46700);
         icon = Icons.access_time;
-        break;
-      case 'completed':
+      case OrderStatus.completed:
         label = 'Dokončeno';
         textColor = cs.surfaceTint;
         icon = Icons.check_circle_outline;
-        break;
-      case 'cancelled':
+      case OrderStatus.cancelled:
         label = 'Storno';
         textColor = cs.error;
         icon = Icons.cancel_outlined;
-        break;
-      default:
-        label = status;
-        textColor = cs.tertiary;
-        icon = Icons.info_outline;
     }
 
     return Container(

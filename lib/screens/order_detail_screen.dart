@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/data/mock_orders.dart';
+import 'package:eqqu/models/cart_item.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/l10n/app_strings.dart';
@@ -16,23 +18,7 @@ class OrderDetailScreen extends StatefulWidget {
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
-  static const _products = [
-    {
-      'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
-      'price': '159 €',
-      'image': 'assets/images/product_01.png',
-    },
-    {
-      'title': 'Blue Comfort type saddle',
-      'price': '159 €',
-      'image': 'assets/images/product_02.png',
-    },
-    {
-      'title': 'EquiEase Deluxe Saddle for professional riders in Benelux countries.',
-      'price': '159 €',
-      'image': 'assets/images/product_03.png',
-    },
-  ];
+  static const _products = MockOrders.orderDetailProducts;
 
   void _showRatingDialog() {
     final cs = Theme.of(context).colorScheme;
@@ -267,13 +253,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
-  Widget _buildProductRow(ColorScheme cs, Map<String, String> product) {
+  Widget _buildProductRow(ColorScheme cs, CartItem product) {
     return Row(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(4),
           child: Image.asset(
-            product['image']!,
+            product.imageAsset,
             width: 80,
             height: 87,
             fit: BoxFit.cover,
@@ -285,14 +271,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                product['title']!,
+                product.title,
                 style: AppTextStyles.actionLink(cs.secondary),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 4),
               Text(
-                product['price']!,
+                product.price,
                 style: AppTextStyles.productNewPrice(cs.surfaceTint),
               ),
             ],

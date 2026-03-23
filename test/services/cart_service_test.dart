@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:eqqu/models/cart_item.dart';
+import 'package:eqqu/models/enums.dart';
 import 'package:eqqu/services/cart_service.dart';
 
 void main() {
@@ -8,35 +10,21 @@ void main() {
     });
 
     test('sums prices correctly', () {
-      final items = [
-        {'priceNum': '100'},
-        {'priceNum': '200'},
+      const items = [
+        CartItem(title: 'A', price: '100 €', priceNum: 100, imageAsset: ''),
+        CartItem(title: 'B', price: '200 €', priceNum: 200, imageAsset: ''),
       ];
       expect(CartService.totalProductPrice(items), 300);
-    });
-
-    test('handles missing priceNum', () {
-      final items = [
-        {'name': 'test'},
-      ];
-      expect(CartService.totalProductPrice(items), 0);
-    });
-
-    test('handles invalid priceNum', () {
-      final items = [
-        {'priceNum': 'abc'},
-      ];
-      expect(CartService.totalProductPrice(items), 0);
     });
   });
 
   group('CartService.deliveryPrice', () {
     test('returns 0 for pickup', () {
-      expect(CartService.deliveryPrice('pickup'), 0);
+      expect(CartService.deliveryPrice(DeliveryMethod.pickup), 0);
     });
 
-    test('returns 2 for delivery', () {
-      expect(CartService.deliveryPrice('delivery'), 2);
+    test('returns 2 for address delivery', () {
+      expect(CartService.deliveryPrice(DeliveryMethod.address), 2);
     });
   });
 
@@ -46,26 +34,27 @@ void main() {
     });
 
     test('returns 2 for non-empty cart', () {
-      expect(CartService.buyerProtectionFee([{'priceNum': '10'}]), 2);
+      const items = [CartItem(title: 'A', price: '10 €', priceNum: 10, imageAsset: '')];
+      expect(CartService.buyerProtectionFee(items), 2);
     });
   });
 
   group('CartService.totalPrice', () {
     test('calculates total with delivery', () {
-      final items = [{'priceNum': '100'}];
+      const items = [CartItem(title: 'A', price: '100 €', priceNum: 100, imageAsset: '')];
       // 100 + 2 (delivery) + 2 (protection) = 104
-      expect(CartService.totalPrice(items, 'delivery'), 104);
+      expect(CartService.totalPrice(items, DeliveryMethod.address), 104);
     });
 
     test('calculates total with pickup', () {
-      final items = [{'priceNum': '100'}];
+      const items = [CartItem(title: 'A', price: '100 €', priceNum: 100, imageAsset: '')];
       // 100 + 0 (pickup) + 2 (protection) = 102
-      expect(CartService.totalPrice(items, 'pickup'), 102);
+      expect(CartService.totalPrice(items, DeliveryMethod.pickup), 102);
     });
 
     test('returns delivery fee for empty cart', () {
       // 0 products + 2 delivery + 0 protection = 2
-      expect(CartService.totalPrice([], 'delivery'), 2);
+      expect(CartService.totalPrice([], DeliveryMethod.address), 2);
     });
   });
 }

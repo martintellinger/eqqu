@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/data/mock_listings.dart';
 import 'package:eqqu/l10n/app_strings.dart';
-import 'package:eqqu/models/product.dart';
+import 'package:eqqu/models/enums.dart';
 import 'package:eqqu/models/listing.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
@@ -21,80 +22,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
   bool get _allHidden =>
       _listings.isNotEmpty && _hiddenIndices.length == _listings.length;
 
-  final List<Listing> _listings = [
-    const Listing(
-      id: '1',
-      product: Product(
-        title: 'Black GP type saddle',
-        subtitle: 'No brand / Good / 17"',
-        oldPrice: '140 €',
-        newPrice: '159 €',
-        imageAsset: 'assets/images/product_01.png',
-        brand: 'No brand',
-      ),
-      status: 'active',
-    ),
-    const Listing(
-      id: '2',
-      product: Product(
-        title: 'Green Mountain type saddle',
-        subtitle: 'Rugged Brand / Very Good / 16"',
-        oldPrice: '180 €',
-        newPrice: '199 €',
-        imageAsset: 'assets/images/product_02.png',
-        brand: 'Rugged Brand',
-      ),
-      status: 'sold',
-    ),
-    const Listing(
-      id: '3',
-      product: Product(
-        title: 'Red Racing type saddle',
-        subtitle: 'Speedy Brand / Excellent / 15"',
-        oldPrice: '200 €',
-        newPrice: '230 €',
-        imageAsset: 'assets/images/product_03.png',
-        brand: 'Speedy Brand',
-      ),
-      status: 'sold',
-    ),
-    const Listing(
-      id: '4',
-      product: Product(
-        title: 'Black GP type saddle',
-        subtitle: 'No brand / Good / 17"',
-        oldPrice: '140 €',
-        newPrice: '159 €',
-        imageAsset: 'assets/images/product_01.png',
-        brand: 'No brand',
-      ),
-      status: 'shipped',
-    ),
-    const Listing(
-      id: '5',
-      product: Product(
-        title: 'Red Racing type saddle',
-        subtitle: 'Speedy Brand / Excellent / 15"',
-        oldPrice: '200 €',
-        newPrice: '230 €',
-        imageAsset: 'assets/images/product_03.png',
-        brand: 'Speedy Brand',
-      ),
-      status: 'shipped',
-    ),
-    const Listing(
-      id: '6',
-      product: Product(
-        title: 'Green Mountain type saddle',
-        subtitle: 'Rugged Brand / Very Good / 16"',
-        oldPrice: '180 €',
-        newPrice: '199 €',
-        imageAsset: 'assets/images/product_02.png',
-        brand: 'Rugged Brand',
-      ),
-      status: 'shipped',
-    ),
-  ];
+  final List<Listing> _listings = List.of(MockListings.listings);
 
   void _toggleHideAll() {
     setState(() {
@@ -583,30 +511,23 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     );
   }
 
-  Widget _buildStatusChip(ColorScheme cs, String status) {
-    String label;
-    Color textColor;
-    IconData icon;
+  Widget _buildStatusChip(ColorScheme cs, ListingStatus status) {
+    final String label;
+    final Color textColor;
+    final IconData icon;
 
     switch (status) {
-      case 'active':
+      case ListingStatus.active:
         label = 'Aktivní';
         textColor = const Color(0xFFA46700);
         icon = Icons.circle;
-        break;
-      case 'sold':
+      case ListingStatus.sold:
         label = 'Prodáno';
         textColor = cs.surfaceTint;
         icon = Icons.check_circle;
-        break;
-      case 'shipped':
+      case ListingStatus.shipped:
         label = 'Odesláno';
         textColor = cs.onSurface;
-        icon = Icons.circle;
-        break;
-      default:
-        label = status;
-        textColor = cs.tertiary;
         icon = Icons.circle;
     }
 

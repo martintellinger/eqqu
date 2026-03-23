@@ -26,18 +26,19 @@ class CachedProductRepository implements ProductRepository {
 
   @override
   Future<List<Product>> getAllProducts() async {
-    // Try cache first.
     final cached = await CacheManager.get<List<dynamic>>(_boxName, 'all');
     if (cached != null) {
-      return cached.cast<Map<dynamic, dynamic>>().map(_fromMap).toList();
+      return cached
+          .cast<Map<dynamic, dynamic>>()
+          .map((m) => Product.fromJson(Map<String, dynamic>.from(m)))
+          .toList();
     }
 
-    // Fetch from source.
     final products = await _inner.getAllProducts();
     await CacheManager.put(
       _boxName,
       'all',
-      products.map(_toMap).toList(),
+      products.map((p) => p.toJson()).toList(),
       ttl: _ttl,
     );
     return products;
@@ -48,14 +49,17 @@ class CachedProductRepository implements ProductRepository {
     final cacheKey = 'seller_$sellerId';
     final cached = await CacheManager.get<List<dynamic>>(_boxName, cacheKey);
     if (cached != null) {
-      return cached.cast<Map<dynamic, dynamic>>().map(_fromMap).toList();
+      return cached
+          .cast<Map<dynamic, dynamic>>()
+          .map((m) => Product.fromJson(Map<String, dynamic>.from(m)))
+          .toList();
     }
 
     final products = await _inner.getSellerProducts(sellerId);
     await CacheManager.put(
       _boxName,
       cacheKey,
-      products.map(_toMap).toList(),
+      products.map((p) => p.toJson()).toList(),
       ttl: _ttl,
     );
     return products;
@@ -65,11 +69,13 @@ class CachedProductRepository implements ProductRepository {
   Future<Product?> getProductById(String productId) async {
     final cacheKey = 'product_$productId';
     final cached = await CacheManager.get<Map<dynamic, dynamic>>(_boxName, cacheKey);
-    if (cached != null) return _fromMap(cached);
+    if (cached != null) {
+      return Product.fromJson(Map<String, dynamic>.from(cached));
+    }
 
     final product = await _inner.getProductById(productId);
     if (product != null) {
-      await CacheManager.put(_boxName, cacheKey, _toMap(product), ttl: _ttl);
+      await CacheManager.put(_boxName, cacheKey, product.toJson(), ttl: _ttl);
     }
     return product;
   }
@@ -84,26 +90,4 @@ class CachedProductRepository implements ProductRepository {
   Future<void> invalidate() async {
     await CacheManager.clearBox(_boxName);
   }
-
-  // ── Serialization helpers ──────────────────────────────────────
-
-  static Map<String, String> _toMap(Product p) => {
-    'title': p.title,
-    'subtitle': p.subtitle,
-    'oldPrice': p.oldPrice,
-    'newPrice': p.newPrice,
-    'imageAsset': p.imageAsset,
-    'brand': p.brand,
-    'category': p.category,
-  };
-
-  static Product _fromMap(Map<dynamic, dynamic> m) => Product(
-    title: m['title'] as String? ?? '',
-    subtitle: m['subtitle'] as String? ?? '',
-    oldPrice: m['oldPrice'] as String? ?? '',
-    newPrice: m['newPrice'] as String? ?? '',
-    imageAsset: m['imageAsset'] as String? ?? '',
-    brand: m['brand'] as String? ?? '',
-    category: m['category'] as String? ?? '',
-  );
 }

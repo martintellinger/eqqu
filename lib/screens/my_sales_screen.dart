@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/data/mock_orders.dart';
+import 'package:eqqu/models/enums.dart';
+import 'package:eqqu/models/order.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/filter_chip_bar.dart';
@@ -16,48 +19,12 @@ class _MySalesScreenState extends State<MySalesScreen> {
 
   static const _filters = ['Vše', 'Nové', 'Vyřízeno', 'Odesláno'];
 
-  static const _orders = [
-    {
-      'id': '12345678',
-      'date': '23.06.2025',
-      'status': 'new',
-      'price': '159 €',
-      'images': ['assets/images/product_01.png', 'assets/images/product_02.png', 'assets/images/product_03.png'],
-    },
-    {
-      'id': '12345679',
-      'date': '23.06.2025',
-      'status': 'processed',
-      'price': '159 €',
-      'images': ['assets/images/product_01.png', 'assets/images/product_02.png', 'assets/images/product_03.png'],
-    },
-    {
-      'id': '12345680',
-      'date': '23.06.2025',
-      'status': 'shipped',
-      'price': '159 €',
-      'images': ['assets/images/product_01.png', 'assets/images/product_02.png', 'assets/images/product_03.png'],
-    },
-    {
-      'id': '12345681',
-      'date': '23.06.2025',
-      'status': 'delivered',
-      'price': '159 €',
-      'images': ['assets/images/product_01.png', 'assets/images/product_02.png', 'assets/images/product_03.png'],
-    },
-    {
-      'id': '12345682',
-      'date': '23.06.2025',
-      'status': 'paid_out',
-      'price': '159 €',
-      'images': ['assets/images/product_01.png', 'assets/images/product_02.png', 'assets/images/product_03.png'],
-    },
-  ];
+  static const _orders = MockOrders.sales;
 
-  List<Map<String, dynamic>> get _filteredOrders {
+  List<SaleOrder> get _filteredOrders {
     if (_selectedFilter == 0) return _orders;
-    final statusMap = {1: 'new', 2: 'processed', 3: 'shipped'};
-    return _orders.where((o) => o['status'] == statusMap[_selectedFilter]).toList();
+    final statusMap = {1: SaleStatus.newOrder, 2: SaleStatus.processed, 3: SaleStatus.shipped};
+    return _orders.where((o) => o.status == statusMap[_selectedFilter]).toList();
   }
 
   @override
@@ -95,10 +62,9 @@ class _MySalesScreenState extends State<MySalesScreen> {
   }
 
 
-  Widget _buildOrderCard(ColorScheme cs, Map<String, dynamic> order) {
-    final status = order['status'] as String;
+  Widget _buildOrderCard(ColorScheme cs, SaleOrder order) {
     Color cardBg;
-    if (status == 'paid_out') {
+    if (order.status == SaleStatus.paidOut) {
       cardBg = cs.brightness == Brightness.dark
           ? const Color(0xFF3A3939)
           : const Color(0xFFF5F5F5);
@@ -130,20 +96,20 @@ class _MySalesScreenState extends State<MySalesScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Objednávka ${order['id']}',
+                        'Objednávka ${order.id}',
                         style: AppTextStyles.actionLink(cs.secondary),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        order['date'] as String,
+                        order.date,
                         style: AppTextStyles.bodyMedium(cs.tertiary),
                       ),
                     ],
                   ),
                 ),
-                _buildStatusChip(cs, status),
+                _buildStatusChip(cs, order.status),
               ],
             ),
             const SizedBox(height: 16),
@@ -152,12 +118,12 @@ class _MySalesScreenState extends State<MySalesScreen> {
                 Expanded(
                   child: Row(
                     children: [
-                      for (var i = 0; i < (order['images'] as List).length; i++) ...[
+                      for (var i = 0; i < order.images.length; i++) ...[
                         if (i > 0) const SizedBox(width: 8),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: Image.asset(
-                            (order['images'] as List)[i],
+                            order.images[i],
                             width: 40,
                             height: 43,
                             fit: BoxFit.cover,
@@ -168,7 +134,7 @@ class _MySalesScreenState extends State<MySalesScreen> {
                   ),
                 ),
                 Text(
-                  order['price'] as String,
+                  order.price,
                   style: AppTextStyles.productNewPrice(cs.surfaceTint),
                 ),
               ],
@@ -179,41 +145,32 @@ class _MySalesScreenState extends State<MySalesScreen> {
     );
   }
 
-  Widget _buildStatusChip(ColorScheme cs, String status) {
-    String label;
-    Color textColor;
-    IconData icon;
+  Widget _buildStatusChip(ColorScheme cs, SaleStatus status) {
+    final String label;
+    final Color textColor;
+    final IconData icon;
 
     switch (status) {
-      case 'new':
+      case SaleStatus.newOrder:
         label = 'Nové';
         textColor = cs.surfaceTint;
         icon = Icons.add_circle_outline;
-        break;
-      case 'processed':
+      case SaleStatus.processed:
         label = 'Vyřízeno';
         textColor = cs.surfaceTint;
         icon = Icons.check_circle_outline;
-        break;
-      case 'shipped':
+      case SaleStatus.shipped:
         label = 'Odesláno';
         textColor = cs.surfaceTint;
         icon = Icons.access_time;
-        break;
-      case 'delivered':
+      case SaleStatus.delivered:
         label = 'Doručeno';
         textColor = cs.surfaceTint;
         icon = Icons.local_shipping_outlined;
-        break;
-      case 'paid_out':
+      case SaleStatus.paidOut:
         label = 'Vyplaceno';
         textColor = cs.tertiary;
         icon = Icons.account_balance_wallet_outlined;
-        break;
-      default:
-        label = status;
-        textColor = cs.tertiary;
-        icon = Icons.info_outline;
     }
 
     return Container(

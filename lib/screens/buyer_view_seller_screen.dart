@@ -7,6 +7,7 @@ import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/product_card.dart';
+import 'package:eqqu/models/cart_item.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/screens/reviews_screen.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
@@ -549,12 +550,12 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                 height: 56,
                 child: FilledButton(
                   onPressed: () {
-                    final cartItems = _setItems.map((p) => {
-                      'title': p.title,
-                      'price': p.newPrice,
-                      'priceNum': p.newPrice.replaceAll(RegExp(r'[^0-9]'), ''),
-                      'image': p.imageAsset,
-                    }).toList();
+                    final cartItems = _setItems.map((p) => CartItem(
+                      title: p.title,
+                      price: p.newPrice,
+                      priceNum: int.tryParse(p.newPrice.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
+                      imageAsset: p.imageAsset,
+                    )).toList();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

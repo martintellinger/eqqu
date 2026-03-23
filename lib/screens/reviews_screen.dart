@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:eqqu/data/mock_conversations.dart';
+import 'package:eqqu/models/review.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
@@ -6,44 +8,7 @@ import 'package:eqqu/screens/buyer_view_seller_screen.dart';
 class ReviewsScreen extends StatelessWidget {
   const ReviewsScreen({super.key});
 
-  static const _reviews = [
-    {
-      'name': 'Anna K.',
-      'avatar': 'assets/images/avatar_2.png',
-      'country': 'Česká republika',
-      'rating': 5,
-      'time': 'před 2 dny',
-      'text':
-          'Skvělá komunikace a rychlé odeslání. Sedlo odpovídá popisu, jsem velmi spokojená!',
-    },
-    {
-      'name': 'Markéta P.',
-      'avatar': 'assets/images/avatar_3.png',
-      'country': 'Slovensko',
-      'rating': 4,
-      'time': 'před 5 dny',
-      'text':
-          'Vše v pořádku, jen doručení trvalo trochu déle. Jinak super prodejce.',
-    },
-    {
-      'name': 'Jan N.',
-      'avatar': 'assets/images/avatar_4.png',
-      'country': 'Česká republika',
-      'rating': 5,
-      'time': 'před 1 týdnem',
-      'text':
-          'Výborná kvalita, přesně jak bylo popsáno. Doporučuji!',
-    },
-    {
-      'name': 'Petra S.',
-      'avatar': 'assets/images/avatar_5.png',
-      'country': 'Česká republika',
-      'rating': 3,
-      'time': 'před 2 týdny',
-      'text':
-          'Produkt ok, ale komunikace mohla být lepší. Odpovědi přicházely se zpožděním.',
-    },
-  ];
+  static const _reviews = MockConversations.reviews;
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +77,7 @@ class ReviewsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReviewCard(BuildContext context, ColorScheme cs, Map<String, dynamic> review) {
-    final rating = review['rating'] as int;
-
+  Widget _buildReviewCard(BuildContext context, ColorScheme cs, Review review) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -130,7 +93,7 @@ class ReviewsScreen extends StatelessWidget {
             children: [
               ClipOval(
                 child: Image.asset(
-                  review['avatar'] as String,
+                  review.avatar,
                   width: 40,
                   height: 40,
                   fit: BoxFit.cover,
@@ -142,11 +105,11 @@ class ReviewsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      review['name'] as String,
+                      review.name,
                       style: AppTextStyles.actionLink(cs.secondary),
                     ),
                     Text(
-                      review['country'] as String,
+                      review.country,
                       style: AppTextStyles.labelSmall(cs.tertiary),
                     ),
                   ],
@@ -162,16 +125,16 @@ class ReviewsScreen extends StatelessWidget {
             ...List.generate(
               5,
               (i) => Icon(
-                i < rating ? Icons.star : Icons.star_border,
+                i < review.rating ? Icons.star : Icons.star_border,
                 size: 16,
-                color: i < rating
+                color: i < review.rating
                     ? const Color(0xFFFFD700)
                     : cs.tertiary,
               ),
             ),
             const SizedBox(width: 8),
             Text(
-              review['time'] as String,
+              review.time,
               style: AppTextStyles.labelSmall(cs.tertiary),
             ),
           ],
@@ -179,7 +142,7 @@ class ReviewsScreen extends StatelessWidget {
         const SizedBox(height: 8),
         // Review text
         Text(
-          review['text'] as String,
+          review.text,
           style: AppTextStyles.bodyMedium(cs.secondary),
         ),
       ],

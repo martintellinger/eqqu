@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eqqu/models/conversation.dart';
+import 'package:eqqu/data/mock_conversations.dart';
 import 'package:eqqu/screens/chat_detail_screen.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
@@ -27,84 +27,9 @@ class _ChatListScreenState extends State<ChatListScreen>
     super.dispose();
   }
 
-  static const _conversations = [
-    // Unread conversations first (bold font + green dot)
-    Conversation(
-      name: 'Emma Novak',
-      initials: 'EN',
-      avatarAsset: 'assets/images/avatar_1.png',
-      lastMessage: 'Ahoj, je sedlo ještě dostupné?',
-      time: '10:30',
-      unreadCount: 2,
-      productImageAsset: 'assets/images/product_01.png',
-      productName: 'Black GP type saddle',
-    ),
-    Conversation(
-      name: 'Petra Svobodová',
-      initials: 'PS',
-      avatarAsset: 'assets/images/avatar_3.png',
-      lastMessage: 'Můžete poslat více fotek?',
-      time: 'Včera',
-      unreadCount: 1,
-      productImageAsset: 'assets/images/product_03.png',
-      productName: 'Red Racing type saddle',
-    ),
-    Conversation(
-      name: 'Tomáš Němec',
-      initials: 'TN',
-      lastMessage: 'Je možná sleva?',
-      time: 'Po',
-      unreadCount: 3,
-      productImageAsset: 'assets/images/product_9.png',
-      productName: 'Třmeny Flex-On',
-    ),
-    // Read conversations
-    Conversation(
-      name: 'Jan Dvořák',
-      initials: 'JD',
-      avatarAsset: 'assets/images/avatar_2.png',
-      lastMessage: 'Děkuji za rychlou odpověď!',
-      time: '9:15',
-      productImageAsset: 'assets/images/product_02.png',
-      productName: 'Blue Comfort type saddle',
-    ),
-    Conversation(
-      name: 'Martin Horák',
-      initials: 'MH',
-      avatarAsset: 'assets/images/avatar_4.png',
-      lastMessage: 'Dobrý den, mám zájem o uzdečku.',
-      time: 'Včera',
-      productImageAsset: 'assets/images/product_07.png',
-      productName: 'Fleece bandáže Kentucky',
-    ),
-    Conversation(
-      name: 'Lucie Králová',
-      initials: 'LK',
-      avatarAsset: 'assets/images/avatar_5.png',
-      lastMessage: 'Posílám platbu dnes.',
-      time: 'Po',
-      productImageAsset: 'assets/images/product_8.png',
-      productName: 'Deka Eskadron Classic',
-    ),
-  ];
+  static const _conversations = MockConversations.conversations;
 
-  static const _notifications = [
-    {
-      'title': 'Nový inzerát v kategorii Koně',
-      'message': 'Podívejte se na nové sedlo od Emma Novak',
-      'time': '10:30',
-    },
-    {
-      'title': 'Snížení ceny',
-      'message': 'Blue Comfort type saddle je nyní za 120 €',
-      'time': 'Včera',
-    },
-    {
-      'title': 'Hodnocení',
-      'message': 'Jan Dvořák vám dal hodnocení 5 hvězdiček',
-      'time': 'Po',
-    },
-  ];
+  static const _notifications = MockConversations.notifications;
 
   @override
   Widget build(BuildContext context) {
