@@ -88,7 +88,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // File upload area
-                        _buildFileUpload(cs),
+                        _buildFileUpload(cs, s),
                         const SizedBox(height: 24),
 
                         // Název*
@@ -237,7 +237,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
     );
   }
 
-  Widget _buildFileUpload(ColorScheme cs) {
+  Widget _buildFileUpload(ColorScheme cs, AppStrings s) {
     return GestureDetector(
       onTap: () {},
       child: Container(
