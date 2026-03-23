@@ -189,10 +189,7 @@ class ProfileScreen extends StatelessWidget {
   Widget _buildStatItem(ColorScheme cs, String value, String label, {required bool showBottomBorder}) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(
-        bottom: showBottomBorder ? 8 : 0,
-        top: showBottomBorder ? 0 : 8,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: showBottomBorder
           ? BoxDecoration(
               border: Border(
@@ -207,6 +204,7 @@ class ProfileScreen extends StatelessWidget {
             value,
             style: AppTextStyles.sectionTitle(cs.secondary),
           ),
+          const SizedBox(height: 2),
           Text(
             label,
             style: AppTextStyles.labelSmall(cs.tertiary),
