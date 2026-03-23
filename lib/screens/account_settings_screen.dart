@@ -93,7 +93,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
     if (_formKey.currentState!.validate()) {
       final s = AppStrings.of(context);
-      AppSnackBar.show(context, message: s.changesSaved);
+      AppSnackBar.showSuccess(context, message: s.changesSaved);
       Navigator.pop(context);
     }
   }

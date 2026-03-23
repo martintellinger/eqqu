@@ -175,6 +175,7 @@ class AppStrings {
   String get send => _t('send');
   String get cancel => _t('cancel');
   String get delete => _t('delete');
+  String get deleteProductQuestion => _t('deleteProductQuestion');
   String get close => _t('close');
   String get edit => _t('edit');
   String get unhide => _t('unhide');
@@ -438,6 +439,7 @@ class AppStrings {
       'send': 'Odeslat',
       'cancel': 'Zrušit',
       'delete': 'Smazat',
+      'deleteProductQuestion': 'Opravdu chcete smazat tento produkt?',
       'close': 'Zavřít',
       'edit': 'Upravit',
       'unhide': 'Odkrýt',
@@ -687,6 +689,7 @@ class AppStrings {
       'send': 'Send',
       'cancel': 'Cancel',
       'delete': 'Delete',
+      'deleteProductQuestion': 'Do you really want to delete this product?',
       'close': 'Close',
       'edit': 'Edit',
       'unhide': 'Unhide',
@@ -936,6 +939,7 @@ class AppStrings {
       'send': 'Odoslať',
       'cancel': 'Zrušiť',
       'delete': 'Zmazať',
+      'deleteProductQuestion': 'Naozaj chcete zmazať tento produkt?',
       'close': 'Zavrieť',
       'edit': 'Upraviť',
       'unhide': 'Odkryť',
@@ -1174,6 +1178,7 @@ class AppStrings {
       'send': 'Wyślij',
       'cancel': 'Anuluj',
       'delete': 'Usuń',
+      'deleteProductQuestion': 'Czy na pewno chcesz usunąć ten produkt?',
       'close': 'Zamknij',
       'edit': 'Edytuj',
       'unhide': 'Pokaż',

@@ -30,7 +30,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     setState(() => _hasSubmitted = true);
     if (_formKey.currentState!.validate()) {
       final s = AppStrings.of(context);
-      AppSnackBar.show(context, message: s.passwordChanged);
+      AppSnackBar.showSuccess(context, message: s.passwordChanged);
       Navigator.pop(context);
     }
   }

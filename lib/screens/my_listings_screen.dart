@@ -5,6 +5,7 @@ import 'package:eqqu/models/enums.dart';
 import 'package:eqqu/models/listing.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
+import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
 
@@ -67,7 +68,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
           ..addAll(newHidden);
       });
       final s = AppStrings.of(context);
-      AppSnackBar.show(context, message: s.wasDeleted(deleted.product.title));
+      AppSnackBar.showError(context, message: s.wasDeleted(deleted.product.title));
     });
   }
 
@@ -132,7 +133,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
                 onTap: () async {
                   Navigator.pop(ctx);
                   await Future.delayed(const Duration(milliseconds: 300));
-                  if (mounted) _deleteItem(index);
+                  if (mounted) _showDeleteConfirmDialog(index);
                 },
               ),
             ],
@@ -172,6 +173,79 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     );
   }
 
+  void _showDeleteConfirmDialog(int index) {
+    final s = AppStrings.of(context);
+    final cs = Theme.of(context).colorScheme;
+    showBlurDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: cs.surfaceContainerHigh,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                s.deleteProductQuestion,
+                style: AppTextStyles.outfit(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                  color: cs.onSurface,
+                  height: 32 / 24,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 48,
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: cs.outlineVariant),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      child: Text(
+                        s.cancel,
+                        style: AppTextStyles.chip(cs.onSurfaceVariant),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 48,
+                    child: FilledButton(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        _deleteItem(index);
+                      },
+                      style: FilledButton.styleFrom(
+                        backgroundColor: cs.error,
+                        minimumSize: Size.zero,
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      child: Text(
+                        s.delete,
+                        style: AppTextStyles.chip(cs.onError),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _showReservationDialog() {
     if (!mounted) return;
     final s = AppStrings.of(context);
@@ -181,103 +255,107 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
       barrierDismissible: true,
       builder: (ctx) {
         final cs = Theme.of(ctx).colorScheme;
-        return AlertDialog(
+        return Dialog(
+          backgroundColor: cs.surfaceContainerHigh,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
-          backgroundColor: cs.surfaceContainerHigh,
-          titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-          contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-          actionsAlignment: MainAxisAlignment.spaceBetween,
-          actionsPadding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
-          title: Text(
-            s.reserve,
-            style: AppTextStyles.poppins(
-              fontSize: 24,
-              fontWeight: FontWeight.w400,
-              color: cs.onSurface,
-              height: 32 / 24,
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
-                style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
-              ),
-              const SizedBox(height: 24),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: s.usernameLabel,
-                  labelStyle: AppTextStyles.poppins(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  s.reserve,
+                  style: AppTextStyles.poppins(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                    color: cs.onSurface,
+                    height: 32 / 24,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
+                  style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
+                ),
+                const SizedBox(height: 24),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: s.usernameLabel,
+                    labelStyle: AppTextStyles.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: cs.onSurfaceVariant,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: cs.outline),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: cs.outline),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: cs.primary, width: 2),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 16,
+                    ),
+                  ),
+                  style: AppTextStyles.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: cs.onSurfaceVariant,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: cs.outline),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: cs.outline),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: cs.primary, width: 2),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 16,
+                    color: cs.onSurface,
                   ),
                 ),
-                style: AppTextStyles.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSurface,
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 48,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: cs.outlineVariant),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Text(
+                          s.cancel,
+                          style: AppTextStyles.chip(cs.onSurfaceVariant),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 48,
+                      child: FilledButton(
+                        onPressed: () async {
+                          Navigator.pop(ctx);
+                          await Future.delayed(const Duration(milliseconds: 300));
+                          if (mounted) _showReservationErrorSheet();
+                        },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: cs.secondaryContainer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Text(
+                          s.reserve,
+                          style: AppTextStyles.chip(cs.onSecondaryContainer),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          actions: [
-            SizedBox(
-              height: 48,
-              child: OutlinedButton(
-                onPressed: () => Navigator.pop(ctx),
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: cs.outlineVariant),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-                child: Text(
-                  s.cancel,
-                  style: AppTextStyles.chip(cs.onSurfaceVariant),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 48,
-              child: FilledButton(
-                onPressed: () async {
-                  Navigator.pop(ctx);
-                  await Future.delayed(const Duration(milliseconds: 300));
-                  if (mounted) _showReservationErrorSheet();
-                },
-                style: FilledButton.styleFrom(
-                  backgroundColor: cs.secondaryContainer,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-                child: Text(
-                  s.reserve,
-                  style: AppTextStyles.chip(cs.onSecondaryContainer),
-                ),
-              ),
-            ),
-          ],
         );
       },
     );

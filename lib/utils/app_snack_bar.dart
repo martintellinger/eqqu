@@ -4,6 +4,7 @@ import 'package:eqqu/theme/app_text_styles.dart';
 class AppSnackBar {
   AppSnackBar._();
 
+  /// Neutral snackbar – black background, white text.
   static void show(
     BuildContext context, {
     required String message,
@@ -12,11 +13,14 @@ class AppSnackBar {
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          message,
-          style: AppTextStyles.snackBarMessage(),
+        content: Center(
+          child: Text(
+            message,
+            style: AppTextStyles.snackBarMessage(),
+            textAlign: TextAlign.center,
+          ),
         ),
-        backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.primary,
+        backgroundColor: backgroundColor ?? Colors.black,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         duration: duration,
@@ -24,6 +28,7 @@ class AppSnackBar {
     );
   }
 
+  /// Destructive / error snackbar – red from design system.
   static void showError(
     BuildContext context, {
     required String message,
@@ -33,6 +38,20 @@ class AppSnackBar {
       context,
       message: message,
       backgroundColor: Theme.of(context).colorScheme.error,
+      duration: duration,
+    );
+  }
+
+  /// Positive / success snackbar – green (primary) from design system.
+  static void showSuccess(
+    BuildContext context, {
+    required String message,
+    Duration duration = const Duration(seconds: 3),
+  }) {
+    show(
+      context,
+      message: message,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       duration: duration,
     );
   }

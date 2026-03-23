@@ -31,7 +31,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
     setState(() => _errorText = null);
 
-    AppSnackBar.show(context, message: s.feedbackSent);
+    AppSnackBar.showSuccess(context, message: s.feedbackSent);
     Navigator.pop(context);
   }
 

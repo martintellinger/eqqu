@@ -35,7 +35,7 @@ class _AddressScreenState extends State<AddressScreen> {
 
     if (_formKey.currentState!.validate()) {
       final s = AppStrings.of(context);
-      AppSnackBar.show(context, message: s.addressSaved);
+      AppSnackBar.showSuccess(context, message: s.addressSaved);
       Navigator.pop(context);
     }
   }

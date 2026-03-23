@@ -203,7 +203,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                           height: 56,
                           child: FilledButton(
                             onPressed: _isFormValid ? () {
-                              AppSnackBar.show(context, message: s.listingCreated);
+                              AppSnackBar.showSuccess(context, message: s.listingCreated);
                               Navigator.pop(context);
                             } : null,
                             style: FilledButton.styleFrom(

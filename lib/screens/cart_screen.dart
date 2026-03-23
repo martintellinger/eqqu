@@ -72,7 +72,7 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       _cartItems.removeAt(index);
     });
-    AppSnackBar.show(context, message: s.productRemovedFromCart, duration: const Duration(seconds: 2));
+    AppSnackBar.showError(context, message: s.productRemovedFromCart, duration: const Duration(seconds: 2));
   }
 
   bool _validateCardFields() {

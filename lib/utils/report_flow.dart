@@ -145,98 +145,109 @@ void _showReportReasonDialog(BuildContext context) {
 
   showBlurDialog(
     context: context,
-    builder: (ctx) => Dialog(
-      backgroundColor: cs.surfaceContainerHigh,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              s.reportReason,
-              style: AppTextStyles.outfit(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                color: cs.onSurface,
-                height: 32 / 24,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
-              style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: controller,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: s.describeReason,
-                hintStyle: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: cs.outlineVariant),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: cs.outlineVariant),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: cs.primary),
-                ),
-                contentPadding: const EdgeInsets.all(16),
-              ),
-              style: AppTextStyles.bodyMedium(cs.onSurface),
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    builder: (ctx) => StatefulBuilder(
+      builder: (ctx, setDialogState) {
+        final hasText = controller.text.trim().isNotEmpty;
+        return Dialog(
+          backgroundColor: cs.surfaceContainerHigh,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 48,
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(ctx),
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: cs.outlineVariant),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                    ),
-                    child: Text(
-                      s.cancel,
-                      style: AppTextStyles.chip(cs.onSurfaceVariant),
-                    ),
+                Text(
+                  s.reportReason,
+                  style: AppTextStyles.outfit(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSurface,
+                    height: 32 / 24,
                   ),
                 ),
-                SizedBox(
-                  height: 48,
-                  child: FilledButton(
-                    onPressed: () {
-                      Navigator.pop(ctx);
-                      AppSnackBar.show(context, message: s.reportSent);
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: cs.secondaryContainer,
-                      minimumSize: Size.zero,
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
+                const SizedBox(height: 16),
+                Text(
+                  'Lorem ipsum dolor sit amet luctus, consectetur adipiscing elit',
+                  style: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: controller,
+                  maxLines: 5,
+                  onChanged: (_) => setDialogState(() {}),
+                  decoration: InputDecoration(
+                    hintText: s.describeReason,
+                    hintStyle: AppTextStyles.bodyMedium(cs.onSurfaceVariant),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: cs.outlineVariant),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: cs.outlineVariant),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: cs.primary),
+                    ),
+                    contentPadding: const EdgeInsets.all(16),
+                  ),
+                  style: AppTextStyles.bodyMedium(cs.onSurface),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 48,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: cs.outlineVariant),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Text(
+                          s.cancel,
+                          style: AppTextStyles.chip(cs.onSurfaceVariant),
+                        ),
                       ),
                     ),
-                    child: Text(
-                      s.send,
-                      style: AppTextStyles.chip(cs.onSecondaryContainer),
+                    SizedBox(
+                      height: 48,
+                      child: FilledButton(
+                        onPressed: hasText
+                            ? () {
+                                Navigator.pop(ctx);
+                                AppSnackBar.show(context, message: s.reportSent);
+                              }
+                            : null,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: cs.secondaryContainer,
+                          disabledBackgroundColor: cs.secondaryContainer.withAlpha(100),
+                          minimumSize: Size.zero,
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        child: Text(
+                          s.send,
+                          style: AppTextStyles.chip(
+                            hasText ? cs.onSecondaryContainer : cs.onSecondaryContainer.withAlpha(100),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     ),
   );
 }

@@ -42,7 +42,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
 
     if (_formKey.currentState!.validate()) {
-      AppSnackBar.show(context, message: AppStrings.of(context).accountCreated);
+      AppSnackBar.showSuccess(context, message: AppStrings.of(context).accountCreated);
       Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
     }
   }

@@ -101,7 +101,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         child: FilledButton(
                           onPressed: () {
                             Navigator.pop(ctx);
-                            AppSnackBar.show(context, message: s.ratingSubmitted);
+                            AppSnackBar.showSuccess(context, message: s.ratingSubmitted);
                           },
                           style: FilledButton.styleFrom(
                             backgroundColor: cs.secondaryContainer,

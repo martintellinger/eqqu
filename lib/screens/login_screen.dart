@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (_formKey.currentState!.validate()) {
       final s = AppStrings.of(context);
-      AppSnackBar.show(context, message: s.loginSuccessful);
+      AppSnackBar.showSuccess(context, message: s.loginSuccessful);
       Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
     }
   }
