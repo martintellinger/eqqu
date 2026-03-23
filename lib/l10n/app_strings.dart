@@ -307,6 +307,9 @@ class AppStrings {
   String get tapToUpload => _t('tapToUpload');
   String get uploadFormats => _t('uploadFormats');
 
+  // ── Parameterized ──
+  String wasDeleted(String title) => '$title ${_t('wasDeleted')}';
+
   // ── Translations ──
   static const _translations = <String, Map<String, String>>{
     'cs': {
@@ -555,6 +558,7 @@ class AppStrings {
       'listingCreated': 'Inzerát byl úspěšně vytvořen',
       'tapToUpload': 'Klepněte pro nahrání',
       'uploadFormats': 'SVG, PNG, JPG nebo GIF (max. 800x400px)',
+      'wasDeleted': 'byl smazán',
     },
     'en': {
       'home': 'Home',
@@ -802,6 +806,7 @@ class AppStrings {
       'listingCreated': 'Listing created successfully',
       'tapToUpload': 'Tap to upload',
       'uploadFormats': 'SVG, PNG, JPG or GIF (max. 800x400px)',
+      'wasDeleted': 'was deleted',
     },
     'sk': {
       'home': 'Domov',
@@ -1038,6 +1043,7 @@ class AppStrings {
       'listingCreated': 'Inzerát bol úspešne vytvorený',
       'tapToUpload': 'Klepnite pre nahranie',
       'uploadFormats': 'SVG, PNG, JPG alebo GIF (max. 800x400px)',
+      'wasDeleted': 'bol zmazaný',
     },
     'pl': {
       'home': 'Strona główna',
@@ -1274,6 +1280,7 @@ class AppStrings {
       'listingCreated': 'Ogłoszenie zostało utworzone',
       'tapToUpload': 'Kliknij, aby przesłać',
       'uploadFormats': 'SVG, PNG, JPG lub GIF (maks. 800x400px)',
+      'wasDeleted': 'został usunięty',
     },
   };
 }
