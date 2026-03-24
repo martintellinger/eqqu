@@ -32,9 +32,13 @@ class FilterChipBar extends StatelessWidget {
   }
 
   Widget _buildChip(ColorScheme cs, String label, bool selected, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
+    return Semantics(
+      label: label,
+      selected: selected,
+      button: true,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
         height: 32,
         padding: EdgeInsets.only(
           left: selected ? 8 : 16,

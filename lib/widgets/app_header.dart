@@ -39,6 +39,7 @@ class AppHeader extends StatelessWidget {
                 if (showBack)
                   IconButton(
                     icon: Icon(Icons.arrow_back, color: cs.onSurface),
+                    tooltip: 'Go back',
                     onPressed: onBack ?? () => Navigator.pop(context),
                   )
                 else

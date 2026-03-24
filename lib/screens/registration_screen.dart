@@ -55,6 +55,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
+          tooltip: s.back,
         ),
         title: Text(s.registration),
         bottom: PreferredSize(
@@ -221,7 +222,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     required String label,
     bool showError = false,
   }) {
-    return InkWell(
+    return Semantics(
+      toggled: value,
+      label: label,
+      child: InkWell(
       onTap: () => onChanged(!value),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -244,6 +248,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ],
         ),
       ),
+    ),
     );
   }
 }

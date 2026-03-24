@@ -28,11 +28,15 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     // Profile card
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, AppRoutes.sellerProfile);
-                      },
-                      child: _buildProfileCard(cs, s),
+                    Semantics(
+                      label: s.profile,
+                      button: true,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoutes.sellerProfile);
+                        },
+                        child: _buildProfileCard(cs, s),
+                      ),
                     ),
                     const SizedBox(height: 24),
 
@@ -140,8 +144,8 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor)),
-                    Icon(Icons.star_border, size: 20, color: cs.tertiary),
+                    ...List.generate(4, (_) => Icon(Icons.star, size: 20, color: AppConstants.starColor, semanticLabel: s.rating)),
+                    Icon(Icons.star_border, size: 20, color: cs.tertiary, semanticLabel: s.rating),
                     const SizedBox(width: 8),
                     Text(
                       '4.2',
@@ -203,33 +207,37 @@ class ProfileScreen extends StatelessWidget {
         border: Border.all(color: cs.outlineVariant),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8),
-          hoverColor: const Color(0x14006535),
-          splashColor: const Color(0x14006535),
-          highlightColor: const Color(0x14006535),
-          onTap: onTap ?? () {},
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  svgPath,
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(cs.onSurface, BlendMode.srcIn),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    label,
-                    style: AppTextStyles.bodyLarge(cs.onSurface),
+      child: Semantics(
+        label: label,
+        button: true,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(8),
+            hoverColor: const Color(0x14006535),
+            splashColor: const Color(0x14006535),
+            highlightColor: const Color(0x14006535),
+            onTap: onTap ?? () {},
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    svgPath,
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(cs.onSurface, BlendMode.srcIn),
                   ),
-                ),
-                Icon(Icons.chevron_right, size: 20, color: cs.onSurfaceVariant),
-              ],
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: AppTextStyles.bodyLarge(cs.onSurface),
+                    ),
+                  ),
+                  Icon(Icons.chevron_right, size: 20, color: cs.onSurfaceVariant, semanticLabel: ''),
+                ],
+              ),
             ),
           ),
         ),
@@ -254,7 +262,7 @@ class ProfileScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.logout, size: 24, color: cs.secondary),
+            Icon(Icons.logout, size: 24, color: cs.secondary, semanticLabel: s.logout),
             const SizedBox(width: 8),
             Text(
               s.logout,

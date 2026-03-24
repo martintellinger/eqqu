@@ -33,20 +33,24 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
-    return GestureDetector(
-      onTap: onTap,
-      behavior: onTap != null ? HitTestBehavior.opaque : HitTestBehavior.translucent,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildImage(cs),
-          const SizedBox(height: 4),
-          _buildTitle(cs),
-          _buildSubtitle(cs),
-          const SizedBox(height: 1),
-          _buildPriceRow(cs),
-        ],
+    return Semantics(
+      label: '${product.title}, ${product.newPrice}',
+      button: onTap != null,
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: onTap != null ? HitTestBehavior.opaque : HitTestBehavior.translucent,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildImage(cs),
+            const SizedBox(height: 4),
+            _buildTitle(cs),
+            _buildSubtitle(cs),
+            const SizedBox(height: 1),
+            _buildPriceRow(cs),
+          ],
+        ),
       ),
     );
   }
@@ -128,7 +132,7 @@ class ProductCard extends StatelessWidget {
           style: AppTextStyles.productBadge(cs.surfaceTint),
         ),
         const SizedBox(width: 4),
-        Icon(Icons.verified_user, size: 16, color: cs.surfaceTint),
+        Icon(Icons.verified_user, size: 16, color: cs.surfaceTint, semanticLabel: 'Verified'),
       ],
     );
   }

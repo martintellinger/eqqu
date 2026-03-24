@@ -20,7 +20,9 @@ class RadioOption<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = colorScheme ?? Theme.of(context).colorScheme;
     final isSelected = value == groupValue;
-    return GestureDetector(
+    return Semantics(
+      selected: isSelected,
+      child: GestureDetector(
       onTap: () => onChanged(value),
       child: Container(
         width: double.infinity,
@@ -50,6 +52,7 @@ class RadioOption<T> extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

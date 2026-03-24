@@ -220,7 +220,10 @@ class _IntroScreenState extends State<IntroScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
+                    Semantics(
+                      button: true,
+                      label: AppStrings.of(context).languageSlashLanguage,
+                      child: GestureDetector(
                       onTap: _showLanguageSheet,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -233,6 +236,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           ),
                         ],
                       ),
+                    ),
                     ),
                     TextButton(
                       onPressed: () {

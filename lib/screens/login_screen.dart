@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
+          tooltip: s.back,
         ),
         title: Text(s.login),
         bottom: PreferredSize(

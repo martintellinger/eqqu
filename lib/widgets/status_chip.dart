@@ -33,7 +33,7 @@ class StatusChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 18, color: color),
+          Icon(icon, size: 18, color: color, semanticLabel: label),
           const SizedBox(width: 8),
           Text(
             label,

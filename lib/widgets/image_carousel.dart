@@ -41,6 +41,7 @@ class ImageCarousel extends StatelessWidget {
                   Icons.image_outlined,
                   size: 64,
                   color: colorScheme.tertiary.withValues(alpha: 0.3),
+                  semanticLabel: 'No image available',
                 ),
               );
             },

@@ -82,16 +82,19 @@ class _HomeScreenState extends State<HomeScreen> {
               final isActive = _currentIndex == i;
               final color = isActive ? cs.surfaceTint : cs.tertiary;
               return Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    if (i == 2) {
-                      Navigator.pushNamed(context, AppRoutes.newListing);
-                    } else {
-                      setState(() => _currentIndex = i);
-                    }
-                  },
-                  child: SizedBox(
+                child: Semantics(
+                  label: labels[i],
+                  button: true,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      if (i == 2) {
+                        Navigator.pushNamed(context, AppRoutes.newListing);
+                      } else {
+                        setState(() => _currentIndex = i);
+                      }
+                    },
+                    child: SizedBox(
                     height: 64,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -126,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
+                  ),
                   ),
                 ),
               );
@@ -324,7 +328,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                     SizedBox(
                       width: 48,
                       height: 48,
-                      child: Icon(Icons.search, color: cs.onSurfaceVariant, size: 24),
+                      child: Icon(Icons.search, color: cs.onSurfaceVariant, size: 24, semanticLabel: s.search),
                     ),
                     Expanded(
                       child: TextField(
@@ -353,11 +357,15 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                       ),
                     ),
                     if (_searchQuery.isNotEmpty || _isSearching)
-                      GestureDetector(
-                        onTap: _closeSearch,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Icon(Icons.close, size: 20, color: cs.onSurfaceVariant),
+                      Semantics(
+                        label: s.close,
+                        button: true,
+                        child: GestureDetector(
+                          onTap: _closeSearch,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Icon(Icons.close, size: 20, color: cs.onSurfaceVariant),
+                          ),
                         ),
                       ),
                   ],
@@ -368,24 +376,28 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                Material(
-                  color: cs.secondaryContainer,
-                  borderRadius: BorderRadius.circular(8),
-                  child: InkWell(
+                Semantics(
+                  label: s.filter,
+                  button: true,
+                  child: Material(
+                    color: cs.secondaryContainer,
                     borderRadius: BorderRadius.circular(8),
-                    onTap: () async {
-                      final result = await showFilterSheet(context, currentFilters: _activeFilters);
-                      if (result != null) {
-                        setState(() {
-                          _activeFilters = result;
-                          _activeChip = null;
-                        });
-                      }
-                    },
-                    child: SizedBox(
-                      width: 56,
-                      height: 56,
-                      child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8),
+                      onTap: () async {
+                        final result = await showFilterSheet(context, currentFilters: _activeFilters);
+                        if (result != null) {
+                          setState(() {
+                            _activeFilters = result;
+                            _activeChip = null;
+                          });
+                        }
+                      },
+                      child: SizedBox(
+                        width: 56,
+                        height: 56,
+                        child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
+                      ),
                     ),
                   ),
                 ),
@@ -468,11 +480,14 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
             const SizedBox(height: 8),
             ..._filteredUsers.map((user) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.buyerViewSeller);
-                },
-                child: Container(
+              child: Semantics(
+                label: user['name'],
+                button: true,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.buyerViewSeller);
+                  },
+                  child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: cs.surfaceContainerLow,
@@ -520,6 +535,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
+              ),
               ),
             )),
             if (products.isNotEmpty) ...[
@@ -731,13 +747,17 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
 
 
   Widget _buildActiveFilterChip(ColorScheme cs, String label, String value) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _activeFilters.remove(label);
-        });
-      },
-      child: Container(
+    final s = AppStrings.of(context);
+    return Semantics(
+      label: '${s.close} $label: $value',
+      button: true,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _activeFilters.remove(label);
+          });
+        },
+        child: Container(
         height: 32,
         decoration: BoxDecoration(
           color: cs.primary,
@@ -763,6 +783,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
             ],
           ),
         ),
+      ),
       ),
     );
   }

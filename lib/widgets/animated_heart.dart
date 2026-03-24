@@ -58,47 +58,51 @@ class _AnimatedHeartButtonState extends State<AnimatedHeartButton>
   Widget build(BuildContext context) {
     final size = widget.circleSize > 0 ? widget.circleSize + 16 : 48.0;
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: _handleTap,
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _scaleAnimation,
-            builder: (context, child) => Transform.scale(
-              scale: _scaleAnimation.value,
-              child: child,
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                if (widget.circleSize > 0)
-                  Container(
-                    width: widget.circleSize,
-                    height: widget.circleSize,
-                    decoration: BoxDecoration(
-                      color: widget.cs.secondaryContainer,
-                      shape: BoxShape.circle,
+    return Semantics(
+      label: widget.isFavorite ? 'Remove from favorites' : 'Add to favorites',
+      button: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: _handleTap,
+        child: SizedBox(
+          width: size,
+          height: size,
+          child: Center(
+            child: AnimatedBuilder(
+              animation: _scaleAnimation,
+              builder: (context, child) => Transform.scale(
+                scale: _scaleAnimation.value,
+                child: child,
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  if (widget.circleSize > 0)
+                    Container(
+                      width: widget.circleSize,
+                      height: widget.circleSize,
+                      decoration: BoxDecoration(
+                        color: widget.cs.secondaryContainer,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  SvgPicture.asset(
+                    widget.isFavorite
+                        ? 'assets/icons/Heart.svg'
+                        : 'assets/icons/HeartEmpty.svg',
+                    width: widget.iconSize,
+                    height: widget.iconSize,
+                    colorFilter: ColorFilter.mode(
+                      widget.isFavorite
+                          ? widget.cs.error
+                          : widget.circleSize > 0
+                              ? widget.cs.onSecondaryContainer
+                              : widget.cs.onSurface,
+                      BlendMode.srcIn,
                     ),
                   ),
-                SvgPicture.asset(
-                  widget.isFavorite
-                      ? 'assets/icons/Heart.svg'
-                      : 'assets/icons/HeartEmpty.svg',
-                  width: widget.iconSize,
-                  height: widget.iconSize,
-                  colorFilter: ColorFilter.mode(
-                    widget.isFavorite
-                        ? widget.cs.error
-                        : widget.circleSize > 0
-                            ? widget.cs.onSecondaryContainer
-                            : widget.cs.onSurface,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

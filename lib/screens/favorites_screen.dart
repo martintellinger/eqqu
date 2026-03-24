@@ -93,7 +93,7 @@ class FavoritesScreen extends StatelessWidget {
                 child: Center(
                   child: Column(
                     children: [
-                      Icon(Icons.favorite_border, size: 64, color: cs.tertiary),
+                      Icon(Icons.favorite_border, size: 64, color: cs.tertiary, semanticLabel: s.noFavoritesYet),
                       const SizedBox(height: 16),
                       Text(
                         s.noFavoritesYet,

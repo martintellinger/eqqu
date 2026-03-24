@@ -25,67 +25,75 @@ class SellerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: cs.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipOval(
-              child: Image.asset(
-                avatarAsset,
-                width: 64,
-                height: 64,
-                cacheWidth: 192,
-                cacheHeight: 192,
-                fit: BoxFit.cover,
+    return Semantics(
+      label: 'Seller $name, rated $ratingText out of 5',
+      button: onTap != null,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  avatarAsset,
+                  width: 64,
+                  height: 64,
+                  cacheWidth: 192,
+                  cacheHeight: 192,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(name, style: AppTextStyles.labelMedium(cs.secondary)),
-                      const SizedBox(width: 12),
-                      ...List.generate(
-                        filledStars,
-                        (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor),
-                      ),
-                      ...List.generate(
-                        5 - filledStars,
-                        (_) => Icon(Icons.star_border, size: 20, color: cs.tertiary),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(ratingText, style: AppTextStyles.labelMedium(cs.tertiary)),
-                    ],
-                  ),
-                  if (messageCta != null && onMessageTap != null)
-                    GestureDetector(
-                      onTap: onMessageTap,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
-                            const SizedBox(width: 4),
-                            Text(messageCta!, style: AppTextStyles.actionLink(cs.surfaceTint)),
-                          ],
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(name, style: AppTextStyles.labelMedium(cs.secondary)),
+                        const SizedBox(width: 12),
+                        ...List.generate(
+                          filledStars,
+                          (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor),
+                        ),
+                        ...List.generate(
+                          5 - filledStars,
+                          (_) => Icon(Icons.star_border, size: 20, color: cs.tertiary),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(ratingText, style: AppTextStyles.labelMedium(cs.tertiary)),
+                      ],
+                    ),
+                    if (messageCta != null && onMessageTap != null)
+                      Semantics(
+                        label: 'Message $name',
+                        button: true,
+                        child: GestureDetector(
+                          onTap: onMessageTap,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.chat_bubble_outline, size: 20, color: cs.surfaceTint),
+                                const SizedBox(width: 4),
+                                Text(messageCta!, style: AppTextStyles.actionLink(cs.surfaceTint)),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

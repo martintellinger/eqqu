@@ -39,7 +39,9 @@ class _TapScaleWidgetState extends State<TapScaleWidget>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      child: GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTapDown: (_) => _controller.forward(),
       onTapUp: (_) {
@@ -55,6 +57,7 @@ class _TapScaleWidgetState extends State<TapScaleWidget>
         ),
         child: widget.child,
       ),
+    ),
     );
   }
 }

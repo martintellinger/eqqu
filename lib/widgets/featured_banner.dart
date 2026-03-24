@@ -81,6 +81,7 @@ class FeaturedBanner extends StatelessWidget {
                     Icons.arrow_forward,
                     size: 24,
                     color: cs.onSecondaryContainer,
+                    semanticLabel: 'View details',
                   ),
                 ),
               ),

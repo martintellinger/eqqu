@@ -249,7 +249,7 @@ class _CartScreenState extends State<CartScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.shopping_cart_outlined, size: 64, color: cs.onSurfaceVariant),
+          Icon(Icons.shopping_cart_outlined, size: 64, color: cs.onSurfaceVariant, semanticLabel: s.cartEmpty),
           const SizedBox(height: 16),
           Text(
             s.cartEmpty,
@@ -316,6 +316,7 @@ class _CartScreenState extends State<CartScreen> {
                   IconButton(
                     onPressed: () => _removeItem(index),
                     icon: Icon(Icons.delete_outline, color: cs.onSurfaceVariant),
+                    tooltip: s.delete,
                   ),
                 ],
               ),
@@ -356,11 +357,15 @@ class _CartScreenState extends State<CartScreen> {
           Text(addr['street']!, style: textStyle),
           Text(addr['country']!, style: textStyle),
           const SizedBox(height: 8),
-          GestureDetector(
-            onTap: () => _showAddressSheet(),
-            child: Text(
-              s.changeAddress,
-              style: AppTextStyles.actionLink(cs.surfaceTint),
+          Semantics(
+            button: true,
+            label: s.changeAddress,
+            child: GestureDetector(
+              onTap: () => _showAddressSheet(),
+              child: Text(
+                s.changeAddress,
+                style: AppTextStyles.actionLink(cs.surfaceTint),
+              ),
             ),
           ),
         ],

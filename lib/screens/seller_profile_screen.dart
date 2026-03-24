@@ -88,6 +88,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               trailing: IconButton(
                 icon: Icon(Icons.more_vert, color: cs.onSurface),
                 onPressed: _showMoreSheet,
+                tooltip: s.more,
               ),
             ),
           ),

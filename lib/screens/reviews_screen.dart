@@ -41,10 +41,10 @@ class ReviewsScreen extends StatelessWidget {
                         ...List.generate(
                           4,
                           (_) => const Icon(Icons.star,
-                              size: 20, color: AppConstants.starColor),
+                              size: 20, color: AppConstants.starColor, semanticLabel: 'Filled star'),
                         ),
                         Icon(Icons.star_border,
-                            size: 20, color: cs.tertiary),
+                            size: 20, color: cs.tertiary, semanticLabel: 'Empty star'),
                       ],
                     ),
                     const SizedBox(height: 2),
@@ -84,7 +84,10 @@ class ReviewsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Avatar + name + country row
-        GestureDetector(
+        Semantics(
+          button: true,
+          label: review.name,
+          child: GestureDetector(
           onTap: () {
             Navigator.push(
               context,
@@ -120,6 +123,7 @@ class ReviewsScreen extends StatelessWidget {
             ],
           ),
         ),
+        ),
         const SizedBox(height: 8),
         // Stars + time
         Row(
@@ -132,6 +136,7 @@ class ReviewsScreen extends StatelessWidget {
                 color: i < review.rating
                     ? AppConstants.starColor
                     : cs.tertiary,
+                semanticLabel: i < review.rating ? 'Filled star' : 'Empty star',
               ),
             ),
             const SizedBox(width: 8),

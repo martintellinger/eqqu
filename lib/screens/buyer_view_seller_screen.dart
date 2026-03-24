@@ -416,8 +416,8 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor)),
-                        Icon(Icons.star_border, size: 20, color: cs.tertiary),
+                        ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor, semanticLabel: 'Filled star')),
+                        Icon(Icons.star_border, size: 20, color: cs.tertiary, semanticLabel: 'Empty star'),
                         const SizedBox(width: 8),
                         Text('4.2', style: AppTextStyles.labelMedium(cs.tertiary)),
                       ],
