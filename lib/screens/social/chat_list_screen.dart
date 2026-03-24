@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eqqu/data/mock_conversations.dart';
-import 'package:eqqu/screens/chat_detail_screen.dart';
+import 'package:eqqu/screens/social/chat_detail_screen.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';

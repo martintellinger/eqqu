@@ -6,7 +6,7 @@ import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/filter_chip_bar.dart';
 import 'package:eqqu/widgets/status_chip.dart';
-import 'package:eqqu/screens/order_detail_screen.dart';
+import 'package:eqqu/screens/commerce/order_detail_screen.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/theme/app_constants.dart';
 

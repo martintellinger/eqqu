@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
-import 'package:eqqu/screens/change_password_screen.dart';
-import 'package:eqqu/screens/login_overview_screen.dart';
+import 'package:eqqu/screens/settings/change_password_screen.dart';
+import 'package:eqqu/screens/auth/login_overview_screen.dart';
 
 class SecureAccountScreen extends StatelessWidget {
   const SecureAccountScreen({super.key});

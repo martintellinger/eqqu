@@ -5,7 +5,7 @@ import 'package:eqqu/models/cart_item.dart';
 import 'package:eqqu/models/enums.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
-import 'package:eqqu/screens/order_detail_screen.dart';
+import 'package:eqqu/screens/commerce/order_detail_screen.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/services/cart_service.dart';

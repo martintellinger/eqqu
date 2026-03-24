@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
-import 'package:eqqu/screens/address_screen.dart';
+import 'package:eqqu/screens/settings/address_screen.dart';
 
 class ShippingScreen extends StatelessWidget {
   const ShippingScreen({super.key});

@@ -6,7 +6,7 @@ import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/product_card.dart';
-import 'package:eqqu/screens/product_detail_screen.dart';
+import 'package:eqqu/screens/products/product_detail_screen.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/data/mock_products.dart';
