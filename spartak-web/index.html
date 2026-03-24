@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FC Spartak Trnava | Oficiálna stránka</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ============================================ -->
+  <!-- 1. ALERT BAR -->
+  <!-- ============================================ -->
+  <div class="alert-bar" id="alertBar">
+    <div class="alert-bar__content">
+      <p>
+        <span class="alert-bar__label">UPOZORNENIE:</span>
+        Prodej permanentek a vstupenek na Ligu mistrů zahájen.
+        <a href="#" class="alert-bar__link">Objednávejte balíčky!</a>
+      </p>
+    </div>
+    <button class="alert-bar__close" id="alertClose" aria-label="Zatvoriť upozornenie">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M1 1L11 11M11 1L1 11" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 2. PARTNERS SCROLL BAR -->
+  <!-- ============================================ -->
+  <div class="partners-bar">
+    <div class="partners-bar__track">
+      <div class="partners-bar__item" style="width:54px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:72px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:87px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:67px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:63px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:26px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:82px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:51px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:20px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:40px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:37px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:95px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:43px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:37px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:36px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:75px"><div class="partner-logo"></div></div>
+      <div class="partners-bar__item" style="width:23px"><div class="partner-logo"></div></div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 3. MAIN NAVIGATION -->
+  <!-- ============================================ -->
+  <header class="main-header">
+    <nav class="main-nav">
+      <a href="#" class="main-nav__brand">FC SPARTAK</a>
+      <ul class="main-nav__menu">
+        <li><a href="#" class="main-nav__link main-nav__link--active">VSTUPENKY</a></li>
+        <li><a href="#" class="main-nav__link">ROZPRAVY</a></li>
+        <li><a href="#" class="main-nav__link">TIMY</a></li>
+        <li><a href="#" class="main-nav__link">ZAPASY</a></li>
+        <li><a href="#" class="main-nav__link">PARTNERI</a></li>
+        <li><a href="#" class="main-nav__link">FANSHOP</a></li>
+        <li><a href="#" class="main-nav__link">HRACI</a></li>
+      </ul>
+      <div class="main-nav__actions">
+        <button class="main-nav__search" aria-label="Hladať">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="9" cy="9" r="7" stroke="white" stroke-width="2"/>
+            <path d="M14 14L18 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="main-nav__lang">
+          <span class="main-nav__lang-active">SK</span>
+          <span class="main-nav__lang-divider">/</span>
+          <span>CZ</span>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================================ -->
+  <!-- 4. CLUB LOGO (centered between nav and content) -->
+  <!-- ============================================ -->
+  <div class="club-logo-wrapper">
+    <div class="club-logo">
+      <div class="club-logo__shield">
+        <svg viewBox="0 0 87 120" fill="none" width="87" height="120">
+          <path d="M43.5 0L87 20V70C87 95 65 115 43.5 120C22 115 0 95 0 70V20L43.5 0Z" fill="#d42922"/>
+          <text x="43.5" y="55" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="sans-serif">FC</text>
+          <text x="43.5" y="75" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="sans-serif">SPARTAK</text>
+          <text x="43.5" y="90" text-anchor="middle" fill="white" font-size="8" font-family="sans-serif">TRNAVA</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ============================================ -->
+    <!-- 5. HERO SECTION - Match result + Countdown -->
+    <!-- ============================================ -->
+    <section class="hero">
+      <!-- Side label - rotated text -->
+      <div class="side-label side-label--right">
+        <span>pristi domaci zapas</span>
+      </div>
+
+      <div class="hero__container">
+        <!-- Main hero card (left) -->
+        <div class="hero__main">
+          <div class="hero__image">
+            <img src="https://picsum.photos/952/520?random=1" alt="Zápasový moment" loading="lazy">
+            <div class="hero__image-overlay"></div>
+          </div>
+          <div class="hero__content">
+            <div class="hero__meta">
+              <span class="badge badge--red">A-Tim</span>
+              <h2 class="hero__title">
+                Sparte jsme nedali sanci.<br>
+                Vezeme 3 body za vitezstvi 3:1.
+              </h2>
+              <div class="hero__info">
+                <span class="hero__date">12.2.2024</span>
+                <span class="hero__author">Tomas Pekarek</span>
+              </div>
+            </div>
+            <div class="hero__pagination">
+              <div class="hero__dot hero__dot--active"></div>
+              <div class="hero__dot"></div>
+              <div class="hero__dot"></div>
+              <div class="hero__dot"></div>
+              <div class="hero__dot"></div>
+            </div>
+          </div>
+          <div class="hero__nav-arrows">
+            <button class="hero__arrow hero__arrow--prev" aria-label="Predchadzajuci">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M12 4L6 10L12 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="hero__arrow hero__arrow--next" aria-label="Dalsi">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M8 4L14 10L8 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Countdown panel (right) -->
+        <div class="hero__sidebar">
+          <div class="countdown">
+            <p class="countdown__label">pristi domaci zapas</p>
+            <div class="countdown__timer">
+              <div class="countdown__unit">
+                <span class="countdown__number">06</span>
+                <span class="countdown__text">Dni</span>
+              </div>
+              <span class="countdown__separator">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number">03</span>
+                <span class="countdown__text">Hodin</span>
+              </div>
+              <span class="countdown__separator">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number">55</span>
+                <span class="countdown__text">Minut</span>
+              </div>
+              <span class="countdown__separator">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number">08</span>
+                <span class="countdown__text">Vterin</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="match-preview">
+            <div class="match-preview__teams">
+              <div class="match-preview__team">
+                <div class="match-preview__logo">
+                  <svg viewBox="0 0 60 80" width="60" height="80">
+                    <path d="M30 0L60 12V48C60 66 45 78 30 82C15 78 0 66 0 48V12L30 0Z" fill="#d42922"/>
+                    <text x="30" y="45" text-anchor="middle" fill="white" font-size="10" font-weight="bold">FCT</text>
+                  </svg>
+                </div>
+                <span class="match-preview__team-name">FC Spartak Trnava</span>
+              </div>
+
+              <div class="match-preview__vs">VS</div>
+
+              <div class="match-preview__team">
+                <div class="match-preview__logo match-preview__logo--away">
+                  <svg viewBox="0 0 60 80" width="60" height="80">
+                    <circle cx="30" cy="35" r="28" fill="#1a3a6b"/>
+                    <text x="30" y="40" text-anchor="middle" fill="white" font-size="10" font-weight="bold">SLN</text>
+                  </svg>
+                </div>
+                <span class="match-preview__team-name">SK Slovan</span>
+              </div>
+            </div>
+
+            <div class="match-preview__details">
+              <p class="match-preview__date">NE 22. marca od 18:00</p>
+            </div>
+
+            <a href="#" class="btn btn--red btn--full">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="btn__icon">
+                <rect x="2" y="4" width="16" height="12" rx="2" stroke="white" stroke-width="1.5"/>
+                <path d="M2 8H18" stroke="white" stroke-width="1.5"/>
+              </svg>
+              Vstupenky
+            </a>
+
+            <a href="#" class="match-preview__more">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="2" y="4" width="16" height="12" rx="2" stroke="white" stroke-width="1.5"/>
+                <path d="M2 8H18" stroke="white" stroke-width="1.5"/>
+              </svg>
+              <span>Vstupenky na dalsi zapasy</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="2" y="4" width="16" height="12" rx="2" stroke="white" stroke-width="1.5"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 6. FANSHOP SECTION -->
+    <!-- ============================================ -->
+    <section class="fanshop">
+      <div class="side-label side-label--right">
+        <span>fanshop</span>
+      </div>
+
+      <div class="fanshop__container">
+        <div class="fanshop__grid">
+          <!-- Product 1 -->
+          <div class="product-card">
+            <div class="product-card__image">
+              <img src="https://picsum.photos/200/250?random=10" alt="Dres" loading="lazy">
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__name">nakonfiguruj si vlastny dres</p>
+              <div class="product-card__actions">
+                <span class="product-card__price">79,00 &euro;</span>
+                <button class="product-card__cart" aria-label="Pridat do kosika">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M6 6H18L16 14H8L6 6Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+                    <circle cx="9" cy="17" r="1.5" fill="white"/>
+                    <circle cx="15" cy="17" r="1.5" fill="white"/>
+                    <path d="M1 1H4L6 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="product-card">
+            <div class="product-card__image">
+              <img src="https://picsum.photos/200/250?random=11" alt="Damske tricko" loading="lazy">
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__name">DAMSKE TRICKO TO MY SME SPARTAK - CIERNE</p>
+              <div class="product-card__actions">
+                <span class="product-card__price">79,00 &euro;</span>
+                <button class="product-card__cart" aria-label="Pridat do kosika">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M6 6H18L16 14H8L6 6Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+                    <circle cx="9" cy="17" r="1.5" fill="white"/>
+                    <circle cx="15" cy="17" r="1.5" fill="white"/>
+                    <path d="M1 1H4L6 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="product-card">
+            <div class="product-card__image">
+              <img src="https://picsum.photos/200/250?random=12" alt="Siltovka" loading="lazy">
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__name">Siltovka FC Spartak Trnava</p>
+              <div class="product-card__actions">
+                <span class="product-card__price">24,00 &euro;</span>
+                <button class="product-card__cart" aria-label="Pridat do kosika">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M6 6H18L16 14H8L6 6Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+                    <circle cx="9" cy="17" r="1.5" fill="white"/>
+                    <circle cx="15" cy="17" r="1.5" fill="white"/>
+                    <path d="M1 1H4L6 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="product-card">
+            <div class="product-card__image">
+              <img src="https://picsum.photos/200/250?random=13" alt="Sal" loading="lazy">
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__name">Sal FC Spartak Trnava</p>
+              <div class="product-card__actions">
+                <span class="product-card__price">15,00 &euro;</span>
+                <button class="product-card__cart" aria-label="Pridat do kosika">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M6 6H18L16 14H8L6 6Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+                    <circle cx="9" cy="17" r="1.5" fill="white"/>
+                    <circle cx="15" cy="17" r="1.5" fill="white"/>
+                    <path d="M1 1H4L6 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 7. MATCH PROMO BANNER -->
+    <!-- ============================================ -->
+    <section class="match-banner">
+      <div class="match-banner__container">
+        <div class="match-banner__bg">
+          <img src="https://picsum.photos/1440/165?random=20" alt="" loading="lazy">
+          <div class="match-banner__overlay"></div>
+        </div>
+        <div class="match-banner__content">
+          <span class="match-banner__sponsor">nike</span>
+          <h2 class="match-banner__title">SKUTOCNE DERBY</h2>
+          <div class="match-banner__teams">
+            <span>PONIKY</span>
+            <span class="match-banner__colon">:</span>
+            <span>BRAVACOVO</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 8. NEWS / BLOG SECTION -->
+    <!-- ============================================ -->
+    <section class="news">
+      <div class="news__container">
+        <!-- News Card 1 -->
+        <article class="news-card">
+          <div class="news-card__image">
+            <img src="https://picsum.photos/460/300?random=30" alt="Rozhovor" loading="lazy">
+            <span class="badge badge--red">Rozhovory</span>
+            <div class="news-card__play">
+              <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <circle cx="30" cy="30" r="30" fill="rgba(212,41,34,0.9)"/>
+                <polygon points="24,18 44,30 24,42" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <div class="news-card__content">
+            <div class="news-card__meta">
+              <span>12.2.2024</span>
+              <span>Tomas Pekarek</span>
+            </div>
+            <h3 class="news-card__title">Bodova ztrata za nezvladnuty uvod a zahozenou penaltu</h3>
+          </div>
+        </article>
+
+        <!-- News Card 2 -->
+        <article class="news-card">
+          <div class="news-card__image">
+            <img src="https://picsum.photos/460/300?random=31" alt="Report" loading="lazy">
+            <span class="badge badge--red">Report</span>
+          </div>
+          <div class="news-card__content">
+            <div class="news-card__meta">
+              <span>12.2.2024</span>
+              <span>Tomas Pekarek</span>
+            </div>
+            <h3 class="news-card__title">Ve stredu vecer dohrava Boleslav odlozeny duel s Karvinou</h3>
+          </div>
+        </article>
+
+        <!-- News Card 3 -->
+        <article class="news-card">
+          <div class="news-card__image">
+            <img src="https://picsum.photos/460/300?random=32" alt="Report" loading="lazy">
+            <span class="badge badge--red">Report</span>
+          </div>
+          <div class="news-card__content">
+            <div class="news-card__meta">
+              <span>12.2.2024</span>
+              <span>Tomas Pekarek</span>
+            </div>
+            <h3 class="news-card__title">Prohra po nesoustredenem vstupu do druheho polocasu</h3>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 9. NEWSLETTER SIGNUP -->
+    <!-- ============================================ -->
+    <section class="newsletter">
+      <div class="newsletter__bg-text">newsletter</div>
+      <div class="newsletter__container">
+        <div class="newsletter__logo">
+          <svg viewBox="0 0 60 80" width="64" height="84">
+            <path d="M30 0L60 12V48C60 66 45 78 30 82C15 78 0 66 0 48V12L30 0Z" fill="#d42922"/>
+            <text x="30" y="45" text-anchor="middle" fill="white" font-size="10" font-weight="bold">FCT</text>
+          </svg>
+        </div>
+        <div class="newsletter__content">
+          <h2 class="newsletter__heading">
+            <span>chcete dostavat</span><br>
+            <span class="newsletter__heading--large">pravidelne informacie z klubu?</span>
+          </h2>
+        </div>
+        <form class="newsletter__form" action="#" method="post">
+          <div class="newsletter__input-group">
+            <input type="email" class="newsletter__input" placeholder="Email" required aria-label="Emailova adresa">
+            <button type="submit" class="btn btn--red newsletter__submit">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 10. SOCIAL MEDIA SECTION -->
+    <!-- ============================================ -->
+    <section class="social">
+      <div class="social__container">
+        <div class="social__header">
+          <h2 class="section-title">
+            <span class="section-title__label">Online</span>
+          </h2>
+        </div>
+        <div class="social__grid">
+          <!-- Social Post 1 -->
+          <div class="social-card">
+            <div class="social-card__header">
+              <div class="social-card__avatar"></div>
+              <div class="social-card__user">
+                <span class="social-card__name">FC Spartak Trnava</span>
+                <span class="social-card__handle">@FCspartakTrnava</span>
+              </div>
+              <svg class="social-card__platform" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M11.2 2H14L9 10.5L15 18H11L7.5 12.5L3 18H0.5L5.8 9L0 2H4L7.2 7L11.2 2Z" fill="white"/>
+              </svg>
+            </div>
+            <p class="social-card__text">Skvelý zápas, skvelí fanúšikovia! Ďakujeme za podporu. Vidíme sa na ďalšom domácom stretnutí!</p>
+            <span class="social-card__time">2h</span>
+          </div>
+
+          <!-- Social Post 2 -->
+          <div class="social-card">
+            <div class="social-card__header">
+              <div class="social-card__avatar"></div>
+              <div class="social-card__user">
+                <span class="social-card__name">FC Spartak Trnava</span>
+                <span class="social-card__handle">@FCspartakTrnava</span>
+              </div>
+              <svg class="social-card__platform" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M11.2 2H14L9 10.5L15 18H11L7.5 12.5L3 18H0.5L5.8 9L0 2H4L7.2 7L11.2 2Z" fill="white"/>
+              </svg>
+            </div>
+            <p class="social-card__text">Predaj vstupeniek na nedeľný zápas je spustený! Poďte nás podporiť v hojnom počte.</p>
+            <span class="social-card__time">5h</span>
+          </div>
+
+          <!-- Social Post 3 -->
+          <div class="social-card">
+            <div class="social-card__header">
+              <div class="social-card__avatar"></div>
+              <div class="social-card__user">
+                <span class="social-card__name">FC Spartak Trnava</span>
+                <span class="social-card__handle">@FCspartakTrnava</span>
+              </div>
+              <svg class="social-card__platform" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M11.2 2H14L9 10.5L15 18H11L7.5 12.5L3 18H0.5L5.8 9L0 2H4L7.2 7L11.2 2Z" fill="white"/>
+              </svg>
+            </div>
+            <p class="social-card__text">Tréningová jednotka pred sobotným zápasom. Mužstvo je pripravené! 💪🔴</p>
+            <span class="social-card__time">12h</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 11. A-TIM - PLAYER CARDS -->
+    <!-- ============================================ -->
+    <section class="players">
+      <div class="players__container">
+        <div class="players__header">
+          <h2 class="section-title section-title--large">A-Tim</h2>
+          <a href="#" class="btn btn--outline">Vsetci hraci</a>
+        </div>
+        <div class="players__grid">
+          <!-- Player 1 -->
+          <div class="player-card">
+            <div class="player-card__bg"></div>
+            <div class="player-card__image">
+              <img src="https://picsum.photos/240/320?random=40" alt="Dvorak" loading="lazy">
+            </div>
+            <div class="player-card__info">
+              <span class="player-card__number">#4</span>
+              <span class="player-card__name">DVORAK</span>
+              <span class="player-card__position">Obranca</span>
+            </div>
+          </div>
+
+          <!-- Player 2 -->
+          <div class="player-card">
+            <div class="player-card__bg"></div>
+            <div class="player-card__image">
+              <img src="https://picsum.photos/240/320?random=41" alt="Cerny" loading="lazy">
+            </div>
+            <div class="player-card__info">
+              <span class="player-card__number">#11</span>
+              <span class="player-card__name">CERNY</span>
+              <span class="player-card__position">Utocnik</span>
+            </div>
+          </div>
+
+          <!-- Player 3 -->
+          <div class="player-card">
+            <div class="player-card__bg"></div>
+            <div class="player-card__image">
+              <img src="https://picsum.photos/240/320?random=42" alt="Svoboda" loading="lazy">
+            </div>
+            <div class="player-card__info">
+              <span class="player-card__number">#7</span>
+              <span class="player-card__name">SVOBODA</span>
+              <span class="player-card__position">Stredopoliar</span>
+            </div>
+          </div>
+
+          <!-- Player 4 -->
+          <div class="player-card">
+            <div class="player-card__bg"></div>
+            <div class="player-card__image">
+              <img src="https://picsum.photos/240/320?random=43" alt="Kovar" loading="lazy">
+            </div>
+            <div class="player-card__info">
+              <span class="player-card__number">#10</span>
+              <span class="player-card__name">KOVAR</span>
+              <span class="player-card__position">Stredopoliar</span>
+            </div>
+          </div>
+
+          <!-- Player 5 -->
+          <div class="player-card">
+            <div class="player-card__bg"></div>
+            <div class="player-card__image">
+              <img src="https://picsum.photos/240/320?random=44" alt="Novak" loading="lazy">
+            </div>
+            <div class="player-card__info">
+              <span class="player-card__number">#8</span>
+              <span class="player-card__name">NOVAK</span>
+              <span class="player-card__position">Stredopoliar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 12. TROPHY SECTION -->
+    <!-- ============================================ -->
+    <section class="trophies">
+      <div class="trophies__container">
+        <div class="trophies__header">
+          <h2 class="section-title section-title--large">Trofeje</h2>
+        </div>
+        <div class="trophies__grid">
+          <div class="trophy-card">
+            <div class="trophy-card__icon">
+              <svg width="64" height="80" viewBox="0 0 64 80" fill="none">
+                <path d="M20 10H44L48 4H16L20 10Z" fill="#c7b476"/>
+                <rect x="22" y="10" width="20" height="40" rx="4" fill="#c7b476"/>
+                <rect x="26" y="50" width="12" height="8" fill="#c7b476"/>
+                <rect x="18" y="58" width="28" height="6" rx="2" fill="#c7b476"/>
+              </svg>
+            </div>
+            <span class="trophy-card__count">5x</span>
+            <span class="trophy-card__label">Ligovy titol</span>
+          </div>
+
+          <div class="trophy-card">
+            <div class="trophy-card__icon">
+              <svg width="64" height="80" viewBox="0 0 64 80" fill="none">
+                <path d="M20 10H44L48 4H16L20 10Z" fill="#c7b476"/>
+                <rect x="22" y="10" width="20" height="40" rx="4" fill="#c7b476"/>
+                <rect x="26" y="50" width="12" height="8" fill="#c7b476"/>
+                <rect x="18" y="58" width="28" height="6" rx="2" fill="#c7b476"/>
+              </svg>
+            </div>
+            <span class="trophy-card__count">4x</span>
+            <span class="trophy-card__label">Slovensky pohar</span>
+          </div>
+
+          <div class="trophy-card">
+            <div class="trophy-card__icon">
+              <svg width="64" height="80" viewBox="0 0 64 80" fill="none">
+                <path d="M20 10H44L48 4H16L20 10Z" fill="#c7b476"/>
+                <rect x="22" y="10" width="20" height="40" rx="4" fill="#c7b476"/>
+                <rect x="26" y="50" width="12" height="8" fill="#c7b476"/>
+                <rect x="18" y="58" width="28" height="6" rx="2" fill="#c7b476"/>
+              </svg>
+            </div>
+            <span class="trophy-card__count">1x</span>
+            <span class="trophy-card__label">Superpohar</span>
+          </div>
+
+          <div class="trophy-card">
+            <div class="trophy-card__icon">
+              <svg width="64" height="80" viewBox="0 0 64 80" fill="none">
+                <path d="M20 10H44L48 4H16L20 10Z" fill="#c7b476"/>
+                <rect x="22" y="10" width="20" height="40" rx="4" fill="#c7b476"/>
+                <rect x="26" y="50" width="12" height="8" fill="#c7b476"/>
+                <rect x="18" y="58" width="28" height="6" rx="2" fill="#c7b476"/>
+              </svg>
+            </div>
+            <span class="trophy-card__count">1x</span>
+            <span class="trophy-card__label">Stredoeuropsky pohar</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 13. MOTTO BANNER -->
+    <!-- ============================================ -->
+    <section class="motto">
+      <div class="motto__container">
+        <p class="motto__text">
+          HRDI, KED SA VYHRAVA,<br>
+          VERNI, KED SA PROHRAVA.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================ -->
+  <!-- 14. FOOTER -->
+  <!-- ============================================ -->
+  <footer class="footer">
+    <div class="footer__container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <h3 class="footer__hashtags">#SPARTAK #TRNAVA</h3>
+        </div>
+        <div class="footer__social">
+          <a href="#" class="footer__social-link" aria-label="Facebook">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 2H15C13.3431 2 12 3.34315 12 5V8H9V12H12V22H16V12H19L20 8H16V5C16 4.44772 16.4477 4 17 4H20V2H18Z" fill="white"/>
+            </svg>
+          </a>
+          <a href="#" class="footer__social-link" aria-label="Instagram">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="2"/>
+              <circle cx="12" cy="12" r="5" stroke="white" stroke-width="2"/>
+              <circle cx="18" cy="6" r="1.5" fill="white"/>
+            </svg>
+          </a>
+          <a href="#" class="footer__social-link" aria-label="X (Twitter)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M13.2 4H16L10.5 12.5L17 20H13L9 13.5L4 20H1.5L7.3 11L1 4H5.5L9 9.5L13.2 4Z" fill="white"/>
+            </svg>
+          </a>
+          <a href="#" class="footer__social-link" aria-label="YouTube">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="4" width="20" height="16" rx="4" stroke="white" stroke-width="2"/>
+              <polygon points="10,8 16,12 10,16" fill="white"/>
+            </svg>
+          </a>
+          <a href="#" class="footer__social-link" aria-label="TikTok">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2V16C12 18.2091 10.2091 20 8 20C5.79086 20 4 18.2091 4 16C4 13.7909 5.79086 12 8 12" stroke="white" stroke-width="2"/>
+              <path d="M12 2C12 2 12 6 16 6C20 6 20 2 20 2" stroke="white" stroke-width="2"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__links">
+          <a href="#">Ochrana osobnych udajov</a>
+          <a href="#">Obchodne podmienky</a>
+          <a href="#">Kontakt</a>
+        </div>
+        <p class="footer__copyright">&copy; 2024 FC Spartak Trnava. Vsetky prava vyhradene.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Alert bar close
+    document.getElementById('alertClose').addEventListener('click', function() {
+      document.getElementById('alertBar').style.display = 'none';
+    });
+
+    // Simple countdown simulation
+    function updateCountdown() {
+      const units = document.querySelectorAll('.countdown__number');
+      if (units.length < 4) return;
+      let seconds = parseInt(units[3].textContent);
+      let minutes = parseInt(units[2].textContent);
+      let hours = parseInt(units[1].textContent);
+      let days = parseInt(units[0].textContent);
+
+      seconds--;
+      if (seconds < 0) { seconds = 59; minutes--; }
+      if (minutes < 0) { minutes = 59; hours--; }
+      if (hours < 0) { hours = 23; days--; }
+      if (days < 0) { days = 0; hours = 0; minutes = 0; seconds = 0; }
+
+      units[0].textContent = String(days).padStart(2, '0');
+      units[1].textContent = String(hours).padStart(2, '0');
+      units[2].textContent = String(minutes).padStart(2, '0');
+      units[3].textContent = String(seconds).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
