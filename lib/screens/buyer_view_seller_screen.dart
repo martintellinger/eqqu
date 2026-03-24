@@ -218,7 +218,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 48,
                       child: FilledButton(
                         onPressed: () {
                           setState(() => _isFollowing = !_isFollowing);
@@ -246,7 +245,6 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 48,
                       child: OutlinedButton.icon(
                         onPressed: () {
                           Navigator.push(
@@ -268,6 +266,7 @@ class _BuyerViewSellerScreenState extends State<BuyerViewSellerScreen> {
                           style: AppTextStyles.labelMedium(cs.primary),
                         ),
                         style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(0, 56),
                           side: BorderSide(color: cs.primary),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
