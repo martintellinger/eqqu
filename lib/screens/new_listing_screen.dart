@@ -136,7 +136,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         _buildSelectorField(cs, '${s.condition}*', _selectedCondition, () {
                           _showSimpleSelector(
                             context, s.condition,
-                            ['Nový s visačkou', 'Nový bez visačky', 'Velmi dobrý', 'Dobrý', 'Uspokojivý'],
+                            s.conditionOptions,
                             (v) => setState(() => _selectedCondition = v),
                           );
                         }),
@@ -156,7 +156,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         _buildSelectorField(cs, s.color, _selectedColor, () {
                           _showSimpleSelector(
                             context, s.color,
-                            ['Černá', 'Hnědá', 'Bílá', 'Modrá', 'Červená', 'Zelená', 'Šedá', 'Béžová'],
+                            s.colorOptions,
                             (v) => setState(() => _selectedColor = v),
                           );
                         }),
@@ -166,7 +166,7 @@ class _NewListingScreenState extends State<NewListingScreen> {
                         _buildSelectorField(cs, s.material, _selectedMaterial, () {
                           _showSimpleSelector(
                             context, s.material,
-                            ['Kůže', 'Syntetika', 'Bavlna', 'Vlna', 'Fleece', 'Neopren'],
+                            s.materialOptions,
                             (v) => setState(() => _selectedMaterial = v),
                           );
                         }),
@@ -239,7 +239,9 @@ class _NewListingScreenState extends State<NewListingScreen> {
 
   Widget _buildFileUpload(ColorScheme cs, AppStrings s) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        AppSnackBar.show(context, message: s.tapToUpload);
+      },
       child: Container(
         decoration: BoxDecoration(
           color: cs.surfaceContainerHigh,

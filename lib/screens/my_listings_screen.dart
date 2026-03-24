@@ -7,7 +7,9 @@ import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:eqqu/widgets/app_header.dart';
+import 'package:eqqu/widgets/status_chip.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
+import 'package:eqqu/theme/app_constants.dart';
 
 
 class MyListingsScreen extends StatefulWidget {
@@ -446,12 +448,12 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
             child: Stack(
               children: [
                 GridView.builder(
-                  padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.of(context).padding.bottom + 88),
+                  padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.of(context).padding.bottom + AppConstants.floatingButtonBottomOffset),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    childAspectRatio: 177 / 290,
+                    childAspectRatio: AppConstants.listingCardAspectRatio,
                   ),
                   itemCount: _listings.length,
                   itemBuilder: (context, index) {
@@ -604,7 +606,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     switch (status) {
       case ListingStatus.active:
         label = s.statusActive;
-        textColor = const Color(0xFFA46700);
+        textColor = AppConstants.activeOrange;
         icon = Icons.circle;
       case ListingStatus.sold:
         label = s.statusSold;
@@ -616,41 +618,28 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
         icon = Icons.circle;
     }
 
-    return Container(
-      height: 32,
-      padding: const EdgeInsets.only(left: 8, right: 16, top: 6, bottom: 6),
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: cs.brightness == Brightness.dark
-                ? Colors.white.withValues(alpha: 0.1)
-                : const Color(0x4D000000),
-            offset: const Offset(0, 1),
-            blurRadius: 2,
-          ),
-          BoxShadow(
-            color: cs.brightness == Brightness.dark
-                ? Colors.white.withValues(alpha: 0.05)
-                : const Color(0x26000000),
-            offset: const Offset(0, 1),
-            blurRadius: 3,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 18, color: textColor),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: AppTextStyles.chip(textColor),
-          ),
-        ],
-      ),
+    return StatusChip(
+      label: label,
+      icon: icon,
+      color: textColor,
+      backgroundColor: cs.surfaceContainerLow,
+      boxShadow: [
+        BoxShadow(
+          color: cs.brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.1)
+              : const Color(0x4D000000),
+          offset: const Offset(0, 1),
+          blurRadius: 2,
+        ),
+        BoxShadow(
+          color: cs.brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.05)
+              : const Color(0x26000000),
+          offset: const Offset(0, 1),
+          blurRadius: 3,
+          spreadRadius: 1,
+        ),
+      ],
     );
   }
 

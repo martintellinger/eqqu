@@ -309,6 +309,46 @@ class AppStrings {
   String get tapToUpload => _t('tapToUpload');
   String get uploadFormats => _t('uploadFormats');
 
+  // ── Splash / Intro ──
+  String get splashTagline => _t('splashTagline');
+  String get languageSlashLanguage => _t('languageSlashLanguage');
+  String get introTitle => _t('introTitle');
+  String get introSubtitle => _t('introSubtitle');
+
+  // ── Search / Home ──
+  String get users => _t('users');
+  String get noResults => _t('noResults');
+  String get recentSearches => _t('recentSearches');
+  String get showAll => _t('showAll');
+
+  // ── Condition options ──
+  String get newWithTag => _t('newWithTag');
+  String get newWithoutTag => _t('newWithoutTag');
+  String get veryGood => _t('veryGood');
+  String get good => _t('good');
+  String get satisfactory => _t('satisfactory');
+  List<String> get conditionOptions => [newWithTag, newWithoutTag, veryGood, good, satisfactory];
+
+  // ── Color names ──
+  String get black => _t('black');
+  String get brown => _t('brown');
+  String get white => _t('white');
+  String get blue => _t('blue');
+  String get red => _t('red');
+  String get green => _t('green');
+  String get gray => _t('gray');
+  String get beige => _t('beige');
+  List<String> get colorOptions => [black, brown, white, blue, red, green, gray, beige];
+
+  // ── Material names ──
+  String get leather => _t('leather');
+  String get synthetic => _t('synthetic');
+  String get cotton => _t('cotton');
+  String get wool => _t('wool');
+  String get fleece => _t('fleece');
+  String get neoprene => _t('neoprene');
+  List<String> get materialOptions => [leather, synthetic, cotton, wool, fleece, neoprene];
+
   // ── Translations ──
   static const _translations = <String, Map<String, String>>{
     'cs': {
@@ -560,6 +600,38 @@ class AppStrings {
       'tapToUpload': 'Klepněte pro nahrání',
       'uploadFormats': 'SVG, PNG, JPG nebo GIF (max. 800x400px)',
       'wasDeleted': 'byl smazán',
+      // Splash / Intro
+      'splashTagline': 'Equine community market',
+      'languageSlashLanguage': 'Jazyk / Language',
+      'introTitle': 'RIDER TO RIDER',
+      'introSubtitle': 'Tvoje vybavení je něčí zlato! Předej ho dál a najdi to své oblíbené.',
+      // Search / Home
+      'users': 'Uživatelé',
+      'noResults': 'Žádné výsledky',
+      'recentSearches': 'Poslední hledání',
+      'showAll': 'Zobrazit vše',
+      // Condition options
+      'newWithTag': 'Nový s visačkou',
+      'newWithoutTag': 'Nový bez visačky',
+      'veryGood': 'Velmi dobrý',
+      'good': 'Dobrý',
+      'satisfactory': 'Uspokojivý',
+      // Color names
+      'black': 'Černá',
+      'brown': 'Hnědá',
+      'white': 'Bílá',
+      'blue': 'Modrá',
+      'red': 'Červená',
+      'green': 'Zelená',
+      'gray': 'Šedá',
+      'beige': 'Béžová',
+      // Material names
+      'leather': 'Kůže',
+      'synthetic': 'Syntetika',
+      'cotton': 'Bavlna',
+      'wool': 'Vlna',
+      'fleece': 'Fleece',
+      'neoprene': 'Neopren',
     },
     'en': {
       'home': 'Home',
@@ -810,6 +882,38 @@ class AppStrings {
       'tapToUpload': 'Tap to upload',
       'uploadFormats': 'SVG, PNG, JPG or GIF (max. 800x400px)',
       'wasDeleted': 'was deleted',
+      // Splash / Intro
+      'splashTagline': 'Equine community market',
+      'languageSlashLanguage': 'Jazyk / Language',
+      'introTitle': 'RIDER TO RIDER',
+      'introSubtitle': 'Your tack is someones gold! Pass it on and find your favorite one.',
+      // Search / Home
+      'users': 'Users',
+      'noResults': 'No results',
+      'recentSearches': 'Recent searches',
+      'showAll': 'Show all',
+      // Condition options
+      'newWithTag': 'New with tag',
+      'newWithoutTag': 'New without tag',
+      'veryGood': 'Very good',
+      'good': 'Good',
+      'satisfactory': 'Satisfactory',
+      // Color names
+      'black': 'Black',
+      'brown': 'Brown',
+      'white': 'White',
+      'blue': 'Blue',
+      'red': 'Red',
+      'green': 'Green',
+      'gray': 'Gray',
+      'beige': 'Beige',
+      // Material names
+      'leather': 'Leather',
+      'synthetic': 'Synthetic',
+      'cotton': 'Cotton',
+      'wool': 'Wool',
+      'fleece': 'Fleece',
+      'neoprene': 'Neoprene',
     },
     'sk': {
       'home': 'Domov',

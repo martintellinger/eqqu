@@ -11,6 +11,7 @@ import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/services/cart_service.dart';
 import 'package:eqqu/services/validators.dart';
 import 'package:eqqu/widgets/price_summary.dart';
+import 'package:eqqu/widgets/radio_option.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
 
 class CartScreen extends StatefulWidget {
@@ -464,40 +465,19 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildPaymentOption(ColorScheme cs, PaymentMethod value, String label, IconData icon) {
-    final selected = _paymentMethod == value;
-    return GestureDetector(
-      onTap: () => setState(() => _paymentMethod = value),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: selected ? cs.surfaceTint : cs.outline,
-            width: selected ? 2 : 1,
+    return RadioOption<PaymentMethod>(
+      value: value,
+      groupValue: _paymentMethod,
+      onChanged: (v) => setState(() => _paymentMethod = v),
+      child: Row(
+        children: [
+          Icon(icon, size: 24, color: cs.onSurface),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: AppTextStyles.bodyLarge(cs.onSurface),
           ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: selected ? cs.surfaceTint : cs.onSurfaceVariant,
-                  width: selected ? 6 : 2,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Icon(icon, size: 24, color: cs.onSurface),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: AppTextStyles.bodyLarge(cs.onSurface),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -570,44 +550,23 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildDeliveryOption(ColorScheme cs, DeliveryMethod value, String label, String price) {
-    final selected = _deliveryMethod == value;
-    return GestureDetector(
-      onTap: () => setState(() => _deliveryMethod = value),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: selected ? cs.surfaceTint : cs.outline,
-            width: selected ? 2 : 1,
+    return RadioOption<DeliveryMethod>(
+      value: value,
+      groupValue: _deliveryMethod,
+      onChanged: (v) => setState(() => _deliveryMethod = v),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: AppTextStyles.bodyLarge(cs.onSurface),
+            ),
           ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: selected ? cs.surfaceTint : cs.onSurfaceVariant,
-                  width: selected ? 6 : 2,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                label,
-                style: AppTextStyles.bodyLarge(cs.onSurface),
-              ),
-            ),
-            Text(
-              price,
-              style: AppTextStyles.chip(cs.surfaceTint),
-            ),
-          ],
-        ),
+          Text(
+            price,
+            style: AppTextStyles.chip(cs.surfaceTint),
+          ),
+        ],
       ),
     );
   }

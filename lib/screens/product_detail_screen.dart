@@ -283,12 +283,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildSpecsGrid(ColorScheme cs) {
+    final s = AppStrings.of(context);
     return SpecsGrid(
       specs: [
-        SpecItem(svgPath: 'assets/icons/Tag.svg', label: 'Condition', value: widget.condition),
-        const SpecItem(svgPath: 'assets/icons/Measuring_tape.svg', label: 'Size', value: 'One size'),
-        const SpecItem(svgPath: 'assets/icons/Color.svg', label: 'Color', value: 'Gray'),
-        const SpecItem(svgPath: 'assets/icons/Fabric.svg', label: 'Material', value: 'Cotton'),
+        SpecItem(svgPath: 'assets/icons/Tag.svg', label: s.condition, value: widget.condition),
+        SpecItem(svgPath: 'assets/icons/Measuring_tape.svg', label: s.size, value: 'One size'),
+        SpecItem(svgPath: 'assets/icons/Color.svg', label: s.color, value: s.gray),
+        SpecItem(svgPath: 'assets/icons/Fabric.svg', label: s.material, value: s.cotton),
       ],
     );
   }
@@ -341,14 +342,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const BuyerViewSellerScreen()),
+            );
+          },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.chevron_right, size: 20, color: cs.surfaceTint),
               const SizedBox(width: 4),
               Text(
-                'Show all',
+                s.showAll,
                 style: AppTextStyles.actionLink(cs.surfaceTint),
               ),
             ],

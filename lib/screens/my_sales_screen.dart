@@ -5,8 +5,10 @@ import 'package:eqqu/models/order.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/widgets/filter_chip_bar.dart';
+import 'package:eqqu/widgets/status_chip.dart';
 import 'package:eqqu/screens/order_detail_screen.dart';
 import 'package:eqqu/l10n/app_strings.dart';
+import 'package:eqqu/theme/app_constants.dart';
 
 class MySalesScreen extends StatefulWidget {
   const MySalesScreen({super.key});
@@ -69,8 +71,8 @@ class _MySalesScreenState extends State<MySalesScreen> {
     Color cardBg;
     if (order.status == SaleStatus.paidOut) {
       cardBg = cs.brightness == Brightness.dark
-          ? const Color(0xFF3A3939)
-          : const Color(0xFFF5F5F5);
+          ? AppConstants.paidOutBgDark
+          : AppConstants.paidOutBgLight;
     } else {
       cardBg = cs.surfaceContainerLow;
     }
@@ -177,24 +179,6 @@ class _MySalesScreenState extends State<MySalesScreen> {
         icon = Icons.account_balance_wallet_outlined;
     }
 
-    return Container(
-      height: 32,
-      padding: const EdgeInsets.only(left: 8, right: 16, top: 6, bottom: 6),
-      decoration: BoxDecoration(
-        border: Border.all(color: cs.outline),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 18, color: textColor),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: AppTextStyles.chip(textColor),
-          ),
-        ],
-      ),
-    );
+    return StatusChip(label: label, icon: icon, color: textColor);
   }
 }

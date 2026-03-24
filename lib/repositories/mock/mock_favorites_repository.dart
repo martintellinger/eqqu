@@ -1,3 +1,4 @@
+import 'package:eqqu/models/result.dart';
 import 'package:eqqu/repositories/favorites_repository.dart';
 
 /// In-memory mock implementation of [FavoritesRepository].
@@ -7,12 +8,13 @@ class MockFavoritesRepository implements FavoritesRepository {
   Set<int> _favorites = {0, 1, 2, 3, 4, 5, 6, 7};
 
   @override
-  Future<Set<int>> loadFavorites() async {
-    return Set.of(_favorites);
+  Future<Result<Set<int>>> loadFavorites() async {
+    return Success(Set.of(_favorites));
   }
 
   @override
-  Future<void> saveFavorites(Set<int> favorites) async {
+  Future<Result<void>> saveFavorites(Set<int> favorites) async {
     _favorites = Set.of(favorites);
+    return const Success(null);
   }
 }

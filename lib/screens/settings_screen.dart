@@ -5,12 +5,11 @@ import 'package:eqqu/app_state.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/utils/blur_overlay.dart';
 import 'package:country_flags/country_flags.dart';
-import 'package:eqqu/screens/account_settings_screen.dart';
-import 'package:eqqu/screens/shipping_screen.dart';
-import 'package:eqqu/screens/secure_account_screen.dart';
-import 'package:eqqu/screens/notifications_screen.dart';
 import 'package:eqqu/utils/language_notifier.dart';
+import 'package:eqqu/theme/theme_notifier.dart';
 import 'package:eqqu/l10n/app_strings.dart';
+import 'package:eqqu/widgets/radio_option.dart';
+import 'package:eqqu/utils/app_snack_bar.dart';
 import 'package:eqqu/widgets/sheet_helpers.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -21,23 +20,26 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Listeners attached in didChangeDependencies
-  }
+  ThemeNotifier? _themeNotifier;
+  LanguageNotifier? _languageNotifier;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final appState = AppState.of(context);
-    appState.themeNotifier.addListener(_onChanged);
-    appState.languageNotifier.addListener(_onChanged);
+    // Remove old listeners before re-attaching (didChangeDependencies can fire multiple times)
+    _themeNotifier?.removeListener(_onChanged);
+    _languageNotifier?.removeListener(_onChanged);
+    _themeNotifier = appState.themeNotifier;
+    _languageNotifier = appState.languageNotifier;
+    _themeNotifier!.addListener(_onChanged);
+    _languageNotifier!.addListener(_onChanged);
   }
 
   @override
   void dispose() {
-    // Note: listeners are cleaned up when the notifier is disposed
+    _themeNotifier?.removeListener(_onChanged);
+    _languageNotifier?.removeListener(_onChanged);
     super.dispose();
   }
 
@@ -133,88 +135,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildLanguageOption(ColorScheme cs, Language lang, bool isSelected, ValueChanged<String> onChanged) {
-    return GestureDetector(
-      onTap: () => onChanged(lang.code),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? cs.surfaceTint : cs.outlineVariant,
-            width: isSelected ? 2 : 1,
+    return RadioOption<String>(
+      value: lang.code,
+      groupValue: isSelected ? lang.code : '',
+      onChanged: onChanged,
+      colorScheme: cs,
+      child: Row(
+        children: [
+          CountryFlag.fromCountryCode(
+            lang.countryCode,
+            width: 24,
+            height: 24,
+            shape: const Circle(),
           ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? cs.surfaceTint : cs.outlineVariant,
-                  width: isSelected ? 6 : 2,
-                ),
-              ),
+          const SizedBox(width: 12),
+          Text(
+            lang.name,
+            style: AppTextStyles.selectableOption(
+              color: isSelected ? cs.surfaceTint : cs.onSurface,
+              isSelected: isSelected,
             ),
-            const SizedBox(width: 12),
-            CountryFlag.fromCountryCode(
-              lang.countryCode,
-              width: 24,
-              height: 24,
-              shape: const Circle(),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              lang.name,
-              style: AppTextStyles.selectableOption(
-                color: isSelected ? cs.surfaceTint : cs.onSurface,
-                isSelected: isSelected,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildThemeOption(ColorScheme cs, ThemeMode mode, String label, ThemeMode selected, ValueChanged<ThemeMode> onChanged) {
     final isSelected = selected == mode;
-    return GestureDetector(
-      onTap: () => onChanged(mode),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? cs.surfaceTint : cs.outlineVariant,
-            width: isSelected ? 2 : 1,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? cs.surfaceTint : cs.outlineVariant,
-                  width: isSelected ? 6 : 2,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              label,
-              style: AppTextStyles.selectableOption(
-                color: isSelected ? cs.surfaceTint : cs.onSurface,
-                isSelected: isSelected,
-              ),
-            ),
-          ],
+    return RadioOption<ThemeMode>(
+      value: mode,
+      groupValue: selected,
+      onChanged: onChanged,
+      colorScheme: cs,
+      child: Text(
+        label,
+        style: AppTextStyles.selectableOption(
+          color: isSelected ? cs.surfaceTint : cs.onSurface,
+          isSelected: isSelected,
         ),
       ),
     );
@@ -243,7 +201,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icons.person_outline,
                       s.accountSettings,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountSettingsScreen()));
+                        Navigator.pushNamed(context, AppRoutes.accountSettings);
                       },
                     ),
                     const SizedBox(height: 12),
@@ -251,6 +209,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       cs,
                       Icons.account_balance_wallet_outlined,
                       s.payments,
+                      onTap: () {
+                        AppSnackBar.show(context, message: s.payments);
+                      },
                     ),
                     const SizedBox(height: 12),
                     _buildMenuItem(
@@ -258,7 +219,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icons.local_shipping_outlined,
                       s.shipping,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => const ShippingScreen()));
+                        Navigator.pushNamed(context, AppRoutes.shipping);
                       },
                     ),
                     const SizedBox(height: 12),
@@ -267,7 +228,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icons.shield_outlined,
                       s.secureAccount,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => const SecureAccountScreen()));
+                        Navigator.pushNamed(context, AppRoutes.secureAccount);
                       },
                     ),
                     const SizedBox(height: 12),
@@ -276,7 +237,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icons.notifications_outlined,
                       s.notifications,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen()));
+                        Navigator.pushNamed(context, AppRoutes.notifications);
                       },
                     ),
                     const SizedBox(height: 12),

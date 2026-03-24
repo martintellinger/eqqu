@@ -1,3 +1,4 @@
+import 'package:eqqu/models/result.dart';
 import 'package:eqqu/repositories/auth_repository.dart';
 
 /// Mock implementation of [AuthRepository].
@@ -8,35 +9,37 @@ class MockAuthRepository implements AuthRepository {
   bool _signedIn = false;
 
   @override
-  Future<String> signIn({required String email, required String password}) async {
+  Future<Result<String>> signIn({required String email, required String password}) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
     _signedIn = true;
-    return 'mock_token_${email.hashCode}';
+    return Success('mock_token_${email.hashCode}');
   }
 
   @override
-  Future<String> register({
+  Future<Result<String>> register({
     required String email,
     required String username,
     required String password,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
     _signedIn = true;
-    return 'mock_token_${email.hashCode}';
+    return Success('mock_token_${email.hashCode}');
   }
 
   @override
-  Future<void> signOut() async {
+  Future<Result<void>> signOut() async {
     _signedIn = false;
+    return const Success(null);
   }
 
   @override
-  Future<bool> isSignedIn() async {
-    return _signedIn;
+  Future<Result<bool>> isSignedIn() async {
+    return Success(_signedIn);
   }
 
   @override
-  Future<void> resetPassword({required String email}) async {
+  Future<Result<void>> resetPassword({required String email}) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
+    return const Success(null);
   }
 }

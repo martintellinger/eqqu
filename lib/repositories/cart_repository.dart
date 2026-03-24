@@ -1,4 +1,5 @@
 import 'package:eqqu/models/cart_item.dart';
+import 'package:eqqu/models/result.dart';
 
 /// Abstract contract for shopping cart data access.
 ///
@@ -6,11 +7,11 @@ import 'package:eqqu/models/cart_item.dart';
 /// backend supports server-side cart management.
 abstract class CartRepository {
   /// Load saved cart items.
-  Future<List<CartItem>> loadCart();
+  Future<Result<List<CartItem>>> loadCart();
 
   /// Persist the current cart state.
-  Future<void> saveCart(List<CartItem> items);
+  Future<Result<void>> saveCart(List<CartItem> items);
 
   /// Clear persisted cart.
-  Future<void> clearCart();
+  Future<Result<void>> clearCart();
 }

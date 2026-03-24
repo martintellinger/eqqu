@@ -1,5 +1,6 @@
 import 'package:eqqu/cache/cache_manager.dart';
 import 'package:eqqu/models/product.dart';
+import 'package:eqqu/models/result.dart';
 import 'package:eqqu/repositories/product_repository.dart';
 
 /// Offline-first decorator for [ProductRepository].
@@ -25,63 +26,67 @@ class CachedProductRepository implements ProductRepository {
   }) : _ttl = ttl;
 
   @override
-  Future<List<Product>> getAllProducts() async {
+  Future<Result<List<Product>>> getAllProducts() async {
     final cached = await CacheManager.get<List<dynamic>>(_boxName, 'all');
     if (cached != null) {
-      return cached
+      return Success(cached
           .cast<Map<dynamic, dynamic>>()
           .map((m) => Product.fromJson(Map<String, dynamic>.from(m)))
-          .toList();
+          .toList());
     }
 
-    final products = await _inner.getAllProducts();
-    await CacheManager.put(
-      _boxName,
-      'all',
-      products.map((p) => p.toJson()).toList(),
-      ttl: _ttl,
-    );
-    return products;
+    final result = await _inner.getAllProducts();
+    if (result case Success(data: final products)) {
+      await CacheManager.put(
+        _boxName,
+        'all',
+        products.map((p) => p.toJson()).toList(),
+        ttl: _ttl,
+      );
+    }
+    return result;
   }
 
   @override
-  Future<List<Product>> getSellerProducts(String sellerId) async {
+  Future<Result<List<Product>>> getSellerProducts(String sellerId) async {
     final cacheKey = 'seller_$sellerId';
     final cached = await CacheManager.get<List<dynamic>>(_boxName, cacheKey);
     if (cached != null) {
-      return cached
+      return Success(cached
           .cast<Map<dynamic, dynamic>>()
           .map((m) => Product.fromJson(Map<String, dynamic>.from(m)))
-          .toList();
+          .toList());
     }
 
-    final products = await _inner.getSellerProducts(sellerId);
-    await CacheManager.put(
-      _boxName,
-      cacheKey,
-      products.map((p) => p.toJson()).toList(),
-      ttl: _ttl,
-    );
-    return products;
+    final result = await _inner.getSellerProducts(sellerId);
+    if (result case Success(data: final products)) {
+      await CacheManager.put(
+        _boxName,
+        cacheKey,
+        products.map((p) => p.toJson()).toList(),
+        ttl: _ttl,
+      );
+    }
+    return result;
   }
 
   @override
-  Future<Product?> getProductById(String productId) async {
+  Future<Result<Product?>> getProductById(String productId) async {
     final cacheKey = 'product_$productId';
     final cached = await CacheManager.get<Map<dynamic, dynamic>>(_boxName, cacheKey);
     if (cached != null) {
-      return Product.fromJson(Map<String, dynamic>.from(cached));
+      return Success(Product.fromJson(Map<String, dynamic>.from(cached)));
     }
 
-    final product = await _inner.getProductById(productId);
-    if (product != null) {
+    final result = await _inner.getProductById(productId);
+    if (result case Success(data: final product) when product != null) {
       await CacheManager.put(_boxName, cacheKey, product.toJson(), ttl: _ttl);
     }
-    return product;
+    return result;
   }
 
   @override
-  Future<List<Product>> searchProducts({String query = '', String? brand}) async {
+  Future<Result<List<Product>>> searchProducts({String query = '', String? brand}) async {
     // Search is always delegated to the source — not cached.
     return _inner.searchProducts(query: query, brand: brand);
   }

@@ -36,10 +36,31 @@ class AppConstants {
 
   // ── Product card ──
   static const double productCardAspectRatio = 177 / 200;
+  static const double listingCardAspectRatio = 177 / 290;
+  static const double featuredCardAspectRatio = 0.62;
+
+  // ── Cart / Order ──
+  static const double orderImageWidth = 40;
+  static const double orderImageHeight = 43;
+  static const double cartImageWidth = 80;
+  static const double cartImageHeight = 87;
+
+  // ── Chip ──
+  static const double chipHeight = 32;
 
   // ── Bottom sheet ──
   static const double dragHandleWidth = 32;
   static const double dragHandleHeight = 4;
+
+  // ── Floating button ──
+  static const double floatingButtonBottomOffset = 88;
+
+  // ── Status colors (non-theme) ──
+  static const Color activeOrange = Color(0xFFA46700);
+  static const Color cancelledBgLight = Color(0xFFFFF2F0);
+  static const Color cancelledBgDark = Color(0xFF5C1A10);
+  static const Color paidOutBgLight = Color(0xFFF5F5F5);
+  static const Color paidOutBgDark = Color(0xFF3A3939);
 
   // ── Durations ──
   static const Duration animFast = Duration(milliseconds: 200);

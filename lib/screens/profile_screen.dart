@@ -4,19 +4,7 @@ import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/routes.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
-import 'package:eqqu/screens/seller_profile_screen.dart';
-import 'package:eqqu/screens/my_listings_screen.dart';
-import 'package:eqqu/screens/my_sales_screen.dart';
-import 'package:eqqu/screens/settings_screen.dart';
-import 'package:eqqu/screens/mimo_staj_screen.dart';
-import 'package:eqqu/screens/invite_friends_screen.dart';
-import 'package:eqqu/screens/how_it_works_screen.dart';
-import 'package:eqqu/screens/help_screen.dart';
-import 'package:eqqu/screens/feedback_screen.dart';
-import 'package:eqqu/screens/about_screen.dart';
-import 'package:eqqu/screens/eqqu_platform_screen.dart';
-import 'package:eqqu/screens/my_purchases_screen.dart';
-import 'package:eqqu/screens/favorites_screen.dart';
+import 'package:eqqu/theme/app_constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -42,12 +30,7 @@ class ProfileScreen extends StatelessWidget {
                     // Profile card
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const SellerProfileScreen(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, AppRoutes.sellerProfile);
                       },
                       child: _buildProfileCard(cs, s),
                     ),
@@ -55,57 +38,57 @@ class ProfileScreen extends StatelessWidget {
 
                     // Menu group 1
                     _buildMenuItem(cs, 'assets/icons/moje_inzeraty.svg', s.myListings, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MyListingsScreen()));
+                      Navigator.pushNamed(context, AppRoutes.myListings);
                     }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/moje_nakupy.svg', s.myPurchases, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MyPurchasesScreen()));
+                      Navigator.pushNamed(context, AppRoutes.myPurchases);
                     }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/moje_prodeje.svg', s.mySales, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MySalesScreen()));
+                      Navigator.pushNamed(context, AppRoutes.mySales);
                     }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/oblibene_predmety.svg', s.favoriteItems, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const FavoritesScreen()));
+                      Navigator.pushNamed(context, AppRoutes.favorites);
                     }),
                     const SizedBox(height: 24),
 
                     // Menu group 2
                     _buildMenuItem(cs, 'assets/icons/mimo_staj.svg', s.offStable, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MimoStajScreen()));
+                      Navigator.pushNamed(context, AppRoutes.mimoStaj);
                     }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/pozvat.svg', s.inviteFriends, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const InviteFriendsScreen()));
+                      Navigator.pushNamed(context, AppRoutes.inviteFriends);
                     }),
                     const SizedBox(height: 24),
 
                     // Menu group 3
                     _buildMenuItem(cs, 'assets/icons/jak_funguje.svg', s.howItWorks, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const HowItWorksScreen()));
+                      Navigator.pushNamed(context, AppRoutes.howItWorks);
                     }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/napoveda.svg', s.help, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const HelpScreen()));
+                      Navigator.pushNamed(context, AppRoutes.help);
                     }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/zpetna_vazba.svg', s.feedback, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const FeedbackScreen()));
+                      Navigator.pushNamed(context, AppRoutes.feedback);
                     }),
                     const SizedBox(height: 24),
 
                     // Menu group 4
                     _buildMenuItem(cs, 'assets/icons/nastaveni.svg', s.settings, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+                      Navigator.pushNamed(context, AppRoutes.settings);
                     }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/o_nas.svg', s.about, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
+                      Navigator.pushNamed(context, AppRoutes.about);
                     }),
                     const SizedBox(height: 12),
                     _buildMenuItem(cs, 'assets/icons/eqqu_platforma.svg', s.eqquPlatform, onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const EqquPlatformScreen()));
+                      Navigator.pushNamed(context, AppRoutes.eqquPlatform);
                     }),
                     const SizedBox(height: 24),
 
@@ -157,7 +140,7 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: Color(0xFFFFD700))),
+                    ...List.generate(4, (_) => const Icon(Icons.star, size: 20, color: AppConstants.starColor)),
                     Icon(Icons.star_border, size: 20, color: cs.tertiary),
                     const SizedBox(width: 8),
                     Text(

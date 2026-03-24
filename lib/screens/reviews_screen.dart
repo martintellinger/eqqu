@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eqqu/data/mock_conversations.dart';
 import 'package:eqqu/models/review.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
+import 'package:eqqu/theme/app_constants.dart';
 import 'package:eqqu/l10n/app_strings.dart';
 import 'package:eqqu/widgets/app_header.dart';
 import 'package:eqqu/screens/buyer_view_seller_screen.dart';
@@ -40,7 +41,7 @@ class ReviewsScreen extends StatelessWidget {
                         ...List.generate(
                           4,
                           (_) => const Icon(Icons.star,
-                              size: 20, color: Color(0xFFFFD700)),
+                              size: 20, color: AppConstants.starColor),
                         ),
                         Icon(Icons.star_border,
                             size: 20, color: cs.tertiary),
@@ -129,7 +130,7 @@ class ReviewsScreen extends StatelessWidget {
                 i < review.rating ? Icons.star : Icons.star_border,
                 size: 16,
                 color: i < review.rating
-                    ? const Color(0xFFFFD700)
+                    ? AppConstants.starColor
                     : cs.tertiary,
               ),
             ),

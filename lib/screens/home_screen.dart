@@ -4,10 +4,9 @@ import 'package:eqqu/models/product.dart';
 import 'package:eqqu/theme/app_text_styles.dart';
 import 'package:eqqu/screens/product_detail_screen.dart';
 import 'package:eqqu/screens/chat_list_screen.dart';
-import 'package:eqqu/screens/new_listing_screen.dart';
 import 'package:eqqu/screens/favorites_screen.dart';
 import 'package:eqqu/screens/profile_screen.dart';
-import 'package:eqqu/screens/buyer_view_seller_screen.dart';
+import 'package:eqqu/routes.dart';
 import 'package:eqqu/widgets/bottom_sheets.dart';
 import 'package:eqqu/widgets/product_card.dart';
 import 'package:eqqu/widgets/tap_scale_widget.dart';
@@ -87,10 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     if (i == 2) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const NewListingScreen()),
-                      );
+                      Navigator.pushNamed(context, AppRoutes.newListing);
                     } else {
                       setState(() => _currentIndex = i);
                     }
@@ -278,395 +274,434 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
     final products = _filteredProducts;
 
     return SafeArea(
       child: CustomScrollView(
-            slivers: [
-              // Search bar + filter button
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+        slivers: [
+          _buildSearchBar(),
+          _buildChipsRow(),
+          if (_filteredUsers.isNotEmpty && _searchQuery.isNotEmpty)
+            _buildUserResults(products),
+          if (products.isNotEmpty && !(_isSearching && _searchQuery.isEmpty))
+            _buildProductGrid(products),
+          if (products.isEmpty && _filteredUsers.isEmpty && _searchQuery.isNotEmpty)
+            _buildEmptyState(),
+          if (_searchQuery.isEmpty && _activeChip == null && !_isSearching)
+            ..._buildFeaturedSection(),
+          if (_isSearching && _searchQuery.isEmpty)
+            _buildRecentSearches(),
+          const SliverToBoxAdapter(child: SizedBox(height: 24)),
+        ],
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Sliver builders
+  // ---------------------------------------------------------------------------
+
+  /// Search bar with text field and filter button.
+  Widget _buildSearchBar() {
+    final s = AppStrings.of(context);
+    final cs = Theme.of(context).colorScheme;
+
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 56,
+                decoration: BoxDecoration(
+                  color: cs.surfaceContainerHigh,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 4),
+                    SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: Icon(Icons.search, color: cs.onSurfaceVariant, size: 24),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        focusNode: _searchFocus,
+                        onChanged: (v) => setState(() {
+                          _searchQuery = v;
+                          if (!_isSearching) _isSearching = true;
+                        }),
+                        onSubmitted: _applySearch,
+                        onTap: () {
+                          if (!_isSearching) {
+                            setState(() => _isSearching = true);
+                          }
+                        },
+                        style: AppTextStyles.bodyLarge(cs.onSurface),
+                        decoration: InputDecoration(
+                          hintText: s.search,
+                          hintStyle: AppTextStyles.bodyLarge(cs.onSurfaceVariant),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+                    if (_searchQuery.isNotEmpty || _isSearching)
+                      GestureDetector(
+                        onTap: _closeSearch,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Icon(Icons.close, size: 20, color: cs.onSurfaceVariant),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Material(
+                  color: cs.secondaryContainer,
+                  borderRadius: BorderRadius.circular(8),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: () async {
+                      final result = await showFilterSheet(context, currentFilters: _activeFilters);
+                      if (result != null) {
+                        setState(() {
+                          _activeFilters = result;
+                          _activeChip = null;
+                        });
+                      }
+                    },
+                    child: SizedBox(
+                      width: 56,
+                      height: 56,
+                      child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
+                    ),
+                  ),
+                ),
+                if (_activeFilters.isNotEmpty)
+                  Positioned(
+                    top: -4,
+                    right: -4,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: cs.primary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${_activeFilters.length}',
+                          style: AppTextStyles.poppins(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: cs.onPrimary,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Horizontal chip row showing active filters or brand quick-filters.
+  Widget _buildChipsRow() {
+    final cs = Theme.of(context).colorScheme;
+
+    return SliverToBoxAdapter(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Row(
+          children: _activeFilters.isNotEmpty
+            ? _activeFilters.entries.toList().asMap().entries.map((entry) {
+                final i = entry.key;
+                final filter = entry.value;
+                return Padding(
+                  padding: EdgeInsets.only(left: i > 0 ? 4 : 0),
+                  child: _buildActiveFilterChip(cs, filter.key, filter.value),
+                );
+              }).toList()
+            : _chips.asMap().entries.map((entry) {
+                return Padding(
+                  padding: EdgeInsets.only(left: entry.key > 0 ? 4 : 0),
+                  child: _buildChip(cs, entry.value),
+                );
+              }).toList(),
+        ),
+      ),
+    );
+  }
+
+  /// User results section shown when actively searching with text.
+  Widget _buildUserResults(List<Product> products) {
+    final s = AppStrings.of(context);
+    final cs = Theme.of(context).colorScheme;
+
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              s.users,
+              style: AppTextStyles.sectionTitle(cs.onSurface),
+            ),
+            const SizedBox(height: 8),
+            ..._filteredUsers.map((user) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.buyerViewSeller);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: cs.surfaceContainerLow,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Container(
-                            height: 56,
-                            decoration: BoxDecoration(
-                              color: cs.surfaceContainerHigh,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                const SizedBox(width: 4),
-                                SizedBox(
-                                  width: 48,
-                                  height: 48,
-                                  child: Icon(Icons.search, color: cs.onSurfaceVariant, size: 24),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    controller: _searchController,
-                                    focusNode: _searchFocus,
-                                    onChanged: (v) => setState(() {
-                                      _searchQuery = v;
-                                      if (!_isSearching) _isSearching = true;
-                                    }),
-                                    onSubmitted: _applySearch,
-                                    onTap: () {
-                                      if (!_isSearching) {
-                                        setState(() => _isSearching = true);
-                                      }
-                                    },
-                                    style: AppTextStyles.bodyLarge(cs.onSurface),
-                                    decoration: InputDecoration(
-                                      hintText: 'Hledat',
-                                      hintStyle: AppTextStyles.bodyLarge(cs.onSurfaceVariant),
-                                      border: InputBorder.none,
-                                      enabledBorder: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      contentPadding: EdgeInsets.zero,
-                                      isDense: true,
-                                    ),
-                                  ),
-                                ),
-                                if (_searchQuery.isNotEmpty || _isSearching)
-                                  GestureDetector(
-                                    onTap: _closeSearch,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: Icon(Icons.close, size: 20, color: cs.onSurfaceVariant),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
+                      ClipOval(
+                        child: Image.asset(
+                          user['avatar']!,
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      const SizedBox(width: 16),
-                      Stack(
-                        clipBehavior: Clip.none,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _highlightedText(
+                              user['name']!,
+                              _searchQuery,
+                              AppTextStyles.actionLink(cs.secondary),
+                              cs.surfaceTint,
+                            ),
+                            Text(
+                              '@${user['username']}',
+                              style: AppTextStyles.labelSmall(cs.tertiary),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Material(
-                            color: cs.secondaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(8),
-                              onTap: () async {
-                                final result = await showFilterSheet(context, currentFilters: _activeFilters);
-                                if (result != null) {
-                                  setState(() {
-                                    _activeFilters = result;
-                                    _activeChip = null;
-                                  });
-                                }
-                              },
-                              child: SizedBox(
-                                width: 56,
-                                height: 56,
-                                child: Icon(Icons.tune, color: cs.onSecondaryContainer, size: 24),
-                              ),
-                            ),
+                          const Icon(Icons.star, size: 16, color: AppConstants.starColor),
+                          const SizedBox(width: 4),
+                          Text(
+                            user['rating']!,
+                            style: AppTextStyles.chip(cs.tertiary),
                           ),
-                          if (_activeFilters.isNotEmpty)
-                            Positioned(
-                              top: -4,
-                              right: -4,
-                              child: Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  color: cs.primary,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '${_activeFilters.length}',
-                                    style: AppTextStyles.poppins(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: cs.onPrimary,
-                                      height: 1,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
                         ],
                       ),
                     ],
                   ),
                 ),
               ),
+            )),
+            if (products.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(
+                s.products,
+                style: AppTextStyles.sectionTitle(cs.onSurface),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
 
-              // Chips: active filters or brand quick-filters
-              SliverToBoxAdapter(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                  child: Row(
-                    children: _activeFilters.isNotEmpty
-                      ? _activeFilters.entries.toList().asMap().entries.map((entry) {
-                          final i = entry.key;
-                          final filter = entry.value;
-                          return Padding(
-                            padding: EdgeInsets.only(left: i > 0 ? 4 : 0),
-                            child: _buildActiveFilterChip(cs, filter.key, filter.value),
+  /// Product grid displayed as pairs of cards in rows.
+  Widget _buildProductGrid(List<Product> products) {
+    final cs = Theme.of(context).colorScheme;
+
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, rowIndex) {
+            final i = rowIndex * 2;
+            final origIdx0 = _allProducts.indexOf(products[i]);
+            return Padding(
+              padding: EdgeInsets.only(bottom: rowIndex < (products.length / 2).ceil() - 1 ? 12 : 0),
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: _buildProductCard(
+                        cs, origIdx0, products[i], kProductImages[origIdx0 % kProductImages.length],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    if (i + 1 < products.length)
+                      Expanded(
+                        child: () {
+                          final origIdx1 = _allProducts.indexOf(products[i + 1]);
+                          return _buildProductCard(
+                            cs, origIdx1, products[i + 1], kProductImages[origIdx1 % kProductImages.length],
                           );
-                        }).toList()
-                      : _chips.asMap().entries.map((entry) {
-                          return Padding(
-                            padding: EdgeInsets.only(left: entry.key > 0 ? 4 : 0),
-                            child: _buildChip(cs, entry.value),
-                          );
-                        }).toList(),
-                  ),
+                        }(),
+                      )
+                    else
+                      const Expanded(child: SizedBox()),
+                  ],
                 ),
               ),
+            );
+          },
+          childCount: (products.length / 2).ceil(),
+        ),
+      ),
+    );
+  }
 
-              // User results (show when typing in search, not when showing recent searches)
-              if (_filteredUsers.isNotEmpty && _searchQuery.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Uživatelé',
-                          style: AppTextStyles.sectionTitle(cs.onSurface),
-                        ),
-                        const SizedBox(height: 8),
-                        ..._filteredUsers.map((user) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (_) => const BuyerViewSellerScreen()),
-                              );
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: cs.surfaceContainerLow,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                children: [
-                                  ClipOval(
-                                    child: Image.asset(
-                                      user['avatar']!,
-                                      width: 40,
-                                      height: 40,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        _highlightedText(
-                                          user['name']!,
-                                          _searchQuery,
-                                          AppTextStyles.actionLink(cs.secondary),
-                                          cs.surfaceTint,
-                                        ),
-                                        Text(
-                                          '@${user['username']}',
-                                          style: AppTextStyles.labelSmall(cs.tertiary),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Icon(Icons.star, size: 16, color: Color(0xFFFFD700)),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        user['rating']!,
-                                        style: AppTextStyles.chip(cs.tertiary),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )),
-                        if (products.isNotEmpty) ...[
-                          const SizedBox(height: 8),
-                          Text(
-                            'Produkty',
-                            style: AppTextStyles.sectionTitle(cs.onSurface),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
+  /// Empty state shown when search yields no results.
+  Widget _buildEmptyState() {
+    final s = AppStrings.of(context);
+    final cs = Theme.of(context).colorScheme;
 
-              // Product grid (pairs in rows for intrinsic height)
-              // Hide when showing recent searches (search mode with empty query)
-              if (products.isNotEmpty && !(_isSearching && _searchQuery.isEmpty))
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, rowIndex) {
-                        final i = rowIndex * 2;
-                        final origIdx0 = _allProducts.indexOf(products[i]);
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: rowIndex < (products.length / 2).ceil() - 1 ? 12 : 0),
-                          child: IntrinsicHeight(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: _buildProductCard(
-                                    cs, origIdx0, products[i], kProductImages[origIdx0 % kProductImages.length],
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                if (i + 1 < products.length)
-                                  Expanded(
-                                    child: () {
-                                      final origIdx1 = _allProducts.indexOf(products[i + 1]);
-                                      return _buildProductCard(
-                                        cs, origIdx1, products[i + 1], kProductImages[origIdx1 % kProductImages.length],
-                                      );
-                                    }(),
-                                  )
-                                else
-                                  const Expanded(child: SizedBox()),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      childCount: (products.length / 2).ceil(),
-                    ),
-                  ),
-                ),
-
-              // Empty state (only show when actively searching with text)
-              if (products.isEmpty && _filteredUsers.isEmpty && _searchQuery.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(48),
-                    child: Center(
-                      child: Text(
-                        'Žádné výsledky',
-                        style: AppTextStyles.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: cs.tertiary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-              // Featured heading (hide when in search mode)
-              if (_searchQuery.isEmpty && _activeChip == null && !_isSearching) ...[
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-                    child: Text(
-                      'Featured',
-                      style: AppTextStyles.outfit(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: cs.onSurface,
-                        height: 32 / 24,
-                      ),
-                    ),
-                  ),
-                ),
-
-                // Featured cards + products
-                SliverPadding(
-                  padding: const EdgeInsets.all(16),
-                  sliver: SliverGrid(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.62,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index < 2) {
-                          return _buildFeaturedCard(kProductImages[index]);
-                        }
-                        final pIndex = index - 2;
-                        final fp = _featuredProducts[pIndex];
-                        return _buildProductCard(
-                          cs, 100 + pIndex, fp, fp.imageAsset,
-                        );
-                      },
-                      childCount: 4,
-                    ),
-                  ),
-                ),
-              ],
-
-              // Search mode: recent searches section
-              if (_isSearching && _searchQuery.isEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Poslední hledání',
-                          style: AppTextStyles.sectionTitle(cs.onSurface),
-                        ),
-                        const SizedBox(height: 8),
-                        ..._currentSuggestions.map((suggestion) {
-                          final isUser = _users.any((u) =>
-                            u['name'] == suggestion || u['username'] == suggestion);
-                          return InkWell(
-                            onTap: () {
-                              _searchController.text = suggestion;
-                              _applySearch(suggestion);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    isUser ? Icons.person_outline : Icons.history,
-                                    size: 20,
-                                    color: cs.tertiary,
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Text(
-                                      suggestion,
-                                      style: AppTextStyles.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: cs.onSurface,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
-            ],
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.all(48),
+        child: Center(
+          child: Text(
+            s.noResults,
+            style: AppTextStyles.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: cs.tertiary,
+            ),
           ),
+        ),
+      ),
+    );
+  }
+
+  /// Featured heading and grid (returns a list of slivers to spread into the
+  /// parent [CustomScrollView]).
+  List<Widget> _buildFeaturedSection() {
+    final s = AppStrings.of(context);
+    final cs = Theme.of(context).colorScheme;
+
+    return [
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+          child: Text(
+            s.featured,
+            style: AppTextStyles.outfit(
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              color: cs.onSurface,
+              height: 32 / 24,
+            ),
+          ),
+        ),
+      ),
+      SliverPadding(
+        padding: const EdgeInsets.all(16),
+        sliver: SliverGrid(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: AppConstants.featuredCardAspectRatio,
+          ),
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              if (index < 2) {
+                return _buildFeaturedCard(kProductImages[index]);
+              }
+              final pIndex = index - 2;
+              final fp = _featuredProducts[pIndex];
+              return _buildProductCard(
+                cs, 100 + pIndex, fp, fp.imageAsset,
+              );
+            },
+            childCount: 4,
+          ),
+        ),
+      ),
+    ];
+  }
+
+  /// Recent searches section shown when search field is focused but empty.
+  Widget _buildRecentSearches() {
+    final s = AppStrings.of(context);
+    final cs = Theme.of(context).colorScheme;
+
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              s.recentSearches,
+              style: AppTextStyles.sectionTitle(cs.onSurface),
+            ),
+            const SizedBox(height: 8),
+            ..._currentSuggestions.map((suggestion) {
+              final isUser = _users.any((u) =>
+                u['name'] == suggestion || u['username'] == suggestion);
+              return InkWell(
+                onTap: () {
+                  _searchController.text = suggestion;
+                  _applySearch(suggestion);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    children: [
+                      Icon(
+                        isUser ? Icons.person_outline : Icons.history,
+                        size: 20,
+                        color: cs.tertiary,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          suggestion,
+                          style: AppTextStyles.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: cs.onSurface,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
     );
   }
 
@@ -814,6 +849,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
   }
 
   Widget _buildFeaturedCard(String imagePath) {
+    final s = AppStrings.of(context);
     return TapScaleWidget(
       onTap: () {},
       child: ClipRRect(
@@ -862,7 +898,7 @@ class _HomeBodyState extends State<_HomeBody> with TickerProviderStateMixin {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Lorem ipsum',
+                  s.featured,
                   style: AppTextStyles.productBadge(Colors.white),
                 ),
               ],

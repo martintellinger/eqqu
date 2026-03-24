@@ -18,6 +18,7 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   int _currentImageIndex = 0;
   late final List<String> _bgImages;
+  LanguageNotifier? _languageNotifier;
 
   static const _allBgImages = [
     'assets/images/bg_default.png',
@@ -37,13 +38,14 @@ class _IntroScreenState extends State<IntroScreen> {
       _allBgImages[0],
       ...(List.from(_allBgImages.sublist(1))..shuffle()),
     ];
-    // Language listener attached in didChangeDependencies
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    AppState.of(context).languageNotifier.addListener(_onLanguageChanged);
+    _languageNotifier?.removeListener(_onLanguageChanged);
+    _languageNotifier = AppState.of(context).languageNotifier;
+    _languageNotifier!.addListener(_onLanguageChanged);
     if (!_imagesPrecached) {
       _imagesPrecached = true;
       Future.wait(
@@ -69,13 +71,14 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   void dispose() {
-    // Listener cleaned up with notifier disposal
+    _languageNotifier?.removeListener(_onLanguageChanged);
     super.dispose();
   }
 
   void _onLanguageChanged() => setState(() {});
 
   void _showLanguageSheet() {
+    final s = AppStrings.of(context);
     final langNotifier = AppState.of(context).languageNotifier;
     String selected = langNotifier.selectedCode;
     showModalBottomSheet(
@@ -96,7 +99,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 children: [
                   buildDragHandle(Theme.of(ctx).colorScheme, color: Colors.white24),
                   Text(
-                    'Jazyk / Language',
+                    s.languageSlashLanguage,
                     style: AppTextStyles.sectionTitle(Colors.white),
                   ),
                   const SizedBox(height: 16),
@@ -115,7 +118,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: isSelected ? const Color(0xFF85D89C) : Colors.white24,
+                              color: isSelected ? Theme.of(ctx).colorScheme.surfaceTint : Colors.white24,
                               width: isSelected ? 2 : 1,
                             ),
                             borderRadius: BorderRadius.circular(8),
@@ -128,7 +131,7 @@ class _IntroScreenState extends State<IntroScreen> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: isSelected ? const Color(0xFF85D89C) : Colors.white24,
+                                    color: isSelected ? Theme.of(ctx).colorScheme.surfaceTint : Colors.white24,
                                     width: isSelected ? 6 : 2,
                                   ),
                                 ),
@@ -144,7 +147,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               Text(
                                 lang.name,
                                 style: AppTextStyles.selectableOption(
-                                  color: isSelected ? const Color(0xFF85D89C) : Colors.white,
+                                  color: isSelected ? Theme.of(ctx).colorScheme.surfaceTint : Colors.white,
                                   isSelected: isSelected,
                                 ),
                               ),
@@ -260,7 +263,7 @@ class _IntroScreenState extends State<IntroScreen> {
               children: [
                 // Title
                 Text(
-                  'RIDER TO RIDER',
+                  s.introTitle,
                   style: AppTextStyles.outfit(
                     fontSize: 36,
                     fontWeight: FontWeight.w600,
@@ -274,7 +277,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 Opacity(
                   opacity: 0.8,
                   child: Text(
-                    'Your tack is someones gold! Pass it on and find your favorite one.',
+                    s.introSubtitle,
                     style: AppTextStyles.labelMedium(Colors.white),
                     textAlign: TextAlign.center,
                   ),
@@ -288,13 +291,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.registration);
                     },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF006535),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
+                    style: null,
                     child: Text(
                       s.registration,
                       style: AppTextStyles.poppins(

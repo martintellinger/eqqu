@@ -1,4 +1,5 @@
 import 'package:eqqu/models/product.dart';
+import 'package:eqqu/models/result.dart';
 
 /// Abstract contract for product data access.
 ///
@@ -7,14 +8,14 @@ import 'package:eqqu/models/product.dart';
 /// (providers, screens) depends only on this interface.
 abstract class ProductRepository {
   /// Fetch the full product catalogue.
-  Future<List<Product>> getAllProducts();
+  Future<Result<List<Product>>> getAllProducts();
 
   /// Fetch products for a specific seller.
-  Future<List<Product>> getSellerProducts(String sellerId);
+  Future<Result<List<Product>>> getSellerProducts(String sellerId);
 
   /// Fetch a single product by its ID.
-  Future<Product?> getProductById(String productId);
+  Future<Result<Product?>> getProductById(String productId);
 
   /// Search products by [query] with optional [brand] filter.
-  Future<List<Product>> searchProducts({String query = '', String? brand});
+  Future<Result<List<Product>>> searchProducts({String query = '', String? brand});
 }
