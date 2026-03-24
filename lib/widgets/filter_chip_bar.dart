@@ -65,6 +65,7 @@ class FilterChipBar extends StatelessWidget {
           ],
         ),
       ),
+      ),
     );
   }
 }
